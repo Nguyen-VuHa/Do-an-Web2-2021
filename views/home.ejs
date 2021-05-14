@@ -4,9 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chủ</title>
+    <!-- logo title -->
+    <link rel = "icon" href = "image/logo.ico" type = "image/x-icon">
+    <!-- link CSS-->
+    <link rel="stylesheet" href="css/home.css">
+    <!-- link bootstrap cdn 4 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <!-- link icon -->
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <title>CGV Cinemas Việt Nam  &#8226;  Trang Chủ</title>
 </head>
 <body>
-    <h3>Movie Booking Project</h3>
+     <!-- header -->
+     <header>
+        <nav class="nav-header">
+            <a href="/"><img class="logo" src="image/icon-bg.png" alt=""></a>
+                <ul class="nav-links">
+                    <li class="active"><a data-page="home" href="/" >Trang Chủ</a></li>
+                    <li><a data-page="contact"  href="#">Cụm Rạp</a></li>
+                    <li><a data-page="projects"  href="#">Lịch Chiếu</a></li>
+                    <li><a data-page="contact"  href="#">Khuyến Mãi</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+                <div class="nav-login">
+                    <a class="btn-dropmenu" style="color: aliceblue;" >Đăng Nhập</a>
+                    <div class="dropdown_menu" >
+                        <form method="POST" class="form-login" >
+                            <div class="form-group">
+                              <input type="email" class="input_text" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                              <input type="password" class="input_text" placeholder="Password">
+                            </div>
+                            <div class="form-submit">
+                                <button type="button" style="background: #54ab35;" class="btn btn-success">Đăng Nhập</button>
+                                <a class="btn-link">Quên mật khẩu?</a>  
+                            </div>
+                            <a class="btn btn-reg" style="color: white; background: #54ab35;">Đăng Ký</a>
+                          </form>
+                    </div>
+                </div>
+        </nav>
+    </header>
 </body>
+<script src="js/home.js"></script>
 </html>
