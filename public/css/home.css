@@ -602,6 +602,204 @@ form .form-submit {
     margin-left: -40%;
 }
  /* End Section Advertisement */
+/*  Movie Schedule */
+#latest {
+    height: 90vh;
+    overflow: hidden;
+    background: radial-gradient(220% 105% at top center, #1b2735 10%, #75517d 40%, #e96f92 65%, #f7f7b6);
+}
+
+.title-product {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+}
+
+.title-product h3 { 
+    display: inline-block;
+    margin-bottom: 15px;
+    font-size: 25px;
+    border-bottom: 1px solid transparent;
+    font-weight: 300;
+    text-align: center;
+    color: #ffffff;
+    transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    -ms-transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+    margin-left: 20px;
+    margin-right: 20px;
+    cursor: pointer !important;
+    line-height: 35px;
+}
+
+ .title-product h3:hover {
+    color: #d4dd29;
+    border-color: #d4dd29;
+    cursor: pointer;
+}
+
+.title-product h3.active {
+    color: #d4dd29;
+    border-color: #d4dd29;
+    cursor: pointer;
+}
+
+#latest ul {
+    margin-top: 50px;
+}
+
+.latest-box {
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    border-radius: 5px;
+    margin: 20px 10px; 
+}
+
+.latest-b-img {
+    width: 100%;
+    height: 270px;
+}
+
+.latest-b-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.latest-box .btn-card {
+    display: flex;
+    width: 110%;
+    position: absolute;
+    bottom: 0;
+    z-index: 10;
+}
+
+.latest-box .btn-card  a {
+    margin: 0;
+    width: 100%;
+    color: #56ff1a;
+    font-weight: bold;
+    background: transparent;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.latest-box a:hover {
+    border-radius: 0%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    box-shadow: -7px -7px 20px 0px #fff9,
+                -4px -4px 5px 0px #fff9,
+                7px 7px 20px 0px #0002,
+                4px 4px 5px 0px #0001,
+                inset 0px 0px 0px 0px #fff9,
+                inset 0px 0px 0px 0px #0001,
+                inset 0px 0px 0px 0px #fff9,
+                inset 0px 0px 0px 0px #0001;
+    transition: box-shadow 0.6s cubic-bezier(.50, .21, .06, .81);
+    transition: all 0.5s ease;
+    transform: scaleX(150%);
+    text-decoration: none;
+}
+
+.latest-box  .content {
+    position: absolute;
+    bottom: -160px;
+    width: 100%;
+    height: 140px;
+    display:  flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    flex-direction: column;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: bottom 0.3s;
+    transition-delay: 0.5s;
+}
+
+.latest-box:hover .content {
+    bottom: 0px;
+    transition-delay: 0s;
+}
+
+.latest-box .content .contentBx {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    top: 0;
+    margin: 5px 0px;
+    width: 100%;
+}
+
+.latest-box  .content .contentBx p {
+    font-family: 'Roboto', sans-serif;
+    color: #c2cde0;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.latest-box  .content .contentBx h3{
+    color: #a6b2c9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    margin: 20px 0 15px;
+    line-height: 1.1em;
+    transition: 0.5s;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition-delay: 0.6s;
+}
+
+.latest-box:hover .content .contentBx h3 {
+    opacity: 1;
+    transform: translateY(0px);
+}
+
+.latest-box .content .contentBx h3 span {
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: initial;
+}
+
+#btn-commingsoon:active ~ .active {
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+}
+
+#btn-view:active ~ .active {
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.list__film {
+    opacity: 0;
+    position: absolute;
+    display: none;
+}
+
+.list__film.active {
+    opacity: 1;
+    position: relative;
+    display: block;
+} 
+/*  End Movie Schedule */
 
  /* Desktop */
 @media screen and (max-width: 845px){ 
@@ -678,7 +876,6 @@ form .form-submit {
             transform: translateX(0px);
         }
     }
-
     /* End Header Menu */
     /* section advertisement */
     .section--advertisement {
