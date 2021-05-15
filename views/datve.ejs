@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=h3, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="Avatar-div">
+        <img class="Avatar-img" >
+        <form method="POST" class="form_layout" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="avatar">Avatar</label>
+                <input type="file" class="form-control-file" id="avatar" name="avatar">
+            </div>
+            <button type="submit" id="change" name="change" class="btn btn-primary">Đổi</button>
+        </form>
+    </div> 
+    </br>
+    
+    <form method="POST" class="form_layout">
+        <div class="Userinfo">
+            <p class="User-Label" > UserName: </p> 
+            <input type="text" id="username" name="username" class="User-Text form-control" > </input>
+        </div>
+        <div class="Userinfo">
+            <p class="User-Label" > FullName: </p> 
+            <input type="text" id="fullname" name="fullname" class="User-Text form-control" > </input>
+        </div>
+        <div class="Userinfo">
+            <p class="User-Label" > Email: </p> 
+            <input type="email" id="email" name="email" class="User-Text form-control" > </input>
+        </div>
+        <div class="Userinfo">
+            <p class="User-Label" > Phone: </p> 
+            <input type="text" id="phone" name="phone" class="User-Text form-control" > </input>
+        </div>
+        <div class="Userinfo">
+            <p class="User-Label" > Address: </p> 
+            <input type="text" id="address" name="address" class="User-Text form-control" > </input>
+        </div>
+        <div class="Userinfo">
+            <button type="submit" id="update" name="update" class="btn btn-primary">Cập nhật</button>
+            <a style="margin-left: 20px" type="button" href="changePassword.php" class="btn btn-primary  Userinfo-button">Đổi mật khẩu</a>
+        </div>
+    </form>
+</body>
+</html>
