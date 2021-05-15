@@ -75,3 +75,54 @@ $(document).ready(function() {
       }
   });  
 });
+
+/* Auto Slide and Click Prev Next Banner Promotion */
+const myslide = document.querySelectorAll('.myslider'),
+ dot = document.querySelectorAll('.dot');
+ var promotionSlide = document.querySelector('.promotion-slider');
+ let index = 1;
+
+ slidefun(index);
+    let timer = setInterval(autoSlide, 5000);
+
+    function autoSlide() {
+        console.log(index);
+        index += 1;
+        slidefun(index);
+    }
+
+    function plusSlides(n) {
+        index += n;
+        slidefun(index);
+        resetTimer();
+    }
+
+    function currentSlide(n) {
+        index = n;
+        slidefun(index);
+        resetTimer();
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        timer = setInterval(autoSlide, 5000);
+    }
+
+    function slidefun(n) {
+        let i;
+        for(i = 0;i < myslide.length; i++){
+            myslide[i].style.display = "none";
+        }
+        for(i = 0;i < dot.length; i++) {
+            dot[i].classList.remove('active');
+        }
+        if(n > myslide.length){
+            index = 1;
+        }
+        if(n < 1){
+            index = myslide.length;
+        }
+        myslide[index - 1].style.display = "block";
+        dot[index - 1].classList.add("active");
+    }
+

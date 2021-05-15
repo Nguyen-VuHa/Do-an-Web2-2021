@@ -541,7 +541,6 @@ form .form-submit {
 .content-poster .slider {
     border-radius: 5px;
     overflow: hidden;
-    width: 600px;
     height: 100%;
 }
 
@@ -800,6 +799,64 @@ form .form-submit {
     display: block;
 } 
 /*  End Movie Schedule */
+/* Banner Promition */
+.section-promotion {
+    height: 60vh;
+    overflow: hidden;
+ }
+ 
+ .promotion-slider{
+	position: relative;
+    height: 100%;
+	width: 100%;
+	background: #2c3e50;
+}
+.promotion-slider .myslider {
+	height: 100%;
+	overflow: hidden;
+}
+
+.btn-prev, .btn-next{
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	font-size: 50px;
+	padding: 15px;
+	cursor: pointer;
+	transition: 0.1s;
+	user-select: none;
+}
+
+.promotion-slider  .btn-prev:hover{
+	color: #00a7ff; 
+    border-color: #00a7ff;
+}
+.btn-next{
+	right: 0;
+}
+.dotsbox{
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	bottom: 20px;
+	cursor: pointer;
+    
+}
+.dot{
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	margin: 0 10px;
+	cursor: pointer;
+    border-color:  #54ab35;
+}
+
+.active, .dot:hover{
+	border-color: #d4dd29; /* blue */
+}
+ /* End Banner Promiton */
 
  /* Desktop */
 @media screen and (max-width: 845px){ 
@@ -907,6 +964,20 @@ form .form-submit {
         height: 35px;
         font-size: 15px;
     }
-
     /* End Header Menu */
+    /* Banner Promotion */
+    .section-promotion {
+        height: 25vh;
+    }
+
+    .dotsbox {
+        width: 100%;
+        bottom: 5px;
+    }
+    .nav-header .btn-toggle {
+        width: 100px;
+        height: 35px;
+        font-size: 15px;
+    }
+    /* End Banner Promotion */
 }

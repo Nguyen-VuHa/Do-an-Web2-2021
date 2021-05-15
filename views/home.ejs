@@ -314,6 +314,52 @@
           </ul>
         </div>  
     </section>
+    <!-- banner promotion -->
+    <section class="section-promotion">
+        <div class="promotion-slider">
+         <!-- fade css -->
+         <div class="myslider">
+             <img src="image/banner-1.jpg" style="width: 100%; height: 100%;">
+         </div>
+         
+         <div class="myslider">
+             <img src="image/banner-2.jpg" style="background-size:cover; width: 100%; height: 100%;">
+         </div>
+         
+         <div class="myslider">
+             <img src="image/banner-3.jpg" style="background-size:cover; width: 100%; height: 100%;">
+         </div>
+         
+         <div class="myslider">
+             <img src="image/banner-4.jpg" style="background-size:cover; width: 100%; height: 100%;">
+         </div>
+         
+         <div class="myslider">
+             <img src="image/banner-5.jpg" style="background-size:cover; width: 100%; height: 100%;">
+         </div>
+         <!-- /fade css -->
+         
+         <!-- onclick js -->
+         <a class="btn-prev" onclick="plusSlides(-1)" style="color:  #54ab35;">&#10094;</a>
+           <a class="btn-next" onclick="plusSlides(1)" style="color: #54ab35;">&#10095;</a>
+         
+         <div class="dotsbox" style="text-align:center">
+             <span class="dot" onclick="currentSlide(1)"></span>
+             <span class="dot" onclick="currentSlide(2)"></span>
+             <span class="dot" onclick="currentSlide(3)"></span>
+             <span class="dot" onclick="currentSlide(4)"></span>
+             <span class="dot" onclick="currentSlide(5)"></span>
+         </div>
+         <!-- /onclick js -->
+         <script>
+             var array = document.querySelectorAll('.myslider');
+             console.log(document.querySelectorAll('.myslider'));
+             console.log(array);
+         </script>
+     </div>
+     </section>
+     <!--promotion -->
+
 </body>
 <script src="js/home.js"></script>
 </html>
