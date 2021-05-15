@@ -44,3 +44,19 @@ menuToggle();
 menuActive();
 
 /* End Header Nav Reponsive Moblie */
+
+/* section advertisement -- Slide and hover video */
+const clip = document.querySelector('.clip');
+clip.addEventListener('mouseenter', function(e) {
+    clip.play();
+});
+
+var counter = 1;
+       setInterval(function(){
+        document.getElementById('radio' + counter).checked = true;
+        counter++;
+        if(counter > 3)
+        {
+            counter = 1;
+        }
+       }, 5000);
