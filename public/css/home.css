@@ -470,7 +470,7 @@ form .form-submit {
     498px 1947px #fff, 617px 880px #fff, 240px 403px #fff;
 }
  
-.background-advertisement {
+.background-advertisement{
     z-index: -1;
     position: absolute;
     width: 100%;
@@ -665,7 +665,7 @@ form .form-submit {
 
 .latest-b-img {
     width: 100%;
-    height: 270px;
+    height: 300px;
 }
 
 .latest-b-img img {
