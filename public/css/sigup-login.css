@@ -1,0 +1,19 @@
+
+
+.content-reg {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.content-reg .background-advertisement {
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+ 
