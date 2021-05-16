@@ -4,14 +4,14 @@ const app = express();
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
+const homeRouter = require('./routers/home');
 const profRouter = require('./routers/profile');
 const pg404Router = require('./routers/404');
+
+
 app.use(express.static('public'));
 
-app.get('/', function(req, res){
-    res.render('home');
-});
-
+app.use('/', homeRouter);
 app.use('/prof', profRouter);
 app.use('/error', pg404Router);
 

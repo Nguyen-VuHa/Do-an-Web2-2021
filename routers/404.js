@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', function(req, res) {
-    res.render('page404');
+    res.render('profile');
 });
 
 module.exports = router;
