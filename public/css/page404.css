@@ -1,32 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
-*{
-    margin: 0;
-    padding: 0;
-    font-family: consolas;
-    box-sizing: border-box;
-}
-
-body {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #141019;
-    background: radial-gradient(at 50% -20%, #908392, #0d060e) fixed;
-  }
-
 .container{
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh auto;
+  margin: 0px 20px;
+  padding: 0;
 }
 
 .row {
-    width: 100%;
+  margin-top: 30px;
+  width: 80%;
 }
 
   #handboy {
@@ -66,47 +53,55 @@ body {
     }
   }
 
-  .content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+  .content-page-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+  .content-page-error p{
+      position: absolute;
+      bottom: 20%;
   }
 
-  .content h3 { 
+  .content-page-error h3 { 
+    position: absolute;
+    bottom: 30%;
     color: rgb(228, 145, 145);
     margin: 0;
     padding: 5px;
     font-size: 30px;
     font-weight: 600;
     font-family: 'Girassol', cursive;
+    
   }
 
-
-
-.content .content-button {
+  .content-page-error .content-button-error {
     display: flex;
     flex: row;
-}
-
-
-.content .content-button a{
-    position: relative;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 20px 30px;
-    margin: 40px 30px;
-    color: #03e9f4;
-    font-size: 24px;
-    text-decoration: none;
-    text-transform: uppercase;
-    overflow: hidden;
-    transition: 0.5s;
-    letter-spacing: 4px;
-    -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+    width: 100%;
 }
 
-.content .content-button a:hover {
+.content-page-error .content-button-error a{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 30px;
+  margin: 40px 30px;
+  color: #03e9f4;
+  font-size: 24px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: 0.5s;
+  letter-spacing: 4px;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+}
+
+.content-page-error .content-button-error a:hover {
     background: #03e9f4;
     color: #fff;
     box-shadow: 0 0 5px #03e9f4,
@@ -197,4 +192,21 @@ a span:nth-child(4)
     50%, 100% {
         bottom: 100%;
     }
+}
+
+@media screen and (max-width: 600px) {
+  .content-page-error .content-button-error a {
+    font-size: 18px;
+  }
+  .content-page-error h3 {
+    position: absolute;
+    font-size: 20px;
+    bottom: 61%;
+  }
+
+  .content-page-error p {
+    position: absolute;
+    bottom: 57%;
+    font-size: 15px;
+  }
 }
