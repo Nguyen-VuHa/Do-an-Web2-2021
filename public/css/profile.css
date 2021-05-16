@@ -1,0 +1,36 @@
+.Avatar-img{
+    max-height: 300px;
+    height: 100%;
+    width: auto;
+
+}
+
+.Avatar-div{
+text-align: center;
+
+}
+
+.Userinfo{
+    display: flex;
+    margin-top: 10px;
+}
+
+.User-Label{
+    font-size: 25px;
+    color:#15b2ff ;
+    margin-right: 20px !important;
+    margin: 0px;
+
+}
+
+.User-Text{
+    font-size: 25px;
+    color: black;
+    max-width: 500px;
+    width: 100%;
+}
+
+.Userinfo-button{
+    margin-right: 30px;
+    color: white;
+}
