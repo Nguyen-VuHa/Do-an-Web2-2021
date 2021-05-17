@@ -13,7 +13,7 @@ header {
     box-shadow: 0 3px 10px rgba(0,  0,  0,   0.3);
     position: sticky;
     top: 0px;
-    background: #1c1e21;
+    background: #121825;
     z-index: 100;
 }
 
@@ -34,6 +34,7 @@ header {
     justify-content: space-between;
     list-style: none;
     align-items: center;
+    background: #121825;
  }
 
  .nav-login {
@@ -118,7 +119,7 @@ header {
  }
 
 /* Menu Drop Button Click */
-.form-login {
+.h-form-login {
     opacity: 1;
     position: absolute;
     right: 0;
@@ -127,61 +128,65 @@ header {
     opacity: 0;
  }
 
- .form-login.active {
+ .h-form-login.active {
     visibility: visible;
     opacity: 1;
 }
 
-.dropdown_menu form{
+.dropdown_menu .h-form-login{
     border-radius: 5px;
     width: 350px;
     padding: 30px;
     background: #121825;
-    box-shadow: 1px solid ;
-   
+    box-shadow: 1px solid rgba(0, 0, 0, 0.5);
  }
 
-form .form-submit {
+.h-form-login .form-submit {
      display: flex;
      align-items: center;
      justify-content: space-between;
  }
 
- form .form-submit button {
+ .h-form-login .form-submit button {
     width: 50%;
     font-weight: bold;
  }
 
- form .btn-reg {
+ .h-form-login .btn-reg {
     font-weight: bold;
     margin-top: 10px;
     width: 100%;
  }
 
- form .btn-reg:hover,  .form-submit button:hover {
+ .h-form-login .btn-reg:hover,  .form-submit button:hover {
     box-shadow: 0 0px 5px 5px rgba(104, 221, 57, 0.3);
  }
 
- .dropdown_menu form .form-submit .btn-link {
+ .dropdown_menu .h-form-login .form-submit .btn-link {
     color: #646e72;
     cursor: pointer;
  }
 
- .dropdown_menu form .form-submit .btn-link:hover {
+ .dropdown_menu .h-form-login .form-submit .btn-link:hover {
     color: #54ab35;
  }
 
- .dropdown_menu form input {
+ .dropdown_menu .h-form-login input {
     width: 100%;
     padding: 0 15px;
     font-size: 13px;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
     color: #fff;
     line-height: 36px;
     border: none;
     outline: none;
     background: #273245;
     border-radius: 4px;
+ }
+ .dropdown_menu .h-form-login input:focus {
+    background: #fff;
+    color: #000;
  }
  /* ========================= */
  /*  End Header */
@@ -193,6 +198,14 @@ form .form-submit {
     width: 100%;
     height: 88vh;
     overflow: hidden;
+}
+ 
+.background-advertisement{
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
 }
 
 #stars {
@@ -468,14 +481,6 @@ form .form-submit {
     16px 1650px #fff, 1021px 1075px #fff, 723px 424px #fff, 1175px 41px #fff,
     494px 1957px #fff, 1296px 431px #fff, 175px 1507px #fff, 831px 121px #fff,
     498px 1947px #fff, 617px 880px #fff, 240px 403px #fff;
-}
- 
-.background-advertisement{
-    z-index: -1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
 }
 
 .content-advertisement {
