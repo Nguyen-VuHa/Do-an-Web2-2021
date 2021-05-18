@@ -15,43 +15,52 @@
                 <div class="title">
                     Đăng Ký Mới
                   </div>
-                    <form class="form">
-                        <div class="form-group inputfield invalid">
+                    <form class="form" action="" method="POST" id="form-register">
+                        <div class="form-group invalid">
                             <label>Họ Tên</label>
                             <div class="input-text">
-                                <input type="text" class="input">
+                                <input id="fullname" type="text" class="input">
                                 <span class="form-message"></span>
                             </div>
                         </div>  
-                        <div class="form-group inputfield">
+                        <div class="form-group">
                             <label>Email</label>
-                            <input type="text" class="input">
-                            <span class="form-message"></span>
+                            <div class="input-text">
+                                <input id="email" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
                         </div>  
-                        <div class="form-group inputfield">
+                        <div class="form-group">
                             <label>Mật Khẩu</label>
-                            <input type="password" class="input">
-                            <span class="form-message"></span>
+                            <div class="input-text">
+                                <input id="password" type="password" class="input">
+                                <span class="form-message"></span>
+                            </div>
                         </div>  
-                        <div class="form-group inputfield">
+                        <div class="form-group">
                             <label>Xác Nhận Mật Khẩu</label>
-                            <input type="password" class="input">
-                            <span class="form-message"></span>
+                            <div class="input-text">
+                                <input id="c_password" type="password" class="input">
+                                <span class="form-message"></span>
+                            </div>
                         </div> 
-                        <div class="form-group inputfield">
+                        <div class="form-group">
                             <label>Số Điện Thoại</label>
-                            <input type="text" class="input">
-                            <span class="form-message"></span>
+                            <div class="input-text">
+                                <input id="numberphone" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
                         </div> 
-                        <div class="form-group inputfield terms">
+                        <div class="form-group terms" style="margin: 0;">
                             <label class="check">
-                            <input type="checkbox">
+                            <input id="checked" type="checkbox">
                             <span class="checkmark"></span>
                             </label>
                             <p>Đồng ý với các điều khoản và điều kiện</p>
                         </div> 
-                        <div class="form-group inputfield">
-                        <input type="submit" value="Register" class="btn">
+                        <span class="form-message"></span>
+                        <div class="form-group">
+                        <input type="submit" value="Register" class="btn form-submit">
                         </div>
                     </form>
                 </div>
@@ -87,20 +96,45 @@
             </div>
         </div>
     </div>
-</section>
-<script>
-    $(document).on('click', '.title-product h3', function(){
-        $(this).addClass('active').siblings().removeClass('active');
+    <script src="js/register.js"></script>
+    <script>
+        $(document).on('click', '.title-product h3', function(){
+    $(this).addClass('active').siblings().removeClass('active');
+});
+
+var counter = 1;
+   setInterval(function(){
+    document.getElementById('radio' + counter).checked = true;
+    counter++;
+    if(counter > 3)
+    {
+        counter = 1;
+    }
+}, 3500);
+
+document.addEventListener('DOMContentLoaded', function () {
+      // Mong muốn của chúng ta
+      Validator ({
+        form: '#form-register',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules: [
+          Validator.isRequired('#fullname', 'Họ tên không được trống!'),
+          Validator.isRequired('#email', 'Email không được trống!'),
+          Validator.isEmail('#email'),
+          Validator.isRequired('#numberphone', 'Số điện thoại không được trống!'),
+          Validator.minLength('#password', 8),
+          Validator.isRequired('#c_password', 'Vui lòng nhập trường này!'),
+          Validator.isConfirmed('#c_password', function () {
+            return document.querySelector('#form-register #password').value;
+          }, 'Mật khẩu nhập lại không chính xác')
+        ],
+        onSubmit: function (data) {
+          console.log(data);
+        }
+      });
     });
 
-    var counter = 1;
-       setInterval(function(){
-        document.getElementById('radio' + counter).checked = true;
-        counter++;
-        if(counter > 3)
-        {
-            counter = 1;
-        }
-}, 3500);
-</script>
-
+    </script>
+</section>
+ 

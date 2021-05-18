@@ -21,6 +21,10 @@
     height: 90vh auto;
 }
 
+.title-product{
+  margin-top: 3%;
+}
+
 .container .reg-content {
     margin-top: 20px;
     display: flex;
@@ -44,7 +48,7 @@
 .reg-form {
     max-width: 500px;
     width: 100%;
-    height: 450px;
+    height: 450px auto;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.125);
     padding: 30px;
     background: #1c262f;
@@ -68,32 +72,31 @@
     width: 100%;
   }
   
-  .reg-form .form .inputfield{
+  .reg-form .form .form-group{
     margin-bottom: 15px;
     display: flex;
     align-items: center;
   }
   
-  .reg-form .form .inputfield label{
+  .reg-form .form .form-group label{
      width: 200px;
      color: #a6b2c9;
      margin-right: 10px;
     font-size: 14px;
   }
-  .reg-form .form .inputfield .input-text {
+  .reg-form .form .form-group .input-text {
       width: 100%;
       display: flex;
       flex-direction: column;
   }
 
-  .reg-form .form .form-message {
-    margin-top: 5px;
-    font-size: 12px;
-    color: #a6b2c9;
-  }
-  
-  .reg-form .form .inputfield .input,
-  .reg-form .form .inputfield .textarea{
+.form-group.invalid .form-message {
+    color: #f33a58;
+    font-size: 13px;
+}
+
+  .reg-form .form .form-group .input,
+  .reg-form .form .form-group .textarea{
     font-family: 'Roboto', sans-serif;
     background: #37424b;
     font-weight: bold;
@@ -107,24 +110,24 @@
     transition: all 0.3s ease;
   }
 
-  .reg-form .form .inputfield .input:focus {
+  .reg-form .form .form-group .input:focus {
     background: #fff;
     color: #000;
   }
   
-  .reg-form .form .inputfield .textarea{
+  .reg-form .form .form-group .textarea{
     width: 100%;
     height: 125px;
     resize: none;
   }
   
-  .reg-form .form .inputfield .custom_select{
+  .reg-form .form .form-group .custom_select{
     position: relative;
     width: 100%;
     height: 37px;
   }
   
-  .reg-form .form .inputfield .custom_select:before{
+  .reg-form .form .form-group .custom_select:before{
     content: "";
     position: absolute;
     top: 12px;
@@ -134,7 +137,7 @@
     pointer-events: none;
   }
   
-  .reg-form .form .inputfield .custom_select select{
+  .reg-form .form .form-group .custom_select select{
     -webkit-appearance: none;
     -moz-appearance:   none;
     appearance:        none;
@@ -149,38 +152,32 @@
   }
   
   
-  .reg-form .form .inputfield .input:focus,
-  .reg-form .form .inputfield .textarea:focus,
-  .reg-form .form .inputfield .custom_select select:focus{
-    border: 1px solid #d4dd29;
-  }
-  
-  .reg-form .form .inputfield p{
+  .reg-form .form .form-group p{
      font-size: 14px;
      color: #a6b2c9;
      margin-bottom: 0.5rem;
   }
-  .reg-form .form .inputfield .check{
+  .reg-form .form .form-group .check{
     width: 15px;
     height: 15px;
     position: relative;
     display: block;
     cursor: pointer;
   }
-  .reg-form .form .inputfield .check input[type="checkbox"]{
+  .reg-form .form .form-group .check input[type="checkbox"]{
     position: absolute;
     top: 0;
     left: 0;
     opacity: 0;
   }
-  .reg-form .form .inputfield .check .checkmark{
+  .reg-form .form .form-group .check .checkmark{
     width: 15px;
     height: 15px;
     border: 1px solid #d4dd29;
     display: block;
     position: relative;
   }
-  .reg-form .form .inputfield .check .checkmark:before{
+  .reg-form .form .form-group .check .checkmark:before{
     content: "";
     position: absolute;
     top: 1px;
@@ -192,15 +189,15 @@
     transform: rotate(-45deg);
     display: none;
   }
-  .reg-form .form .inputfield .check input[type="checkbox"]:checked ~ .checkmark{
+  .reg-form .form .form-group .check input[type="checkbox"]:checked ~ .checkmark{
     background: #fec107;
   }
   
-  .reg-form .form .inputfield .check input[type="checkbox"]:checked ~ .checkmark:before{
+  .reg-form .form .form-group .check input[type="checkbox"]:checked ~ .checkmark:before{
     display: block;
   }
   
-  .reg-form .form .inputfield .btn{
+  .reg-form .form .form-group .btn{
     width: 100%;
      padding: 8px 10px;
     font-size: 15px; 
@@ -212,11 +209,11 @@
     outline: none;
   }
   
-  .reg-form .form .inputfield .btn:hover{
+  .reg-form .form .form-group .btn:hover{
     background: #d4dd29;
   }
   
-  .reg-form .form .inputfield:last-child{
+  .reg-form .form .form-group:last-child{
     margin-bottom: 0;
   }
 
@@ -234,18 +231,19 @@
 
     .reg-advertisements {
         border-left: none;
+        display: none;
     }
   }
   
   @media (max-width:420px) {
-    .reg-form .form .inputfield{
+    .reg-form .form .form-group{
       flex-direction: column;
       align-items: flex-start;
     }
-    .reg-form .form .inputfield label{
+    .reg-form .form .form-group label{
       margin-bottom: 5px;
     }
-    .reg-form .form .inputfield.terms{
+    .reg-form .form .form-group.terms{
       flex-direction: row;
     }
   }
