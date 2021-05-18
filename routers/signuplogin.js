@@ -10,7 +10,11 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res) {
-    res.render('signup-login');
+    res.render('signuplogin', { error: 1, message: 'Đăng Ký Thành Công!' });
 });
+
+router.post('/dang-ky', function(req, res) {
+   res.redirect('/reg');
+})
 
 module.exports = router;

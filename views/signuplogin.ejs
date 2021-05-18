@@ -1,4 +1,41 @@
 
+
+
+<div id="alert" class="noti-alert hide">
+    <span class="fas fa-check-circle"></span>
+    <span class="msg"><%- message %></span>
+    <span class="hide-btn">
+        <span class="fas fa-times"></span>
+    </span>
+</div>
+<i class="fas fa-check-circle"></i>
+
+<script>
+    var error = `<%- error %>`;
+    window.onload = (event) => {
+        if(error === '1')
+        { 
+            document.getElementById("alert").classList.remove("hide");
+            document.getElementById("alert").className += " show";
+            document.getElementById("alert").className += " showAlert"; 
+            setTimeout(function() {
+                    $('.noti-alert').addClass("hide");
+                    $('.noti-alert').removeClass("show");
+            },3000);
+            var Buttonelement = document.querySelector('.hide-btn');
+
+            Buttonelement.addEventListener("click", function(){ 
+                document.getElementById("alert").classList.remove("show");
+                document.getElementById("alert").className += " hide";
+            });
+        }
+        else {
+            alert(error);
+        }
+    };
+</script>
+
+
 <section class="content-reg">
     <div class="background-advertisement">
         <div id="stars"></div>
@@ -15,7 +52,7 @@
                 <div class="title">
                     Đăng Ký Mới
                   </div>
-                    <form class="form" action="" method="POST" id="form-register">
+                    <form class="form" method="POST" action="reg/dang-ky" id="form-register">
                         <div class="form-group invalid">
                             <label>Họ Tên</label>
                             <div class="input-text">
@@ -59,9 +96,8 @@
                             <p>Đồng ý với các điều khoản và điều kiện</p>
                             <span class="form-message" style="color: #FFCC00; position: absolute;margin-bottom: 3px; bottom: 0px; font-size: 14px;"></span>
                         </div> 
-                       
                         <div class="form-group">
-                        <input type="submit" value="Register" class="btn form-submit">
+                        <button type="submit" class="btn form-submit">Đăng Ký</button>
                         </div>
                     </form>
                 </div>
@@ -99,9 +135,10 @@
     </div>
     <script src="js/validateform.js"></script>
     <script>
-        $(document).on('click', '.title-product h3', function(){
+     $(document).on('click', '.title-product h3', function(){
     $(this).addClass('active').siblings().removeClass('active');
-});
+    });
+   
 
 var counter = 1;
    setInterval(function(){
@@ -130,10 +167,13 @@ document.addEventListener('DOMContentLoaded', function () {
             return document.querySelector('#form-register #password').value;
           }, 'Mật khẩu nhập lại không chính xác'),
           Validator.isRequired('#checked', 'Bạn chưa đồng ý với điều khoản!'),
-        ],
+        ]
       });
     });
-
+    
     </script>
+   
 </section>
+
+
  
