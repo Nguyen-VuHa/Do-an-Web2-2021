@@ -29,15 +29,22 @@
 }
 
 .reg-advertisements {
-    width: 50%;
+    width: 100%;
     height: 100%;
     border-left: 3px solid green;
+    margin-top: 0;
+    padding-left: 50px;
+}
+
+.reg-advertisements .content-poster {
+    width: 80%;
+    height: 100%;
 }
 
 .reg-form {
     max-width: 500px;
     width: 100%;
-    height: auto;
+    height: 450px;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.125);
     padding: 30px;
     background: #1c262f;
@@ -208,6 +215,10 @@
         flex-direction: column;
         align-items: center;
         height: 90vh auto;
+    }
+
+    .reg-form {
+        height: auto;
     }
 
     .reg-advertisements {

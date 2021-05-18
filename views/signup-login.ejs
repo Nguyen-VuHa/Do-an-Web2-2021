@@ -7,8 +7,8 @@
     </div>
     <div class="container">
         <div class="title-product">
-            <h3 class="btn-view active">Thành Viên</h3>
-            <h3 >Quy Định</h3>
+            <h3 class="btn-view active" style="font-size: 25px;">Thành Viên</h3>
+            <h3 style="font-size: 25px;">Quy Định</h3>
         </div>
         <div class="reg-content">
             <div class="reg-form">
@@ -49,9 +49,51 @@
                 </div>
             </div>
             <div class="reg-advertisements">
-
+                <div class="content-poster">
+                    <div class="slider">
+                        <div class="slides">
+                            <input type="radio" name="radio-btn" id="radio1"> 
+                            <input type="radio" name="radio-btn" id="radio2"> 
+                            <input type="radio" name="radio-btn" id="radio3"> 
+                            <div class="slide first">
+                                <img src="image/promotion-1.jpg" alt="">
+                            </div>
+                            <div class="slide">
+                                <img src="image/promotion-2.jpg" alt="">
+                                </div>
+                                <div class="slide">
+                                    <img src="image/promotion-3.jpg" alt="">
+                                </div>
+                                <div class="navigation-auto">
+                                    <div class="auto-btn1"></div>
+                                    <div class="auto-btn2"></div>
+                                    <div class="auto-btn3"></div>
+                                </div>
+                        </div>
+                        <div class="navigation-manual">
+                            <label for="radio1" class="btn-manual"></label>
+                            <label for="radio2" class="btn-manual"></label>
+                            <label for="radio3" class="btn-manual"></label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
+<script>
+    $(document).on('click', '.title-product h3', function(){
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+
+    var counter = 1;
+       setInterval(function(){
+        document.getElementById('radio' + counter).checked = true;
+        counter++;
+        if(counter > 3)
+        {
+            counter = 1;
+        }
+}, 3500);
+</script>
 

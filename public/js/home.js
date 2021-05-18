@@ -58,7 +58,7 @@ var counter = 1;
         {
             counter = 1;
         }
-       }, 5000);
+}, 5000);
 
 /* Movie Schedule Slide with Jquery lightslide */
 
