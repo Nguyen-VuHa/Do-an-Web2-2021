@@ -11,7 +11,7 @@ router.get('/', function(req, res){
     res.render('home');
 });
 
-router.post('/', function(req, res){
+router.post('/login', function(_req, res){
     res.render('page404');
 });
 

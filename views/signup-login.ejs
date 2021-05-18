@@ -57,8 +57,9 @@
                             <span class="checkmark"></span>
                             </label>
                             <p>Đồng ý với các điều khoản và điều kiện</p>
+                            <span class="form-message" style="color: #FFCC00; position: absolute;margin-bottom: 3px; bottom: 0px; font-size: 14px;"></span>
                         </div> 
-                        <span class="form-message"></span>
+                       
                         <div class="form-group">
                         <input type="submit" value="Register" class="btn form-submit">
                         </div>
@@ -96,7 +97,7 @@
             </div>
         </div>
     </div>
-    <script src="js/register.js"></script>
+    <script src="js/validateform.js"></script>
     <script>
         $(document).on('click', '.title-product h3', function(){
     $(this).addClass('active').siblings().removeClass('active');
@@ -127,11 +128,9 @@ document.addEventListener('DOMContentLoaded', function () {
           Validator.isRequired('#c_password', 'Vui lòng nhập trường này!'),
           Validator.isConfirmed('#c_password', function () {
             return document.querySelector('#form-register #password').value;
-          }, 'Mật khẩu nhập lại không chính xác')
+          }, 'Mật khẩu nhập lại không chính xác'),
+          Validator.isRequired('#checked', 'Bạn chưa đồng ý với điều khoản!'),
         ],
-        onSubmit: function (data) {
-          console.log(data);
-        }
       });
     });
 

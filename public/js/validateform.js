@@ -50,7 +50,7 @@ function Validator(options) {
     var formElement = document.querySelector(options.form);
     if (formElement) {
         // Khi submit form
-        formElement.onsubmit = function (e) {
+        formElement.onsubmit = function (e) { 
             e.preventDefault();
 
             var isFormValid = true;
