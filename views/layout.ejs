@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/sigup-login.css">
     <link rel="stylesheet" href="css/page404.css">
+    <link rel="stylesheet" href="../css/sendmail.css">
     <!-- link bootstrap cdn 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -28,9 +29,9 @@
   <title>CGV Cinemas Việt Nam  &#8226; <%- title %></title>
 </head>
 <body>
-    <%- include('auth/header.ejs') %>
+    <%- title === 'Send Mail' ? '' : include('auth/header.ejs') %>
     <%- body %>
-    <%- include('auth/footer.ejs') %>
+    <%- title === 'Send Mail' ? '' : include('auth/footer.ejs') %>
 </body>
 
 </html>

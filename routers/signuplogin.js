@@ -3,6 +3,7 @@ const router = express.Router();
 const UserAccount = require('../models/useraccount');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
+const emailSend = require('../sendmail');
 
 var error =  null;
 var message =  '';
@@ -20,6 +21,8 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
     const { fullname, email, password, numberphone} = req.body;
     const found = await UserAccount.findByEmail(email);
     const codeUser = randoomCode(7);
+    var link = 'https://www.facebook.com/profile.php?id=100005998215977';
+    var namePathEmail = email.substring(0, email.indexOf('@'));
     if(await UserAccount.findByCode(codeUser))
     {
         codeUser = randoomCode(7);
@@ -42,6 +45,7 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
         });
         error = true;
         message = 'Đăng Ký Thành Công!';
+        await emailSend.send(email, 'CGV Việt Nam', link, fullname, namePathEmail);
         res.redirect('/reg');
     }
 }));

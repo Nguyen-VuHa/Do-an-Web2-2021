@@ -25,6 +25,7 @@ app.use('/prof', profRouter);
 app.use('/error', pg404Router);
 app.use('/reg', siguploginRouter);
 
+
 db.sync().then(function () {
     const port = process.env.PORT || 3000;
     console.log(`Server is listening on port ${port}`);
