@@ -2,6 +2,10 @@ const { DataTypes } = require('sequelize');
 const db = require('./database');
 
 const UserAccount = db.define('UserAccount', {
+    code: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false
@@ -12,14 +16,14 @@ const UserAccount = db.define('UserAccount', {
     },
     fullname: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     numberphone: {
         type: DataTypes.STRING,
         allowNull: true
     },
     role: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true
     },
     active: {
@@ -33,19 +37,27 @@ const UserAccount = db.define('UserAccount', {
 });
 
 UserAccount.findByEmail = async function (email) {
-    return User.findOne({
+    return UserAccount.findOne({
         where: {
             email,
         },
     });
 }
 
+UserAccount.findByCode = async function (code) {
+    return UserAccount.findOne({
+        where: {
+            code,
+        },
+    });
+}
+
 UserAccount.findById = async function(id){
-    return User.findByPk(id);
+    return UserAccount.findByPk(id);
 }
 
 UserAccount.findByActive = async function (active) {
-    return User.findOne({
+    return UserAccount.findOne({
         where: {
             active,
         },
@@ -53,7 +65,7 @@ UserAccount.findByActive = async function (active) {
 }
 
 UserAccount.finbByAll = async function () {
-    return Newsfeed.findAll();
+    return UserAccount.findAll();
 }
 
 module.exports = UserAccount;

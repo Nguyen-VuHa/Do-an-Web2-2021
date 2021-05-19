@@ -4,17 +4,58 @@ const UserAccount = require('../models/useraccount');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 
+var error =  null;
+var message =  '';
+
 router.use(function(req, res, next){
     res.locals.title = 'Đăng Ký Thành Viên';
     next();
 });
 
 router.get('/', function(req, res) {
-    res.render('signuplogin', { error: 1, message: 'Đăng Ký Thành Công!' });
+    res.render('signuplogin', { error , message });
 });
 
-router.post('/dang-ky', function(req, res) {
-   res.redirect('/reg');
-})
+router.post('/dang-ky',asyncHandler(async function(req, res) {
+    const { fullname, email, password, numberphone} = req.body;
+    const found = await UserAccount.findByEmail(email);
+    const codeUser = randoomCode(7);
+    if(await UserAccount.findByCode(codeUser))
+    {
+        codeUser = randoomCode(7);
+    }
+    if(found) {
+        error = false;
+        message = 'Email này đã được đăng ký!';
+        res.redirect('/reg');
+    }
+    else {
+        var hash = bcrypt.hashSync(password, 10);
+        UserAccount.create({
+            code: codeUser,
+            email: email,
+            password: hash,
+            fullname: fullname,
+            role: 1,
+            numberphone: numberphone,
+            active: codeUser
+        });
+        error = true;
+        message = 'Đăng Ký Thành Công!';
+        res.redirect('/reg');
+    }
+}));
+
+
+function randoomCode(length) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+   
+    for (var i = 0; i < length; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+   
+    return text;
+}
+
 
 module.exports = router;

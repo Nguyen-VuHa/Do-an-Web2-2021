@@ -1,6 +1,4 @@
 
-
-
 <div id="alert" class="noti-alert hide">
     <span class="fas fa-check-circle"></span>
     <span class="msg"><%- message %></span>
@@ -8,12 +6,20 @@
         <span class="fas fa-times"></span>
     </span>
 </div>
-<i class="fas fa-check-circle"></i>
+
+<div id="alert-1" class="sucess-alert hide">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg"><%- message %></span>
+    <span class="hide-btn">
+        <span class="fas fa-times"></span>
+    </span>
+</div>
+
 
 <script>
-    var error = `<%- error %>`;
+    var error = <%- error %>;
     window.onload = (event) => {
-        if(error === '1')
+        if(error === true)
         { 
             document.getElementById("alert").classList.remove("hide");
             document.getElementById("alert").className += " show";
@@ -29,8 +35,20 @@
                 document.getElementById("alert").className += " hide";
             });
         }
-        else {
-            alert(error);
+        else if(error === false) {
+            document.getElementById("alert-1").classList.remove("hide");
+            document.getElementById("alert-1").className += " show";
+            document.getElementById("alert-1").className += " showAlert"; 
+            setTimeout(function() {
+                    $('.sucess-alert').addClass("hide");
+                    $('.sucess-alert').removeClass("show");
+            },3000);
+            var Buttonelement = document.querySelector('.hide-btn');
+
+            Buttonelement.addEventListener("click", function(){ 
+                document.getElementById("sucess-alert").classList.remove("show");
+                document.getElementById("sucess-alert").className += " hide";
+            });
         }
     };
 </script>
@@ -56,21 +74,21 @@
                         <div class="form-group invalid">
                             <label>Họ Tên</label>
                             <div class="input-text">
-                                <input id="fullname" type="text" class="input">
+                                <input id="fullname" name="fullname" type="text" class="input">
                                 <span class="form-message"></span>
                             </div>
                         </div>  
                         <div class="form-group">
                             <label>Email</label>
                             <div class="input-text">
-                                <input id="email" type="text" class="input">
+                                <input id="email" name="email" type="text" class="input">
                                 <span class="form-message"></span>
                             </div>
                         </div>  
                         <div class="form-group">
                             <label>Mật Khẩu</label>
                             <div class="input-text">
-                                <input id="password" type="password" class="input">
+                                <input id="password"  name="password"  type="password" class="input">
                                 <span class="form-message"></span>
                             </div>
                         </div>  
@@ -84,7 +102,7 @@
                         <div class="form-group">
                             <label>Số Điện Thoại</label>
                             <div class="input-text">
-                                <input id="numberphone" type="text" class="input">
+                                <input id="numberphone" name="numberphone" type="text" class="input">
                                 <span class="form-message"></span>
                             </div>
                         </div> 
@@ -136,22 +154,22 @@
     <script src="js/validateform.js"></script>
     <script>
      $(document).on('click', '.title-product h3', function(){
-    $(this).addClass('active').siblings().removeClass('active');
+        $(this).addClass('active').siblings().removeClass('active');
     });
    
 
-var counter = 1;
-   setInterval(function(){
-    document.getElementById('radio' + counter).checked = true;
-    counter++;
-    if(counter > 3)
-    {
-        counter = 1;
-    }
-}, 3500);
+    var counter = 1;
+    setInterval(function(){
+        document.getElementById('radio' + counter).checked = true;
+        counter++;
+        if(counter > 3)
+        {
+            counter = 1;
+        }
+    }, 3500);
 
-document.addEventListener('DOMContentLoaded', function () {
-      // Mong muốn của chúng ta
+    document.addEventListener('DOMContentLoaded', function () {
+    // Mong muốn của chúng ta
       Validator ({
         form: '#form-register',
         formGroupSelector: '.form-group',
