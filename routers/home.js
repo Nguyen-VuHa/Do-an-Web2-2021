@@ -21,9 +21,23 @@ router.get('/', function(req, res){
 router.get('/active/:code',asyncHandler(async function(req, res) {
     const value = await UserAccount.findByCode(req.params.code);
     if(value) {
-        value.active = null;
-        await value.save();
-        res.redirect('/');
+        if(value.active === null)
+        {
+            res.redirect('/');
+        }
+        else
+        {
+            try{
+                value.active = null;
+                await value.save();
+                error = true;
+                message = "Đã Active! Xin đăng nhập lại.";
+                res.redirect('/');
+            }catch
+            {
+                res.redirect('/error');
+            }
+        }
     }
     else
     {
@@ -35,7 +49,6 @@ router.get('/active/:code',asyncHandler(async function(req, res) {
 router.post('/login',asyncHandler(async function(req, res){
     const { email, password } = req.body;
     const found = await UserAccount.findByEmail(email);
-
     if(!found)
     {
         error = false;
@@ -44,7 +57,7 @@ router.post('/login',asyncHandler(async function(req, res){
     }
     else if (found && bcrypt.compareSync(password, found.password))
     {
-        if(found.active === ""){
+        if(found.active === null){
             error = true;
             message = 'Đăng nhập thành công!';
             req.session.userId = found.code;
@@ -53,13 +66,13 @@ router.post('/login',asyncHandler(async function(req, res){
         else
         {
             error = false;
-            message = 'Bạn Chưa Xác Nhận Tài Khoản!';
+            message = 'Bạn chưa xác nhận tài khoản!';
             res.redirect('/');
         }
     }
     else {
         error = false;
-        message = 'Sai Tài Khoản Hoặc Mật Khẩu!';
+        message = 'Sai tài khoản hoặc mật khẩu!';
         res.redirect('/');
     }
 }));

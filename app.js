@@ -8,6 +8,7 @@ const cors = require('cors');
 //===========================
 // Database
 const db = require('./models/database');
+const authMiddleware = require('./middlewares/auth');
 //===========================
 const homeRouter = require('./routers/home');
 const profRouter = require('./routers/profile');
@@ -31,7 +32,7 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000
 }));
 
-
+app.use(authMiddleware);
 app.use('/', homeRouter);
 app.use('/prof', profRouter);
 app.use('/error', pg404Router);

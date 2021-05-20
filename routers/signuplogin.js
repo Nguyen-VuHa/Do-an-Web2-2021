@@ -4,7 +4,7 @@ const UserAccount = require('../models/useraccount');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const emailSend = require('../sendmail');
-
+// var pathLink = process.env.HTTPS_SERVER + `/active/${codeUser}` 
 var error =  null;
 var message =  '';
 
@@ -27,8 +27,8 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
     {
         codeUser = randoomCode(7);
     }
-
-    var link = process.env.HTTPS_SERVER + `/active/${codeUser}` || `http://localhost:3000/active/${codeUser}`;
+   
+    var link = `http://localhost:3000/active/${codeUser}`;
     if(found) {
         error = false;
         message = 'Email này đã được đăng ký!';
@@ -46,7 +46,7 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
             active: codeUser
         });
         error = true;
-        message = 'Đăng Ký Thành Công!';
+        message = 'Đăng ký thành công!';
         await emailSend.send(email, 'CGV Việt Nam | Xác Nhận Tài Khoản', link, fullname, namePathEmail);
         res.redirect('/reg');
     }

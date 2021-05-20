@@ -31,6 +31,9 @@
                     <div class="line3"></div>
                 </div>
                 <div class="nav-login">
+                  <% if (currentUser) { %>
+                    
+                   <% } else { %>
                     <a class="btn-dropmenu" style="color: aliceblue;" >Đăng Nhập</a>
                     <div class="dropdown_menu" >
                         <form id="form-login" method="POST" action="login" class="h-form-login" >
@@ -49,6 +52,7 @@
                             <a class="btn btn-reg" style="color: white; background: #54ab35; font-weight: normal;" href="/reg">Đăng Ký Thành Viên</a>
                           </form>
                     </div>
+                    <% } %>
                 </div>
         </nav>
         <script src="js/header.js"></script>

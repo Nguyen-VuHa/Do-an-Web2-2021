@@ -2,7 +2,7 @@
 
 /* section advertisement -- Slide and hover video */
 const clip = document.querySelector('.clip');
-clip.addEventListener('mouseenter', function(e) {
+document.addEventListener('DOMContentLoaded', function(e) {
     clip.play();
 });
 
