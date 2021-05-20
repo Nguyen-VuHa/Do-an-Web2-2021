@@ -15,18 +15,20 @@ router.use(function(req, res, next){
 
 router.get('/', function(req, res) {
     res.render('signuplogin', { error , message });
+    error =  null;
 });
 
 router.post('/dang-ky',asyncHandler(async function(req, res) {
     const { fullname, email, password, numberphone} = req.body;
     const found = await UserAccount.findByEmail(email);
     const codeUser = randoomCode(7);
-    var link = 'https://www.facebook.com/profile.php?id=100005998215977';
     var namePathEmail = email.substring(0, email.indexOf('@'));
     if(await UserAccount.findByCode(codeUser))
     {
         codeUser = randoomCode(7);
     }
+
+    var link = process.env.HTTPS_SERVER + `/active/${codeUser}` || `http://localhost:3000/active/${codeUser}`;
     if(found) {
         error = false;
         message = 'Email này đã được đăng ký!';
@@ -45,7 +47,7 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
         });
         error = true;
         message = 'Đăng Ký Thành Công!';
-        await emailSend.send(email, 'CGV Việt Nam', link, fullname, namePathEmail);
+        await emailSend.send(email, 'CGV Việt Nam | Xác Nhận Tài Khoản', link, fullname, namePathEmail);
         res.redirect('/reg');
     }
 }));

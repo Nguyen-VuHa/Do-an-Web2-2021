@@ -42,7 +42,6 @@ const myslide = document.querySelectorAll('.myslider'),
     let timer = setInterval(autoSlide, 5000);
 
     function autoSlide() {
-        console.log(index);
         index += 1;
         slidefun(index);
     }

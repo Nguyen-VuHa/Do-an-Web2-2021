@@ -12,6 +12,7 @@ router.get('/', function(req, res) {
     res.render('profile');
 });
 
+
 router.post('/', function(req, res) {
     res.redirect('/');
 });

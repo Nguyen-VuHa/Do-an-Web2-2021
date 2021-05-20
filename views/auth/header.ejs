@@ -1,4 +1,21 @@
  <!-- header -->
+ 
+<div id="alert" class="noti-alert hide">
+  <span class="fas fa-check-circle"></span>
+  <span class="msg"><%- message %></span>
+  <span class="hide-btn">
+      <span class="fas fa-times"></span>
+  </span>
+</div>
+
+<div id="alert-1" class="sucess-alert hide">
+  <span class="fas fa-exclamation-circle"></span>
+  <span class="msg"><%- message %></span>
+  <span class="hide-btn">
+      <span class="fas fa-times"></span>
+  </span>
+</div>
+
     <header>
         <nav class="nav-header">
             <a href="/"><img class="logo" src="image/icon-bg.png" alt=""></a>
@@ -16,12 +33,14 @@
                 <div class="nav-login">
                     <a class="btn-dropmenu" style="color: aliceblue;" >Đăng Nhập</a>
                     <div class="dropdown_menu" >
-                        <form method="POST" action="login" class="h-form-login" >
+                        <form id="form-login" method="POST" action="login" class="h-form-login" >
                             <div class="form-group">
-                              <input type="email" class="input_text" placeholder="Email">
+                              <input id="email" type="email" name="email" class="input_text" placeholder="Email">
+                              <span class="form-message"></span>
                             </div>
                             <div class="form-group">
-                              <input type="password" class="input_text" placeholder="Password">
+                              <input id="password" type="password" name="password" class="input_text" placeholder="Password">
+                              <span class="form-message"></span>
                             </div>
                             <div class="form-submit">
                                 <button type="submit" style="background: #54ab35;" class="btn btn-success">Đăng Nhập</button>
@@ -33,4 +52,54 @@
                 </div>
         </nav>
         <script src="js/header.js"></script>
+        <script src="js/validateform.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+           
+                Validator ({
+                  form: '#form-login',
+                  formGroupSelector: '.form-group',
+                  errorSelector: '.form-message',
+                  rules: [
+                    Validator.isRequired('#email', 'Email không được trống!'),
+                    Validator.isEmail('#email'),
+                    Validator.isRequired('#password', 'Mật khẩu không được trống!'),
+                    Validator.minLength('#password', 8),
+                    ]
+                    });
+
+                 var error = `<%- error %>`;
+                 if(error === "true")
+                  { 
+                      document.getElementById("alert").classList.remove("hide");
+                      document.getElementById("alert").className += " show";
+                      document.getElementById("alert").className += " showAlert"; 
+                      setTimeout(function() {
+                              $('.noti-alert').addClass("hide");
+                              $('.noti-alert').removeClass("show");
+                      },3000);
+                      var Buttonelement = document.querySelector('.hide-btn');
+
+                      Buttonelement.addEventListener("click", function(){ 
+                          document.getElementById("alert").classList.remove("show");
+                          document.getElementById("alert").className += " hide";
+                      });
+                  }
+                  else if(error === "false") {
+                      document.getElementById("alert-1").classList.remove("hide");
+                      document.getElementById("alert-1").className += " show";
+                      document.getElementById("alert-1").className += " showAlert"; 
+                      setTimeout(function() {
+                              $('.sucess-alert').addClass("hide");
+                              $('.sucess-alert').removeClass("show");
+                      },3000);
+                      var Buttonelement = document.querySelector('.hide-btn');
+
+                      Buttonelement.addEventListener("click", function(){ 
+                          document.getElementById("sucess-alert").classList.remove("show");
+                          document.getElementById("sucess-alert").className += " hide";
+                      });
+                  }
+              });
+        </script>
     </header>

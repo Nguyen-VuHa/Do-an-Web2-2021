@@ -17,10 +17,11 @@
 
 
 <script>
-    var error = <%- error %>;
+    var error = `<%- error %>`;
     window.onload = (event) => {
-        if(error === true)
+        if(error === "true")
         { 
+            console.log('đã tồn tại!');
             document.getElementById("alert").classList.remove("hide");
             document.getElementById("alert").className += " show";
             document.getElementById("alert").className += " showAlert"; 
@@ -35,7 +36,7 @@
                 document.getElementById("alert").className += " hide";
             });
         }
-        else if(error === false) {
+        else if(error === "false") {
             document.getElementById("alert-1").classList.remove("hide");
             document.getElementById("alert-1").className += " show";
             document.getElementById("alert-1").className += " showAlert"; 
@@ -156,7 +157,6 @@
      $(document).on('click', '.title-product h3', function(){
         $(this).addClass('active').siblings().removeClass('active');
     });
-   
 
     var counter = 1;
     setInterval(function(){
@@ -169,7 +169,6 @@
     }, 3500);
 
     document.addEventListener('DOMContentLoaded', function () {
-    // Mong muốn của chúng ta
       Validator ({
         form: '#form-register',
         formGroupSelector: '.form-group',
@@ -188,7 +187,7 @@
         ]
       });
     });
-    
+
     </script>
    
 </section>
