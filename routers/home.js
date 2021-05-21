@@ -4,9 +4,7 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 
-
-var error = null;
-var message = "";
+var title , message, type, error;
 
 router.use(function(req, res, next){
     res.locals.title = 'Trang Chủ';
@@ -14,8 +12,8 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res){
-    res.render('home', { error , message });
-    error = null;
+    res.render('home', { title, message, type, error });
+    itle = message = type = error ='';
 });
 
 router.get('/active/:code',asyncHandler(async function(req, res) {
@@ -31,7 +29,9 @@ router.get('/active/:code',asyncHandler(async function(req, res) {
                 value.active = null;
                 await value.save();
                 error = true;
-                message = "Đã Active! Xin đăng nhập lại.";
+                title = "Successfully!";
+                message = 'Đã xác minh thành công! Xin mời đăng nhập.';
+                type = "success";
                 res.redirect('/');
             }catch
             {
@@ -52,32 +52,38 @@ router.post('/login',asyncHandler(async function(req, res){
     if(!found)
     {
         error = false;
+        title = "Warning!";
         message = 'Email này chưa được đăng ký!';
+        type = "warning";
         res.redirect('/');
     }
     else if (found && bcrypt.compareSync(password, found.password))
     {
         if(found.active === null){
             error = true;
-            message = 'Đăng nhập thành công!';
+            title = "CGV CInemas!";
+            message = 'Wellcome to CGV Cinema.';
+            type = "info";
             req.session.userId = found.code;
             res.redirect('/');
         }
         else
         {
             error = false;
+            title = "Warning!";
             message = 'Bạn chưa xác nhận tài khoản!';
+            type = "warning";
             res.redirect('/');
         }
     }
     else {
         error = false;
+        title = "Warning!";
         message = 'Sai tài khoản hoặc mật khẩu!';
+        type = "warning";
         res.redirect('/');
     }
 }));
-
-
 
 
 module.exports = router;

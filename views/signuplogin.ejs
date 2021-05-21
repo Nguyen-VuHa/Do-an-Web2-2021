@@ -1,60 +1,3 @@
-
-<div id="alert" class="noti-alert hide">
-    <span class="fas fa-check-circle"></span>
-    <span class="msg"><%- message %></span>
-    <span class="hide-btn">
-        <span class="fas fa-times"></span>
-    </span>
-</div>
-
-<div id="alert-1" class="sucess-alert hide">
-    <span class="fas fa-exclamation-circle"></span>
-    <span class="msg"><%- message %></span>
-    <span class="hide-btn">
-        <span class="fas fa-times"></span>
-    </span>
-</div>
-
-
-<script>
-    var error = `<%- error %>`;
-    window.onload = (event) => {
-        if(error === "true")
-        { 
-            console.log('đã tồn tại!');
-            document.getElementById("alert").classList.remove("hide");
-            document.getElementById("alert").className += " show";
-            document.getElementById("alert").className += " showAlert"; 
-            setTimeout(function() {
-                    $('.noti-alert').addClass("hide");
-                    $('.noti-alert').removeClass("show");
-            },3000);
-            var Buttonelement = document.querySelector('.hide-btn');
-
-            Buttonelement.addEventListener("click", function(){ 
-                document.getElementById("alert").classList.remove("show");
-                document.getElementById("alert").className += " hide";
-            });
-        }
-        else if(error === "false") {
-            document.getElementById("alert-1").classList.remove("hide");
-            document.getElementById("alert-1").className += " show";
-            document.getElementById("alert-1").className += " showAlert"; 
-            setTimeout(function() {
-                    $('.sucess-alert').addClass("hide");
-                    $('.sucess-alert').removeClass("show");
-            },3000);
-            var Buttonelement = document.querySelector('.hide-btn');
-
-            Buttonelement.addEventListener("click", function(){ 
-                document.getElementById("sucess-alert").classList.remove("show");
-                document.getElementById("sucess-alert").className += " hide";
-            });
-        }
-    };
-</script>
-
-
 <section class="content-reg">
     <div class="background-advertisement">
         <div id="stars"></div>
@@ -152,23 +95,26 @@
             </div>
         </div>
     </div>
+    <script src="js/toastmesage.js"></script>
     <script src="js/validateform.js"></script>
     <script>
-     $(document).on('click', '.title-product h3', function(){
-        $(this).addClass('active').siblings().removeClass('active');
-    });
+        var error = `<%- error %>`;
+        $(document).on('click', '.title-product h3', function(){
+            $(this).addClass('active').siblings().removeClass('active');
+        });
 
-    var counter = 1;
-    setInterval(function(){
-        document.getElementById('radio' + counter).checked = true;
-        counter++;
-        if(counter > 3)
-        {
-            counter = 1;
-        }
-    }, 3500);
+        var counter = 1;
+        setInterval(function(){
+            document.getElementById('radio' + counter).checked = true;
+            counter++;
+            if(counter > 3)
+            {
+                counter = 1;
+            }
+        }, 3500);
 
     document.addEventListener('DOMContentLoaded', function () {
+  
       Validator ({
         form: '#form-register',
         formGroupSelector: '.form-group',
@@ -186,6 +132,33 @@
           Validator.isRequired('#checked', 'Bạn chưa đồng ý với điều khoản!'),
         ]
       });
+      
+      if(error === 'false')
+      {
+        toast({
+            title: `<%- title %>`,
+            message: `<%- message %>`,
+            type: `<%- type %>`,
+            duration: 3000
+        });
+      }
+      if(error === 'true')
+      {
+        toast({
+            title: `<%- title %>`,
+            message: `<%- message %>`,
+            type: `<%- type %>`,
+            duration: 3000
+        })
+
+        setTimeout( toast({
+            title: 'Information',
+            message: 'Bạn cần đăng nhập gmail để xác nhận tài khoản.',
+            type: 'info',
+            duration: 3000
+        }),4500)
+       
+      }
     });
 
     </script>

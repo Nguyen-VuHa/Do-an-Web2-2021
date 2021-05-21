@@ -5,8 +5,8 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const emailSend = require('../sendmail');
 // var pathLink = process.env.HTTPS_SERVER + `/active/${codeUser}` 
-var error =  null;
-var message =  '';
+var title , message, type, error;
+
 
 router.use(function(req, res, next){
     res.locals.title = 'Đăng Ký Thành Viên';
@@ -14,8 +14,8 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res) {
-    res.render('signuplogin', { error , message });
-    error =  null;
+    res.render('signuplogin', { title, message, type, error });
+    title = message = type = error ='';
 });
 
 router.post('/dang-ky',asyncHandler(async function(req, res) {
@@ -31,7 +31,9 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
     var link = `http://localhost:3000/active/${codeUser}`;
     if(found) {
         error = false;
+        title = "Warning!";
         message = 'Email này đã được đăng ký!';
+        type = "warning";
         res.redirect('/reg');
     }
     else {
@@ -46,7 +48,9 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
             active: codeUser
         });
         error = true;
-        message = 'Đăng ký thành công!';
+        title = "Sucessfully!";
+        message = 'Đã đăng ký thành công tài khoản CGV.';
+        type = "success";
         await emailSend.send(email, 'CGV Việt Nam | Xác Nhận Tài Khoản', link, fullname, namePathEmail);
         res.redirect('/reg');
     }

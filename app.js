@@ -15,7 +15,7 @@ const profRouter = require('./routers/profile');
 const pg404Router = require('./routers/404');
 const siguploginRouter = require('./routers/signuplogin');
 
-app.use(cors())
+app.use(cors());
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
