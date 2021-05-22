@@ -11,10 +11,18 @@ router.use(function(req, res, next){
     next();
 });
 
-router.get('/', function(req, res){
-    res.render('home', { title_toast , message, type, error });
-    title_toast = message = type = error =  '';
-});
+router.get('/',asyncHandler(async function(req, res){
+    var userId = req.session.userId;
+    if(userId === undefined)
+    {
+        res.render('home', { title_toast , message, type, error });
+        title_toast = message = type = error =  '';
+    }
+    else {
+        const data = await UserAccount.findByCode(userId);
+        res.render('home', { data });
+    }
+}));
 
 router.get('/active/:code',asyncHandler(async function(req, res) {
     const value = await UserAccount.findByCode(req.params.code);

@@ -1,6 +1,7 @@
-
 const express = require('express');
 const ensureLoggedIn = require('../middlewares/ensure_logged_in');
+const UserAccount = require('../models/useraccount');
+const asyncHandler = require('express-async-handler');
 const router = express.Router();
 
 router.use(ensureLoggedIn);
@@ -10,9 +11,10 @@ router.use(function(req, res, next){
     next();
 });
 
-router.get('/', function(req, res) {
-    res.render('profile');
-});
+router.get('/:id',asyncHandler(async function(req, res) {
+    const data = await UserAccount.findByCode(req.params.id);
+    res.render('profile', { data });
+}));
 
 
 router.post('/', function(req, res) {

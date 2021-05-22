@@ -88,9 +88,9 @@
                                 <img id="profile_clicks" class="avartar-user" src="image/m-4.jpg">
                             </div>
                             <div class="menu" id="menu__profile">
-                                <h3>Louis Hạ Vũ<br><span>Số dư :  <b style="color: #54ab35;">99.999.999 $</b></span></h3>
+                                <h3 id="profile_clicks"><%- currentUser.fullname %><br><span>Số dư :  <b style="color: #54ab35;">99.999.999 $</b></span></h3>
                                 <ul>
-                                    <li><i class="fal fa-user-circle"></i><a href="/prof">My Profile</a></li> 
+                                    <li><i class="fal fa-user-circle"></i><a href="/prof/<%= currentUser.code %>">My Profile</a></li> 
                                     <li><i class="fal fa-cog"></i><a href="#">Settings</a></li>     
                                     <li><i class="fal fa-question-circle"></i><a href="#">Help</a></li>     
                                     <li><i class="fal fa-sign-out"></i><a href="/logout">Logout</a></li>     
