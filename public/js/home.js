@@ -80,4 +80,3 @@ const myslide = document.querySelectorAll('.myslider'),
         myslide[index - 1].style.display = "block";
         dot[index - 1].classList.add("active");
     }
-

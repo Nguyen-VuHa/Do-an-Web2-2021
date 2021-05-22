@@ -132,20 +132,20 @@
           Validator.isRequired('#checked', 'Bạn chưa đồng ý với điều khoản!'),
         ]
       });
-      
-      if(error === 'false')
+     
+      if(error === 'reg-false')
       {
         toast({
-            title: `<%- title %>`,
+            title: `<%- title_toast %>`,
             message: `<%- message %>`,
             type: `<%- type %>`,
             duration: 3000
         });
       }
-      if(error === 'true')
+      if(error === 'reg-true')
       {
         toast({
-            title: `<%- title %>`,
+            title: `<%- title_toast %>`,
             message: `<%- message %>`,
             type: `<%- type %>`,
             duration: 3000

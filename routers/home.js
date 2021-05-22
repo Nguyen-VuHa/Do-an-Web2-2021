@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 
-var title , message, type, error;
+var title_toast , message, type, error;
 
 router.use(function(req, res, next){
     res.locals.title = 'Trang Chủ';
@@ -12,8 +12,8 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res){
-    res.render('home', { title, message, type, error });
-    itle = message = type = error ='';
+    res.render('home', { title_toast , message, type, error });
+    title_toast = message = type = error =  '';
 });
 
 router.get('/active/:code',asyncHandler(async function(req, res) {
@@ -29,7 +29,7 @@ router.get('/active/:code',asyncHandler(async function(req, res) {
                 value.active = null;
                 await value.save();
                 error = true;
-                title = "Successfully!";
+                title_toast = "Successfully!";
                 message = 'Đã xác minh thành công! Xin mời đăng nhập.';
                 type = "success";
                 res.redirect('/');
@@ -52,7 +52,7 @@ router.post('/login',asyncHandler(async function(req, res){
     if(!found)
     {
         error = false;
-        title = "Warning!";
+        title_toast = "Warning!";
         message = 'Email này chưa được đăng ký!';
         type = "warning";
         res.redirect('/');
@@ -61,8 +61,8 @@ router.post('/login',asyncHandler(async function(req, res){
     {
         if(found.active === null){
             error = true;
-            title = "CGV CInemas!";
-            message = 'Wellcome to CGV Cinema.';
+            title_toast = "CGV Cinemas!";
+            message = 'Welcome to CGV Cinema.';
             type = "info";
             req.session.userId = found.code;
             res.redirect('/');
@@ -70,7 +70,7 @@ router.post('/login',asyncHandler(async function(req, res){
         else
         {
             error = false;
-            title = "Warning!";
+            title_toast = "Warning!";
             message = 'Bạn chưa xác nhận tài khoản!';
             type = "warning";
             res.redirect('/');
@@ -78,12 +78,18 @@ router.post('/login',asyncHandler(async function(req, res){
     }
     else {
         error = false;
-        title = "Warning!";
+        title_toast = "Warning!";
         message = 'Sai tài khoản hoặc mật khẩu!';
         type = "warning";
         res.redirect('/');
     }
 }));
+
+
+router.get('/logout', function(req, res) {
+    delete req.session.userId;
+    res.redirect('/');
+})
 
 
 module.exports = router;

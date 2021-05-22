@@ -13,10 +13,91 @@
                     <div class="line2"></div>
                     <div class="line3"></div>
                 </div>
+               
                 <div class="nav-login">
-                  <% if (currentUser) { %>
-                    
-                   <% } else { %>
+                    <% if (currentUser) { %>
+                        <div class="action">
+                            <div onclick="menuNotify()" class="action__notify" id="notify_clicks" >
+                                <i  class="fad fa-bell"  id="notify_clicks" ></i>
+                                <div class="action__notify-count"  id="notify_clicks" >
+                                    <span id="notify_clicks">6</span>
+                                </div>
+                            </div>
+                            <div class="__notify" id="menu__notify">
+                                <div  class="notify_title" >
+                                    <h4 style="color: #a6b2c9; padding: 10px; font-size: 20px; margin: 0;">Thông Báo</h4>
+                                </div>
+                                <ul class="notify_content" id="notify_content">
+                                    <li class="notify_content-item">
+                                        <div class="image_item">
+                                            <img src="image/m-4.jpg" alt="">
+                                        </div>
+                                        <div class="item--content">
+                                            <p>Iron Man 3</p>
+                                            <span>Khởi chiếu ngày 20/3/2021 đặt vé ngay tại các rạp CGV trên toàn quốc</span>
+                                        </div>
+                                    </li>
+                                    <li class="notify_content-item notify_content-item--view">
+                                        <div class="image_item">
+                                            <img src="image/m-4.jpg" alt="">
+                                        </div>
+                                        <div class="item--content">
+                                            <p>Avancer End Game</p>
+                                            <span>Khởi chiếu ngày 20/3/2021 đặt vé ngay tại các rạp CGV trên toàn quốc</span>
+                                        </div>
+                                    </li>
+                                    <li class="notify_content-item">
+                                        <div class="image_item">
+                                            <img src="image/m-4.jpg" alt="">
+                                        </div>
+                                        <div class="item--content">
+                                            <p>Avancer End Game</p>
+                                            <span>Khởi chiếu ngày 20/3/2021 đặt vé ngay tại các rạp CGV trên toàn quốc</span>
+                                        </div>
+                                    </li>
+                                    <li class="notify_content-item">
+                                        <div class="image_item">
+                                            <img src="image/m-4.jpg" alt="">
+                                        </div>
+                                        <div class="item--content">
+                                            <p>Avancer End Game</p>
+                                            <span>Khởi chiếu ngày 20/3/2021 đặt vé ngay tại các rạp CGV trên toàn quốc</span>
+                                        </div>
+                                    </li>
+                                    <li class="notify_content-item">
+                                        <div class="image_item">
+                                            <img src="image/m-4.jpg" alt="">
+                                        </div>
+                                        <div class="item--content">
+                                            <p>Avancer End Game</p>
+                                            <span>Khởi chiếu ngày 20/3/2021 đặt vé ngay tại các rạp CGV trên toàn quốc</span>
+                                        </div>
+                                    </li>
+                                    <li class="notify_content-item">
+                                        <div class="image_item">
+                                            <img src="image/m-4.jpg" alt="">
+                                        </div>
+                                        <div class="item--content">
+                                            <p>Avancer End Game</p>
+                                            <span>Khởi chiếu ngày 20/3/2021 đặt vé ngay tại các rạp CGV trên toàn quốc</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div onclick="menuDropMenuUser()" class="profile" id="profile_clicks" >
+                                <img id="profile_clicks" class="avartar-user" src="image/m-4.jpg">
+                            </div>
+                            <div class="menu" id="menu__profile">
+                                <h3>Louis Hạ Vũ<br><span>Số dư :  <b style="color: #54ab35;">99.999.999 $</b></span></h3>
+                                <ul>
+                                    <li><i class="fal fa-user-circle"></i><a href="/prof">My Profile</a></li> 
+                                    <li><i class="fal fa-cog"></i><a href="#">Settings</a></li>     
+                                    <li><i class="fal fa-question-circle"></i><a href="#">Help</a></li>     
+                                    <li><i class="fal fa-sign-out"></i><a href="/logout">Logout</a></li>     
+                                </ul>
+                            </div>
+                        </div>
+                    <% } else { %>
                     <a class="btn-dropmenu" style="color: aliceblue;" >Đăng Nhập</a>
                     <div class="dropdown_menu" >
                         <form id="form-login" method="POST" action="login" class="h-form-login" >
@@ -37,14 +118,45 @@
                     </div>
                     <% } %>
                 </div>
+           
         </nav>
+        <script type="text/javascript">
+            // button click
+            function menuDropMenuUser() {
+                var divs = document.getElementById("menu__profile");
+                divs.classList.toggle("active");
+            }
+
+            function menuNotify() {
+                var divs = document.getElementById("menu__notify");
+                divs.classList.toggle("active");
+            }
+
+            document.addEventListener('click', function (e) {
+                var divs = document.getElementById("menu__notify");
+                var divs_p = document.getElementById("menu__profile");
+                if(!e.target.matches('#notify_clicks'))
+                {
+                    if(divs.classList.contains('active')){
+                        divs.classList.remove('active');
+                    }
+                }
+                if(!e.target.matches('#profile_clicks'))
+                {
+                    if(divs_p.classList.contains('active')){
+                        divs_p.classList.remove('active');
+                    }
+                }
+            })
+        </script>
         <script src="js/header.js"></script>
         <script src="js/toastmesage.js"></script>
         <script src="js/validateform.js"></script>
+        <% if(!currentUser) {%>
         <script>
             var error = `<%- error %>`;
             document.addEventListener('DOMContentLoaded', function () {
-
+               
                 Validator ({
                     form: '#form-login',
                     formGroupSelector: '.form-group',
@@ -56,11 +168,11 @@
                         Validator.minLength('#password', 8),
                     ]
                     });
-
+                  
                     if(error === 'false')
                     {
                         toast({
-                            title: `<%- title %>`,
+                            title: `<%- title_toast %>`,
                             message: `<%- message %>`,
                             type: `<%- type %>`,
                             duration: 3000
@@ -69,13 +181,14 @@
                     if(error === 'true')
                     {
                         toast({
-                            title: `<%- title %>`,
+                            title: `<%- title_toast %>`,
                             message: `<%- message %>`,
                             type: `<%- type %>`,
                             duration: 3000
                         });
                     }
                 });
-              
+           
         </script>
+        <% } %>
     </header>
