@@ -1,13 +1,8 @@
-
-
-
 function callApiProf(id) {
-    var postApi = `http://localhost:3000/prof/api/${id}`
-
-
+    var postApi = `http://localhost:3000/prof/api/${id}`;
+    var postUApi = `http://localhost:3000/prof/api/u/${id}`;
     function start() {
         getInfo(renderInfo);
-
         handleUpdateForm();
     }
     start();
@@ -24,18 +19,23 @@ function callApiProf(id) {
             alert(err);
         });
       }
-    }
+   
 
     function updateInfo(data, callback) {
         var options = {
-            method: 'POST',
-            body: JSON.stringify(data)
+            method: 'POST', // or 'PUT'
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
         }
-        fetch(postApi, options)
+
+
+        fetch(postUApi, options)
             .then(function(response) {
                 response.json();
             })
-            .then(callback)
+            .then(callback);
     }
 
 
@@ -51,14 +51,25 @@ function callApiProf(id) {
             var fullname = document.querySelector('input[name="fullname"]').value;
             var email = document.querySelector('input[name="email"]').value;
             var numberphone = document.querySelector('input[name="numberphone"]').value;
-            var idUser = id;
+            document.getElementById('form-frofile').action = postUApi;
 
             var formData = {
-                idUser: idUser,
                 fullname: fullname,
                 email: email,
                 numberphone: numberphone
             }
-            updateInfo(formData);
+
+            updateInfo(formData, function() {
+                getInfo(renderInfo);
+            });
+
+            var elements = document.getElementsByClassName("form-group");
+            for ( var i = 0 ;i < elements.length; i++ ) {
+                if(!elements[i].classList.contains('form-btn'))
+                {
+                    elements[i].classList.add('disable')
+                }
+            }
         }
   }
+}

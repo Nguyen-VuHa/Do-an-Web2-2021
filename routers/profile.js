@@ -23,4 +23,18 @@ router.get('/api/:id', asyncHandler(async function(req, res){
 }));
 
 
+router.post('/api/u/:id', asyncHandler(async function(req, res){
+    const data = await UserAccount.findByCode(req.params.id);
+    data.fullname = req.body.fullname;
+    data.email = req.body.email;
+    data.numberphone = req.body.numberphone;
+    await data.save();
+    res.json(true);
+}));
+
+router.get('/api/u/:id', asyncHandler(async function(req, res){ 
+    res.send(req.body);
+}))
+
+
 module.exports = router;
