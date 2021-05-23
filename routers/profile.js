@@ -12,8 +12,7 @@ router.use(function(req, res, next){
 });
 
 router.get('/:id',asyncHandler(async function(req, res) {
-    const data = await UserAccount.findByCode(req.params.id);
-    res.render('profile', { data });
+    res.render('profile');
 }));
 
 

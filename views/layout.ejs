@@ -33,9 +33,10 @@
 </head>
 <body>
     <div id="toast"></div>
-    <%- include('auth/header.ejs') %>
+    <%- title === 'Thông Tin Cá Nhân' ? '' : include('auth/header.ejs') %>
     <%- body %>
     <%- include('auth/footer.ejs') %>
 </body>
 
 </html>
+
