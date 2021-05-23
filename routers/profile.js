@@ -12,12 +12,15 @@ router.use(function(req, res, next){
 });
 
 router.get('/:id',asyncHandler(async function(req, res) {
-    res.render('profile');
+    var userId = req.params.id;
+    res.render('profile', { userId });
 }));
 
+//API InfoUser
+router.get('/api/:id', asyncHandler(async function(req, res){
+    const data = await UserAccount.findByCode(req.params.id);
+    res.json(data);
+}));
 
-router.post('/', function(req, res) {
-    res.redirect('/');
-});
 
 module.exports = router;
