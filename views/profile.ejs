@@ -1,38 +1,96 @@
- <div class="Avatar-div">
-        <img class="Avatar-img" >
-        <form method="POST" class="form_layout" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="avatar">Avatar</label>
-                <input type="file" class="form-control-file" id="avatar" name="avatar">
-            </div>
-            <button type="submit" id="change" name="change" class="btn btn-primary">Đổi</button>
-        </form>
-    </div> 
-    </br>
-    <form method="POST" class="form_layout">
-        <div class="Userinfo">
-            <p class="User-Label" > UserName: </p> 
-            <input type="text" id="username" name="username" class="User-Text form-control" > </input>
-        </div>
-        <div class="Userinfo">
-            <p class="User-Label" > FullName: </p> 
-            <input type="text" id="fullname" name="fullname" class="User-Text form-control" > </input>
-        </div>
-        <div class="Userinfo">
-            <p class="User-Label" > Email: </p> 
-            <input type="email" id="email" name="email" class="User-Text form-control" > </input>
-        </div>
-        <div class="Userinfo">
-            <p class="User-Label" > Phone: </p> 
-            <input type="text" id="phone" name="phone" class="User-Text form-control" > </input>
-        </div>
-        <div class="Userinfo">
-            <p class="User-Label" > Address: </p> 
-            <input type="text" id="address" name="address" class="User-Text form-control" > </input>
-        </div>
-        <div class="Userinfo">
-            <button type="submit" id="update" name="update" class="btn btn-primary">Cập nhật</button>
-            <a style="margin-left: 20px" type="button" href="changePassword.php" class="btn btn-primary  Userinfo-button">Đổi mật khẩu</a>
-        </div>
-    </form>
 
+<div class="personal-info">
+    <div class="background-advertisement">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+    </div>
+    <div class="p-info__heading">
+        <a href="/"><img class="logo" src="https://www.cgv.vn/skin/frontend/cgv/default/images/cgvlogo.png" alt=""></a>
+        <a href="/" class="info__heading--btn"><i class="far fa-undo"></i> Về Trang Chủ</a>
+    </div>
+    <div class="p-info__content">
+        <div class="info__frames">
+            <div class="info__frames--left">
+                <div class="info__frames--avartar">
+                    <a href="https://scontent-xsp1-2.xx.fbcdn.net/v/t1.6435-9/147356462_1582405661969359_6688756206362937062_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=F0h3WIgliSIAX_0v6xK&_nc_ht=scontent-xsp1-2.xx&oh=2b339d5874f2b619d37745087e9af825&oe=60CF1FB9 " class="img-btn"><img src="https://scontent-xsp1-2.xx.fbcdn.net/v/t1.6435-9/147356462_1582405661969359_6688756206362937062_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=F0h3WIgliSIAX_0v6xK&_nc_ht=scontent-xsp1-2.xx&oh=2b339d5874f2b619d37745087e9af825&oe=60CF1FB9" alt=""></a>
+                    <div class="choose--btn">
+                        <a href="" class="btn-choose"><i class="fal fa-camera-alt"></i></a>
+                    </div>
+                </div>
+                <h3 style="font-family: 'Pattaya', sans-serif;" id="title-fullname"></h3>
+                <p style="font-family: 'Roboto', sans-serif;">Số dư TK: <b style="color: #54ab35;">1.800.000 $</b></p>
+                <div class="info_frames--btn">
+                    <div class="btn"><a href="">Liên kết Paypal</a></div>
+                    <div class="btn"><a href="">Liên kết ATM</a></div>
+                    <div class="btn"><a href="">Phản Hồi</a></div>
+                </div>
+            </div>
+            <div class="info__frames--right">
+                <div class="reg-content">
+                    <div class="reg-form">
+                        <div class="title">
+                            Thông Tin Của Bạn
+                        </div>
+                    <form class="form" method="POST" action="reg/dang-ky" id="form-frofile">
+                        <div id="form-group" class="form-group disable">
+                            <label>Họ Tên</label>
+                            <div class="input-text">
+                                <input id="fullname" name="fullname" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div>  
+                        <div id="form-group" class="form-group disable">
+                            <label>Email</label>
+                            <div class="input-text">
+                                <input id="email" name="email" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div> 
+                        <div id="form-group" class="form-group disable">
+                            <label>Số Điện Thoại</label>
+                            <div class="input-text">
+                                <input id="numberphone" name="numberphone" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div> 
+                        <div class="form-group form-btn">
+                            <a onclick="clickOpenInput()"  class="btn form-submit">Cập Nhật</a>
+                            <a onclick="clickDisableInput()" id="save-btn"  class="btn form-submit">Lưu Lại</a>
+                        </div>
+                    </form>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/api/profile.js"></script>
+<script>
+      function clickOpenInput() { 
+            var reg = '/\bmystyle\b/g';
+            var elements = document.getElementsByClassName("form-group");
+            for ( var i = 0 ;i < elements.length; i++ ) {
+                if(elements[i].classList.contains('disable'))
+                {
+                    elements[i].classList.remove('disable')
+                }
+            }
+        }
+
+        function clickDisableInput() { 
+            var elements = document.getElementsByClassName("form-group");
+            for ( var i = 0 ;i < elements.length; i++ ) {
+                if(!elements[i].classList.contains('form-btn'))
+                {
+                    elements[i].classList.add('disable')
+                }
+            }
+        }
+
+    window.onload = (e) => {
+        callApiProf('<%= userId %>');
+
+      
+    }
+   
+</script>
