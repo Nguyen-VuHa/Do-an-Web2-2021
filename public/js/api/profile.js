@@ -59,8 +59,10 @@ function callApiProf(id) {
     }
 
     function renderImage (posts){
-        if(posts == null)
+        console.log(posts);
+        if(posts === null)
         {
+            console.log(123);
             document.getElementById('confirm-img').src = "../image/user-bg.png";
         }
         else

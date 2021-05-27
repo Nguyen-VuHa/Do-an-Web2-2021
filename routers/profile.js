@@ -34,7 +34,7 @@ router.get('/photo/:id',asyncHandler(async  function(req, res){
     const user = await UserAccount.findByCode(req.params.id);
      if(!user || !user.avartar)
     {
-        res.status(404).send('File not found!');
+        res.json(null);
     }
     else {
         res.json(user.avartar.toString());
