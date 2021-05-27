@@ -1,8 +1,11 @@
 function callApiProf(id) {
     var postApi = `http://localhost:3000/prof/api/${id}`;
     var postUApi = `http://localhost:3000/prof/api/u/${id}`;
+    var imageApi = `http://localhost:3000/prof/photo/${id}`;
+
     function start() {
         getInfo(renderInfo);
+        getImage(renderImage);
         handleUpdateForm();
     }
     start();
@@ -20,6 +23,16 @@ function callApiProf(id) {
         });
       }
    
+      function getImage(callback){
+        fetch(imageApi)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(callback)
+        .catch(function(err){
+            console.log(err);
+        });
+    }
 
     function updateInfo(data, callback) {
         var options = {
@@ -44,6 +57,18 @@ function callApiProf(id) {
         document.getElementById('email').value = posts.email;
         document.getElementById('numberphone').value = posts.numberphone;
     }
+
+    function renderImage (posts){
+        if(posts == null)
+        {
+            document.getElementById('confirm-img').src = "../image/user-bg.png";
+        }
+        else
+        {
+            $('#confirm-img').attr('src', posts);
+        }
+    }
+
     
   function handleUpdateForm (){
         var updateBtn = document.querySelector('#save-btn');

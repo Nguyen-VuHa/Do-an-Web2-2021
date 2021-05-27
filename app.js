@@ -21,7 +21,7 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb', extended: true }));
 app.use(express.static('public'));
 app.use(expressLayouts);
 

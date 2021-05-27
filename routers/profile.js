@@ -16,10 +16,29 @@ router.get('/:id',asyncHandler(async function(req, res) {
     res.render('profile', { userId });
 }));
 
+router.post('/photo/:id',asyncHandler(async function(req, res) {
+    const datajson = req.body.data;
+    const data = await UserAccount.findByCode(req.params.id);
+    data.avartar = datajson;
+    await data.save();
+    res.redirect('/prof/' + `${req.params.id}`);
+}));
+
 //API InfoUser
 router.get('/api/:id', asyncHandler(async function(req, res){
     const data = await UserAccount.findByCode(req.params.id);
     res.json(data);
+}));
+
+router.get('/photo/:id',asyncHandler(async  function(req, res){
+    const user = await UserAccount.findByCode(req.params.id);
+     if(!user || !user.avartar)
+    {
+        res.status(404).send('File not found!');
+    }
+    else {
+        res.json(user.avartar.toString());
+    }
 }));
 
 

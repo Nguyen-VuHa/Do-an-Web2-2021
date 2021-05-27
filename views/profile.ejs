@@ -13,9 +13,10 @@
         <div class="info__frames">
             <div class="info__frames--left">
                 <div class="info__frames--avartar">
-                    <a href="https://scontent-xsp1-2.xx.fbcdn.net/v/t1.6435-9/147356462_1582405661969359_6688756206362937062_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=F0h3WIgliSIAX_0v6xK&_nc_ht=scontent-xsp1-2.xx&oh=2b339d5874f2b619d37745087e9af825&oe=60CF1FB9 " class="img-btn"><img src="https://scontent-xsp1-2.xx.fbcdn.net/v/t1.6435-9/147356462_1582405661969359_6688756206362937062_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=F0h3WIgliSIAX_0v6xK&_nc_ht=scontent-xsp1-2.xx&oh=2b339d5874f2b619d37745087e9af825&oe=60CF1FB9" alt=""></a>
-                    <div class="choose--btn">
-                        <a href="" class="btn-choose"><i class="fal fa-camera-alt"></i></a>
+                    <a href="#" class="img-btn"><img id="confirm-img" name="photo" src="" alt=""></a>
+                    <div class="choose--btn" id="upload-aphoto">
+                        <input id='selectedFile' class="disp-none" type='file' accept=".png, .jpg, .jpeg, .svg">
+                        <a class="btn-choose"><i class="fal fa-camera-alt"></i></a>
                     </div>
                 </div>
                 <h3 style="font-family: 'Pattaya', sans-serif;" id="title-fullname"></h3>
@@ -32,7 +33,7 @@
                         <div class="title">
                             Thông Tin Của Bạn
                         </div>
-                    <form class="form" method="POST" action="reg/dang-ky" id="form-frofile">
+                    <form class="form" id="form-frofile">
                         <div id="form-group" class="form-group disable">
                             <label>Họ Tên</label>
                             <div class="input-text">
@@ -56,41 +57,127 @@
                         </div> 
                         <div class="form-group form-btn">
                             <a onclick="clickOpenInput()"  class="btn form-submit">Cập Nhật</a>
-                            <a onclick="clickDisableInput()" id="save-btn"  class="btn form-submit">Lưu Lại</a>
+                            <a id="save-btn"  class="btn form-submit disable">Lưu Lại</a>
                         </div>
                     </form>
                 </div>  
             </div>
         </div>
     </div>
+    <form method="POST">
+        <div class="modal fade" id="imageModalContainer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal-content modal-content1 modal-content1">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModal">Cập nhật ảnh đại diện</h5>
+                    <div class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-body modal-body1">
+                    <div id='crop-image-container'>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fal fa-times"></i> Close</button>
+                    <button type="button" class="btn btn-primary save-modal"><i class="far fa-file-export"></i> Save Change</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+<script src="../js/croppie.js"></script>
+<script >
+        $(document).on('click', '#upload-aphoto', function () {
+            document.getElementById('selectedFile').click();
+        });
+
+        $('#selectedFile').change(function () {
+            if (this.files[0] == undefined)
+            return;
+            $('#imageModalContainer').modal('show');
+            let reader = new FileReader();
+            reader.addEventListener("load", function () {
+            window.src = reader.result;
+            $('#selectedFile').val('');
+            }, false);
+            if (this.files[0]) {
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        let croppi;
+        $('#imageModalContainer').on('shown.bs.modal', function () {
+        let width = document.getElementById('crop-image-container').offsetWidth - 20;
+        $('#crop-image-container').height((width - 80) + 'px');
+            croppi = $('#crop-image-container').croppie({
+            viewport: {
+                width: width,
+                height: width 
+            },
+            });
+        $('.modal-body1').height(document.getElementById('crop-image-container').offsetHeight + 50 + 'px');
+        croppi.croppie('bind', {
+            url: window.src,
+        }).then(function () {
+            croppi.croppie('setZoom', 0);
+        });
+        });
+        $('#imageModalContainer').on('hidden.bs.modal', function () {
+            croppi.croppie('destroy');
+        });
+
+        $(document).on('click', '.save-modal', function (ev) {
+            croppi.croppie('result', {
+                type: 'base64',
+                format: 'jpeg',
+                size: 'original'
+            }).then(function (resp) {
+                $('#confirm-img').attr('src', resp);
+                fetch(`http://localhost:3000/prof/photo/<%- currentUser.code %>`, {
+                            method: 'POST', // or 'PUT'
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ data: resp}),
+                        })
+                    .then(function(response) {
+                        response.json();
+                });
+                $('.modal').modal('hide');
+            });
+        });
+
+</script>
 <script src="../js/api/profile.js"></script>
 <script>
       function clickOpenInput() { 
             var reg = '/\bmystyle\b/g';
             var elements = document.getElementsByClassName("form-group");
+            var btn_element = document.getElementsByClassName('form-submit');
+
             for ( var i = 0 ;i < elements.length; i++ ) {
                 if(elements[i].classList.contains('disable'))
                 {
                     elements[i].classList.remove('disable')
                 }
             }
-        }
 
-        function clickDisableInput() { 
-            var elements = document.getElementsByClassName("form-group");
-            for ( var i = 0 ;i < elements.length; i++ ) {
-                if(!elements[i].classList.contains('form-btn'))
+            for(var i = 0; i < btn_element.length; i++){
+                if(btn_element[i].classList.contains('disable'))
                 {
-                    elements[i].classList.add('disable')
+                    btn_element[i].classList.remove('disable')
+                }
+                else
+                {
+                    btn_element[i].classList.add('disable')
                 }
             }
         }
 
     window.onload = (e) => {
         callApiProf('<%= userId %>');
-
-      
     }
    
 </script>

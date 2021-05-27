@@ -67,7 +67,8 @@ router.post('/login',asyncHandler(async function(req, res){
     }
     else if (found && bcrypt.compareSync(password, found.password))
     {
-        if(found.active === null){
+        //null
+        if(found.active === ''){
             error = true;
             title_toast = "CGV Cinemas!";
             message = 'Welcome to CGV Cinema.';

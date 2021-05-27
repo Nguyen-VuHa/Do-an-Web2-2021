@@ -78,10 +78,11 @@
     margin: 20px;
 }
 .info__frames--avartar .choose--btn {
+    cursor: pointer;
     position: absolute;
     bottom: 5px;
     right: 5px;
-    background: rgba(58, 59, 60, 1);
+    background: #263147;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -92,7 +93,7 @@
 }
 
 .info__frames--avartar .choose--btn:hover {
-    background: rgb(104, 106, 107);
+    opacity: 0.8;
 }
 
 .info__frames--avartar .choose--btn .btn-choose i {
@@ -401,9 +402,16 @@
     outline: none;
   }
   
-  .reg-form .form .form-group .btn:hover{
-    background: #54ab35;
-  }
+.reg-form .form .form-group .btn.disable {
+    pointer-events: none;
+    cursor: default;
+    opacity: .5;
+}
+
+.reg-form .form .form-group .btn:hover{
+  opacity: 0.8;
+background: #54ab35;
+}
   
   .reg-form .form .form-group:last-child{
     margin-bottom: 0;
@@ -446,4 +454,49 @@
         display: flex;
         flex-direction: column;
     }
+}
+
+/* modal */
+.modal .modal-dialog .modal-content {
+    background: #242526;
+    color: #e4e6eb;
+}
+
+.modal-header .close {
+    color: #e4e6eb;
+}
+
+.modal-header .close:hover {
+    color: #e4e6eb;
+    opacity: 1;
+}
+
+.disp-none{
+    display:none;
+  }
+  
+body{
+  background: linear-gradient(90deg, rgba(19,20,23,1) 0%, rgba(30,31,38,1) 100%, rgba(30,31,38,1) 100%);
+}
+
+.modal-footer .btn-secondary {
+    background: #ff4f4f;
+    border-color: inherit;
+}
+
+.modal-footer .btn-secondary:hover {
+    background: #ff4f4f;
+    border-color: inherit;
+    opacity: 0.5;
+}
+
+.modal-footer .save-modal {
+    background: #459af7;
+    border-color: inherit;
+}
+
+.modal-footer .save-modal:hover {
+    background: #459af7;
+    border-color: inherit;
+    opacity: 0.5;
 }
