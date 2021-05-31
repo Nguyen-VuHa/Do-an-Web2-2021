@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
+
+.more-film {
+    width: 100%;
+    min-height: 70vh;
+    height: 120vh;
+}
+
+.more-film .more-film_form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #121825;
+    margin: 20px 20px;
+    border-radius: 5px;
+}
+
+.more-film_form h3 {
+    margin: 20px 0px;
+    font-family: 'Limelight', cursive;
+    font-size: 30px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.form_poster {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.form_poster-item {
+    position: relative;
+    width: 250px;
+    height: 300px;
+    margin: 10px;
+    list-style: none;
+    border: 1px solid #54ab35;
+}
+
+.form_poster-item .poster-item-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-style: none;
+    opacity: 0;
+}
+
+.form_poster-item .poster-item-img.show {
+    opacity: 1;
+}
+
+
+.form_poster-item .item-btn i{
+    position: absolute;
+    top: 37%;
+    left: 45%;
+    font-size: 50px;
+    border-radius: 50%;
+    color: #54ab35;
+}
+
+.form_poster-item .item-btn .fal.active {
+   display: none;
+}
+
+.form_poster-item .item-btn:hover i{
+    opacity: 0.8;
+}
+
+.disp-none {
+    display: none;
+}
+
+.form_poster-item .close-btn .fal{
+    position: absolute;
+    top: 0;
+    right: 5px;
+    font-size: 25px;
+    color: #ff0000;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.form_poster-item .close-btn .fal:hover {
+    opacity: 1;
+}
+
+.form_poster-item .close-btn .fal.active {
+    display: none;
+}
+
+.form_movies-content {
+    display: flex;
+    align-items: center;
+}
+
+.form_movies-content-left {
+    width: 35%;
+    height: 100%;
+    height: 400px;
+}
+
+.form_movies-content-left .form {
+    width: 90%;
+    height: 100%;
+    color: #a6b2c9;
+    margin: 20px;
+
+}
+
+.form .btn {
+    color: #fff;
+    background: #54ab35;
+    float: right;
+    margin: 0px 10px;
+}
+
+.form .btn:hover {
+    opacity: 0.7;
+}
+
+.form .form-group .input-text
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form .date-picker {
+    display: flex;
+    justify-content: space-around;
+}
+
+.form .date-picker .date-form {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
+}
+
+.form .form-group .input {
+    font-family: 'Roboto', sans-serif;
+    background: #37424b;
+    font-weight: bold;
+    color: #a6b2c9;
+    width: 100%;
+    outline: none;
+    border: 1px solid #d5dbd9;
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.form_movies-content-right {
+    width: 70%;
+    height: 390px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form_movies-content-right h3 {
+    margin-bottom: 0;
+}
+
+.form_movies-content-right .table-list {
+    width: 100%;
+    overflow: auto;
+}
+
+.table-list::-webkit-scrollbar { 
+    width: 0 !important;
+    display: none; 
+    
+  }
+
+  .table-list .table {
+      background: #1b2438;
+  }
+  
+  tbody {
+      cursor: pointer;
+  }
+
+  tbody tr:hover{
+    background: #8be66b;
+  }
+
+
+.btn {
+      padding: 5px 10px;
+      font-size: 20px;
+     
+  }
+
+.btn-delete {
+    opacity: 0.8;
+    font-weight: 600;
+  }
+
+ .btn-delete .fal {
+    color: #ff1919;
+      font-weight: 500;
+  }
+
+.btn-delete:hover {
+    opacity: 1;
+  }

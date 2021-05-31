@@ -14,6 +14,7 @@ const homeRouter = require('./routers/home');
 const profRouter = require('./routers/profile');
 const pg404Router = require('./routers/404');
 const siguploginRouter = require('./routers/signuplogin');
+const adminRouter = require('./routers/adMoreMovies');
 
 app.use(cors());
 
@@ -38,6 +39,7 @@ app.use('/', homeRouter);
 app.use('/prof', profRouter);
 app.use('/error', pg404Router);
 app.use('/reg', siguploginRouter);
+app.use('/admin', adminRouter);
 
 
 db.sync().then(function () {

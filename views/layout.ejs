@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/sigup-login.css">
     <link rel="stylesheet" href="css/sigup-login.css">
     <link rel="stylesheet" href="css/page404.css">
+    <link rel="stylesheet" href="css/admin.css">
     <% } %>
     <!-- link bootstrap cdn 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -36,7 +37,7 @@
     <div id="toast"></div>
     <%- title === 'Thông Tin Cá Nhân' ? '' : include('auth/header.ejs') %>
     <%- body %>
-    <%- include('auth/footer.ejs') %>
+    <%- title === 'Admin' ? '' :  include('auth/footer.ejs') %>
 </body>
 
 </html>

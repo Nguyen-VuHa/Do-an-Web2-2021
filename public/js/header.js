@@ -26,9 +26,11 @@ const navSlide = () => {
 const menuToggle = () => {
     const btnLogin = document.querySelector('.btn-dropmenu')
     const toggleMenu = document.querySelector('.h-form-login');
-    btnLogin.addEventListener('click', ()=>{
-        toggleMenu.classList.toggle('active');
-    });
+    if(btnLogin) {
+        btnLogin.addEventListener('click', ()=>{
+            toggleMenu.classList.toggle('active');
+        });
+    }
 }
 
 // Active click button nav

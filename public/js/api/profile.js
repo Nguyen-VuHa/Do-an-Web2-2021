@@ -8,6 +8,7 @@ function callApiProf(id) {
         getImage(renderImage);
         handleUpdateForm();
     }
+    
     start();
 
     //FUNCTION 
@@ -59,10 +60,8 @@ function callApiProf(id) {
     }
 
     function renderImage (posts){
-        console.log(posts);
         if(posts === null)
         {
-            console.log(123);
             document.getElementById('confirm-img').src = "../image/user-bg.png";
         }
         else
@@ -91,10 +90,23 @@ function callApiProf(id) {
             });
 
             var elements = document.getElementsByClassName("form-group");
+            var btn_element = document.getElementsByClassName('form-submit');
+
             for ( var i = 0 ;i < elements.length; i++ ) {
-                if(!elements[i].classList.contains('form-btn'))
+                if(!elements[i].classList.contains('disable'))
                 {
                     elements[i].classList.add('disable')
+                }
+            }
+
+            for(var i = 0; i < btn_element.length; i++){
+                if(btn_element[i].classList.contains('disable'))
+                {
+                    btn_element[i].classList.remove('disable')
+                }
+                else
+                {
+                    btn_element[i].classList.add('disable')
                 }
             }
         }

@@ -1,0 +1,290 @@
+<div class="background-advertisement" style="height: 140%;">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+</div>
+<section class="more-film" id="more-film">
+    <form method="POST" id="more-film_form" class="more-film_form" >
+            <h3 class="title">Add Movies</h3>
+            <ul class="form_poster">
+                <li class="form_poster-item">
+                    <img src="" alt="" class="poster-item-img item-1" id="item-1" name="poster1">
+                    <a class="item-btn" ><i class="fal fa-plus">
+                        <input type="file" id="selectedFile" class="disp-none" accept=".png, .jpg, .jpeg ,svg">
+                    </i></a>
+                    <a class="close-btn"><i class="fal fa-times active"></i></a>
+                </li>
+                <li class="form_poster-item">
+                    <img src="" alt="" class="poster-item-img item-2"  id="item-2">
+                    <a class="item-btn"><i class="fal fa-plus">
+                        <input type="file" id="selectedFile" class="disp-none" accept=".png, .jpg, .jpeg ,svg">
+                    </i></a>
+                    <a class="close-btn"><i class="fal fa-times active"></i></a>
+                </li>
+                <li class="form_poster-item">
+                    <img src="" alt="" class="poster-item-img item-3"  id="item-3">
+                    <a class="item-btn"><i class="fal fa-plus">
+                        <input type="file" id="selectedFile" class="disp-none" accept=".png, .jpg, .jpeg ,svg">
+                    </i></a>
+                    <a class="close-btn"><i class="fal fa-times active"></i></a>
+                </li>
+                <li class="form_poster-item">
+                    <img src="" alt="" class="poster-item-img item-4"  id="item-4">
+                    <a class="item-btn"><i class="fal fa-plus">
+                        <input type="file" id="selectedFile" class="disp-none" accept=".png, .jpg, .jpeg ,svg">
+                    </i></a>
+                    <a class="close-btn"><i class="fal fa-times active"></i></a>
+                </li>
+            </ul>
+            <div class="form_movies-content">
+                <div class="form_movies-content-left">
+                    <div class="form" id="form-frofile">
+                        <div id="form-group" class="form-group">
+                            <label>ID Film</label>
+                            <div class="input-text">
+                                <input id="ID" name="movieId" type="text" class="input" readonly value="<%- movieid %>">
+                                <span class="form-message"></span>
+                            </div>
+                        </div>  
+                        <div id="form-group" class="form-group">
+                            <label>Tên Film</label>
+                            <div class="input-text">
+                                <input id="name" name="namefilm" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div> 
+                        <div id="form-group" class="form-group">
+                            <label>Thời lượng (phút)</label>
+                            <div class="input-text">
+                                <input id="time" name="time" type="text" onkeypress="return isNumberKey(event)" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                        <div id="form-group" class="form-group date-picker">
+                            <div class="form-group date-form">
+                                <label>Ngày công chiếu</label>
+                                <div class="input-text">
+                                    <input id="startdate" name="startdate" type="date" class="input">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                            <div class="form-group date-form">
+                                <label>Ngày kết thúc</label>
+                                <div class="input-text">
+                                    <input id="enddate" name="enddate" type="date" class="input">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="SubmitForm(event)" id="btn-save" type="submit" class="btn btn-save">Save Change</button>
+                    </div>
+                </div>
+                <div class="form_movies-content-right">
+                    <h3 class="title">List Movies</h3>
+                    <div class="table-list">
+                        <table class="table table-dark">
+                            <thead>
+                              <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên Film</th>
+                                <th scope="col">Thời Lượng</th>
+                                <th scope="col">Ngày CC</th>
+                                <th scope="col">Ngày KT</th>
+                                <th scope="col">Option</th>
+                              </tr>
+                            </thead>
+                            <tbody id="list-movies">
+
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+    </form>
+</section>
+<script src="js/validateform.js"></script>
+<script src="js/api/apiAdmin.js"></script>
+<script>
+
+    window.onload = (e) => {
+        callApiAdmin();
+    }
+
+    const defaultBtn = document.querySelectorAll('#selectedFile');
+    const img = document.querySelectorAll('.poster-item-img');
+    const btnFal = document.querySelectorAll('.fa-plus');
+    const btnRemove = document.querySelectorAll('.fa-times');
+    
+    var _id = "";
+    const arrayData = [];
+
+    function OpenImage() 
+    {
+        for(var i = 0; i< img.length; i++)
+        {
+            img[i].classList.add('show');
+            btnFal[i].classList.add('active');
+            btnRemove[i].classList.remove('active');
+        }
+    }
+
+
+    $('.item-btn').click(function() {
+        let index = $(this).parent().index();
+        addEventClick(index);
+    })
+
+    $('.close-btn').click(function() {
+        let index = $(this).parent().index();
+        img[index].src = "";
+        img[index].classList.remove('show');
+        btnFal[index].classList.remove('active');
+        btnRemove[index].classList.add('active');
+    })
+
+
+    function addEventClick (index) {
+        defaultBtn[index].click();
+        defaultBtn[index].addEventListener('change', function() {
+        const file = this.files[0];
+        if(file)
+            {
+                const reader = new FileReader();
+                reader.onload = function(){
+                const result = reader.result;
+                img[index].src = result;
+                img[index].classList.add('show');
+                btnFal[index].classList.add('active');
+                btnRemove[index].classList.remove('active');
+                }
+                reader.readAsDataURL(file);
+                return;
+            }
+        })
+    }
+
+    $(document).ready(function() {
+        $('.quantity-input').bind("cut copy paste drag drop", function(e) {
+            e.preventDefault();
+        });     
+    });
+
+    function isNumberKey(e) {
+        var charCode = (e.which) ? e.which : e.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    
+    function checksrcImage(arrayImage) {
+        for(var i = 0; i < arrayImage.length; i++)
+        {
+            if (arrayImage[i].naturalWidth === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function bidingData() {
+        var imageApi = `http://localhost:3000/admin/api/image`;
+       
+
+        $('.btn-tr').click(function() {
+            _id = $(this).find('th').text();
+            let item =  $(this).find('td');
+            for(var i = 0; i < item.length; i++)
+            {
+                arrayData.push($(item[i]).text());
+            }
+            
+            document.getElementById('ID').value = _id;
+            document.getElementById('name').value = arrayData[0];
+            document.getElementById('time').value = arrayData[1];
+            document.getElementById('startdate').value = arrayData[2];
+            document.getElementById('enddate').value = arrayData[3];
+            arrayData.splice(0, 5);
+
+            fetch(imageApi)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(result) {
+                    result.forEach(element => {
+                        if(element.movieId === _id)
+                        {
+                            OpenImage();
+                            $('#item-1').attr('src', element.poster1);
+                            $('#item-2').attr('src', element.poster2);
+                            $('#item-3').attr('src', element.poster3);
+                            $('#item-4').attr('src', element.poster4);
+                            return;
+                        }
+                    });
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+
+            
+         })
+    }
+
+
+  
+    
+
+    function SubmitForm(e) {
+        let arrayImage = document.getElementsByClassName('poster-item-img');
+        let startdate = document.getElementById('startdate').value;
+        
+        console.log(checksrcImage(arrayImage));
+        if(!checksrcImage(arrayImage))
+        {
+            $('html,body').animate({ scrollTop: 18 }, 'slow');
+            e.preventDefault();
+        }
+        else{
+                Validator ({
+                form: '#more-film_form',
+                formGroupSelector: '.form-group',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#ID', 'Tên film không được trống!'),
+                    Validator.isRequired('#name', 'Tên film không được trống!'),
+                    Validator.isRequired('#time', 'Thời lượng được trống!'),
+                    Validator.isRequired('#startdate', 'Bạn chưa chọn ngày CC!'),
+                    Validator.isCheckDate('#startdate', 'Ngày CC phải lớn hơn ngày hiện tại!'),
+                    Validator.isRequired('#enddate', 'Bạn chưa chọn ngày KT!'),
+                    Validator.isCheck2Date('#enddate', startdate, 'Ngày KT phải lớn hơn ngày CC!'),
+                ],
+                onSubmit: function (data) { 
+                    const imageData = {
+                        poster1: document.querySelector('.item-1').src,
+                        poster2: document.querySelector('.item-2').src,
+                        poster3: document.querySelector('.item-3').src,
+                        poster4: document.querySelector('.item-4').src,
+                    }
+                    var options = {
+                        method: 'POST', // or 'PUT'
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData = {
+                            data,
+                            imageData
+                        }),
+                    }
+
+                    fetch(`http://localhost:3000/admin/movies`, options)
+                        .then(function(response) {
+                            response.json();
+                    })
+                    
+                    location.reload();
+                }
+            });
+        }
+    }
+
+</script>

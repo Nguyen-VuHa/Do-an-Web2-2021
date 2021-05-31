@@ -169,3 +169,34 @@ Validator.isConfirmed = function (selector, getConfirmValue, message) {
         }
     }
 }
+
+Validator.isCheckDate = function (selector,  message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            var splitDate = value.split('-');
+            var getDate = new Date();
+            var someday = new Date();   
+            someday.setFullYear(splitDate[0],(splitDate[1] - 1),splitDate[2]);
+            return someday.getTime() > getDate.getTime() ? undefined : message || 'Giá trị nhập vào không chính xác';
+        }
+    }
+}
+
+Validator.isCheck2Date = function (selector, datetime, message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            let _enddate = value.split('-');
+            let _startdate = datetime.split('-');
+            let startDate = new Date();
+            let endDate = new Date();  
+
+            startDate.setFullYear(_startdate[0],_startdate[1],_startdate[2]);
+
+            endDate.setFullYear(_enddate[0],_enddate[1],_enddate[2]);
+
+            return endDate.getTime() > startDate.getTime() ? undefined : message || 'Giá trị nhập vào không chính xác';
+        }
+    }
+}

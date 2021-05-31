@@ -1268,6 +1268,10 @@ header {
     cursor: pointer;
 }
 
+.action .profile:hover img{
+    opacity: 0.5;
+ }
+
 .action .profile img {
     position: absolute;
     top: 0px;
@@ -1277,6 +1281,8 @@ header {
     object-fit: cover;
     object-position: center;
 }
+
+
 
 .action .menu {
     position: absolute;

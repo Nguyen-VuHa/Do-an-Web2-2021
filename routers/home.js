@@ -25,7 +25,8 @@ router.get('/',asyncHandler(async function(req, res){
 }));
 
 router.get('/active/:code',asyncHandler(async function(req, res) {
-    const value = await UserAccount.findByCode(req.params.code);
+    const { code } = req.params.code;
+    const value = await UserAccount.findByCode(code);
     if(value) {
         if(value.active === null)
         {

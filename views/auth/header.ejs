@@ -153,25 +153,25 @@
         </script>
            <% if (currentUser) { %>
                 <script>
-                    window.onload = (e) => { 
-                                fetch('http://localhost:3000/prof/photo/<%- currentUser.code %>')
-                                .then(function(response) {
-                                    return response.json();
-                                })
-                                .then (function(result){
-                                    if(result == null)
-                                    {
-                                        $('.avartar-user').attr('src', "../image/user-bg.png");
-                                    }
-                                    else
-                                    {
-                                        $('.avartar-user').attr('src', result);
-                                    }
-                                }) 
-                                .catch(function(err){
-                                    console.log(err);
-                                });
-                            }
+                    document.addEventListener('DOMContentLoaded', function() {
+                        fetch('http://localhost:3000/prof/photo/<%- currentUser.code %>')
+                            .then(function(response) {
+                                return response.json();
+                            })
+                            .then (function(result){
+                                if(result == null)
+                                {
+                                    $('.avartar-user').attr('src', "../image/user-bg.png");
+                                }
+                                else
+                                {
+                                    $('.avartar-user').attr('src', result);
+                                }
+                            }) 
+                            .catch(function(err){
+                                console.log(err);
+                            });
+                    })
                 </script>
             <% } %>
         <script src="js/header.js"></script>
