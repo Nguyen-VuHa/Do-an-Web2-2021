@@ -1,9 +1,34 @@
-<div class="background-advertisement" style="height: 140%;">
-    <div id="stars"></div>
-    <div id="stars2"></div>
-    <div id="stars3"></div>
+<div class="section-loader hide">
+    <div class="loader">
+        <span style="--i:1;"></span>
+        <span style="--i:2;"></span>
+        <span style="--i:3;"></span>
+        <span style="--i:4;"></span>
+        <span style="--i:5;"></span>
+        <span style="--i:6;"></span>
+        <span style="--i:7;"></span>
+        <span style="--i:8;"></span>
+        <span style="--i:9;"></span>
+        <span style="--i:10;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:13;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:15;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:17;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:19;"></span>
+        <span style="--i:20;"></span>
+    </div>
 </div>
+
 <section class="more-film" id="more-film">
+    <div class="background-advertisement" style="height: 180%;">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+    </div>
     <form method="POST" id="more-film_form" class="more-film_form" >
             <h3 class="title">Add Movies</h3>
             <ul class="form_poster">
@@ -39,27 +64,45 @@
             <div class="form_movies-content">
                 <div class="form_movies-content-left">
                     <div class="form" id="form-frofile">
-                        <div id="form-group" class="form-group">
-                            <label>ID Film</label>
-                            <div class="input-text">
-                                <input id="ID" name="movieId" type="text" class="input" readonly value="<%- movieid %>">
-                                <span class="form-message"></span>
+                        <div id="form-group" class="id-film">
+                            <div class="form-group">
+                                <label>ID Film</label>
+                                <div class="input-text">
+                                    <input id="ID" name="movieId" type="text" class="input" readonly value="<%- movieid %>">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Tên Film</label>
+                                <div class="input-text">
+                                    <input id="name" name="namefilm" type="text" class="input">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                        </div>  
+                        <div id="form-group" class="id-film">
+                            <div id="form-group" class="form-group">
+                                <label>Đặc tả</label>
+                                <div class="input-text">
+                                    <input id="specific" name="specific" type="text" class="input">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                            <div id="form-group" class="form-group">
+                                <label>Thời lượng (phút)</label>
+                                <div class="input-text">
+                                    <input id="time" name="time" type="text" onkeypress="return isNumberKey(event)" class="input">
+                                    <span class="form-message"></span>
+                                </div>
                             </div>
                         </div>  
                         <div id="form-group" class="form-group">
-                            <label>Tên Film</label>
+                            <label>Mô tả</label>
                             <div class="input-text">
-                                <input id="name" name="namefilm" type="text" class="input">
+                                <textarea id="describe" name="describe" type="text" class="form-control input" style="height: 100px;"></textarea>
                                 <span class="form-message"></span>
                             </div>
                         </div> 
-                        <div id="form-group" class="form-group">
-                            <label>Thời lượng (phút)</label>
-                            <div class="input-text">
-                                <input id="time" name="time" type="text" onkeypress="return isNumberKey(event)" class="input">
-                                <span class="form-message"></span>
-                            </div>
-                        </div>
                         <div id="form-group" class="form-group date-picker">
                             <div class="form-group date-form">
                                 <label>Ngày công chiếu</label>
@@ -80,27 +123,67 @@
                     </div>
                 </div>
                 <div class="form_movies-content-right">
-                    <h3 class="title">List Movies</h3>
-                    <div class="table-list">
-                        <table class="table table-dark">
-                            <thead>
-                              <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Tên Film</th>
-                                <th scope="col">Thời Lượng</th>
-                                <th scope="col">Ngày CC</th>
-                                <th scope="col">Ngày KT</th>
-                                <th scope="col">Option</th>
-                              </tr>
-                            </thead>
-                            <tbody id="list-movies">
-
-                            </tbody>
-                          </table>
+                    <div id="form-group" class="id-film">
+                        <div id="form-group" class="form-group">
+                            <label>Thể loại</label>
+                            <div class="input-text">
+                                <input id="category" name="category" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                        <div id="form-group" class="form-group">
+                            <label>Đạo diễn</label>
+                            <div class="input-text">
+                                <input id="directors" name="directors" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                        <div id="form-group" class="form-group">
+                            <label>Diễn viên chính</label>
+                            <div class="input-text">
+                                <input id="mainActor" name="mainActor" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="video-trailler">
+                        <div class="content-video-trailler">
+                            <video id="trailer" class="trailer" src="" width="100%" type="video/mp4" loop controls autoplay></video>
+                            <a class="item-btn-video"><i id="icon-btn" class="fal fa-plus">
+                                <input type="file" id="selectedVideo" class="disp-none" accept="video/*">
+                            </i></a>
+                            <a class="close-btn-video"><i class="fal fa-times active" id="btnRemoveVid"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
     </form>
+    <div class="datagrid-movies">
+        <div class="datagrid__header">
+            <h3 class="title">List Movies</h3>
+            <div class="webflow-style-input">
+                <input class="" type="email" placeholder="Tìm kiếm theo tên film . . ."></input>
+                <button type="button"><i class="fas fa-hand-point-right"></i></button>
+            </div>
+        </div>
+        <div class="table-list">
+            <table class="table table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tên Film</th>
+                    <th scope="col">Thời Lượng</th>
+                    <th scope="col">Ngày CC</th>
+                    <th scope="col">Ngày KT</th>
+                    <th scope="col">Option</th>
+                  </tr>
+                </thead>
+                <tbody id="list-movies">
+
+                </tbody>
+              </table>
+        </div>
+    </div>
 </section>
 <script src="js/validateform.js"></script>
 <script src="js/api/apiAdmin.js"></script>
@@ -111,9 +194,12 @@
     }
 
     const defaultBtn = document.querySelectorAll('#selectedFile');
+    const videoBtn = document.querySelector('#selectedVideo');
     const img = document.querySelectorAll('.poster-item-img');
     const btnFal = document.querySelectorAll('.fa-plus');
     const btnRemove = document.querySelectorAll('.fa-times');
+    const btnRemoveVid = document.querySelector('#btnRemoveVid');
+    const btnLoader = document.querySelector('.section-loader');
     
     var _id = "";
     const arrayData = [];
@@ -128,10 +214,21 @@
         }
     }
 
+    function OpenVideo() 
+    {
+        document.getElementById('trailer').classList.add('show');
+        document.getElementById('icon-btn').classList.add('active')
+        btnRemoveVid.classList.remove('active');
+    }
+
 
     $('.item-btn').click(function() {
         let index = $(this).parent().index();
         addEventClick(index);
+    })
+
+    $('.item-btn-video').click(function() {
+        videoBtn.click();
     })
 
     $('.close-btn').click(function() {
@@ -140,6 +237,34 @@
         img[index].classList.remove('show');
         btnFal[index].classList.remove('active');
         btnRemove[index].classList.add('active');
+
+        document.getElementById('trailer').src = "";
+        document.getElementById('trailer').classList.remove('show');
+        document.getElementById('icon-btn').classList.remove('active')
+        btnRemoveVid.classList.add('active');
+    })
+
+    $('.close-btn-video').click(function() {
+        document.getElementById('trailer').src = "";
+        document.getElementById('trailer').classList.remove('show');
+        document.getElementById('icon-btn').classList.remove('active')
+        btnRemoveVid.classList.add('active');
+    })
+
+    videoBtn.addEventListener('change', function(req, res) {
+        const file = this.files[0];
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = function(){
+            const result = reader.result;
+            document.getElementById('trailer').src = result;
+            document.getElementById('trailer').classList.add('show');
+            document.getElementById('icon-btn').classList.add('active');
+            btnRemoveVid.classList.remove('active');
+            }
+            reader.readAsDataURL(file);
+            return;
+        }
     })
 
 
@@ -188,9 +313,9 @@
 
     function bidingData() {
         var imageApi = `http://localhost:3000/admin/api/image`;
-       
-
+        
         $('.btn-tr').click(function() {
+            btnLoader.classList.remove('hide');
             _id = $(this).find('th').text();
             let item =  $(this).find('td');
             for(var i = 0; i < item.length; i++)
@@ -203,6 +328,7 @@
             document.getElementById('time').value = arrayData[1];
             document.getElementById('startdate').value = arrayData[2];
             document.getElementById('enddate').value = arrayData[3];
+
             arrayData.splice(0, 5);
 
             fetch(imageApi)
@@ -226,22 +352,75 @@
                     console.log(err);
                 });
 
-            
+            var dataApi = `http://localhost:3000/admin/api/data/${_id}`;
+
+            fetch(dataApi)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(result) {
+                    document.getElementById('specific').value = result.specific;
+                    document.getElementById('describe').value = result.describe;
+                    document.getElementById('category').value = result.category;
+                    document.getElementById('directors').value = result.directors;
+                    document.getElementById('mainActor').value = result.mainActor;
+                    OpenVideo();
+                    document.getElementById('trailer').src = result.trailer;
+                    btnLoader.classList.add('hide');
+                    return;
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+
          })
     }
 
 
-  
+    function BtnRemove(idMovie) {
+        var imageApi = `http://localhost:3000/admin/api/deleteMoive`;
+
+        var options = {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ idMovie }),
+                    }
+
+        fetch(imageApi, options)
+            .then(function(response) {
+                    return response.json();
+                })
+            .then(function(result) {
+                callApiAdmin();
+            })
+            .catch(function(err){
+                    console.log(err);
+                });
+    }
+
+    function checkVideo()
+    {
+        let videoSrc = document.getElementById('trailer');
+        if(videoSrc.videoWidth === 0)
+            return false;
+        else
+            return true;
+    }
     
 
     function SubmitForm(e) {
         let arrayImage = document.getElementsByClassName('poster-item-img');
         let startdate = document.getElementById('startdate').value;
-        
-        console.log(checksrcImage(arrayImage));
+
         if(!checksrcImage(arrayImage))
         {
             $('html,body').animate({ scrollTop: 18 }, 'slow');
+            e.preventDefault();
+        }
+        else if(checkVideo() === false)
+        {
             e.preventDefault();
         }
         else{
@@ -252,19 +431,28 @@
                 rules: [
                     Validator.isRequired('#ID', 'Tên film không được trống!'),
                     Validator.isRequired('#name', 'Tên film không được trống!'),
+                    Validator.isRequired('#specific', 'Đặc tả không được trống!'),
+                    Validator.isRequired('#describe', 'Mô tả không được trống!'),
                     Validator.isRequired('#time', 'Thời lượng được trống!'),
                     Validator.isRequired('#startdate', 'Bạn chưa chọn ngày CC!'),
                     Validator.isCheckDate('#startdate', 'Ngày CC phải lớn hơn ngày hiện tại!'),
                     Validator.isRequired('#enddate', 'Bạn chưa chọn ngày KT!'),
                     Validator.isCheck2Date('#enddate', startdate, 'Ngày KT phải lớn hơn ngày CC!'),
+                    Validator.isRequired('#category', 'Không được trống!'),
+                    Validator.isRequired('#directors', 'Không được trống!'),
+                    Validator.isRequired('#mainActor', 'Không được trống!'),
+                    
                 ],
                 onSubmit: function (data) { 
+                    btnLoader.classList.remove('hide');
                     const imageData = {
                         poster1: document.querySelector('.item-1').src,
                         poster2: document.querySelector('.item-2').src,
                         poster3: document.querySelector('.item-3').src,
                         poster4: document.querySelector('.item-4').src,
                     }
+                    const videoData = document.querySelector('#trailer').src;
+
                     var options = {
                         method: 'POST', // or 'PUT'
                         headers: {
@@ -272,16 +460,26 @@
                         },
                         body: JSON.stringify(formData = {
                             data,
-                            imageData
+                            imageData,
+                            videoData
                         }),
                     }
 
                     fetch(`http://localhost:3000/admin/movies`, options)
                         .then(function(response) {
-                            response.json();
-                    })
-                    
-                    location.reload();
+                            return response.json();
+                        })
+                        .then(function(result) {
+                           if(result === true)
+                           {
+                                btnLoader.classList.add('hide');
+                                location.reload();
+                           }
+                                
+                        })
+                        .catch(function(err){
+                                console.log(err);
+                        });
                 }
             });
         }

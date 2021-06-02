@@ -24,6 +24,26 @@ const Movies = db.define('Movies', {
         type: DataTypes.DATE,
         allowNull: false
     },
+    specific: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    describe: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    category: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    directors: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    mainActor: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     poster1: {
         type: DataTypes.BLOB,
         allowNull: true
@@ -39,11 +59,15 @@ const Movies = db.define('Movies', {
     poster4: {
         type: DataTypes.BLOB,
         allowNull: true
+    },
+    trailer: {
+        type: DataTypes.BLOB,
+        allowNull: true
     }
 
 });
 
-Movies.findByEmail = async function (movieName) {
+Movies.findByNameMovie = async function (movieName) {
     return Movies.findOne({
         where: {
             movieName: movieName,
@@ -57,6 +81,14 @@ Movies.findByMovieId = async function (movieId) {
             movieId: movieId,
         },
     });
+}
+
+Movies.deleteBymoviesId = async function (movieId) {
+    return Movies.destroy({
+        where: {
+            movieId: movieId,
+        }
+    })
 }
 
 Movies.finbByAll = async function () {

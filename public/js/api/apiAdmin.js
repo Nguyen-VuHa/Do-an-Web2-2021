@@ -23,7 +23,6 @@ function callApiAdmin() {
 
     function renderInfo(posts)
     {
-        console.log();
        var listMovies = document.querySelector('#list-movies');
         if(posts === null)
         {
@@ -41,12 +40,13 @@ function callApiAdmin() {
                     <td>${post.time}</td>
                     <td>${post.premiereDate.substring(0, 10)}</td>
                     <td>${post.endDate.substring(0, 10)}</td>
-                    <td><a  class="btn btn-delete"><i class="fal fa-minus-circle"></i></a></td>
+                    <td><a onclick="BtnRemove('${post.movieId}')" class="btn btn-remove"><i class="fal fa-minus-circle"></i></a></td>
                 </tr>
                 `;
            });
            listMovies.innerHTML = htmls.join('');
         }
+        
      
     }
 
