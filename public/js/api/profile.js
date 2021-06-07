@@ -1,12 +1,11 @@
 function callApiProf(id) {
     var postApi = `http://localhost:3000/prof/api/${id}`;
     var postUApi = `http://localhost:3000/prof/api/u/${id}`;
-    var imageApi = `http://localhost:3000/prof/photo/${id}`;
 
     function start() {
         getInfo(renderInfo);
-        getImage(renderImage);
         handleUpdateForm();
+        renderImage();
     }
     
     start();
@@ -23,17 +22,6 @@ function callApiProf(id) {
             alert(err);
         });
       }
-   
-      function getImage(callback){
-        fetch(imageApi)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(callback)
-        .catch(function(err){
-            console.log(err);
-        });
-    }
 
     function updateInfo(data, callback) {
         var options = {
@@ -59,15 +47,9 @@ function callApiProf(id) {
         document.getElementById('numberphone').value = posts.numberphone;
     }
 
-    function renderImage (posts){
-        if(posts === null)
-        {
-            document.getElementById('confirm-img').src = "../image/user-bg.png";
-        }
-        else
-        {
-            $('#confirm-img').attr('src', posts);
-        }
+    function renderImage(){
+        image = `http://localhost:3000/prof/image/${id}`;
+        $('#confirm-img').attr('src', image);
     }
 
     

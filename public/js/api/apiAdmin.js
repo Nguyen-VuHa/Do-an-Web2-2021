@@ -1,5 +1,5 @@
 
-function callApiAdmin() {
+    function callApiAdmin() {
     
     var getApi = `http://localhost:3000/admin/api/data`;
 
@@ -34,7 +34,7 @@ function callApiAdmin() {
         {
             var htmls = posts.map(function(post) {
                 return `
-                <tr class="btn-tr" onclick="bidingData()">
+                <tr class="btn-tr" onclick="bidingData('${post.movieId}')">
                     <th scope="row">${post.movieId}</th>
                     <td>${post.movieName}</td>
                     <td>${post.time}</td>

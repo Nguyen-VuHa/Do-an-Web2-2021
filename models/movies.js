@@ -29,7 +29,7 @@ const Movies = db.define('Movies', {
         allowNull: false
     },
     describe: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1000),
         allowNull: true
     },
     category: {

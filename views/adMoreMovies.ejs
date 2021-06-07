@@ -24,7 +24,7 @@
 </div>
 
 <section class="more-film" id="more-film">
-    <div class="background-advertisement" style="height: 180%;">
+    <div class="background-advertisement" style="height: 200%;">
         <div id="stars"></div>
         <div id="stars2"></div>
         <div id="stars3"></div>
@@ -237,11 +237,6 @@
         img[index].classList.remove('show');
         btnFal[index].classList.remove('active');
         btnRemove[index].classList.add('active');
-
-        document.getElementById('trailer').src = "";
-        document.getElementById('trailer').classList.remove('show');
-        document.getElementById('icon-btn').classList.remove('active')
-        btnRemoveVid.classList.add('active');
     })
 
     $('.close-btn-video').click(function() {
@@ -288,12 +283,6 @@
         })
     }
 
-    $(document).ready(function() {
-        $('.quantity-input').bind("cut copy paste drag drop", function(e) {
-            e.preventDefault();
-        });     
-    });
-
     function isNumberKey(e) {
         var charCode = (e.which) ? e.which : e.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -304,81 +293,49 @@
     function checksrcImage(arrayImage) {
         for(var i = 0; i < arrayImage.length; i++)
         {
-            if (arrayImage[i].naturalWidth === 0) {
+            if (arrayImage[i].naturalWidth === 0 || arrayImage[i].src.includes('http://localhost:3000')) {
                 return false;
             }
         }
         return true;
     }
 
-    function bidingData() {
-        var imageApi = `http://localhost:3000/admin/api/image`;
-        
-        $('.btn-tr').click(function() {
-            btnLoader.classList.remove('hide');
-            _id = $(this).find('th').text();
-            let item =  $(this).find('td');
-            for(var i = 0; i < item.length; i++)
-            {
-                arrayData.push($(item[i]).text());
-            }
-            
-            document.getElementById('ID').value = _id;
-            document.getElementById('name').value = arrayData[0];
-            document.getElementById('time').value = arrayData[1];
-            document.getElementById('startdate').value = arrayData[2];
-            document.getElementById('enddate').value = arrayData[3];
-
-            arrayData.splice(0, 5);
-
-            fetch(imageApi)
+    function bidingData(movieId) {
+        var dataApi = 'http://localhost:3000/admin/api/data/' + movieId;
+        btnLoader.classList.remove('hide');
+        fetch(dataApi)
                 .then(function(response) {
                     return response.json();
                 })
                 .then(function(result) {
-                    result.forEach(element => {
-                        if(element.movieId === _id)
-                        {
-                            OpenImage();
-                            $('#item-1').attr('src', element.poster1);
-                            $('#item-2').attr('src', element.poster2);
-                            $('#item-3').attr('src', element.poster3);
-                            $('#item-4').attr('src', element.poster4);
-                            return;
-                        }
-                    });
-                })
-                .catch(function(err){
-                    console.log(err);
-                });
-
-            var dataApi = `http://localhost:3000/admin/api/data/${_id}`;
-
-            fetch(dataApi)
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(result) {
+                    document.getElementById('ID').value = result.movieId;
+                    document.getElementById('name').value = result.movieName;
+                    document.getElementById('time').value = result.time;
+                    document.getElementById('startdate').value =  result.premiereDate.substring(0, 10);
+                    document.getElementById('enddate').value = result.endDate.substring(0, 10);
                     document.getElementById('specific').value = result.specific;
                     document.getElementById('describe').value = result.describe;
                     document.getElementById('category').value = result.category;
                     document.getElementById('directors').value = result.directors;
                     document.getElementById('mainActor').value = result.mainActor;
                     OpenVideo();
+                    OpenImage();
                     document.getElementById('trailer').src = result.trailer;
+                    document.getElementById('item-1').src = result.poster1;
+                    document.getElementById('item-2').src = result.poster2;
+                    document.getElementById('item-3').src = result.poster3;
+                    document.getElementById('item-4').src = result.poster4;
                     btnLoader.classList.add('hide');
                     return;
                 })
                 .catch(function(err){
                     console.log(err);
                 });
-
-         })
     }
 
 
     function BtnRemove(idMovie) {
-        var imageApi = `http://localhost:3000/admin/api/deleteMoive`;
+        var imageApi = `http://localhost:3000/admin/api/deleteMovie`;
 
         var options = {
                         method: 'POST',
@@ -403,7 +360,7 @@
     function checkVideo()
     {
         let videoSrc = document.getElementById('trailer');
-        if(videoSrc.videoWidth === 0)
+        if(videoSrc.videoWidth === 0 || videoSrc.src.includes('http://localhost:3000'))
             return false;
         else
             return true;
@@ -441,7 +398,6 @@
                     Validator.isRequired('#category', 'Không được trống!'),
                     Validator.isRequired('#directors', 'Không được trống!'),
                     Validator.isRequired('#mainActor', 'Không được trống!'),
-                    
                 ],
                 onSubmit: function (data) { 
                     btnLoader.classList.remove('hide');
@@ -472,10 +428,10 @@
                         .then(function(result) {
                            if(result === true)
                            {
+                                callApiAdmin();
                                 btnLoader.classList.add('hide');
-                                location.reload();
+                                setTimeout(window.location.reload(), 3000)
                            }
-                                
                         })
                         .catch(function(err){
                                 console.log(err);

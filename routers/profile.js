@@ -30,17 +30,24 @@ router.get('/api/:id', asyncHandler(async function(req, res){
     res.json(data);
 }));
 
-router.get('/photo/:id',asyncHandler(async  function(req, res){
+router.get('/image/:id',asyncHandler(async  function(req, res){
     const user = await UserAccount.findByCode(req.params.id);
-     if(!user || !user.avartar)
+    var image = user.avartar;
+    if(!user || !user.avartar)
     {
-        res.json(null);
+        
+        res.end('../image/user-bg.png');
     }
     else {
-        res.json(user.avartar.toString());
+        const im = image.toString().split(",")[1];
+        const img = Buffer.from(im, 'base64');
+        res.writeHead(200, {
+        'Content-Type': 'image/png',
+        'Content-Length': img.length
+        });
+        res.end(img);
     }
 }));
-
 
 router.post('/api/u/:id', asyncHandler(async function(req, res){
     const data = await UserAccount.findByCode(req.params.id);
@@ -50,10 +57,5 @@ router.post('/api/u/:id', asyncHandler(async function(req, res){
     await data.save();
     res.json(true);
 }));
-
-router.get('/api/u/:id', asyncHandler(async function(req, res){ 
-    res.send(req.body);
-}))
-
 
 module.exports = router;
