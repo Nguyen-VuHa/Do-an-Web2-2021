@@ -7,23 +7,23 @@
       <div class="container">
         <div class="movie__title">
             <a href="/" style="text-decoration: none;"><h3>Trang Chủ</h3></a>
-            <h4> &#10147; iron man 3</h4>
+            <h4> &#10147; <%= obData.movieName %></h4>
         </div>
         <div class="movie__content">
             <div class="movie__slider-poster">
                 <div class="promotion-slider">
                     <!-- fade css -->
                     <div class="myslider">
-                        <img src="image/poster-1.jpg" style="background-size:cover; width: 100%; height: 100%;">
+                        <img src="<%= obData.poster1 %>" style="background-size:cover; width: 100%; height: 100%;">
                     </div>
                     <div class="myslider">
-                        <img src="image/poster-2.jpg" style="background-size:cover; width: 100%; height: 100%;">
+                        <img src="<%= obData.poster2 %>" style="background-size:cover; width: 100%; height: 100%;">
                     </div>
                     <div class="myslider">
-                        <img src="image/poster-3.jpg" style="background-size:cover;  width: 100%; height: 100%;">
+                        <img src="<%= obData.poster3 %>" style="background-size:cover;  width: 100%; height: 100%;">
                     </div>
                     <div class="myslider">
-                        <img src="image/banner-4.jpg" style="background-size:cover; width: 100%; height: 100%;">
+                        <img src="<%= obData.poster4 %>" style="background-size:cover; width: 100%; height: 100%;">
                     </div>
                     <!-- onclick js -->
                     <a class="btn-prev" onclick="plusSlides(-1)" style="color:  #54ab35;">&#10094;</a>
@@ -42,8 +42,8 @@
                 </div>
             </div>
             <div class="movie__info--film">
-                <h4 class="film--name">IRON MAN 3</h4>
-                <p class="film--desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur ab pariatur quidem asperiores inventore nemo nisi, cumque sed. Quas, vero! Libero quisquam atque itaque sapiente! Ut praesentium corrupti quis ex.</p>
+                <h4 class="film--name"><%= obData.movieName %> (<%= obData.specific %>)</h4>
+                <p class="film--desc"><%= obData.describe %></p>
                 <div class="group__info-film">
                     <div class="group__film--title">
                         <label class="group__title" for="">Phân loại</label>
@@ -56,11 +56,11 @@
                     </div>
                     <div class="group__film--content">
                         <p>C18 - PHIM DÀNH CHO KHÁN GIẢ TỪ 18 TUỔI TRỞ LÊN</p>
-                        <span>Lý Hải</span>
-                        <span>Mạc Văn Khoa, Võ Thành Tâm</span>
-                        <span>Action</span>
-                        <span>2021-04-16</span>
-                        <span>110 phút</span>
+                        <span><%= obData.directors %></span>
+                        <span><%= obData.mainActor %></span>
+                        <span><%= obData.category %></span>
+                        <span><%= obData.premiereDate %></span>
+                        <span><%= obData.time %> phút</span>
                         <span>Phụ đề tiếng Việt</span>
                     </div>
                 </div>
@@ -72,4 +72,4 @@
         </div>
       </div>
 </section>
-<script src="js/home.js"></script>
+<script src="../js/home.js"></script>

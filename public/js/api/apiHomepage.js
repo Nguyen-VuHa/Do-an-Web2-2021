@@ -27,7 +27,7 @@ function callApiHomepage(){
         <h2 id="titleExpected"><i class="fa fa-angle-double-right"></i> DKKC: ${date} <i class="fa fa-angle-double-left"></i><h3 id="titleName"> ${posts[0].movieName} </h3></h2>
         <div class="describe">
             ${posts[0].describe}
-            <a href="" style="font-family: 'Roboto', sans-serif; font-weight: 500; color: #54ab35; margin-left: 10px;">Mua vé ngay &#10141;</a>
+            <a href="movie/${posts[0].movieId}" style="font-family: 'Roboto', sans-serif; font-weight: 500; color: #54ab35; margin-left: 10px;">Mua vé ngay &#10141;</a>
         </div>
         </div>
            <div class="content-video-trailler">
