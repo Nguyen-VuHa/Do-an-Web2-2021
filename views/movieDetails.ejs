@@ -1,0 +1,75 @@
+<section class="movie-detail">
+    <div class="background-advertisement">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+      </div>
+      <div class="container">
+        <div class="movie__title">
+            <a href="/" style="text-decoration: none;"><h3>Trang Chủ</h3></a>
+            <h4> &#10147; iron man 3</h4>
+        </div>
+        <div class="movie__content">
+            <div class="movie__slider-poster">
+                <div class="promotion-slider">
+                    <!-- fade css -->
+                    <div class="myslider">
+                        <img src="image/poster-1.jpg" style="background-size:cover; width: 100%; height: 100%;">
+                    </div>
+                    <div class="myslider">
+                        <img src="image/poster-2.jpg" style="background-size:cover; width: 100%; height: 100%;">
+                    </div>
+                    <div class="myslider">
+                        <img src="image/poster-3.jpg" style="background-size:cover;  width: 100%; height: 100%;">
+                    </div>
+                    <div class="myslider">
+                        <img src="image/banner-4.jpg" style="background-size:cover; width: 100%; height: 100%;">
+                    </div>
+                    <!-- onclick js -->
+                    <a class="btn-prev" onclick="plusSlides(-1)" style="color:  #54ab35;">&#10094;</a>
+                      <a class="btn-next" onclick="plusSlides(1)" style="color: #54ab35;">&#10095;</a>
+                    
+                    <div class="dotsbox" style="text-align:center">
+                        <span class="dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                        <span class="dot" onclick="currentSlide(4)"></span>
+                    </div>
+                    <!-- /onclick js -->
+                    <script>
+                        var array = document.querySelectorAll('.myslider');
+                    </script>
+                </div>
+            </div>
+            <div class="movie__info--film">
+                <h4 class="film--name">IRON MAN 3</h4>
+                <p class="film--desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur ab pariatur quidem asperiores inventore nemo nisi, cumque sed. Quas, vero! Libero quisquam atque itaque sapiente! Ut praesentium corrupti quis ex.</p>
+                <div class="group__info-film">
+                    <div class="group__film--title">
+                        <label class="group__title" for="">Phân loại</label>
+                        <label class="group__title" for="">Đạo diễn</label>
+                        <label class="group__title" for="">Diễn viên</label>
+                        <label class="group__title" for="">Thể loại</label>
+                        <label class="group__title" for="">Khởi chiếu</label>
+                        <label class="group__title" for="">Thời lượng</label>
+                        <label class="group__title" for="">Ngôn ngữ</label>
+                    </div>
+                    <div class="group__film--content">
+                        <p>C18 - PHIM DÀNH CHO KHÁN GIẢ TỪ 18 TUỔI TRỞ LÊN</p>
+                        <span>Lý Hải</span>
+                        <span>Mạc Văn Khoa, Võ Thành Tâm</span>
+                        <span>Action</span>
+                        <span>2021-04-16</span>
+                        <span>110 phút</span>
+                        <span>Phụ đề tiếng Việt</span>
+                    </div>
+                </div>
+                <div class="group__button">
+                    <a href="#" class="btn btn-success">Xem Trailer</a>
+                    <a href="#" class="btn btn-success">Mua vé</a>
+                </div>
+            </div>
+        </div>
+      </div>
+</section>
+<script src="js/home.js"></script>
