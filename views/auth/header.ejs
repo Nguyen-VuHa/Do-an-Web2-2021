@@ -3,7 +3,7 @@
         <nav class="nav-header">
             <a href="/"><img class="logo" src="image/icon-bg.png" alt=""></a>
                 <ul class="nav-links">
-                    <li class="<%- title === 'Trang Chủ' ? 'active' : '' %>"><a data-page="home" href="/" >Trang Chủ</a></li>
+                    <li class="<%- title === 'Trang Chủ' ? 'active' : '' %>"><a data-page="home" href="/">Trang Chủ</a></li>
                     <li><a data-page="contact"  href="#">Cụm Rạp</a></li>
                     <li><a data-page="projects"  href="#">Lịch Chiếu</a></li>
                     <li><a data-page="contact"  href="#">Khuyến Mãi</a></li>
@@ -17,7 +17,7 @@
                 <div class="nav-login">
                     <% if (currentUser) { %>
                         <div class="action">
-                            <div onclick="menuNotify()" class="action__notify" id="notify_clicks" >
+                            <div onclick="menuNotify()" class="action__notify" id="notify_clicks">
                                 <i  class="fad fa-bell"  id="notify_clicks" ></i>
                                 <div class="action__notify-count"  id="notify_clicks" >
                                     <span id="notify_clicks">6</span>
@@ -85,7 +85,7 @@
                                 </ul>
                             </div>
                             <div onclick="menuDropMenuUser()" class="profile" id="profile_clicks" >
-                                <img id="profile_clicks" class="avartar-user" src="">
+                                <img onerror="this.src='image/user-bg.png'" id="profile_clicks" class="avartar-user" src="">
                             </div>
                             <div class="menu" id="menu__profile">
                                 <h3 id="profile_clicks"><%- currentUser.fullname %><br><span>Số dư :  <b style="color: #54ab35;">99.999.999 $</b></span></h3>

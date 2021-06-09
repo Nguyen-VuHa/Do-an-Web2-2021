@@ -7,251 +7,72 @@
             <div id="stars2"></div>
             <div id="stars3"></div>
         </div>
-        <div class="content-advertisement">
-            <div class="content-title">  
-                <h2><i class="fa fa-angle-double-right"></i> COMMING SOON <i class="fa fa-angle-double-left"></i><h3> Marvel Studios' Loki - Trailler </h3></h2>
-                <div class="describe">
-                    26 tháng 3 năm 2021 Đoạn giới thiệu mới của GODZILLA VS KONG 2021 ở 4K 60FPS Godzilla vs. Kong là một bộ phim quái vật sắp tới của Mỹ do Adam Wingard đạo diễn. Là phần tiếp theo của Godzilla: King of the Monsters và Kong: Skull Island, đây là bộ phim thứ tư trong MonsterVerse của Legendary. 
-                    <a href="" style="font-family: 'Roboto', sans-serif; font-weight: 500; color: #54ab35; margin-left: 10px;">Mua vé ngay &#10141;</a>
-                </div>
-            </div>
-            <div class="content-video-trailler">
-                <video class="clip" loop src="image/TraillerMarvel.mp4" type="video/mp4" controls autoplay></video>
-            </div>
+        <div class="content-advertisement" id="content-advertisement">
+            
         </div>
-        <div class="content-poster">
-            <div class="slider">
-                <div class="slides">
-                    <input type="radio" name="radio-btn" id="radio1"> 
-                    <input type="radio" name="radio-btn" id="radio2"> 
-                    <input type="radio" name="radio-btn" id="radio3"> 
-                    <div class="slide first">
-                        <img src="image/poster-1.jpg" alt="">
-                    </div>
-                    <div class="slide">
-                        <img src="image/poster-2.jpg" alt="">
-                        </div>
-                        <div class="slide">
-                            <img src="image/poster-3.jpg" alt="">
-                        </div>
-                        <div class="navigation-auto">
-                            <div class="auto-btn1"></div>
-                            <div class="auto-btn2"></div>
-                            <div class="auto-btn3"></div>
-                        </div>
-                </div>
-                <div class="navigation-manual">
-                    <label for="radio1" class="btn-manual"></label>
-                    <label for="radio2" class="btn-manual"></label>
-                    <label for="radio3" class="btn-manual"></label>
-                </div>
-            </div>
+        <div class="content-poster" id="content-poster">
         </div>
     </section>
     <!-- Movie Schedule -->
     <section id="latest">
-        <div class="title-product">
-            <h3 data-target="#list_film_1" class="btn-view active">Phim Đang Chiếu</h3>
-            <h3 data-target="#list_film_2" >Movie Coming Soon</h3>
+        <div class="js__list_1" id="list_film_1">
+            <div class="title-product">
+                <h3 id="list_film_pdc" class="btn-film1 btn-view active">Phim Đang Chiếu</h3>
+            </div>
+            <ul id="autoWidth" class="cs-hidden">
+                <% if(list_film_hdc.length > 0) { %>
+                <% list_film_hdc.forEach(item => {  %> 
+                    <li class="<%= item.movieId %>">
+                         <div class="latest-box">
+                             <div class="latest-b-img">
+                                 <img src="<%= item.poster %>" alt="">
+                             </div>
+                             <div class="content">
+                                 <div class="contentBx">
+                                     <h3><%= item.movieName %><br><span><%= item.specific %></span></h3>
+                                     <p>Khởi chiếu: 21/08/2020</p>
+                                 </div>
+                             </div>
+                             <div class="btn-card">
+                                 <a href="#" class="btn">Mua vé</a>
+                             </div>
+                         </div>
+                     </li>
+                 <% }) %>   
+                 <% } else {%>
+                    <li class="item-null">
+                    </li>
+                <% } %>   
+            </ul>
         </div>
-        <div class="list__film active" id="list_film_1">
-            <ul id="autoWidth2" class="cs-hidden">
-                <li class="item-a">
-                    <div class="latest-box">
-                        <div class="latest-b-img">
-                            <img src="image/m-1.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="contentBx">
-                                <h3>August 31<br><span>No Force Is Stronger Than Family</span></h3>
-                                <p>Khởi chiếu: August 31, 2021</p>
-                            </div>
-                        </div>
-                        <div class="btn-card">
-                            <a href="#" class="btn">Mua Vé</a>
-                        </div>
-                    </div>
+        <div class="js__list_2" id="list_film_2">
+            <div class="title-product">
+                <h3 id="list_film_ccs" class="btn-film2 btn-view active">Movie Coming Soon</h3>
+            </div>
+          <ul id="autoWidth2" class="cs-hidden">  
+            <% if(list_film_cmc.length > 0) { %>      
+              <% list_film_cmc.forEach(item => {  %> 
+                <li class="<%= item.movieId %>">
+                     <div class="latest-box">
+                         <div class="latest-b-img">
+                             <img src="<%= item.poster %>" alt="">
+                         </div>
+                         <div class="content">
+                             <div class="contentBx">
+                                 <h3><%= item.movieName %><br><span><%= item.specific %></span></h3>
+                                 <p>Khởi chiếu: 21/08/2020</p>
+                             </div>
+                         </div>
+                         <div class="btn-card">
+                             <a href="#" class="btn">Xem chi tiết</a>
+                         </div>
+                     </div>
+                 </li>
+             <% }) %>   
+             <% } else {%>
+                <li class="Item-null">
                 </li>
-                <li class="item-b">
-                    <div class="latest-box">
-                        <div class="latest-b-img">
-                            <img src="image/m-2.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="contentBx">
-                                <h3>Bán Đảo Peninsula<br><span>Train To Busan Presents</span></h3>
-                                <p>Khởi chiếu: 29/12/2020</p>
-                            </div>
-                        </div>
-                        <div class="btn-card">
-                            <a href="#" class="btn">Mua Vé</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-c">
-                    <div class="latest-box">
-                        <div class="latest-b-img">
-                            <img src="image/m-3.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="contentBx">
-                                <h3>Inception<br><span>The Dream Is Real</span></h3>
-                                <p>Khởi chiếu: 21/08/2020</p>
-                            </div>
-                        </div>
-                        <div class="btn-card">
-                            <a href="#" class="btn">Mua Vé</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-d">
-                    <div class="latest-box">
-                        <div class="latest-b-img">
-                            <img src="image/m-4.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="contentBx">
-                                <h3>IRon Man<br><span>Vũ trụ Marvel</span></h3>
-                                <p>Khởi chiếu: 23/12/2020</p>
-                            </div>
-                        </div>
-                        <div class="btn-card">
-                            <a href="#" class="btn">Mua Vé</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-e">
-                    <div class="latest-box">
-                        <div class="latest-b-img">
-                            <img src="image/m-5.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="contentBx">
-                                <h3>VeNom<br><span>Đối Mặt Tử Thù</span></h3>
-                                <p>Khởi chiếu: 24/9/2021</p>
-                            </div>
-                        </div>
-                        <div class="btn-card">
-                            <a href="#" class="btn">Mua Vé</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-f">
-                    <div class="latest-box">
-                        <div class="latest-b-img">
-                            <img src="image/m-6.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="contentBx">
-                                <h3>Aquaman<br><span>Đế Vương Atlantis</span></h3>
-                                <p>Khởi chiếu: 23/12/2020</p>
-                            </div>
-                        </div>
-                        <div class="btn-card">
-                            <a href="#" class="btn">Mua Vé</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-g">
-                    <div class="latest-box">
-                        <div class="latest-b-img">
-                            <img src="image/m-7.jpeg" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="contentBx">
-                                <h3>Jungle Cruise<br><span>Cuộc Phiêu Lưu Của Cuộc Đời</span></h3>
-                                <p>Khởi chiếu: July 24, 2020</p>
-                            </div>
-                        </div>
-                        <div class="btn-card">
-                            <a href="#" class="btn">Mua Vé</a>
-                        </div>
-                    </div>
-                </li>
-              </ul>
-        </div>
-        <div class="list__film" id="list_film_2">
-          <ul id="autoWidth" class="cs-hidden">
-            <li class="item-a">
-                <div class="latest-box">
-                    <div class="latest-b-img">
-                        <img src="image/m-1.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <div class="contentBx">
-                            <h3>Đè bóng<br><span>Bóng má ákaskfaw</span></h3>
-                            <p>Khởi chiếu: 14/5/2021</p>
-                        </div>
-                    </div>
-                    <div class="btn-card">
-                        <a href="#" class="btn">Mua Vé</a>
-                    </div>
-                </div>
-            </li>
-            <li class="item-b">
-                <div class="latest-box">
-                    <div class="latest-b-img">
-                        <img src="image/m-2.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <div class="contentBx">
-                            <h3>Bóng Đè<br><span>Giờ lành đã điểm</span></h3>
-                            <p>Khởi chiếu: 14/5/2021</p>
-                        </div>
-                    </div>
-                    <div class="btn-card">
-                        <a href="#" class="btn">Mua Vé</a>
-                    </div>
-                </div>
-            </li>
-            <li class="item-c">
-                <div class="latest-box">
-                    <div class="latest-b-img">
-                        <img src="image/m-3.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <div class="contentBx">
-                            <h3>Bóng Đè<br><span>Giờ lành đã điểm</span></h3>
-                            <p>Khởi chiếu: 14/5/2021</p>
-                        </div>
-                    </div>
-                    <div class="btn-card">
-                        <a href="#" class="btn">Mua Vé</a>
-                    </div>
-                </div>
-            </li>
-            <li class="item-d">
-                <div class="latest-box">
-                    <div class="latest-b-img">
-                        <img src="image/m-4.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <div class="contentBx">
-                            <h3>Bóng Đè<br><span>Giờ lành đã điểm</span></h3>
-                            <p>Khởi chiếu: 14/5/2021</p>
-                        </div>
-                    </div>
-                    <div class="btn-card">
-                        <a href="#" class="btn">Mua Vé</a>
-                    </div>
-                </div>
-            </li>
-            <li class="item-e">
-                <div class="latest-box">
-                    <div class="latest-b-img">
-                        <img src="image/m-5.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <div class="contentBx">
-                            <h3>Bóng Đè<br><span>Giờ lành đã điểm</span></h3>
-                            <p>Khởi chiếu: 14/5/2021</p>
-                        </div>
-                    </div>
-                    <div class="btn-card">
-                        <a href="#" class="btn">Mua Vé</a>
-                    </div>
-                </div>
-            </li>
+            <% } %>   
           </ul>
         </div>  
     </section>
@@ -296,8 +117,15 @@
      </div>
      </section>
      <script src="js/home.js"></script>
+     <script src="js/api/apiHomepage.js"></script>
      <script src="js/toastmesage.js"></script>
      <script src="js/validateform.js"></script>
+
+     <script>
+         document.addEventListener('DOMContentLoaded', function () {
+            callApiHomepage();
+         })
+     </script>
      <% if(!currentUser) {%>
         <script>
             var error = `<%= error %>`;

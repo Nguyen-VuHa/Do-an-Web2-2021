@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
 });
 
 var counter = 1;
-       setInterval(function(){
+setInterval(function(){
         document.getElementById('radio' + counter).checked = true;
         counter++;
         if(counter > 3)
@@ -17,10 +17,6 @@ var counter = 1;
 }, 5000);
 
 /* Movie Schedule Slide with Jquery lightslide */
-
-$(document).on('click', '.title-product h3', function(){
-    $(this).addClass('active').siblings().removeClass('active');
-});
 
 $(document).ready(function() {
   $('#autoWidth, #autoWidth2').lightSlider({

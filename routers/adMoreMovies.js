@@ -72,7 +72,7 @@ router.get('/api/data', asyncHandler(async function(req, res) {
         poster2: `http://localhost:3000/admin/api/image/${req.params.id}/2`,
         poster3: `http://localhost:3000/admin/api/image/${req.params.id}/3`,
         poster4: `http://localhost:3000/admin/api/image/${req.params.id}/4`,
-        trailer: `http://localhost:3000/admin/api/video/${req.params.id}`,
+        trailer: db.trailer,
     }
    
     res.json(obData);
@@ -162,30 +162,9 @@ router.get('/api/data', asyncHandler(async function(req, res) {
     }
  }));
 
- router.get('/api/video/:id', asyncHandler(async function(req, res) {
-    const db = await Movies.findByMovieId(req.params.id);
-
-    var videobs64 = db.trailer;
-    if(!db || !db.trailer)
-    {
-        res.status(404).send('File not found!');
-    }
-    else {
-
-        const vd = videobs64.toString().split(",")[1];
-        const videotrailer = Buffer.from(vd, 'base64');
-
-        res.writeHead(200, {
-        'Content-Type': 'video/mp4',
-        'Content-Length': videotrailer.length
-        });
-
-        res.end(videotrailer);
-    }
- }));
 // [POST] API Image
  router.post('/movies',asyncHandler(async function(req, res){
-    const { movieId, namefilm, time, startdate, enddate, specific, describe, category, directors, mainActor} = req.body.data;
+    const { movieId, namefilm, time, startdate, enddate, specific, describe, category, directors, mainActor, chanelId} = req.body.data;
     const data = await Movies.findByMovieId(movieId);
     let status = true;
     if(!data)
@@ -205,7 +184,7 @@ router.get('/api/data', asyncHandler(async function(req, res) {
             poster2: req.body.imageData.poster2,
             poster3: req.body.imageData.poster3,
             poster4: req.body.imageData.poster4,
-            trailer: req.body.videoData,
+            trailer: chanelId,
         });
         res.json(status);
     } else {
@@ -223,7 +202,7 @@ router.get('/api/data', asyncHandler(async function(req, res) {
         data.poster2 = req.body.imageData.poster2,
         data.poster3 = req.body.imageData.poster3,
         data.poster4 = req.body.imageData.poster4,
-        data.trailer = req.body.videoData,
+        data.trailer = chanelId,
 
         await data.save();
         res.json(status);

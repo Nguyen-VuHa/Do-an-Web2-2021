@@ -1,27 +1,3 @@
-<div class="section-loader hide">
-    <div class="loader">
-        <span style="--i:1;"></span>
-        <span style="--i:2;"></span>
-        <span style="--i:3;"></span>
-        <span style="--i:4;"></span>
-        <span style="--i:5;"></span>
-        <span style="--i:6;"></span>
-        <span style="--i:7;"></span>
-        <span style="--i:8;"></span>
-        <span style="--i:9;"></span>
-        <span style="--i:10;"></span>
-        <span style="--i:11;"></span>
-        <span style="--i:12;"></span>
-        <span style="--i:13;"></span>
-        <span style="--i:14;"></span>
-        <span style="--i:15;"></span>
-        <span style="--i:16;"></span>
-        <span style="--i:17;"></span>
-        <span style="--i:18;"></span>
-        <span style="--i:19;"></span>
-        <span style="--i:20;"></span>
-    </div>
-</div>
 
 <section class="more-film" id="more-film">
     <div class="background-advertisement" style="height: 200%;">
@@ -145,16 +121,14 @@
                                 <span class="form-message"></span>
                             </div>
                         </div>
-                    </div>  
-                    <div class="video-trailler">
-                        <div class="content-video-trailler">
-                            <video id="trailer" class="trailer" src="" width="100%" type="video/mp4" loop controls autoplay></video>
-                            <a class="item-btn-video"><i id="icon-btn" class="fal fa-plus">
-                                <input type="file" id="selectedVideo" class="disp-none" accept="video/*">
-                            </i></a>
-                            <a class="close-btn-video"><i class="fal fa-times active" id="btnRemoveVid"></i></a>
+                        <div id="form-group" class="form-group">
+                            <label>ID Chanel Video trailer</label>
+                            <div class="input-text">
+                                <input id="chanelId" name="chanelId" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
                         </div>
-                    </div>
+                    </div>  
                 </div>
             </div>
     </form>
@@ -213,14 +187,6 @@
             btnRemove[i].classList.remove('active');
         }
     }
-
-    function OpenVideo() 
-    {
-        document.getElementById('trailer').classList.add('show');
-        document.getElementById('icon-btn').classList.add('active')
-        btnRemoveVid.classList.remove('active');
-    }
-
 
     $('.item-btn').click(function() {
         let index = $(this).parent().index();
@@ -318,9 +284,8 @@
                     document.getElementById('category').value = result.category;
                     document.getElementById('directors').value = result.directors;
                     document.getElementById('mainActor').value = result.mainActor;
-                    OpenVideo();
+                    document.getElementById('chanelId').value = result.trailer;
                     OpenImage();
-                    document.getElementById('trailer').src = result.trailer;
                     document.getElementById('item-1').src = result.poster1;
                     document.getElementById('item-2').src = result.poster2;
                     document.getElementById('item-3').src = result.poster3;
@@ -357,16 +322,6 @@
                 });
     }
 
-    function checkVideo()
-    {
-        let videoSrc = document.getElementById('trailer');
-        if(videoSrc.videoWidth === 0 || videoSrc.src.includes('http://localhost:3000'))
-            return false;
-        else
-            return true;
-    }
-    
-
     function SubmitForm(e) {
         let arrayImage = document.getElementsByClassName('poster-item-img');
         let startdate = document.getElementById('startdate').value;
@@ -374,10 +329,6 @@
         if(!checksrcImage(arrayImage))
         {
             $('html,body').animate({ scrollTop: 18 }, 'slow');
-            e.preventDefault();
-        }
-        else if(checkVideo() === false)
-        {
             e.preventDefault();
         }
         else{
@@ -398,6 +349,7 @@
                     Validator.isRequired('#category', 'Không được trống!'),
                     Validator.isRequired('#directors', 'Không được trống!'),
                     Validator.isRequired('#mainActor', 'Không được trống!'),
+                    Validator.isRequired('#chanelId', 'Không được trống!'),
                 ],
                 onSubmit: function (data) { 
                     btnLoader.classList.remove('hide');
@@ -407,8 +359,6 @@
                         poster3: document.querySelector('.item-3').src,
                         poster4: document.querySelector('.item-4').src,
                     }
-                    const videoData = document.querySelector('#trailer').src;
-
                     var options = {
                         method: 'POST', // or 'PUT'
                         headers: {
@@ -416,8 +366,7 @@
                         },
                         body: JSON.stringify(formData = {
                             data,
-                            imageData,
-                            videoData
+                            imageData
                         }),
                     }
 
@@ -428,9 +377,10 @@
                         .then(function(result) {
                            if(result === true)
                            {
-                                callApiAdmin();
                                 btnLoader.classList.add('hide');
-                                setTimeout(window.location.reload(), 3000)
+                                window.location.reload(function() {
+                                    callApiAdmin();
+                                }) 
                            }
                         })
                         .catch(function(err){

@@ -61,7 +61,7 @@ const Movies = db.define('Movies', {
         allowNull: true
     },
     trailer: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING,
         allowNull: true
     }
 

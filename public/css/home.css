@@ -42,6 +42,77 @@ header {
     flex-direction: column;
 }
 
+/* Loader */
+.section-loader {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: rgba(18, 24, 37, .8);
+    animation: animateBg 10s linear infinite;
+}
+
+.section-loader.hide {
+    display: none;
+}
+
+@keyframes animateBg {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+.section-loader .loader {
+    top: -70px;
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.section-loader .loader span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(calc(18deg * var(--i)));
+}
+
+.section-loader .loader span::before {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    background: #00ff0a;
+    box-shadow: 0 0 10px #00ff0a,
+                0 0 20px #00ff0a,
+                0 0 40px #00ff0a,
+                0 0 60px #00ff0a,
+                0 0 80px #00ff0a,
+                0 0 100px #00ff0a;
+    
+    animation: animate 2s linear infinite;
+    animation-delay: calc(0.1s * var(--i));
+}
+
+@keyframes animate {
+    0% {
+        transform: scale(1);
+    }
+    80%, 100% {
+        transform: scale(0);
+    }
+}
+
  /* Burger Responsive Moblie*/
 .dropdown_menu {
     position: relative;
@@ -530,13 +601,16 @@ header {
 }
 
 .content-advertisement .content-video-trailler {
+    width: 100%;
+    height: 450px;
     padding: 0px 10px 10px 10px;
     display: flex;
     justify-content: center;
 }
 
-.content-advertisement .content-video-trailler video {
-   width: 95%;
+.content-advertisement .content-video-trailler iframe {
+   width: 100%;
+   height: 100%;
 }
 
 .content-poster {
@@ -545,7 +619,6 @@ header {
 }
 
 .content-poster .slider {
-    border-radius: 5px;
     overflow: hidden;
     height: 100%;
 }
@@ -609,46 +682,30 @@ header {
  /* End Section Advertisement */
 /*  Movie Schedule */
 #latest {
-    height: 90vh;
+    height: auto;
     overflow: hidden;
     background: radial-gradient(220% 105% at top center, #1b2735 10%, #75517d 40%, #e96f92 65%, #f7f7b6);
 }
 
-.title-product {
-    margin-top: 5%;
-    display: flex;
-    justify-content: center;
-}
-
 .title-product h3 { 
     display: inline-block;
-    margin-bottom: 15px;
+    margin-top: 15px;
+    margin: 0;
     font-size: 25px;
     border-bottom: 1px solid transparent;
     font-weight: 300;
     text-align: center;
-    color: #ffffff;
+    color: #8eff66;
+    border-color: #8eff66;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.4s ease;
     -moz-transition: all 0.4s ease;
     -o-transition: all 0.4s ease;
     -ms-transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease;
     margin-left: 20px;
-    margin-right: 20px;
-    cursor: pointer !important;
     line-height: 35px;
-}
-
- .title-product h3:hover {
-    color: #d4dd29;
-    border-color: #d4dd29;
-    cursor: pointer;
-}
-
-.title-product h3.active {
-    color: #d4dd29;
-    border-color: #d4dd29;
-    cursor: pointer;
 }
 
 #latest ul {
@@ -688,7 +745,20 @@ header {
     z-index: 10;
 }
 
-.latest-box .btn-card  a {
+.item-null {
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    box-shadow: 0 5px 15px rgb(0 0 0 / 20%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    border-radius: 5px;
+    margin: 20px 10px;
+}
+
+.latest-box .btn-card a {
     margin: 0;
     width: 100%;
     color: #56ff1a;
@@ -710,8 +780,8 @@ header {
                 inset 0px 0px 0px 0px #fff9,
                 inset 0px 0px 0px 0px #0001;
     transition: box-shadow 0.6s cubic-bezier(.50, .21, .06, .81);
-    transition: all 0.5s ease;
-    transform: scaleX(150%);
+    transition: all 0.5s linear;
+    transform: scaleX(120%);
     text-decoration: none;
 }
 
@@ -747,16 +817,18 @@ header {
     width: 100%;
 }
 
+
+
 .latest-box  .content .contentBx p {
     font-family: 'Roboto', sans-serif;
-    color: #c2cde0;
+    color: #56ff1a;
     letter-spacing: 1px;
     font-weight: 500;
     font-size: 13px;
 }
 
 .latest-box  .content .contentBx h3{
-    color: #a6b2c9;
+    color: #56ff1a;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 500;
@@ -793,17 +865,17 @@ header {
     z-index: 1;
 }
 
-.list__film {
-    opacity: 0;
-    position: absolute;
-    display: none;
-}
 
-.list__film.active {
-    opacity: 1;
+.js__list_1  {
     position: relative;
     display: block;
-} 
+}
+
+
+.js__list_2 {
+    position: relative;
+    display: block;
+}
 /*  End Movie Schedule */
 /* Banner Promition */
 .section-promotion {

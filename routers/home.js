@@ -1,5 +1,6 @@
 const express = require('express');
 const UserAccount = require('../models/useraccount');
+const Movies = require('../models/movies');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -11,16 +12,48 @@ router.use(function(req, res, next){
     next();
 });
 
-router.get('/',asyncHandler(async function(req, res){
+router.get('/', asyncHandler(async function(req, res){
     var userId = req.session.userId;
+    const data = await Movies.findAll();
+    var list_film_hdc = [];
+    var list_film_cmc = [];
+    var someday = new Date();
+    data.forEach(item => {
+        var getDate = new Date(item.premiereDate);
+        if( someday.getTime() >= getDate.getTime())
+        {
+            var obData_hdc = {};
+            obData_hdc = {
+                movieId: item.movieId,
+                movieName: item.movieName,
+                premiereDate: item.premiereDate,
+                endDate: item.endDate,
+                specific: item.specific,
+                poster: `http://localhost:3000/api/image/${item.movieId}/1`
+            }
+            list_film_hdc.push(obData_hdc);
+        }  
+        else {
+            var obData_cmc = {};
+            obData_cmc = {
+                movieId: item.movieId,
+                movieName: item.movieName,
+                premiereDate: item.premiereDate,
+                endDate: item.endDate,
+                specific: item.specific,
+                poster: `http://localhost:3000/api/image/${item.movieId}/1`
+            }
+            list_film_cmc.push(obData_cmc);
+        }
+    });
     if(userId === undefined)
     {
-        res.render('home', { title_toast , message, type, error });
+        res.render('home', { title_toast , message, type, error, list_film_cmc, list_film_hdc });
         title_toast = message = type = error =  '';
     }
     else {
-        const data = await UserAccount.findByCode(userId);
-        res.render('home', { data });
+        const dataId = await UserAccount.findByCode(userId);
+        res.render('home', { dataId, list_film_cmc, list_film_hdc });
     }
 }));
 
@@ -100,6 +133,127 @@ router.get('/logout', function(req, res) {
     delete req.session.userId;
     res.redirect('/');
 })
+
+// API DATA HOMEPAGE
+router.get('/api/data/header',asyncHandler(async function(req, res) {
+    const data = await Movies.findAll();
+
+    var db = randomProperty(data);
+    var arrayData = [];
+    var obDataHeader = {};
+    var obDataPoster = {};
+    obDataHeader = {
+        movieId: db.movieId,
+        movieName: db.movieName,
+        time: db.time,
+        premiereDate: db.premiereDate,
+        endDate: db.endDate,
+        specific: db.specific,
+        describe: db.describe,
+        category: db.category,
+        directors: db.directors,
+        mainActor: db.mainActor,
+        trailer: db.trailer,
+    }
+    arrayData.push(obDataHeader);
+    obDataPoster = {
+        poster1: `http://localhost:3000/api/image/${db.movieId}/1`,
+        poster2: `http://localhost:3000/api/image/${db.movieId}/2`,
+        poster3: `http://localhost:3000/api/image/${db.movieId}/3`,
+    }
+    arrayData.push(obDataPoster);
+
+    res.json(arrayData);
+}));
+
+function randomProperty(obj) {
+    var keys = Object.keys(obj);
+    return obj[keys[ keys.length * Math.random() << 0]];
+};
+
+router.get('/api/image/:id/1', asyncHandler(async function(req, res) {
+    const db = await Movies.findByMovieId(req.params.id);
+    var poster1 = db.poster1;
+    if(!db || !db.poster1)
+    {
+        res.status(404).send('File not found!');
+    }
+    else {
+
+        const im = poster1.toString().split(",")[1];
+        const image = Buffer.from(im, 'base64');
+
+        res.writeHead(200, {
+        'Content-Type': 'image/jpeg',
+        'Content-Length': image.length
+        });
+
+        res.end(image);
+    }
+ }));
+
+ router.get('/api/image/:id/2', asyncHandler(async function(req, res) {
+    const db = await Movies.findByMovieId(req.params.id);
+    var poster2 = db.poster2;
+    if(!db || !db.poster2)
+    {
+        res.status(404).send('File not found!');
+    }
+    else {
+
+        const im = poster2.toString().split(",")[1];
+        const image = Buffer.from(im, 'base64');
+
+        res.writeHead(200, {
+        'Content-Type': 'image/jpeg',
+        'Content-Length': image.length
+        });
+
+        res.end(image);
+    }
+ }));
+
+ router.get('/api/image/:id/3', asyncHandler(async function(req, res) {
+    const db = await Movies.findByMovieId(req.params.id);
+    var poster3 = db.poster3;
+    if(!db || !db.poster3)
+    {
+        res.status(404).send('File not found!');
+    }
+    else {
+
+        const im = poster3.toString().split(",")[1];
+        const image = Buffer.from(im, 'base64');
+
+        res.writeHead(200, {
+        'Content-Type': 'image/jpeg',
+        'Content-Length': image.length
+        });
+
+        res.end(image);
+    }
+ }));
+
+ router.get('/api/image/:id/4', asyncHandler(async function(req, res) {
+    const db = await Movies.findByMovieId(req.params.id);
+    var poster4 = db.poster4;
+    if(!db || !db.poster4)
+    {
+        res.status(404).send('File not found!');
+    }
+    else {
+
+        const im = poster4.toString().split(",")[1];
+        const image = Buffer.from(im, 'base64');
+
+        res.writeHead(200, {
+        'Content-Type': 'image/jpeg',
+        'Content-Length': image.length
+        });
+
+        res.end(image);
+    }
+ }));
 
 
 module.exports = router;
