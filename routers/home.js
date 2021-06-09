@@ -23,11 +23,15 @@ router.get('/', asyncHandler(async function(req, res){
         if( someday.getTime() >= getDate.getTime())
         {
             var obData_hdc = {};
+            var dStart = new Date(item.premiereDate);
+            var dEnd = new Date(item.endDate);
+            var dateS = dStart.getDate() + "/" + (dStart.getMonth() + 1);
+            var dateE = dEnd.getDate() + "/" + (dEnd.getMonth() + 1) + "/" + dEnd.getFullYear();
             obData_hdc = {
                 movieId: item.movieId,
                 movieName: item.movieName,
-                premiereDate: item.premiereDate,
-                endDate: item.endDate,
+                premiereDate: dateS,
+                endDate: dateE,
                 specific: item.specific,
                 poster: `http://localhost:3000/api/image/${item.movieId}/1`
             }
@@ -35,10 +39,12 @@ router.get('/', asyncHandler(async function(req, res){
         }  
         else {
             var obData_cmc = {};
+            var d = new Date(item.premiereDate);
+            var date = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
             obData_cmc = {
                 movieId: item.movieId,
                 movieName: item.movieName,
-                premiereDate: item.premiereDate,
+                premiereDate: date,
                 endDate: item.endDate,
                 specific: item.specific,
                 poster: `http://localhost:3000/api/image/${item.movieId}/1`
