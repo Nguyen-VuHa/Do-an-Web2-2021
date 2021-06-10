@@ -1,3 +1,13 @@
+<!-- modal Trailer -->
+<div class="modal-bg">
+    <div class="modal-trailer">
+        <a class="btn-close" ><i class="fal fa-times-circle"></i></a>
+        <div class="content-video-trailler">
+            <iframe id="trailerIframe" class="trailerIframe" frameborder="0" src="https://www.youtube.com/embed/<%= obData.trailer %>?enablejsapi=1" allowfullscreen="true" ></iframe>
+        </div>
+    </div>
+</div>
+
 <section class="movie-detail">
     <div class="background-advertisement">
         <div id="stars"></div>
@@ -44,32 +54,83 @@
             <div class="movie__info--film">
                 <h4 class="film--name"><%= obData.movieName %> (<%= obData.specific %>)</h4>
                 <p class="film--desc"><%= obData.describe %></p>
-                <div class="group__info-film">
-                    <div class="group__film--title">
+                <ul class="group__info-film">
+                    <li class="group-film"> 
                         <label class="group__title" for="">Phân loại</label>
-                        <label class="group__title" for="">Đạo diễn</label>
-                        <label class="group__title" for="">Diễn viên</label>
-                        <label class="group__title" for="">Thể loại</label>
-                        <label class="group__title" for="">Khởi chiếu</label>
-                        <label class="group__title" for="">Thời lượng</label>
-                        <label class="group__title" for="">Ngôn ngữ</label>
-                    </div>
-                    <div class="group__film--content">
                         <p>C18 - PHIM DÀNH CHO KHÁN GIẢ TỪ 18 TUỔI TRỞ LÊN</p>
+                    </li>
+                    <li class="group-film"> 
+                        <label class="group__title" for="">Đạo diễn</label>
                         <span><%= obData.directors %></span>
+                    </li>
+                    <li class="group-film"> 
+                        <label class="group__title" for="">Diễn viên</label>
                         <span><%= obData.mainActor %></span>
+                    </li>
+                    <li class="group-film"> 
+                        <label class="group__title" for="">Thể loại</label>
                         <span><%= obData.category %></span>
+                    </li>
+                    <li class="group-film"> 
+                        <label class="group__title" for="">Khởi chiếu</label>
                         <span><%= obData.premiereDate %></span>
+                    </li>
+                    <li class="group-film"> 
+                        <label class="group__title" for="">Thời lượng</label>
                         <span><%= obData.time %> phút</span>
+                    </li>
+                    <li class="group-film"> 
+                        <label class="group__title" for="">Ngôn ngữ</label>
                         <span>Phụ đề tiếng Việt</span>
-                    </div>
-                </div>
+                    </li>
+                </ul>
                 <div class="group__button">
-                    <a href="#" class="btn btn-success">Xem Trailer</a>
-                    <a href="#" class="btn btn-success">Mua vé</a>
+                    <a style="color: #fff;" class="btn btn-success btn-modal">Xem Trailer</a>
+                    <a style="color: #fff;" class="btn btn-success">Mua vé</a>
                 </div>
             </div>
         </div>
       </div>
 </section>
 <script src="../js/home.js"></script>
+<script>
+    var modalBtn = document.querySelector('.btn-modal');
+    var modalBg = document.querySelector('.modal-bg');
+    var closeBtn = document.querySelector('.btn-close');
+
+    window.onclick = function(event) {
+        if (event.target == modalBg) {  
+            modalBg.classList.remove('bg-active');
+            stopAllYouTubeVideos();
+        }
+    }
+
+    modalBtn.addEventListener('click', function() {
+        modalBg.classList.add('bg-active');
+        playAllYouTubeVideos();
+    })
+
+    closeBtn.addEventListener('click', function() {
+        modalBg.classList.remove('bg-active');
+        stopAllYouTubeVideos();
+    })
+
+    var playAllYouTubeVideos = () => { 
+    var iframes = document.querySelectorAll('iframe');
+        Array.prototype.forEach.call(iframes, iframe => { 
+            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', 
+        func: 'playVideo' }), '*');
+        });
+    }
+
+    var stopAllYouTubeVideos = () => { 
+    var iframes = document.querySelectorAll('iframe');
+        Array.prototype.forEach.call(iframes, iframe => { 
+            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', 
+        func: 'stopVideo' }), '*');
+        });
+    }
+
+</script>
+
+<script src="../js/header.js"></script>
