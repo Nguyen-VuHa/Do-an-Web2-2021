@@ -16,6 +16,7 @@ const pg404Router = require('./routers/404');
 const siguploginRouter = require('./routers/signuplogin');
 const adminRouter = require('./routers/adMoreMovies');
 const movieDetailRouter = require('./routers/movieDetails');
+const cinemaSysRouter = require('./routers/cinemaSystem');
 
 app.use(cors());
 
@@ -42,7 +43,7 @@ app.use('/error', pg404Router);
 app.use('/reg', siguploginRouter);
 app.use('/admin', adminRouter);
 app.use('/movie', movieDetailRouter);
-
+app.use('/cinemas', cinemaSysRouter);
 
 db.sync().then(function () {
     const port = process.env.PORT || 3000;
