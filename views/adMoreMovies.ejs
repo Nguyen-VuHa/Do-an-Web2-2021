@@ -1,10 +1,5 @@
 
 <section class="more-film" id="more-film">
-    <div class="background-advertisement" style="height: 200%;">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
-    </div>
     <form method="POST" id="more-film_form" class="more-film_form" >
             <h3 class="title">Add Movies</h3>
             <ul class="form_poster">
@@ -153,242 +148,270 @@
                   </tr>
                 </thead>
                 <tbody id="list-movies">
-
                 </tbody>
               </table>
         </div>
     </div>
 </section>
+
+
+<section class="theater-system">
+    <form method="POST" id="theater-system_form" class="theater-system_form">
+        <h3 class="title">Add Theater System</h3>
+        <div class="container">
+            <div class="form_theater-content">
+                <div class="form" >
+                    <div id="form-group">
+                        <div class="form-group">
+                            <label>Khu Vực</label>
+                            <select id="option-province" class="option-province" name="calc_shipping_provinces" onchange="onChangeOption()">
+                                <option value="">Tỉnh / Thành phố</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ID Khu Vực</label>
+                            <div class="input-text">
+                                <input id="theater-id" name="theater-id" type="text" class="input" readonly>
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                    </div>  
+                    <button onclick="submitTheaterSytem()" id="btn-save" type="button" class="btn btn-save">Save Change</button>
+                </div>
+            </div>
+            <div class="theater-sytem_data">
+                <div class="table-list__theater-sys">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Khu Vực</th>
+                            <th scope="col">Option</th>
+                          </tr>
+                        </thead>
+                        <tbody id="list-district">
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+<style>
+    #map {
+      height: 350px;
+      width: 400px;
+    }
+</style>
+
+<section class="theater">
+    <h3 class="title">Add Theater</h3>
+    <form method="POST" id="theater_form" class="theater_form">
+            <div class="form_theater-content-left">
+                <div class="form" >
+                    <div id="form-group">
+                        <div class="form-group">
+                            <label>Khu Vực</label>
+                            <select id="option-theater" class="option-theater">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ID Rạp</label>
+                            <div class="input-text">
+                                <input id="th_id" name="th_id" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên Rạp</label>
+                            <div class="input-text">
+                                <input id="th_name" name="th_name" type="text" class="input">
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Loại Rạp</label>
+                            <select id="option-type" class="option-type">
+                                <option value="2D">2D</option>
+                                <option value="3D">3D</option>
+                                <option value="4DX">4DX</option>
+                                <option value="STD">STD</option>
+                                <option value="STARIUM">STARIUM</option>
+                                <option value="PREMIUM">PREMIUM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-save form-submit">Save Changes</button>
+                </div>
+            </div>
+            <div class="form_theater-content-right">
+                <div class="form" >
+                    <div id="form-group">
+                        <div class="form-group">
+                            <label>Địa Chỉ</label>
+                            <div class="input-text">
+                                <textarea id="th_adress" name="th_adress" type="text" class="input"></textarea>
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                        <div id="form-group" class="id-film">
+                            <div class="form-group">
+                                <label>Point Lat</label>
+                                <div class="input-text">
+                                    <input id="th_lat" name="th_lat" type="text" class="input">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Point Lng</label>
+                                <div class="input-text">
+                                    <input id="th_lng" name="th_lng" type="text" class="input">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                        </div>  
+                        <div id="form-group" class="id-film">
+                            <div class="form-group">
+                                <label>Kích thước ngang</label>
+                                <div class="input-text">
+                                    <input id="horizontal_size" name="horizontal_size" type="text" class="input" onkeypress="return isNumberKey(event)">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Kích thước dọc</label>
+                                <div class="input-text">
+                                    <input id="vertical_size" name="vertical_size" type="text" class="input" onkeypress="return isNumberKey(event)">
+                                    <span class="form-message"></span>
+                                </div>
+                            </div>
+                        </div>  
+                        <a onclick="checkMap()" id="btn-check" class="btn btn-save">Check Maps</a>
+                    </div>  
+                </div>
+            </div>
+            <div class="theater__form-right">
+                <div id="map"></div>
+            </div>
+    </form>
+</section>
 <script src="js/validateform.js"></script>
+<script src="js/toastmesage.js"></script>
 <script src="js/api/apiAdmin.js"></script>
+<script src="js/admin.js"></script>
 <script>
+    function submitTheaterSytem() {
+        let id = document.querySelector('#theater-id').value;
+        let district = document.querySelector('#option-province');
 
-    window.onload = (e) => {
-        callApiAdmin();
-    }
-
-    const defaultBtn = document.querySelectorAll('#selectedFile');
-    const videoBtn = document.querySelector('#selectedVideo');
-    const img = document.querySelectorAll('.poster-item-img');
-    const btnFal = document.querySelectorAll('.fa-plus');
-    const btnRemove = document.querySelectorAll('.fa-times');
-    const btnRemoveVid = document.querySelector('#btnRemoveVid');
-    const btnLoader = document.querySelector('.section-loader');
-    
-    var _id = "";
-    const arrayData = [];
-
-    function OpenImage() 
-    {
-        for(var i = 0; i< img.length; i++)
-        {
-            img[i].classList.add('show');
-            btnFal[i].classList.add('active');
-            btnRemove[i].classList.remove('active');
-        }
-    }
-
-    $('.item-btn').click(function() {
-        let index = $(this).parent().index();
-        addEventClick(index);
-    })
-
-    $('.item-btn-video').click(function() {
-        videoBtn.click();
-    })
-
-    $('.close-btn').click(function() {
-        let index = $(this).parent().index();
-        img[index].src = "";
-        img[index].classList.remove('show');
-        btnFal[index].classList.remove('active');
-        btnRemove[index].classList.add('active');
-    })
-
-    $('.close-btn-video').click(function() {
-        document.getElementById('trailer').src = "";
-        document.getElementById('trailer').classList.remove('show');
-        document.getElementById('icon-btn').classList.remove('active')
-        btnRemoveVid.classList.add('active');
-    })
-
-    videoBtn.addEventListener('change', function(req, res) {
-        const file = this.files[0];
-        if(file) {
-            const reader = new FileReader();
-            reader.onload = function(){
-            const result = reader.result;
-            document.getElementById('trailer').src = result;
-            document.getElementById('trailer').classList.add('show');
-            document.getElementById('icon-btn').classList.add('active');
-            btnRemoveVid.classList.remove('active');
-            }
-            reader.readAsDataURL(file);
-            return;
-        }
-    })
-
-
-    function addEventClick (index) {
-        defaultBtn[index].click();
-        defaultBtn[index].addEventListener('change', function() {
-        const file = this.files[0];
-        if(file)
-            {
-                const reader = new FileReader();
-                reader.onload = function(){
-                const result = reader.result;
-                img[index].src = result;
-                img[index].classList.add('show');
-                btnFal[index].classList.add('active');
-                btnRemove[index].classList.remove('active');
-                }
-                reader.readAsDataURL(file);
-                return;
-            }
-        })
-    }
-
-    function isNumberKey(e) {
-        var charCode = (e.which) ? e.which : e.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-        return true;
-    }
-    
-    function checksrcImage(arrayImage) {
-        for(var i = 0; i < arrayImage.length; i++)
-        {
-            if (arrayImage[i].naturalWidth === 0 || arrayImage[i].src.includes('http://localhost:3000')) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function bidingData(movieId) {
-        var dataApi = 'http://localhost:3000/admin/api/data/' + movieId;
-        btnLoader.classList.remove('hide');
-        fetch(dataApi)
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(result) {
-                    document.getElementById('ID').value = result.movieId;
-                    document.getElementById('name').value = result.movieName;
-                    document.getElementById('time').value = result.time;
-                    document.getElementById('startdate').value =  result.premiereDate.substring(0, 10);
-                    document.getElementById('enddate').value = result.endDate.substring(0, 10);
-                    document.getElementById('specific').value = result.specific;
-                    document.getElementById('describe').value = result.describe;
-                    document.getElementById('category').value = result.category;
-                    document.getElementById('directors').value = result.directors;
-                    document.getElementById('mainActor').value = result.mainActor;
-                    document.getElementById('chanelId').value = result.trailer;
-                    OpenImage();
-                    document.getElementById('item-1').src = result.poster1;
-                    document.getElementById('item-2').src = result.poster2;
-                    document.getElementById('item-3').src = result.poster3;
-                    document.getElementById('item-4').src = result.poster4;
-                    btnLoader.classList.add('hide');
-                    return;
-                })
-                .catch(function(err){
-                    console.log(err);
-                });
-    }
-
-
-    function BtnRemove(idMovie) {
-        var imageApi = `http://localhost:3000/admin/api/deleteMovie`;
+        let textDistrict = district.options[district.selectedIndex].text;
+        var data = {
+            id: id,
+            district: textDistrict
+        };
 
         var options = {
-                        method: 'POST',
-                        headers: {
-                        'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ idMovie }),
-                    }
+                    method: 'POST', // or 'PUT'
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                }
 
-        fetch(imageApi, options)
+        fetch(`http://localhost:3000/admin/district`, options)
             .then(function(response) {
-                    return response.json();
-                })
+                return response.json();
+            })
             .then(function(result) {
-                callApiAdmin();
+                if(result === true)
+                {
+                    toast({
+                        title: `Sucessfully!`,
+                        message: `Thêm thành công`,
+                        type: `success`,
+                        duration: 3000
+                    });
+                    callApiAdmin();
+                }
+                else {
+                    toast({
+                        title: `Warning!`,
+                        message: `Khu vực này đã được thêm vào!`,
+                        type: `warning`,
+                        duration: 3000
+                    });
+                }
             })
             .catch(function(err){
                     console.log(err);
-                });
-    }
-
-    function SubmitForm(e) {
-        let arrayImage = document.getElementsByClassName('poster-item-img');
-        let startdate = document.getElementById('startdate').value;
-
-        if(!checksrcImage(arrayImage))
-        {
-            $('html,body').animate({ scrollTop: 18 }, 'slow');
-            e.preventDefault();
-        }
-        else{
-                Validator ({
-                form: '#more-film_form',
-                formGroupSelector: '.form-group',
-                errorSelector: '.form-message',
-                rules: [
-                    Validator.isRequired('#ID', 'Tên film không được trống!'),
-                    Validator.isRequired('#name', 'Tên film không được trống!'),
-                    Validator.isRequired('#specific', 'Đặc tả không được trống!'),
-                    Validator.isRequired('#describe', 'Mô tả không được trống!'),
-                    Validator.isRequired('#time', 'Thời lượng được trống!'),
-                    Validator.isRequired('#startdate', 'Bạn chưa chọn ngày CC!'),
-                    Validator.isCheckDate('#startdate', 'Ngày CC phải lớn hơn ngày hiện tại!'),
-                    Validator.isRequired('#enddate', 'Bạn chưa chọn ngày KT!'),
-                    Validator.isCheck2Date('#enddate', startdate, 'Ngày KT phải lớn hơn ngày CC!'),
-                    Validator.isRequired('#category', 'Không được trống!'),
-                    Validator.isRequired('#directors', 'Không được trống!'),
-                    Validator.isRequired('#mainActor', 'Không được trống!'),
-                    Validator.isRequired('#chanelId', 'Không được trống!'),
-                ],
-                onSubmit: function (data) { 
-                    btnLoader.classList.remove('hide');
-                    const imageData = {
-                        poster1: document.querySelector('.item-1').src,
-                        poster2: document.querySelector('.item-2').src,
-                        poster3: document.querySelector('.item-3').src,
-                        poster4: document.querySelector('.item-4').src,
-                    }
-                    var options = {
-                        method: 'POST', // or 'PUT'
-                        headers: {
-                        'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData = {
-                            data,
-                            imageData
-                        }),
-                    }
-
-                    fetch(`http://localhost:3000/admin/movies`, options)
-                        .then(function(response) {
-                            return response.json();
-                        })
-                        .then(function(result) {
-                           if(result === true)
-                           {
-                                btnLoader.classList.add('hide');
-                                window.location.reload(function() {
-                                    callApiAdmin();
-                                }) 
-                           }
-                        })
-                        .catch(function(err){
-                                console.log(err);
-                        });
-                }
             });
-        }
     }
 
+    function onChangeOption() {
+        var code = document.getElementById("option-province").value;
+        document.getElementById("theater-id").value = code;
+    }
+    
+    function initMap(object) {
+        var options = {
+            zoom: 12,
+            center: { lat: Number(object.lat), lng: Number(object.lng) }
+        }
+        var map = new google.maps.Map(document.getElementById("map"), options);
+        
+        var marker = new google.maps.Marker({
+            position: { lat: Number(object.lat), lng: Number(object.lng) },
+            map: map
+        })
+
+        var infoWindow = new google.maps.InfoWindow({
+            content: `<ul style="margin-bottom: 0; font-weight: 400;">
+                    <li style="font-weight: bold;">Rạp: ${object.name}</li>
+                    <li><span style="font-weight: bold;">Địa chỉ: </span>${object.address}</li>
+                    <li><span style="font-weight: bold;">Liên hệ: </span>0374.992.033</li>
+                </ul>`
+        });
+
+        marker.addListener('mouseover', function() {
+            infoWindow.open(map, marker);
+        });
+
+        infoWindow.open(map, marker);
+
+        marker.addListener('mouseover', function() {
+            infoWindow.open(map, marker);
+        });
+    }
+    
+    
+    function checkMap() {
+        let lat = document.querySelector('#th_lat').value;
+        let lng = document.querySelector('#th_lng').value;
+        let nameTh = document.querySelector('#th_name').value;
+        let addressTH = document.querySelector('#th_adress').value;
+        object= {
+            lat: lat,
+            lng: lng,
+            name: nameTh,
+            address: addressTH
+        };
+        initMap(object);
+    }
+
+    fetch('http://localhost:3000/admin/api/local')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(result) {
+            var htmls = result.map(function(data) {
+                return `
+                    <option class="provinceId" value="${data.code}">${data.name}</option>
+                `;
+           });
+           document.querySelector('#option-province').innerHTML = htmls.join('');
+           document.getElementById("theater-id").value = result[0].code;
+        });
 </script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVaENvWMY4n6Wv5kDlYG2Bmm0YYy0_1MM&callback=initMap"></script>

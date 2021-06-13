@@ -7,6 +7,8 @@
     height: auto;
     margin: 0;
     padding: 0;
+    background: url('/image/bg-cinema-1.jpg');
+    background-size: cover;
 }
 
 .more-film .more-film_form {
@@ -17,7 +19,7 @@
     border-radius: 5px;
 }
 
-.more-film_form h3 {
+.more-film_form .title {
     margin: 20px 0px;
     font-family: 'Limelight', cursive;
     font-size: 30px;
@@ -309,3 +311,111 @@
 .btn-remove:hover {
     opacity: 1;
   }
+
+
+.theater-system {
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.theater-system .theater-system_form {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    background: #121825;
+    border-radius: 5px;
+}
+
+.theater-system_form .title {
+    margin: 20px 0px;
+    font-family: 'Limelight', cursive;
+    font-size: 30px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.theater-system_form .container {
+    display: flex;
+    flex-direction: initial;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.form_theater-content {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    color: #a6b2c9;
+}
+
+.option-province {
+    font-family: 'Roboto', sans-serif;
+    background: #37424b;
+    font-weight: bold;
+    color: #a6b2c9;
+    width: 100%;
+    outline: none;
+    border: 1px solid #d5dbd9;
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.theater-sytem_data {
+    width: 50%;
+    height: 50%;
+}
+
+.table-list__theater-sys {
+    height: 300px;
+    overflow: auto;
+    
+}
+
+.table-list__theater-sys::-webkit-scrollbar { 
+    width: 0 !important;
+    display: none; 
+    
+}
+
+.table-list__theater-sys .table {
+    background: #1b2438;
+}
+
+.theater {
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    background: #121825;
+    color: #a6b2c9;
+}
+
+.theater h3 {
+    font-family: 'Limelight', cursive;
+    padding: 10px 0px;
+}
+
+.theater_form {
+    display: flex;
+    justify-content: space-around;
+}
+
+.option-theater, .option-type {
+    font-family: 'Roboto', sans-serif;
+    background: #37424b;
+    font-weight: bold;
+    color: #a6b2c9;
+    width: 100%;
+    outline: none;
+    border: 1px solid #d5dbd9;
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}

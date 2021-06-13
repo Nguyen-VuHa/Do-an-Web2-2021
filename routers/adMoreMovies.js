@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Movies = require('../models/movies');
+const District = require('../models/district');
+const Theaters = require('../models/theater');
 const asyncHandler = require('express-async-handler');
 const ensureLoggedIn = require('../middlewares/ensure_logged_in');
+const local = require('../local.json');
 
 router.use(ensureLoggedIn);
 
@@ -219,5 +222,64 @@ router.get('/api/data', asyncHandler(async function(req, res) {
     else
         res.json(false);
  }));
+
+router.get('/api/local', function(req, res){
+    res.json(local);
+})
+
+router.get('/api/district', asyncHandler(async function(req, res){
+    const db = await District.findAll();
+    var data = [];
+
+    db.forEach(item => {
+        var obData = {};
+        obData = {
+           id: item.id,
+           district: item.district
+        }
+        data.push(obData);
+    });
+    if(data.length <= 0)
+        data = null;
+    
+    res.json(data);
+}));
+
+router.post('/district', asyncHandler(async function(req, res){
+    const { id, district } = req.body;
+    const checkId = await District.findById(id);
+    if(checkId === null)
+    {
+        District.create({
+            id: id,
+            district: district,
+        });
+        res.json(true)
+    }
+    else
+        res.json(false)
+}));
+
+router.post('/theater', asyncHandler(async function(req, res){
+    const data = req.body.data;
+    const checkId = await Theaters.findById(data.th_id);
+    if(checkId === null)
+    {
+        Theaters.create({
+            id: data.th_id,
+            idDistr: req.body.option,
+            nameTheater: data.th_name,
+            typeTheater: req.body.type,
+            addressTheater: data.th_adress,
+            latTheater: data.th_lat,
+            lngTheater: data.th_lng,
+            sizeHorizontal: data.horizontal_size,
+            sizeVertical: data.vertical_size,
+        });
+        res.json(true);
+    }
+    else
+        res.json(false);
+}));
 
 module.exports = router;
