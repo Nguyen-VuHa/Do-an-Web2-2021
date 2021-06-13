@@ -271,6 +271,7 @@ router.post('/theater', asyncHandler(async function(req, res){
             nameTheater: data.th_name,
             typeTheater: req.body.type,
             addressTheater: data.th_adress,
+            subAddress: data.th_subadress,
             latTheater: data.th_lat,
             lngTheater: data.th_lng,
             sizeHorizontal: data.horizontal_size,

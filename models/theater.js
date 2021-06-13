@@ -23,6 +23,10 @@ const Theaters = db.define('Theaters', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    subAddress: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     latTheater: {
         type: DataTypes.STRING,
         allowNull: false

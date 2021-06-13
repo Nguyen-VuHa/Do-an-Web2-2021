@@ -11,7 +11,7 @@
 
 .cinema-system h3 {
     display: inline-block;
-    margin-top: 15px;
+    margin-top: 25px;
     font-size: 40px;
     font-family: 'Dancing Script', cursive;
     font-weight: 600;
@@ -20,8 +20,6 @@
     text-shadow: 0 0 5px #54ab35, 0 0 25px #54ab35, 0 0 50px #54ab35, 0 0 200px #54ab35;
     font-weight: 600;
     cursor: pointer;
-    margin-left: 20px;
-    line-height: 35px;
 }
 
 .cinema-sys__list{

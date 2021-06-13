@@ -10,7 +10,8 @@ window.onload = (e) => {
             Validator.isRequired('#th_lat', 'Không được trống!'),
             Validator.isRequired('#th_lng', 'Không được trống!'),
             Validator.isRequired('#horizontal_size', 'Không được trống!'),
-            Validator.isRequired('#vertical_size', 'Không được trống!')
+            Validator.isRequired('#vertical_size', 'Không được trống!'),
+            Validator.isRequired('#th_subadress', 'Không được trống!')
         ],
         onSubmit: function (data) { 
             let option = document.getElementById('option-theater').value;
