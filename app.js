@@ -17,6 +17,7 @@ const siguploginRouter = require('./routers/signuplogin');
 const adminRouter = require('./routers/adMoreMovies');
 const movieDetailRouter = require('./routers/movieDetails');
 const cinemaSysRouter = require('./routers/cinemaSystem');
+const cinemaViewRouter = require('./routers/cinemaview');
 
 app.use(cors());
 
@@ -44,7 +45,7 @@ app.use('/reg', siguploginRouter);
 app.use('/admin', adminRouter);
 app.use('/movie', movieDetailRouter);
 app.use('/cinemas', cinemaSysRouter);
-
+app.use('/cinema-view', cinemaViewRouter);
 
 db.sync().then(function () {
     const port = process.env.PORT || 3000;

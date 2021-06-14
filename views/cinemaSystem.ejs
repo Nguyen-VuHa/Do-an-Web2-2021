@@ -22,11 +22,9 @@
             function renderInfo(datas)
             {
             var listCinemas = document.querySelector('#cinema__list');
-            console.log(datas)
-            console.log(listCinemas)
             var htmls = datas.map(function(data) {
                 return `
-                    <a href="#" style="text-decoration: none;">
+                    <a href="/cinema-view?id=${data.id}&name=${data.nameTheater}" style="text-decoration: none;">
                         <div class="list_card">
                             <div class="card__image">
                                 <img src="image/cgv-logo.png" alt="">

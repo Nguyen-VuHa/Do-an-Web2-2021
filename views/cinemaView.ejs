@@ -7,15 +7,15 @@
             </div>
             <div class="cinema-view__content">
                 <div class="content__info">
-                    <h4>&#9758;	CGV KHTN CS 1</h4>
+                    <h4>&#9758;	<%= data.nameTheater %></h4>
                     <ul class="info">
                         <li>
                             <strong>Địa điểm: </strong>
-                            <span>227 Đ. Nguyễn Văn Cừ, Phường 4, Quận 5, Tp.Hồ Chí Minh</span>
+                            <span><%= data.addressTheater %></span>
                         </li>
                         <li>
                             <strong>Phòng chiếu: </strong>
-                            <span>2D</span>
+                            <span><%= data.typeTheater %></span>
                         </li>
                         <li>
                             <strong>Số điện thoại: </strong>
@@ -39,23 +39,30 @@
 </section>
 
 <script>
+    var optionData = {
+        pointLat: '<%= data.latTheater %>',
+        pointLng: '<%= data.lngTheater %>',
+        cinema: '<%= data.nameTheater %>',
+        address: '<%= data.addressTheater %>',
+    };
+
     initMap();
     function initMap() {
             var options = { 
-                zoom: 10,
-                center: { lat: 10.763144874392374, lng: 106.68215023974521 }
+                zoom: 12,
+                center: { lat:  Number(optionData.pointLat), lng:  Number(optionData.pointLng) }
             }
             var map = new google.maps.Map(document.getElementById("map"), options);
             
             var marker = new google.maps.Marker({
-                position: { lat: 10.763144874392374, lng: 106.68215023974521 },
+                position: { lat:  Number(optionData.pointLat), lng: Number(optionData.pointLng) },
                 map: map
             })
 
             var infoWindow = new google.maps.InfoWindow({
                 content: `<ul class="maps__info" >
-                        <li style="font-weight: bold;">Rạp: ĐH Khoa Học Tự Nhiên</li>
-                        <li><strong>Địa chỉ: </strong> 225 Nguyễn Văn Cừ</li>
+                        <li style="font-weight: bold;">Rạp: ${optionData.cinema}</li>
+                        <li><strong>Địa chỉ: </strong> ${optionData.address}</li>
                         <li><strong>Liên hệ: </strong> 0374.992.033</li>
                     </ul>`
             });
