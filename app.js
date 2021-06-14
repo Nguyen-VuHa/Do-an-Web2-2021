@@ -45,6 +45,7 @@ app.use('/admin', adminRouter);
 app.use('/movie', movieDetailRouter);
 app.use('/cinemas', cinemaSysRouter);
 
+
 db.sync().then(function () {
     const port = process.env.PORT || 3000;
     console.log(`Server is listening on port ${port}`);

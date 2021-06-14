@@ -8,7 +8,6 @@ router.use(function(req, res, next){
     next();
 });
 
-
 router.get('/',asyncHandler(async function(req, res) {
     res.render('cinemaSystem');
 }));
