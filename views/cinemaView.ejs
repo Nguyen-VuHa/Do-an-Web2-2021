@@ -1,0 +1,74 @@
+<section class="ciname-view">
+    <div class="container">
+        <div class="content">
+            <div class="content__header">
+                <a class="btn-back" href="/cinemas"><i class="fal fa-arrow-circle-left"></i></a>
+                <h3>Hệ Thống Rạp Phim</h3>
+            </div>
+            <div class="cinema-view__content">
+                <div class="content__info">
+                    <h4>&#9758;	CGV KHTN CS 1</h4>
+                    <ul class="info">
+                        <li>
+                            <strong>Địa điểm: </strong>
+                            <span>227 Đ. Nguyễn Văn Cừ, Phường 4, Quận 5, Tp.Hồ Chí Minh</span>
+                        </li>
+                        <li>
+                            <strong>Phòng chiếu: </strong>
+                            <span>2D</span>
+                        </li>
+                        <li>
+                            <strong>Số điện thoại: </strong>
+                            <span>0374.992.033</span>
+                        </li>
+                        <li>
+                            <strong>Email hỗ trợ: </strong>
+                            <span>cgv.cinema.vn@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content__maps">
+                    <div id="map"></div>
+                </div>
+            </div>
+            <div class="ticket">
+                <img src="image/gia-ve.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    initMap();
+    function initMap() {
+            var options = { 
+                zoom: 10,
+                center: { lat: 10.763144874392374, lng: 106.68215023974521 }
+            }
+            var map = new google.maps.Map(document.getElementById("map"), options);
+            
+            var marker = new google.maps.Marker({
+                position: { lat: 10.763144874392374, lng: 106.68215023974521 },
+                map: map
+            })
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: `<ul class="maps__info" >
+                        <li style="font-weight: bold;">Rạp: ĐH Khoa Học Tự Nhiên</li>
+                        <li><strong>Địa chỉ: </strong> 225 Nguyễn Văn Cừ</li>
+                        <li><strong>Liên hệ: </strong> 0374.992.033</li>
+                    </ul>`
+            });
+
+            marker.addListener('mouseover', function() {
+                infoWindow.open(map, marker);
+            });
+
+            infoWindow.open(map, marker);
+
+            marker.addListener('mouseover', function() {
+                infoWindow.open(map, marker);
+            });
+        }
+</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVaENvWMY4n6Wv5kDlYG2Bmm0YYy0_1MM&callback=initMap"></script>
