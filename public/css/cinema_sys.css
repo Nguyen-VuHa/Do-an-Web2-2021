@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
-.cinema-system {
+.cinema-system, .ciname-view{
     background-image: url('../image/bg-cinema.png');
     object-fit: cover;
     width: 100%;
@@ -9,7 +10,7 @@
     height: auto;
 }
 
-.cinema-system h3 {
+.cinema-system h3, .ciname-view h3{
     display: inline-block;
     margin-top: 25px;
     font-size: 40px;
@@ -83,3 +84,99 @@
     align-items: flex-start;
 }
 
+.container .content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    background-color: #121825;
+    color: #a6b2c9;
+}
+
+.cinema-view__content {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+
+.content__header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.content__header i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 1rem;
+    font-size: 38px;
+    color: #8eff66;
+}
+
+.content__header .btn-back:hover i {
+    text-shadow: 0 0 5px #54ab35, 0 0 25px #54ab35, 0 0 50px #54ab35, 0 0 200px #54ab35;
+}
+
+.cinema-view__content .content__info {
+    padding: 10px 40px;
+    width: 50%;
+}
+
+.cinema-view__content .content__maps {
+    width: 50%;
+}
+
+.content h4 {
+    font-family: 'Bangers', cursive;
+    font-size: 30px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 5px #54ab35, 0 0 20px #54ab35, 0 0 40px #54ab35, 0 0 100px #54ab35;
+}
+
+.content__info .info li {
+    margin-bottom: 2em;
+}
+
+.content__info .info li strong {
+    text-shadow: 0 0 5px #54ab35, 0 0 20px #54ab35, 0 0 40px #54ab35, 0 0 100px #54ab35;
+}
+
+.content__maps {
+    height: 350px;
+    width: 400px;
+    padding: 1rem;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+   border-radius: 5px;
+}
+
+.maps__info {
+    margin-bottom: 0; font-weight: 400;
+}
+
+.maps__info li {
+    margin: 5px;
+}
+
+.ticket {
+    width: 100%;
+    height: 500px;
+}
+
+.ticket img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    padding: 1rem;
+}
