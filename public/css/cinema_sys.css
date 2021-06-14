@@ -3,7 +3,7 @@
 
 .cinema-system {
     background-image: url('../image/bg-cinema.png');
-    background-size: cover;
+    object-fit: cover;
     width: 100%;
     min-height: 90vh;
     height: auto;
@@ -82,3 +82,4 @@
     margin-bottom: 10px;
     align-items: flex-start;
 }
+

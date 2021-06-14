@@ -17,7 +17,6 @@ router.get('/',asyncHandler(async function(req, res) {
 // API Data
 router.get('/api/data', asyncHandler(async function(req, res) {
     const data = await Theaters.findAll();
-
     res.json(data);
 }));
 
