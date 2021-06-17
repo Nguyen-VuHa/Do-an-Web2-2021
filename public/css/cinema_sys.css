@@ -180,3 +180,26 @@
     object-fit: fill;
     padding: 1rem;
 }
+
+@media screen and (max-width: 850px){
+    .cinema-view__content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cinema-view__content .content__info, .cinema-view__content .content__maps {
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 600px){
+    .content__header i {
+        margin: 5px;
+        font-size: 30px;
+    }
+
+    .ticket {
+        height: auto;
+    }
+}

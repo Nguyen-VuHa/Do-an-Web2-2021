@@ -235,7 +235,7 @@
     }
 
     .group__button {
-        margin: 0px 0px 20px 0px;
+        padding-bottom: 10px;
     }
 
     .modal-trailer .content-video-trailler iframe {
