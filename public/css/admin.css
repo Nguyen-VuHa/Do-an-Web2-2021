@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
 
-
 .more-film {
     width: 100%;
     min-height: 70vh;
@@ -407,6 +406,102 @@
 }
 
 .option-theater, .option-type {
+    font-family: 'Roboto', sans-serif;
+    background: #37424b;
+    font-weight: bold;
+    color: #a6b2c9;
+    width: 100%;
+    outline: none;
+    border: 1px solid #d5dbd9;
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Show Time Manager */
+.show-manager {
+    width: 100%;
+    min-height: 90vh;
+    height: auto;
+    background: #121825;
+}
+
+.show__title {
+    text-align: center;
+    padding-top: 25px;
+    font-size: 40px;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    text-align: center;
+    color: #8eff66;
+    text-shadow: 0 0 5px #54ab35, 0 0 25px #54ab35, 0 0 50px #54ab35, 0 0 200px #54ab35;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.show-manager .list--times {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    border-top: 1px solid #8eff66;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.list--times p {
+    margin-bottom: 0;
+}
+
+.list--times .item.slick-slide {
+    position: relative;
+    color: #a6b2c9;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
+
+.list--times .item.slick-slide:hover {
+    color: #8eff66;
+    border-bottom: 2px solid #8eff66;
+}
+
+.list--times .item.slick-slide.active {
+    color: #8eff66;
+    border-bottom: 2px solid #8eff66;
+}
+
+.container .form__showtime {
+    width: 100%;
+} 
+
+.form__content {
+    color: #a6b2c9;
+    font-weight: 400;
+    padding-top: 20px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form__content .form-group {
+    width: 70%;
+}
+
+.form__content .group-times {
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.form-group .hour, .form-group .minute {
     font-family: 'Roboto', sans-serif;
     background: #37424b;
     font-weight: bold;

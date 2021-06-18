@@ -214,6 +214,12 @@ function SubmitForm(e) {
     if(!checksrcImage(arrayImage))
     {
         $('html,body').animate({ scrollTop: 18 }, 'slow');
+        toast({
+            title: `Infomation!`,
+            message: `Bạn chưa chọn ảnh poster!`,
+            type: `info`,
+            duration: 3000
+        });
         e.preventDefault();
     }
     else{

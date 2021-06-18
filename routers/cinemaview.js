@@ -4,7 +4,8 @@ const asyncHandler = require('express-async-handler');
 const router = express.Router();
 
 router.use(function(req, res, next){
-    res.locals.title = `${req.query.name}`;
+    var title = req.query.name;
+    res.locals.title = `${title.replace(/-/g, ' ')}`;
     next();
 });
 

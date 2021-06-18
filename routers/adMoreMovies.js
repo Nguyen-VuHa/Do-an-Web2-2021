@@ -3,6 +3,7 @@ const router = express.Router();
 const Movies = require('../models/movies');
 const District = require('../models/district');
 const Theaters = require('../models/theater');
+const showTime = require('../models/showtime');
 const asyncHandler = require('express-async-handler');
 const ensureLoggedIn = require('../middlewares/ensure_logged_in');
 const local = require('../local.json');
@@ -33,6 +34,114 @@ router.get('/',asyncHandler(async function(req, res) {
         res.render('adMoreMovies', { movieid });
  }));
 
+ router.get('/showtime',asyncHandler(async function(req, res) {
+   res.render('adShowtime');
+ }));
+
+ router.post('/showtime/add',asyncHandler(async function(req, res) {
+     const objecData = req.body;
+    var checkId = await showTime.findById(objecData.data.id_showtime);
+   
+    if(checkId){
+        res.json(false);
+    }
+    else
+    {
+        showTime.create({
+            idShowtime: objecData.data.id_showtime,
+            idMovies:  objecData.idMovies,
+            idCinema: objecData.idCinema,
+            startDate: objecData.tempDate,
+            startTime: objecData.data.startTime,
+            endDate:  objecData.tempDate,
+            endTime: objecData.data.endTime,
+            fare: objecData.data.fare,
+        });
+        res.json(true);
+    }
+}));
+
+ router.get('/showtime/api/date',asyncHandler(async function(req, res) {
+    var arrayDate = [];
+    var objectDate = {};
+    let strDay = '';
+    let datetime = '';
+    for(let i = 0; i < 14; i++)
+    {
+        strDay = addDays(i).getDate() + "-" + (addDays(i).getMonth() + 1);
+        datetime = addDays(i).getFullYear() + "-" + (addDays(i).getMonth() + 1) + "-" +  addDays(i).getDate();
+        objectDate = {
+            date: getDate(addDays(i).getDay()),
+            day: strDay,
+            datetime: datetime,
+        }
+        arrayDate.push(objectDate);
+    }
+
+    res.json(arrayDate);
+  }));
+
+ function addDays(days) {
+    var now = new Date();
+    now.setDate(now.getDate() + parseInt(days));
+    return now;
+  };
+
+function getDate(current_day) {
+    let date_name = '';
+    if(current_day === 0)
+        date_name = 'CN';
+    if(current_day === 1)
+        date_name = 'Thứ 2';
+    if(current_day === 2)
+        date_name = 'Thứ 3';
+    if(current_day === 3)
+        date_name = 'Thứ 4';
+    if(current_day === 4)
+        date_name = 'Thứ 5';
+    if(current_day === 5)
+        date_name = 'Thứ 6';
+    if(current_day === 6)
+        date_name = 'Thứ 7';
+  
+    return date_name;
+}
+
+router.get('/showtime/api/list-data', asyncHandler(async function(req, res) {
+    const movies = await Movies.findAll();
+    const cinema = await Theaters.findAll();
+    var listDataM = [];
+    var listDataC = [];
+    var listMovies = {};
+    var listCinema = {};
+    var now = new Date();
+
+    movies.forEach(item => {
+        var getDate = new Date(item.premiereDate);
+        if(now.getTime() >= getDate.getTime())
+        {
+            listMovies = {
+                idMovie: item.movieId,
+                movieName: item.movieName
+            };
+            listDataM.push(listMovies);
+        }
+    })
+
+    cinema.forEach(item => {
+        listCinema = {
+            idCinema: item.id,
+            cinemaName: item.nameTheater
+        };
+        listDataC.push(listCinema);
+    })
+   
+    var objectData = {
+        movies: listDataM,
+        cinema: listDataC
+    };
+    res.json(objectData);
+}));
 
 // [GET] API INFO 
 router.get('/api/data', asyncHandler(async function(req, res) {

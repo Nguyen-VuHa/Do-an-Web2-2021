@@ -20,7 +20,7 @@ router.get('/', asyncHandler(async function(req, res){
     var someday = new Date();
     data.forEach(item => {
         var getDate = new Date(item.premiereDate);
-        if( someday.getTime() >= getDate.getTime())
+        if(someday.getTime() >= getDate.getTime())
         {
             var obData_hdc = {};
             var dStart = new Date(item.premiereDate);

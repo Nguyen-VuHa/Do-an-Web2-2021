@@ -1,0 +1,229 @@
+
+<section class="show-manager">
+    <h3 class="show__title">Show Manager</h3>
+    <div class="container">
+        <form method="POST" id="form__showtime" class="form__showtime">
+            <div class="list--times" id="list--times">
+            </div>
+            <div class="form__content">
+                <div class="form-group">
+                    <label>ID Suất Chiếu</label>
+                    <div class="input-text">
+                        <input id="id_showtime" name="id_showtime" type="text" class="input" readonly>
+                        <span class="form-message"></span>
+                    </div>
+                    <a onclick="generateCode()" class="btn btn-success">Generate</a>
+                </div>
+                <div class="form-group">
+                    <label>List Phim</label>
+                    <select id="list-movies" class="option-theater">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>List Rạp</label>
+                    <select id="list-cinema" class="option-theater">
+                    </select>
+                </div>
+                <div class="group-times">
+                    <div class="form-group">
+                        <label>Thời gian bắt đầu</label>
+                        <div class="input-text">
+                            <input type="text" id="startTime" data-format="HH:mm" data-template="HH : mm" name="startTime">
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Thời gian kết thúc</label>
+                        <div class="input-text">
+                            <input type="text" id="endTime" data-format="HH:mm" data-template="HH : mm" name="endTime">
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Giá vé</label>
+                    <div class="input-text">
+                        <input id="fare" name="fare" type="text" class="input">
+                        <span class="form-message"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button onclick="SubmitFormShow(event)" id="btn-save" type="submit" class="btn btn-success btn-save">Save Change</button>
+            </div>
+        </form>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src = "../js/moment.js"></script>  
+<script src = "../js/combodate.js"></script> 
+<script src="../js/validateform.js"></script>
+<script src="../js/toastmesage.js"></script>
+<script>
+    $(function(){
+        $('#endTime').combodate({
+            firstItem: 'name', 
+            minuteStep: 1
+        });  
+        $('#startTime').combodate({
+            firstItem: 'name',
+            minuteStep: 1
+        });  
+    });
+
+    function generateCode() {
+        document.getElementById('id_showtime').value = uuidv4();
+    }
+
+    function uuidv4() {
+        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        )
+    }
+    
+    function SubmitFormShow(e) {
+        var list = document.querySelectorAll('#list--times .item.active');
+        if(list.length <= 0)
+        {
+            toast({
+                title: `Infomation!`,
+                message: `Bạn chưa chọn ngày để thêm vào!`,
+                type: `info`,
+                duration: 3000
+            });
+            e.preventDefault();
+        }
+        else
+        {
+            Validator ({
+                form: '#form__showtime',
+                formGroupSelector: '.form-group',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#id_showtime', 'Không được trống!'),
+                    Validator.isRequired('#startTime', 'Không được trống!'),
+                    Validator.isRequired('#endTime', 'Không được trống!'),
+                    Validator.isRequired('#fare', 'Không được trống!'),
+                ],
+                onSubmit: function (data) { 
+                    var date = $(list).find('.times').attr('valuetext');  
+                    var tempDate = new Date(date);
+                    let idMovies = document.getElementById('list-movies').value;
+                    let idCinema = document.getElementById('list-cinema').value;
+                    var objectData = {
+                        data: data,
+                        tempDate: tempDate,
+                        idMovies: idMovies,
+                        idCinema: idCinema,
+                    };
+
+                    var options = {
+                        method: 'POST', // or 'PUT'
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(objectData),
+                    }
+                    fetch(`http://localhost:3000/admin/showtime/add`, options)
+                        .then(function(response) {
+                            return response.json();
+                        })
+                        .then(function(result) {
+                            if(result === true)
+                            {
+                                toast({
+                                    title: `Sucessfully!`,
+                                    message: `Thêm thành công`,
+                                    type: `success`,
+                                    duration: 3000
+                                });
+                                document.getElementById('id_showtime').value = uuidv4();
+                            }
+                            else {
+                                toast({
+                                    title: `Error!`,
+                                    message: `ID suất chiếu này đã tồn tại!`,
+                                    type: `error`,
+                                    duration: 3000
+                                });
+                            }
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                        });
+                    }
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById('id_showtime').value = uuidv4();
+        var list = document.querySelector('#list--times');
+        fetch('http://localhost:3000/admin/showTime/api/date')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(result) {
+                var htmls = result.map(function(data) {
+                    return `
+                        <div class="item">
+                            <span>${data.date}</span>
+                            <p class="times" valuetext="${data.datetime}">${data.day}</p>
+                        </div>
+                    `;
+                });
+                list.innerHTML = htmls.join('');
+                $('.list--times').slick({
+                    slidesToShow: 12,
+                    slidesToScroll: 3,
+                    arrows: true,
+                    infinite: false,
+                    responsive: [
+                        {
+                        breakpoint: 845,
+                        settings: {
+                            slidesToShow: 5,
+                            slidesToScroll: 3,
+                        }
+                        },
+                        {
+                        breakpoint: 600,
+                            settings: {
+                                slidesToShow: 4,
+                                slidesToScroll: 2
+                            }
+                        },
+                    ]
+                });
+                $('.item').click(function () {
+                    $(this).addClass("active").siblings().removeClass("active");
+                })
+             });
+
+             var list_movie = document.querySelector('#list-movies');
+             var list_cinema = document.querySelector('#list-cinema');
+             fetch('http://localhost:3000/admin/showtime/api/list-data')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(result) {
+                    var listMovie = result.movies;
+                    var listCinema = result.cinema;
+                    var htmls = listMovie.map(function(data) {
+                        return `
+                            <option class="provinceId" value="${data.idMovie}">${data.movieName}</option>
+                        `;
+                    });
+                    list_movie.innerHTML = htmls.join('');
+                    var htmls_cinema = listCinema.map(function(data) {
+                        return `
+                            <option class="provinceId" value="${data.idCinema}">${data.cinemaName}</option>
+                        `;
+                    });
+                    list_cinema.innerHTML = htmls_cinema.join('');
+                });
+            });
+
+</script>
+<script src="../js/header.js"></script>
