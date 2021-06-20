@@ -246,3 +246,9 @@
   text-decoration: none;
   color: #8eff66;
 }
+
+.cinema-item__tabpane .item__time-cinema .btn-sumit:hover {
+  box-shadow: -8px -8px 50px 2px rgb(199, 139, 255),
+              8px 8px 50px 2px rgb(118, 216, 255);
+  text-shadow:  0 0 5px rgb(199, 139, 255), 0 0 25px rgb(118, 216, 255), 0 0 50px rgb(199, 139, 255), 0 0 100px rgb(118, 216, 255);
+}

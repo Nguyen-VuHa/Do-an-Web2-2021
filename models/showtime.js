@@ -47,6 +47,14 @@ showTime.findById = async function (idShowtime) {
     });
 }
 
+showTime.findByIdMovies = async function (idMovies) {
+    return showTime.findAll({
+        where: {
+            idMovies: idMovies,
+        },
+    });
+}
+
 showTime.finbByAll = async function () {
     return showTime.findAll();
 }
