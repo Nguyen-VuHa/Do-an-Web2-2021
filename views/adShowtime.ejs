@@ -160,6 +160,7 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('id_showtime').value = uuidv4();
         var list = document.querySelector('#list--times');
+        
         fetch('http://localhost:3000/admin/showTime/api/date')
             .then(function(response) {
                 return response.json();

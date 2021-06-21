@@ -68,13 +68,29 @@ router.get('/',asyncHandler(async function(req, res) {
     let datetime = '';
     for(let i = 0; i < 14; i++)
     {
+        var month = (addDays(i).getMonth() + 1);
+        var day = addDays(i).getDate();
+
         strDay = addDays(i).getDate() + "-" + (addDays(i).getMonth() + 1);
-        datetime = addDays(i).getFullYear() + "-" + (addDays(i).getMonth() + 1) + "-" +  addDays(i).getDate();
+
+        if(month.toString().length > 1)
+            month = "" + (addDays(i).getMonth() + 1);
+        else
+            month = "0" + (addDays(i).getMonth() + 1);
+
+        if(day.toString().length > 1)
+            day = "" + addDays(i).getDate();
+        else
+            day = "0" + addDays(i).getDate();
+
+        datetime = addDays(i).getFullYear() + "-" + month + "-" +  day;
+
         objectDate = {
             date: getDate(addDays(i).getDay()),
             day: strDay,
             datetime: datetime,
         }
+        
         arrayDate.push(objectDate);
     }
 

@@ -15,81 +15,8 @@
             </div>
             <div class="slider__times" id="slider__times">
                 <div class="list--times tabs-item" id="list--times">
-                   
                 </div>
                 <div class="item-tabcontent" id="item-tabcontent">
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="list__cinema tabs__cinema-item">
-                            <div class="item__cinema active">CGV THPT Quang Trung</div>
-                            <div class="item__cinema">CGV KHTN Hà Nội</div>
-                            <div class="item__cinema">CGV Centerpoint Hà Nội</div>
-                            <div class="item__cinema">CGV KHTN CS 2</div>
-                            <div class="item__cinema">CGV KHTN CS 1</div>
-                        </div>
-                        <div class="cinema-item__tabpane">
-                            <div class="item__time-cinema active">
-                                <a href="#" class="btn-sumit">11:30</a>
-                                <a href="#" class="btn-sumit">13:30</a>
-                                <a href="#" class="btn-sumit">16:30</a>
-                                <a href="#" class="btn-sumit">20:00</a>
-                                <a href="#" class="btn-sumit">23:00</a>
-                            </div>
-                            <div class="item__time-cinema"><a href="#" class="btn-sumit">12:30</a></div>
-                            <div class="item__time-cinema"><a href="#" class="btn-sumit">15:30</a></div>
-                            <div class="item__time-cinema"><a href="#" class="btn-sumit">17:30</a></div>
-                            <div class="item__time-cinema"><a href="#" class="btn-sumit">20:30</a></div>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
-                    <div class="item-tabpane">
-                        <div class="tab__content">
-                            <h4 style="display: flex; justify-content: center;">PHIM CHƯA BÁN VÉ</h4>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -105,9 +32,11 @@
     // API data
     document.addEventListener('DOMContentLoaded', function() {
         const listMovies = document.querySelector('#sliderShowtime');
+        const btnLoader = document.querySelector('.section-loader');
         const a = document.querySelector.bind(document);
         const aa = document.querySelectorAll.bind(document);
 
+        btnLoader.classList.remove('hide');
         fetch('http://localhost:3000/showtimes/api/movie')
             .then(function(response){
                 return response.json();
@@ -267,7 +196,7 @@
                                     console.log(err);
                             });
                 });
-
+                btnLoader.classList.add('hide');
             })
             .catch(function(err){
                     console.log(err);

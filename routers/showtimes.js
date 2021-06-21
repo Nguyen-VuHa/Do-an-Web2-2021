@@ -45,7 +45,20 @@ router.get('/api/date/:id', asyncHandler(async function(req, res) {
 
     for(let i = 0; i < 14; i++)
     {
-        var dateString = addDays(i).getFullYear() + "-" + (addDays(i).getMonth() + 1) + "-" + addDays(i).getDate();
+        var month = (addDays(i).getMonth() + 1);
+        var day = addDays(i).getDate();
+
+        if(month.toString().length > 1)
+            month = "" + (addDays(i).getMonth() + 1);
+        else
+            month = "0" + (addDays(i).getMonth() + 1);
+
+        if(day.toString().length > 1)
+            day = "" + addDays(i).getDate();
+        else
+            day = "0" + addDays(i).getDate();
+
+        var dateString = addDays(i).getFullYear() + "-" + month + "-" + day + "T00:00:00.000Z";
         var date = new Date(dateString);
         dates.push(date);
     }
@@ -67,17 +80,31 @@ router.get('/api/date/:id', asyncHandler(async function(req, res) {
                 arrayStTime.push(item.startTime);
 
                 cinema.forEach(items => {
-                    
-                    if(items.idCinema === item.idCinema)
+                    if(items.idCinema === item.idCinema && items.startDate.getTime() === item.startDate.getTime())
                     {
                         items.startTime.push(item.startTime);
                     }
                 });
 
-                const data = cinema.filter(items => items.idCinema === item.idCinema);
+                const data = cinema.filter(items => (items.idCinema === item.idCinema));
 
                 if(data.length > 0)
-                    return;
+                {
+                    const t = data.filter(items => (items.startDate.getTime() === item.startDate.getTime()));
+                    if(t.length > 0)
+                        return;
+                    else
+                    {
+                        objectItem = {
+                            idShow: item.idShowtime,
+                            idMovies: item.idMovies,
+                            idCinema: item.idCinema,
+                            nameCinema: nameCinema,
+                            startDate: item.startDate,
+                            startTime: arrayStTime,
+                        };
+                    }
+                }
                 else
                 {
                     objectItem = {
