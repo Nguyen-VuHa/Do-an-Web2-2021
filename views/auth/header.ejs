@@ -119,42 +119,40 @@
                 </div>
            
         </nav>
-        <script type="text/javascript">
-            // button click
-            function menuDropMenuUser() {
-                var divs = document.getElementById("menu__profile");
-                divs.classList.toggle("active");
-            }
-
-            function menuNotify() {
-                var divs = document.getElementById("menu__notify");
-                divs.classList.toggle("active");
-            }
-
-            document.addEventListener('click', function (e) {
-                var divs = document.getElementById("menu__notify");
-                var divs_p = document.getElementById("menu__profile");
-                if(!e.target.matches('#notify_clicks'))
-                {
-                    if(divs.classList.contains('active')){
-                        divs.classList.remove('active');
-                    }
-                }
-                if(!e.target.matches('#profile_clicks'))
-                {
-                    if(divs_p.classList.contains('active')){
-                        divs_p.classList.remove('active');
-                    }
-                }
-            })
-
-            
-        </script>
            <% if (currentUser) { %>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         $('.avartar-user').attr('src', `http://localhost:3000/prof/image/<%-currentUser.code%>`);
                     }) 
+
+                            // button click
+                    function menuDropMenuUser() {
+                        var divs = document.getElementById("menu__profile");
+                        divs.classList.toggle("active");
+                    }
+
+                    function menuNotify() {
+                        var divs = document.getElementById("menu__notify");
+                        divs.classList.toggle("active");
+                    }
+
+                    document.addEventListener('click', function (e) {
+                        var divs = document.getElementById("menu__notify");
+                        var divs_p = document.getElementById("menu__profile");
+                        if(!e.target.matches('#notify_clicks'))
+                        {
+                            if(divs.classList.contains('active')){
+                                divs.classList.remove('active');
+                            }
+                        }
+                        if(!e.target.matches('#profile_clicks'))
+                        {
+                            if(divs_p.classList.contains('active')){
+                                divs_p.classList.remove('active');
+                            }
+                        }
+                    })
+
                         
                 </script>
             <% } %>

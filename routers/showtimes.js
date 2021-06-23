@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const Movies = require('../models/movies');
 const showTime = require('../models/showtime');
 const Cinema = require('../models/theater');
+const District = require('../models/district')
 const router = express.Router();
 
 router.use(function(req, res, next){
@@ -170,5 +171,154 @@ function getDate(current_day) {
   
     return date_name;
 }
+
+router.get('/api/cinema',asyncHandler(async  function(req, res) {
+    const districts = await District.findAll();
+    const cinemas = await Cinema.findAll();
+    const data_district = [];
+    const data_cinema = [];
+    districts.forEach(item => {
+        var obj = {
+            id: item.id,
+            district: item.district
+        }
+        data_district.push(obj);
+    })
+
+    cinemas.forEach(item => {
+        var obj = {
+            id: item.id,
+            idDistr: item.idDistr,
+            cinemaName: item.nameTheater,
+            cinemaAddress: item.addressTheater
+        }
+        data_cinema.push(obj);
+    })
+
+    var objectData = {
+        district: data_district,
+        cinema: data_cinema
+    }
+
+    res.json(objectData);
+}));
+
+router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
+    const showtimes = await showTime.findByIdCinema(req.params.id);
+    const listMovies = await Movies.findAll();
+    const data = [];
+    
+    showtimes.forEach(item => {
+        const dates = [];
+        const startdates = [];
+        let nameMovies = '';
+        let strDay = '';
+        let datetime = '';
+        let datename = '';
+        
+        const temp = data.filter(items => items.idMovies === item.idMovies);
+        if(temp.length > 0)
+        {
+            const t = data.filter(items => (items.startDate.getTime() === item.startDate.getTime() && items.idMovies === item.idMovies));
+            if(t.length > 0)
+            {
+                data.forEach(items => {
+                    if(items.startDate.getTime() === item.startDate.getTime() && items.idMovies === item.idMovies)
+                    {
+                        items.startTime.push(item.startTime);
+                    }
+                })
+            }
+            else
+            {
+                strDay = item.startDate.getDate() + "-" + (item.startDate.getMonth() + 1);
+                datetime = item.startDate.getFullYear() + "-" + (item.startDate.getMonth() + 1) + "-" +  item.startDate.getDate();
+                datename = getDate(item.startDate.getDay());
+    
+                var objdate = {
+                    day: strDay,
+                    datetime: datetime,
+                    datename: datename
+                }
+                startdates.push(objdate);
+    
+                listMovies.forEach(items => {
+                    if(items.movieId === item.idMovies)
+                    {
+                        nameMovies = items.movieName;
+                        return;
+                    }
+                });
+                dates.push(item.startTime);
+    
+                objectItem = {
+                    idShow: item.idShowtime,
+                    idMovies: item.idMovies,
+                    idCinema: item.idCinema,
+                    movieName: nameMovies,
+                    startDate: item.startDate,
+                    date: startdates,
+                    startTime: dates
+                };
+    
+                data.push(objectItem);
+            }
+        }
+        else
+        {
+           
+                strDay = item.startDate.getDate() + "-" + (item.startDate.getMonth() + 1);
+                datetime = item.startDate.getFullYear() + "-" + (item.startDate.getMonth() + 1) + "-" +  item.startDate.getDate();
+                datename = getDate(item.startDate.getDay());
+    
+                var objdate = {
+                    day: strDay,
+                    datetime: datetime,
+                    datename: datename
+                }
+                startdates.push(objdate);
+    
+                listMovies.forEach(items => {
+                    if(items.movieId === item.idMovies)
+                    {
+                        nameMovies = items.movieName;
+                        return;
+                    }
+                });
+                dates.push(item.startTime);
+    
+                objectItem = {
+                    idShow: item.idShowtime,
+                    idMovies: item.idMovies,
+                    idCinema: item.idCinema,
+                    movieName: nameMovies,
+                    startDate: item.startDate,
+                    date: startdates,
+                    startTime: dates
+                };
+                data.push(objectItem);
+        }
+    })
+
+    const dataTemp = [];
+    const groupByMake = groupByKey( data, 'startDate');
+
+    Object.keys(groupByMake).forEach(key => {
+        var object = {
+            data: groupByMake[key]
+        }
+        dataTemp.push(object);
+      });
+  
+    res.json(dataTemp);
+}));
+
+function groupByKey(array, key) {
+    return array
+      .reduce((hash, obj) => {
+        if(obj[key] === undefined) return hash; 
+        return Object.assign(hash, { [obj[key]] :( hash[obj[key]] || [] ).concat(obj)})
+      }, {})
+ }
 
 module.exports = router;
