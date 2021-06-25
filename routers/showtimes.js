@@ -71,6 +71,7 @@ router.get('/api/date/:id', asyncHandler(async function(req, res) {
                 let nameCinema = "";
                 var objectItem = {};
                 var arrayStTime = [];
+                var arrayId = [];
                 cinemas.forEach(items => {
                     if(items.id === item.idCinema)
                     {
@@ -79,10 +80,12 @@ router.get('/api/date/:id', asyncHandler(async function(req, res) {
                     }
                 });
                 arrayStTime.push(item.startTime);
+                arrayId.push(item.idShowtime);
 
                 cinema.forEach(items => {
                     if(items.idCinema === item.idCinema && items.startDate.getTime() === item.startDate.getTime())
                     {
+                        items.idShow.push(item.idShowtime);
                         items.startTime.push(item.startTime);
                     }
                 });
@@ -97,7 +100,7 @@ router.get('/api/date/:id', asyncHandler(async function(req, res) {
                     else
                     {
                         objectItem = {
-                            idShow: item.idShowtime,
+                            idShow: arrayId,
                             idMovies: item.idMovies,
                             idCinema: item.idCinema,
                             nameCinema: nameCinema,
@@ -109,7 +112,7 @@ router.get('/api/date/:id', asyncHandler(async function(req, res) {
                 else
                 {
                     objectItem = {
-                        idShow: item.idShowtime,
+                        idShow: arrayId,
                         idMovies: item.idMovies,
                         idCinema: item.idCinema,
                         nameCinema: nameCinema,
@@ -210,6 +213,7 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
     
     showtimes.forEach(item => {
         const dates = [];
+        const arrayId = [];
         const startdates = [];
         let nameMovies = '';
         let strDay = '';
@@ -226,6 +230,7 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
                     if(items.startDate.getTime() === item.startDate.getTime() && items.idMovies === item.idMovies)
                     {
                         items.startTime.push(item.startTime);
+                        items.idShow.push(item.idShowtime);
                     }
                 })
             }
@@ -250,9 +255,10 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
                     }
                 });
                 dates.push(item.startTime);
+                arrayId.push(item.idShowtime);
     
                 objectItem = {
-                    idShow: item.idShowtime,
+                    idShow: arrayId,
                     idMovies: item.idMovies,
                     idCinema: item.idCinema,
                     movieName: nameMovies,
@@ -286,9 +292,10 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
                     }
                 });
                 dates.push(item.startTime);
+                arrayId.push(item.idShowtime);
     
                 objectItem = {
-                    idShow: item.idShowtime,
+                    idShow: arrayId,
                     idMovies: item.idMovies,
                     idCinema: item.idCinema,
                     movieName: nameMovies,

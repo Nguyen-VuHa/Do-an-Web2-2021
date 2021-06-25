@@ -3,24 +3,24 @@
     <div class="container">
       <div class="booking__top-content">
         <div class="top-content__poster">
-          <img src="http://localhost:3000/api/image/F0xFWFI/1" alt="">
+          <img src="http://localhost:3000/api/image/<%- data.movie.movieId %>/1" alt="">
         </div>
         <ul class="group__info-film">
           <li class="group-film"> 
               <label class="group__title" for="">Movie's name </label>
-              <span style="color: #e71a0f;">BỐ GIÀ</span>
+              <span style="color: #e71a0f; text-transform: uppercase;"><%- data.movie.movieName %></span>
           </li>
           <li class="group-film"> 
               <label class="group__title" for="">Cinama</label>
-              <span>CGV KHTN CS 1</span>
+              <span><%- data.cinema.nameCinema %></span>
           </li>
           <li class="group-film"> 
               <label class="group__title" for="">Movie Genre</label>
-              <span>Action , Science Fiction</span>
+              <span><%- data.movie.category %></span>
           </li>
           <li class="group-film"> 
               <label class="group__title" for="">Movie Duration</label>
-              <span>120 minutes</span>
+              <span><%- data.movie.time %> minutes</span>
           </li>
           <li class="group-film"> 
               <label class="group__title" for="">Language</label>
@@ -28,15 +28,15 @@
           </li>
           <li class="group-film"> 
             <label class="group__title" for="">Show time</label>
-            <span>24/06/2021 12:00 ~ 24/06/2021 14:22</span>
+            <span><%- data.showtime.time %></span>
           </li>
           <li class="group-film"> 
             <label class="group__title" for="">Seating</label>
-            <span>(152/152)</span>
+            <span>(<%- data.cinema.totalSeats %>/<%- data.cinema.totalSeats %>)</span>
           </li>
           <li class="group-film"> 
             <label class="group__title" for="">Fare</label>
-            <span>80.000 đ</span>
+            <span><%- data.showtime.fare.replace(/\B(?=(\d{3})+(?!\d))/g, '.') %> đ</span>
           </li>
         </ul>
       </div>
@@ -81,12 +81,12 @@
          <div class="info__customer">
             <div class="if-group">
               <label>E-mail</label>
-              <p>vuha201199@gmail.com</p>
+              <p><%- data.user.email %></p>
             </div>
            
             <div class="if-group">
               <label>Phone</label>
-              <p>0374992033</p>
+              <p><%- data.user.numberphone %></p>
             </div>
          </div>
          <hr style="background: rgba(255,255,255,0.2); margin-top: 0;">
@@ -115,7 +115,7 @@
               <input class="form-check-input" type="radio" name="promotion">
               <div class="promotion__content">
                 <div class="paypal"><i class="fad fa-donate" style="color: #4c6ef5;"></i></div>
-                <span style="font-weight: 500;">Thanh toán bằng số dư Tài khoản</span>
+                <span style="font-weight: 500;">Thanh toán bằng số dư E-coin</span>
                </div>
             </li>
              <li class="option_item">
@@ -142,42 +142,33 @@
 </section>
 <script src="js/toastmesage.js"></script>
 <script>
-  var charList = (a,z,d=1)=>(a=a.charCodeAt(),z=z.charCodeAt(),[...Array(Math.floor((z-a)/d)+1)].map((_,i)=>String.fromCharCode(a+i*d)));
-  var numbers = document.getElementById('box');
-  for(i=1;i<=50;i++)
-  {
-    var span = document.createElement('span');
-    span.textContent = i;
-    numbers.appendChild(span);
-  }
+  //API
+  window.addEventListener('load', (event) => {
+      getMap(renderMapCinema);
+  });
 
-  var num = numbers.getElementsByTagName('span');
-  $(num[0]).addClass('show');
-  var index = 0;
-  function nexNum() {
-    num[index].style.display = 'none';
-    $(num[index]).removeClass('show');
-    index = (index + 1) % num.length;
-    num[index].style.display = 'initial';
-    $(num[index]).addClass('show');
-  }
+  function getMap(callback) {
+      var url = window.location.href;
+      var arrayUrl = url.split('?');
+      var urlApi = `http://localhost:3000/bookings/api/bookingstep?${arrayUrl[1]}`;
+        fetch(urlApi)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(callback)
+        .catch(function(err){
+            console.log(err);
+        });
+      }
 
-  function prevNum() {
-    num[index].style.display = 'none';
-    $(num[index]).removeClass('show');
-    index = (index - 1 + num.length) % num.length;
-    num[index].style.display = 'initial';
-    $(num[index]).addClass('show');
-  }
-
-  $(document).ready(function() {
+  function renderMapCinema(result) {
     var htmls = '';
     var arrayChar = charList('A', 'Z');
-    for ( var i=0; i < 10; i++ ) {
+    for ( var i=0; i < result.sizeHorizontal; i++ ) {
       var html = '';
       html += `<div class="row_name">${arrayChar[i]}</div>`
       var html_seats = '';
-      for ( var j=0; j < 16; j++ ) { 
+      for ( var j=0; j < result.sizeVertical; j++ ) { 
           html_seats += `<div id="seat" class="seat" value="${arrayChar[i]}${i + j}"><i class="fad fa-loveseat"></i></div>`;
       }
       htmls += `<div class="row"> 
@@ -220,9 +211,9 @@
           {
             toast({
                 title: `Notification!`,
-                message: `Bạn đã chọn tối đa ${array_seats.length} ghế! Xin vui lòng chọn thêm số lượng ghế để tiếp tục...`,
+                message: `Bạn đã chọn tối đa ${array_seats.length} ghế! Xin vui lòng mở rộng số lượng ghế để tiếp tục...`,
                 type: `info`,
-                duration: 3000
+                duration: 4500
             });
           }
         }
@@ -231,7 +222,7 @@
           htmls+= `<span> ${item} , </span>`
         });
         list_id_seats.innerHTML = htmls;
-        let TotalPrice = 80000 * array_seats.length;
+        let TotalPrice = result.fare * array_seats.length;
         document.querySelector('.info__price').textContent = TotalPrice.toLocaleString() + " đ";
       });
 
@@ -241,6 +232,34 @@
 
         console.log(document.querySelector('#box .show').textContent)
       })
-  })
- 
+  }
+
+  var charList = (a,z,d=1)=>(a=a.charCodeAt(),z=z.charCodeAt(),[...Array(Math.floor((z-a)/d)+1)].map((_,i)=>String.fromCharCode(a+i*d)));
+  var numbers = document.getElementById('box');
+  for(i=1;i<=50;i++)
+  {
+    var span = document.createElement('span');
+    span.textContent = i;
+    numbers.appendChild(span);
+  }
+
+  var num = numbers.getElementsByTagName('span');
+  $(num[0]).addClass('show');
+  var index = 0;
+  function nexNum() {
+    num[index].style.display = 'none';
+    $(num[index]).removeClass('show');
+    index = (index + 1) % num.length;
+    num[index].style.display = 'initial';
+    $(num[index]).addClass('show');
+  }
+
+  function prevNum() {
+    num[index].style.display = 'none';
+    $(num[index]).removeClass('show');
+    index = (index - 1 + num.length) % num.length;
+    num[index].style.display = 'initial';
+    $(num[index]).addClass('show');
+  }
+  
 </script>

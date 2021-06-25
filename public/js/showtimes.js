@@ -94,7 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                         var html_temp = '';
                                         for(let i = 0; i < item.startTime.length; i++)
                                         {
-                                            html_temp += `<a href="#" class="btn-sumit">${item.startTime[i]}</a>`
+                                            console.log(item);
+                                            html_temp += `<a href="/bookings?idshow=${item.idShow[i]}&idmovie=${item.idMovies}&idcinema=${item.idCinema}" class="btn-sumit" >${item.startTime[i]}</a>`
                                             
                                         }
                                         html_item_tab += `<div class="item__time-cinema">
@@ -104,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     else
                                     {
                                         html_item_tab += `<div class="item__time-cinema">
-                                                        <a href="#" class="btn-sumit">${item.startTime}</a>
+                                                        <a href="/bookings?idshow=${item.idShow}&idmovie=${item.idMovies}&idcinema=${item.idCinema}" class="btn-sumit">${item.startTime}</a>
                                                     </div>`  ;
                                     }
                                 })

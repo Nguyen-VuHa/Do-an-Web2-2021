@@ -97,7 +97,7 @@
                 $('.item-place').click(function() {
                     var list__place = document.querySelector('#list__place');
                     var tabs__place = document.querySelector('#tabs__place-content');
-                   
+                    
                     var idCinema = $(this).attr('valueid');
                     //Fetch Api 
                     btnLoader.classList.remove('hide');
@@ -125,9 +125,9 @@
                                         });
                                         html_list += htmls_list_place;
 
-                                        var htmls_tabs__place = temp.map(function(data){
-                                            var html_item = data.startTime.map(function(item) {
-                                                return `<a href="#" class="btn-sumit">${item}</a>`;
+                                        var htmls_tabs__place = temp.map(function(data, index){
+                                            var html_item = data.startTime.map(function(item, index) {
+                                                return `<a href="/bookings?idshow=${data.idShow[index]}&idmovie=${data.idMovies}&idcinema=${data.idCinema}" class="btn-sumit">${item}</a>`;
                                             })
                                             return `
                                             <div class="item item__place">
@@ -168,9 +168,9 @@
                                         var htmls_temp = '';
                                         for(let i = 0; i < temp.length; i++)
                                         {
-                                            var htmls_tabs__place = [temp[i]].map(function(data){
-                                                var html_item = data.startTime.map(function(item) {
-                                                    return `<a href="#" class="btn-sumit">${item}</a>`;
+                                            var htmls_tabs__place = [temp[i]].map(function(data, index){
+                                                var html_item = data.startTime.map(function(item, index) {
+                                                    return `<a href="/bookings?idshow=${data.idShow[index]}&idmovie=${data.idMovies}&idcinema=${data.idCinema}" class="btn-sumit">${item}</a>`;
                                                 })
                                                 return `
                                                     <div class="item__place-content">
@@ -245,6 +245,5 @@
                 console.log(err);
             });
 
-           
     });
 </script>
