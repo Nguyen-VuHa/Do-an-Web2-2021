@@ -301,7 +301,7 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
     })
 
     const dataTemp = [];
-    const groupByMake = groupByKey( data, 'startDate');
+    const groupByMake = groupByKey(data, 'startDate');
 
     Object.keys(groupByMake).forEach(key => {
         var object = {

@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(ensureLoggedIn);
 
 router.use(function(req, res, next){
-    res.locals.title = 'Thông Tin Cá Nhân';
+    res.locals.title = 'Thông Tin Tài Khoản';
     next();
 });
 

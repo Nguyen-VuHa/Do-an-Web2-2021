@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- logo title -->
-    <link rel = "icon" href = "image/logo.ico" type = "image/x-icon">
+    <link rel = "icon" href = "http://localhost:3000/image/logo.ico" type = "image/x-icon">
     <!-- link CSS-->
-    <%if (title === 'Thông Tin Cá Nhân') {%> 
+    <%if (title === 'Thông Tin Tài Khoản') {%> 
       <link rel="stylesheet" href="../css/croppie.css" />
       <link rel="stylesheet" href="../css/home.css">
       <link rel="stylesheet" href="../css/profile.css"> 
@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="http://localhost:3000/css/admin.css">
     <link rel="stylesheet" href="http://localhost:3000/css/cinema_sys.css">
     <link rel="stylesheet" href="http://localhost:3000/css/showtimes.css">
+    <link rel="stylesheet" href="http://localhost:3000/css/booking.css">
     <% } %>
     <!-- link bootstrap cdn 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -41,7 +42,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
   <!-- link icon -->
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-  <title>CGV Cinemas Việt Nam  &#8226; <%- title %></title>
+  <title><%- title %></title>
 </head>
 <body>
     <div id="toast"></div>
@@ -69,7 +70,7 @@
             <span style="--i:20;"></span>
         </div>
     </div>
-    <%- title === 'Thông Tin Cá Nhân' ? '' : include('auth/header.ejs') %>
+    <%- title === 'Thông Tin Tài Khoản' ? '' : include('auth/header.ejs') %>
     <%- body %>
     <%- title === 'Admin' ? '' :  include('auth/footer.ejs') %>
 </body>

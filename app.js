@@ -19,6 +19,7 @@ const movieDetailRouter = require('./routers/movieDetails');
 const cinemaSysRouter = require('./routers/cinemaSystem');
 const cinemaViewRouter = require('./routers/cinemaview');
 const showTimeRouter = require('./routers/showtimes');
+const bookingRouter = require('./routers/bookings');
 
 app.use(cors());
 
@@ -48,6 +49,7 @@ app.use('/movie', movieDetailRouter);
 app.use('/cinemas', cinemaSysRouter);
 app.use('/cinema-view', cinemaViewRouter);
 app.use('/showtimes', showTimeRouter);
+app.use('/bookings', bookingRouter);
 
 db.sync().then(function () {
     const port = process.env.PORT || 3000;

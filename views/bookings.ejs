@@ -1,19 +1,246 @@
-<table class="table table-condensed">
-  <thead>
-    <tr>
-      <th>Movie</th>
-      <th>Tickets Purchased</th>
-      <th>Movie Showing</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr data-ng-repeat="book in bookings">
-      <td>{{book.name}}</td>
-      <td>{{book.qty}}</td>
-      <td>{{book.date}}</td>
-    </tr>
-    <tr data-ng-show="bookings.length <= 0">
-      <td colspan="3" style="text-align:center;">You have not made any Movie Bookings yet.</td>
-    </tr>
-  </tbody>
-</table>
+<section class="bookings">
+    <h3>Booking Online</h3>
+    <div class="container">
+      <div class="booking__top-content">
+        <div class="top-content__poster">
+          <img src="http://localhost:3000/api/image/F0xFWFI/1" alt="">
+        </div>
+        <ul class="group__info-film">
+          <li class="group-film"> 
+              <label class="group__title" for="">Movie's name </label>
+              <span style="color: #e71a0f;">BỐ GIÀ</span>
+          </li>
+          <li class="group-film"> 
+              <label class="group__title" for="">Cinama</label>
+              <span>CGV KHTN CS 1</span>
+          </li>
+          <li class="group-film"> 
+              <label class="group__title" for="">Movie Genre</label>
+              <span>Action , Science Fiction</span>
+          </li>
+          <li class="group-film"> 
+              <label class="group__title" for="">Movie Duration</label>
+              <span>120 minutes</span>
+          </li>
+          <li class="group-film"> 
+              <label class="group__title" for="">Language</label>
+              <span>Vietnamese subtitles</span>
+          </li>
+          <li class="group-film"> 
+            <label class="group__title" for="">Show time</label>
+            <span>24/06/2021 12:00 ~ 24/06/2021 14:22</span>
+          </li>
+          <li class="group-film"> 
+            <label class="group__title" for="">Seating</label>
+            <span>(152/152)</span>
+          </li>
+          <li class="group-film"> 
+            <label class="group__title" for="">Fare</label>
+            <span>80.000 đ</span>
+          </li>
+        </ul>
+      </div>
+      <div class="booking__option">
+        <h3 class="option__title">Options</h3>
+        <div class="option__info">
+          <label>Number of Seats</label>
+          <div class="option__info-numberic">
+            <span class="next" onclick="nexNum()"></span>
+            <span class="prev" onclick="prevNum()"></span>
+            <div id="box">
+            </div>
+          </div>
+          <a style="color: #fff;" class="btn btn-success btn-selected">Selected</a>
+        </div>
+      </div>
+    </div>
+    <div class="booking__content">
+      <div class="booking_by_step col-8">
+        <div class="booking__step">
+          <div class="screen"></div>
+          <div class="list__row" style="margin-top: 80px;">
+          </div>
+        </div>
+        <div class="ticketbox-notice">
+          <div class="iconlist">
+            <div class="icon"><i class="fad fa-loveseat"></i> Trống</div> 
+            <div class="icon occupied"><i class="fad fa-loveseat"></i> Đã chọn</div>
+            <div class="icon unavailable"><i class="fad fa-loveseat"></i> Không thể chọn</div>
+          </div>
+        </div>
+      </div>
+      <div class="booking__content-info col-4">
+         <h4 class="info__price">0.0 đ</h4>
+         <hr style="background: rgba(255,255,255,0.2);">
+         <div class="info__seats">
+           <p>Ghế:</p>
+           <div class="id_seats">
+           </div>
+         </div>
+         <hr style="background: rgba(255,255,255,0.2); margin-top: 0;">
+         <div class="info__customer">
+            <div class="if-group">
+              <label>E-mail</label>
+              <p>vuha201199@gmail.com</p>
+            </div>
+           
+            <div class="if-group">
+              <label>Phone</label>
+              <p>0374992033</p>
+            </div>
+         </div>
+         <hr style="background: rgba(255,255,255,0.2); margin-top: 0;">
+         <div class="info__promotion">
+            <div class="if-group">
+              <label style="margin-bottom: 0.1rem; font-weight: bold;">Mã giảm giá</label>
+              <div class="input-text">
+                <input id="promotion" name="promotion" type="text" class="input" placeholder="Nhập tại đây...">
+                <span class="form-message"></span>
+              </div>
+            </div>
+            <a class="btn btn-success" style="color: #fff;">Áp dụng</a>
+         </div>
+         <hr style="background: rgba(255,255,255,0.2); margin-top: 0;">
+         <div class="info__payments">
+           <h5>Hình thức thanh toán</h5>
+           <ul class="payments__options">
+             <li class="option_item">
+              <input class="form-check-input" type="radio" name="promotion" checked>
+               <div class="promotion__content">
+                <div class="paypal"><i class="fab fa-cc-paypal" style="color: #4c6ef5;"></i></div>
+                <span style="font-weight: 500;">Thanh toán qua Paypal</span>
+               </div>
+             </li>
+             <li class="option_item">
+              <input class="form-check-input" type="radio" name="promotion">
+              <div class="promotion__content">
+                <div class="paypal"><i class="fad fa-donate" style="color: #4c6ef5;"></i></div>
+                <span style="font-weight: 500;">Thanh toán bằng số dư Tài khoản</span>
+               </div>
+            </li>
+             <li class="option_item">
+              <input class="form-check-input" type="radio" name="promotion">
+              <div class="promotion__content">
+                <div class="paypal"><i class="fab fa-cc-visa" style="color: #4c6ef5;"></i></div>
+                <span style="font-weight: 500;">Visa, Master, JCB</span>
+               </div>
+            </li>
+           </ul>
+         </div>
+         <hr style="background: rgba(255,255,255,0.2); margin-top: 0;">
+         <div class="info__footer">
+           <p style="text-align: center;">Vé đã mua <strong style="color: #e45757;">không thể thay đổi</strong> hoặc <strong style="color: #e45757;">hoàn tiền</strong>. <br>Mã vé sẽ được gửi qua tin nhắn <strong style="color: #54ab35;">SMS</strong> và  <strong style="color: #54ab35;">Email</strong> của bạn</p>
+         </div>
+         <div class="info__button">
+            <button class="btn__bookings btn btn-success" style="width: 100%; margin-bottom: 15px;">Đặt Vé</button>
+         </div>
+      </div>
+    </div>
+    
+    
+   
+</section>
+<script src="js/toastmesage.js"></script>
+<script>
+  var charList = (a,z,d=1)=>(a=a.charCodeAt(),z=z.charCodeAt(),[...Array(Math.floor((z-a)/d)+1)].map((_,i)=>String.fromCharCode(a+i*d)));
+  var numbers = document.getElementById('box');
+  for(i=1;i<=50;i++)
+  {
+    var span = document.createElement('span');
+    span.textContent = i;
+    numbers.appendChild(span);
+  }
+
+  var num = numbers.getElementsByTagName('span');
+  $(num[0]).addClass('show');
+  var index = 0;
+  function nexNum() {
+    num[index].style.display = 'none';
+    $(num[index]).removeClass('show');
+    index = (index + 1) % num.length;
+    num[index].style.display = 'initial';
+    $(num[index]).addClass('show');
+  }
+
+  function prevNum() {
+    num[index].style.display = 'none';
+    $(num[index]).removeClass('show');
+    index = (index - 1 + num.length) % num.length;
+    num[index].style.display = 'initial';
+    $(num[index]).addClass('show');
+  }
+
+  $(document).ready(function() {
+    var htmls = '';
+    var arrayChar = charList('A', 'Z');
+    for ( var i=0; i < 10; i++ ) {
+      var html = '';
+      html += `<div class="row_name">${arrayChar[i]}</div>`
+      var html_seats = '';
+      for ( var j=0; j < 16; j++ ) { 
+          html_seats += `<div id="seat" class="seat" value="${arrayChar[i]}${i + j}"><i class="fad fa-loveseat"></i></div>`;
+      }
+      htmls += `<div class="row"> 
+            ${html}
+            ${html_seats}
+        </div>`
+    }
+    var listRow = document.querySelector('.list__row');
+    listRow.innerHTML = htmls;
+
+    var array_seats = [];
+    var list_id_seats = document.querySelector('.id_seats');
+      $('.seat').click(function()
+      {
+        var index = document.querySelector('#box .show').textContent;
+        if(array_seats.length < index) {
+          $(this).toggleClass('selected');
+          var item = $(this).filter('.selected');
+          if(item.length > 0)
+          {
+            if(array_seats.length < index)
+              array_seats.push($(item).attr('value'));
+          }
+          else {
+            var index = array_seats.indexOf($(this).attr('value'));
+            if(index > -1) 
+            {
+              array_seats.splice(index, 1);
+            }
+          }
+        }
+        else {
+          var index = array_seats.indexOf($(this).attr('value'));
+          if(index > -1) 
+          {
+            array_seats.splice(index, 1);
+            $(this).toggleClass('selected');
+          }
+          else
+          {
+            toast({
+                title: `Notification!`,
+                message: `Bạn đã chọn tối đa ${array_seats.length} ghế! Xin vui lòng chọn thêm số lượng ghế để tiếp tục...`,
+                type: `info`,
+                duration: 3000
+            });
+          }
+        }
+        var htmls = ``;
+        array_seats.forEach(item => {
+          htmls+= `<span> ${item} , </span>`
+        });
+        list_id_seats.innerHTML = htmls;
+        let TotalPrice = 80000 * array_seats.length;
+        document.querySelector('.info__price').textContent = TotalPrice.toLocaleString() + " đ";
+      });
+
+      $('.btn-selected').click(function() {
+        $('.booking__content').css('display', 'flex');
+        $('html, body').animate({scrollTop: 630}, 'slow');
+
+        console.log(document.querySelector('#box .show').textContent)
+      })
+  })
+ 
+</script>

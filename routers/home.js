@@ -8,7 +8,7 @@ const router = express.Router();
 var title_toast , message, type, error;
 
 router.use(function(req, res, next){
-    res.locals.title = 'Trang Chủ';
+    res.locals.title = 'CGV Cinemas Việt Nam  &#8226; Trang Chủ';
     next();
 });
 

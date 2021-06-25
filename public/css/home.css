@@ -1178,7 +1178,7 @@ header {
     font-size: 14px;
     color: #888;
     margin-top: 6px;
-    line-height: 1;
+    line-height: 1.5;
   }
   
   .toast__close {
