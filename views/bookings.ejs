@@ -63,6 +63,7 @@
         </div>
         <div class="ticketbox-notice">
           <div class="iconlist">
+            <div class="icon"><i class="fad fa-medal"></i> Vị trí thích hợp (Dãy F -> J)</div> 
             <div class="icon"><i class="fad fa-loveseat"></i> Trống</div> 
             <div class="icon occupied"><i class="fad fa-loveseat"></i> Đã chọn</div>
             <div class="icon unavailable"><i class="fad fa-loveseat"></i> Không thể chọn</div>
@@ -70,7 +71,7 @@
         </div>
       </div>
       <div class="booking__content-info col-4">
-         <h4 class="info__price">0.0 đ</h4>
+         <h4 class="info__price">0 đ</h4>
          <hr style="background: rgba(255,255,255,0.2);">
          <div class="info__seats">
            <p>Ghế:</p>
@@ -105,21 +106,21 @@
            <h5>Hình thức thanh toán</h5>
            <ul class="payments__options">
              <li class="option_item">
-              <input class="form-check-input" type="radio" name="promotion" checked>
+              <input class="form-check-input" type="radio" name="promotion" value="1" checked>
                <div class="promotion__content">
                 <div class="paypal"><i class="fab fa-cc-paypal" style="color: #4c6ef5;"></i></div>
                 <span style="font-weight: 500;">Thanh toán qua Paypal</span>
                </div>
              </li>
              <li class="option_item">
-              <input class="form-check-input" type="radio" name="promotion">
+              <input class="form-check-input" type="radio" name="promotion" value="2">
               <div class="promotion__content">
                 <div class="paypal"><i class="fad fa-donate" style="color: #4c6ef5;"></i></div>
                 <span style="font-weight: 500;">Thanh toán bằng số dư E-coin</span>
                </div>
             </li>
              <li class="option_item">
-              <input class="form-check-input" type="radio" name="promotion">
+              <input class="form-check-input" type="radio" name="promotion" value="3">
               <div class="promotion__content">
                 <div class="paypal"><i class="fab fa-cc-visa" style="color: #4c6ef5;"></i></div>
                 <span style="font-weight: 500;">Visa, Master, JCB</span>
@@ -127,12 +128,14 @@
             </li>
            </ul>
          </div>
-         <hr style="background: rgba(255,255,255,0.2); margin-top: 0;">
-         <div class="info__footer">
-           <p style="text-align: center;">Vé đã mua <strong style="color: #e45757;">không thể thay đổi</strong> hoặc <strong style="color: #e45757;">hoàn tiền</strong>. <br>Mã vé sẽ được gửi qua tin nhắn <strong style="color: #54ab35;">SMS</strong> và  <strong style="color: #54ab35;">Email</strong> của bạn</p>
-         </div>
-         <div class="info__button">
-            <button class="btn__bookings btn btn-success" style="width: 100%; margin-bottom: 15px;">Đặt Vé</button>
+         <div class="option__bottom">
+            <hr style="background: rgba(255,255,255,0.2); margin: 10px 10px;">
+            <div class="info__footer">
+              <p style="text-align: center;">Vé đã mua <strong style="color: #e45757;">không thể thay đổi</strong> hoặc <strong style="color: #e45757;">hoàn tiền</strong>. <br>Mã vé sẽ được gửi qua tin nhắn <strong style="color: #54ab35;">SMS</strong> và  <strong style="color: #54ab35;">Email</strong> của bạn</p>
+            </div>
+            <div class="info__button" style="display: flex; justify-content: center;">
+                <a onclick="SubmitTicket(event)" class="btn__bookings btn btn-success" style="width: 90%; margin-bottom: 15px; color: #fff;">Đặt Vé</a>
+            </div>
          </div>
       </div>
     </div>
@@ -141,11 +144,44 @@
    
 </section>
 <script src="js/toastmesage.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD" data-sdk-integration-source="button-factory"></script>
 <script>
   //API
+  var array_seats = [];
   window.addEventListener('load', (event) => {
       getMap(renderMapCinema);
   });
+
+  function SubmitTicket(e) {
+    var index = document.querySelector('#box .show').textContent;
+    
+    if (array_seats.length < index)
+    {
+        toast({
+            title: `Warning!`, 
+            message: `Bạn đã đặt <span style="font-size: 14px; font-weight: bold; color: #e45757;">${array_seats.length}/${index}</span> tổng ghế ! Còn <span style="font-size: 14px; font-weight: bold; color: #e45757;">${(index - array_seats.length)}</span> ghế chưa chọn. . !`,
+            type: `warning`,
+            duration: 4500
+        });
+    }
+    else
+    {
+      var i = $('input[name="promotion"]:checked').val();
+      if(i === '1') {
+        $('.btn__bookings').attr("href", "https://www.sandbox.paypal.com/vn/signin");
+      }
+      if(i === '3') {
+        toast({
+                title: `Notification!`,
+                message: `Hiện tại! App chưa tích hợp thanh toán qua Visa, Mastercard,. . .`,
+                type: `info`,
+                duration: 4500
+            });
+      }
+      
+    }
+    
+  }
 
   function getMap(callback) {
       var url = window.location.href;
@@ -179,7 +215,7 @@
     var listRow = document.querySelector('.list__row');
     listRow.innerHTML = htmls;
 
-    var array_seats = [];
+  
     var list_id_seats = document.querySelector('.id_seats');
       $('.seat').click(function()
       {
@@ -211,7 +247,7 @@
           {
             toast({
                 title: `Notification!`,
-                message: `Bạn đã chọn tối đa ${array_seats.length} ghế! Xin vui lòng mở rộng số lượng ghế để tiếp tục...`,
+                message: `Bạn đã chọn tối đa <span style="font-size: 14px; font-weight: bold; color: #4c6ef5;">${array_seats.length}</span> số ghế! Xin vui lòng <span style="font-size: 14px; font-weight: bold; color: #4c6ef5;">mở rộng</span> số lượng ghế để tiếp tục hoặc <span style="font-size: 14px; font-weight: bold; color: #4c6ef5;">thanh toán</span> !!!`,
                 type: `info`,
                 duration: 4500
             });
@@ -261,5 +297,4 @@
     num[index].style.display = 'initial';
     $(num[index]).addClass('show');
   }
-  
 </script>

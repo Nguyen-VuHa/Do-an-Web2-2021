@@ -190,7 +190,8 @@
 /* booking content */
 .booking__content {
     margin-top: 20px;
-    display: none;
+    /* display: none; */
+    display: flex;
     color: #a6b2c9;
 }
 
@@ -212,7 +213,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px 0px;
+    margin: 0 10px 0 0;
 }
 
 .booking__step .row .row_name {
@@ -387,4 +388,11 @@
 .promotion__content .paypal {
     font-size: 45px;
     padding: 0 10px 0 15px;
+}
+
+.option__bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }

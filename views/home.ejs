@@ -118,50 +118,8 @@
      </section>
      <script src="js/home.js"></script>
      <script src="js/api/apiHomepage.js"></script>
-     <script src="js/toastmesage.js"></script>
-     <script src="js/validateform.js"></script>
-
      <script>
-         document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             callApiHomepage();
-         })
+        })
      </script>
-     <% if(!currentUser) {%>
-        <script>
-            var error = `<%= error %>`;
-            document.addEventListener('DOMContentLoaded', function () {
-               
-                Validator ({
-                    form: '#form-login',
-                    formGroupSelector: '.form-group',
-                    errorSelector: '.form-message',
-                    rules: [
-                        Validator.isRequired('#email', 'Email không được trống!'),
-                        Validator.isEmail('#email'),
-                        Validator.isRequired('#password', 'Mật khẩu không được trống!'),
-                        Validator.minLength('#password', 8),
-                    ]
-                    });
-                  
-                    if(error === 'false')
-                    {
-                        toast({
-                            title: `<%- title_toast %>`,
-                            message: `<%- message %>`,
-                            type: `<%- type %>`,
-                            duration: 3000
-                        });
-                    }
-                    if(error === 'true')
-                    {
-                        toast({
-                            title: `<%- title_toast %>`,
-                            message: `<%- message %>`,
-                            type: `<%- type %>`,
-                            duration: 3000
-                        });
-                    }
-                });
-           
-        </script>
-        <% } %>

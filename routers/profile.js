@@ -1,6 +1,7 @@
 const express = require('express');
 const ensureLoggedIn = require('../middlewares/ensure_logged_in');
 const UserAccount = require('../models/useraccount');
+const ToUpCard = require('../models/toupcard');
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
 
@@ -58,4 +59,21 @@ router.post('/api/u/:id', asyncHandler(async function(req, res){
     res.json(true);
 }));
 
+router.post('/to-up-card/:id', asyncHandler(async function(req, res){ 
+    const data = await UserAccount.findByCode(req.params.id);
+    let totalSurplus = data.surplus;
+    totalSurplus += req.body.denominations;
+
+    data.surplus = totalSurplus;
+    await data.save();
+
+    ToUpCard.create({ 
+        idUser: req.params.id,
+        idCard: req.body.idCard,
+        Denominations: req.body.denominations,
+        dayTrading: req.body.dayTrading,
+        tradingHours: req.body.tradingHours,
+    });
+    res.json(true);
+}));
 module.exports = router;

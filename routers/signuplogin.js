@@ -47,7 +47,8 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
             fullname: fullname,
             role: 1,
             numberphone: numberphone,
-            active: codeUser
+            active: codeUser,
+            surplus: 0
         });
         error = `reg-true`;
         title_toast = "Sucessfully!";

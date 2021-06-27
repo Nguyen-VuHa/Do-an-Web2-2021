@@ -87,7 +87,7 @@
                                 <img onerror="this.src='image/user-bg.png'" id="profile_clicks" class="avartar-user" src="">
                             </div>
                             <div class="menu" id="menu__profile">
-                                <h3 id="profile_clicks"><%- currentUser.fullname %><br><span>Số dư :  <b style="color: #54ab35;">99.999.999 $</b></span></h3>
+                                <h3 id="profile_clicks"><%- currentUser.fullname %><br><span>Số dư :  <b style="color: #54ab35;"><%- currentUser.surplus.toLocaleString() %> E-coin</b></span></h3>
                                 <ul>
                                     <li><i class="fal fa-user-circle"></i><a href="/prof/<%= currentUser.code %>">My Profile</a></li> 
                                     <li><i class="fal fa-cog"></i><a href="#">Settings</a></li>     
@@ -98,7 +98,7 @@
                         </div>
                     <% } else { %>
                     <a class="btn-dropmenu" style="color: aliceblue;" >Đăng Nhập</a>
-                    <div class="dropdown_menu" >
+                    <div class="dropdown_menu" id="dropdown_menu">
                         <form id="form-login" method="POST" action="login" class="h-form-login" >
                             <div class="form-group">
                               <input id="email" type="email" name="email" class="input_text" placeholder="Email">
@@ -119,6 +119,8 @@
                 </div>
            
         </nav>
+        <script src="js/toastmesage.js"></script>
+        <script src="js/validateform.js"></script>
            <% if (currentUser) { %>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
@@ -136,25 +138,78 @@
                         divs.classList.toggle("active");
                     }
 
-                    document.addEventListener('click', function (e) {
-                        var divs = document.getElementById("menu__notify");
-                        var divs_p = document.getElementById("menu__profile");
-                        if(!e.target.matches('#notify_clicks'))
-                        {
-                            if(divs.classList.contains('active')){
-                                divs.classList.remove('active');
+                    window.onclick = function (event) { 
+                        if(!$(event.target).closest('.action__notify').length) {
+                            if(!$(event.target).closest('.__notify').length) {
+                                document.querySelector('.__notify').classList.remove('active');
                             }
                         }
-                        if(!e.target.matches('#profile_clicks'))
-                        {
-                            if(divs_p.classList.contains('active')){
-                                divs_p.classList.remove('active');
+                        if(!$(event.target).closest('.profile').length) {
+                            if(!$(event.target).closest('.menu').length) {
+                                document.querySelector('.menu').classList.remove('active');
                             }
                         }
-                    })
-
+                    }
                         
+                </script>
+            <% } else { %>
+                <script>
+                    window.onclick = function (event) {
+                        if(!event.target.matches('.btn-dropmenu')) {
+                            if(!$(event.target).closest('.dropdown_menu').length) {
+                                document.querySelector('.h-form-login').classList.remove('active');
+                            }
+                        }
+                    }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                Validator ({
+                   form: '#form-login',
+                   formGroupSelector: '.form-group',
+                   errorSelector: '.form-message',
+                   rules: [
+                       Validator.isRequired('#email', 'Email không được trống!'),
+                       Validator.isEmail('#email'),
+                       Validator.isRequired('#password', 'Mật khẩu không được trống!'),
+                       Validator.minLength('#password', 8),
+                   ],
+                   onSubmit: function (data) { 
+                       
+                       var options = {
+                           method: 'POST', // or 'PUT'
+                           headers: {
+                           'Content-Type': 'application/json',
+                           },
+                           body: JSON.stringify(data),
+                       }
+
+                       fetch(`http://localhost:3000/login`, options)
+                           .then(function(response) {
+                               return response.json();
+                           })
+                           .then(function(result) {
+                               if(result === true)
+                               {
+                                   location.reload();
+                               }
+                               else{
+                                   toast({
+                                       title: result.title_toast,
+                                       message: result.message,
+                                       type: result.type,
+                                       duration: 3000
+                                   });
+                               }
+                           })
+                           .catch(function(err){
+                               console.log(err);
+                           });
+                       }
+                   });
+               
+               });
                 </script>
             <% } %>
         <script src="js/header.js"></script>
+       
     </header>

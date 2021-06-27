@@ -5,8 +5,6 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 
-var title_toast , message, type, error;
-
 router.use(function(req, res, next){
     res.locals.title = 'CGV Cinemas Việt Nam  &#8226; Trang Chủ';
     next();
@@ -52,10 +50,9 @@ router.get('/', asyncHandler(async function(req, res){
             list_film_cmc.push(obData_cmc);
         }
     });
-    if(userId === undefined)
+    if(userId)
     {
-        res.render('home', { title_toast , message, type, error, list_film_cmc, list_film_hdc });
-        title_toast = message = type = error =  '';
+        res.render('home', { list_film_cmc, list_film_hdc });
     }
     else {
         const dataId = await UserAccount.findByCode(userId);
@@ -63,24 +60,20 @@ router.get('/', asyncHandler(async function(req, res){
     }
 }));
 
-router.get('/active/:code',asyncHandler(async function(req, res) {
-    const { code } = req.params.code;
+router.get('/active/:id', asyncHandler(async function(req, res) {
+    const code = req.params.id;
     const value = await UserAccount.findByCode(code);
     if(value) {
-        if(value.active === null)
+        if(value.active === '')
         {
             res.redirect('/');
         }
         else
         {
             try{
-                value.active = null;
+                value.active = '';
                 await value.save();
-                error = true;
-                title_toast = "Successfully!";
-                message = 'Đã xác minh thành công! Xin mời đăng nhập.';
-                type = "success";
-                res.redirect('/');
+                res.redirect('/login' + `?username=${value.email}&password=${value.password}`);
             }catch
             {
                 res.redirect('/error');
@@ -93,44 +86,61 @@ router.get('/active/:code',asyncHandler(async function(req, res) {
     }
 }));
 
+router.get('/login', asyncHandler(async function(req, res){ 
+    const { username, password } = req.query;
+    const foundActive = await UserAccount.findByEmail(username);
+
+    if(!foundActive) {
+        res.redirect('/error');
+    }
+    else if(foundActive.password === password)
+    {
+        req.session.userId = foundActive.code;
+        res.redirect('/');
+    }
+    else
+    {
+        res.redirect('/error');
+    }
+}));
 
 router.post('/login',asyncHandler(async function(req, res){
     const { email, password } = req.body;
     const found = await UserAccount.findByEmail(email);
     if(!found)
     {
-        error = false;
-        title_toast = "Warning!";
-        message = 'Email này chưa được đăng ký!';
-        type = "warning";
-        res.redirect('/');
+        var objectMessage = {
+            error: false,
+            title_toast :"Warning!",
+            message: 'Email này chưa được đăng ký hoặc không tồn tại!',
+            type: "warning",
+        }
+        res.json(objectMessage);
     }
     else if (found && bcrypt.compareSync(password, found.password))
     {
         //null
         if(found.active === ''){
-            error = true;
-            title_toast = "CGV Cinemas!";
-            message = 'Welcome to CGV Cinema.';
-            type = "info";
             req.session.userId = found.code;
-            res.redirect('/');
+            res.json(true);
         }
         else
         {
-            error = false;
-            title_toast = "Warning!";
-            message = 'Bạn chưa xác nhận tài khoản!';
-            type = "warning";
-            res.redirect('/');
+            var objectMessage = {
+                title_toast :"Warning!",
+                message: 'Bạn chưa xác nhận tài khoản!',
+                type: "warning",
+            }
+            res.json(objectMessage);
         }
     }
     else {
-        error = false;
-        title_toast = "Warning!";
-        message = 'Sai tài khoản hoặc mật khẩu!';
-        type = "warning";
-        res.redirect('/');
+        var objectMessage = {
+            title_toast :"Warning!",
+            message: 'Sai tài khoản hoặc mật khẩu!',
+            type: "warning",
+        }
+        res.json(objectMessage);
     }
 }));
 
@@ -146,9 +156,7 @@ router.get('/api/data/header',asyncHandler(async function(req, res) {
 
     var db = randomProperty(data);
     var arrayData = [];
-    var obDataHeader = {};
-    var obDataPoster = {};
-    obDataHeader = {
+    var obDataHeader = {
         movieId: db.movieId,
         movieName: db.movieName,
         time: db.time,
@@ -162,7 +170,7 @@ router.get('/api/data/header',asyncHandler(async function(req, res) {
         trailer: db.trailer,
     }
     arrayData.push(obDataHeader);
-    obDataPoster = {
+    var obDataPoster = {
         poster1: `http://localhost:3000/api/image/${db.movieId}/1`,
         poster2: `http://localhost:3000/api/image/${db.movieId}/2`,
         poster3: `http://localhost:3000/api/image/${db.movieId}/3`,

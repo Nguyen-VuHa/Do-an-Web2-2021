@@ -677,7 +677,32 @@ background: #54ab35;
 .disp-none{
     display:none;
   }
-  
+
+.md__denominations {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: center;
+}
+.md__denominations .card__denomi {
+    width: 145px; 
+    margin: 5px;
+    cursor: pointer;
+}
+
+.md__denominations .card__denomi:hover {
+    border: 2px solid #8eff66;
+}
+
+.md__denominations .card__denomi.active {
+    border: 2px solid #8eff66;
+}
+
+.md__denominations .card__denomi img {
+    width:100%; 
+    height: 100%; 
+}
+
 body{
   background: linear-gradient(90deg, rgba(19,20,23,1) 0%, rgba(30,31,38,1) 100%, rgba(30,31,38,1) 100%);
 }
@@ -702,4 +727,13 @@ body{
     background: #459af7;
     border-color: inherit;
     opacity: 0.5;
+}
+.modal__to-up-card .modal-dialog__toupcard { 
+    max-width: 50%;
+}
+
+@media screen and (max-width: 600px) {
+    .modal__to-up-card .modal-dialog__toupcard {
+        max-width: 100%;
+    }
 }

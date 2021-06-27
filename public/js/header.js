@@ -37,7 +37,7 @@ const menuToggle = () => {
 const menuActive = () => {
     $(document).on('click', '.nav-links li', function() {
         $(this).addClass('active').siblings().removeClass('active');
-   });
+    });
 }
 
 navSlide();

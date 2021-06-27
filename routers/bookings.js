@@ -4,6 +4,8 @@ const showTime = require('../models/showtime');
 const Movies = require('../models/movies');
 const User = require('../models/useraccount');
 const Cinema = require('../models/theater');
+const Booking = require('../models/booking');
+const Ticket = require('../models/ticket');
 const ensureLoggedIn = require('../middlewares/ensure_logged_in');
 const router = express.Router();
 
@@ -87,8 +89,9 @@ router.get('/api/bookingstep',asyncHandler(async function(req, res) {
     var objectData = {
         sizeHorizontal: dataCinema.sizeHorizontal,
         sizeVertical: dataCinema.sizeVertical,
-        fare: dataShow.fare
+        fare: dataShow.fare,
     }
+    
     res.json(objectData)
 }));
 

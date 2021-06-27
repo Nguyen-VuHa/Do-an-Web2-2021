@@ -1,4 +1,3 @@
-
 <div class="personal-info">
     <div class="background-advertisement">
         <div id="stars"></div>
@@ -20,10 +19,10 @@
                     </div>
                 </div>
                 <h3 style="font-family: 'Pattaya', sans-serif;" id="title-fullname"></h3>
-                <p style="font-family: 'Roboto', sans-serif;">Số dư TK: <b style="color: #54ab35;">1.800.000 E-coin</b></p>
+                <p style="font-family: 'Roboto', sans-serif;">Số dư TK: <b id="surplus" style="color: #54ab35;"></b></p>
                 <div class="info_frames--btn">
                     <div class="btn"><a href="#">Liên kết Paypal</a></div>
-                    <div class="btn"><a href="#">Nạp E-coin</a></div>
+                    <div class="btn"><a href="#" data-toggle="modal" data-target="#modal__to-up-card">Nạp E-coin</a></div>
                     <div class="btn"><a href="#">Phản Hồi</a></div>
                 </div>
             </div>
@@ -164,6 +163,20 @@
                 </div>
             </div>
     </div>
+    <style>
+        .modal-header, .modal-body, .modal-footer {
+            padding:9px 15px;
+            border-bottom: 1px solid #eee;
+            background-color: #121825;
+            color: #8eff66;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+    </style>
     <form method="POST">
         <div class="modal fade" id="imageModalContainer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md modal-dialog-centered">
@@ -174,11 +187,11 @@
                     <span aria-hidden="true">&times;</span>
                     </div>
                 </div>
-                <div class="modal-body modal-body1">
+                <div class="modal-body modal-body1" style="border-bottom: none;">
                     <div id='crop-image-container'>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="border: none;">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fal fa-times"></i> Close</button>
                     <button type="button" class="btn btn-primary save-modal"><i class="far fa-file-export"></i> Save Change</button>
                 </div>
@@ -186,9 +199,125 @@
             </div>
         </div>
     </form>
+    <!-- Modal -->
+    <form method="POST">
+        <div class="modal__to-up-card modal fade" id="modal__to-up-card" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog__toupcard modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" >
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nạp E-coin</h5>
+                <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+                </div>
+                <div class="modal-body to-up-card__content" style="border-bottom: none;">
+                    <div class="md__denominations">
+                        <div class="card__denomi active" value="50000">
+                            <img src="http://localhost:3000/image/50k.jpg" alt="">
+                        </div>
+                        <div class="card__denomi" value="100000">
+                            <img src="http://localhost:3000/image/100k.jpg" alt="">
+                        </div>
+                        <div class="card__denomi" value="200000">
+                            <img src="http://localhost:3000/image/200k.jpg" alt="" >
+                        </div>
+                        <div class="card__denomi" value="500000">
+                            <img src="http://localhost:3000/image/500k.jpg" alt="">
+                        </div>
+                        <div class="card__denomi" value="1000000">
+                            <img src="http://localhost:3000/image/1000k.jpg" alt="">
+                        </div>
+                        <div class="card__denomi" value="2000000">
+                            <img src="http://localhost:3000/image/2000k.jpg" alt="">
+                        </div>
+                        <div class="card__denomi" value="5000000">
+                            <img src="http://localhost:3000/image/5000k.jpg" alt="">
+                        </div>
+                    </div>
+                    <hr style="background: #949fb5;">
+                    <div class="form__info">
+                        <h3 style="display: flex; justify-content: center;">Thông tin thẻ E-coin</h3>
+                        <div class="form-group">
+                            <label for="seri">Seri Number</label>
+                            <input type="text" class="form-control" id="seri"  placeholder="Số Seri">
+                          </div>
+                          <div class="form-group">
+                            <label for="idcard">ID Card</label>
+                            <input type="text" class="form-control" id="idcard" placeholder="Mã Thẻ">
+                          </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: none;">
+                <button type="button" class="btn-pay btn btn-primary">Thanh Toán</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </form>
+  
 </div>
 <script src="../js/croppie.js"></script>
+<script src="../js/toastmesage.js"></script>
 <script >
+        $('.btn-pay').click(function () {
+            var seriNum = $('#seri').val();
+            var idCard = $('#idcard').val();
+            var idUser = `<%- currentUser?.code %>`;
+            var denominations = $('.md__denominations').find('.card__denomi.active').attr('value'); 
+            var nowDate = new Date();
+            if(seriNum && idCard)
+            {
+                var data = {
+                    seriNum: seriNum,
+                    idCard: idCard,
+                    denominations: denominations,
+                    dayTrading: `${nowDate.getFullYear()}-${nowDate.getMonth() + 1}-${nowDate.getDate()}`,
+                    tradingHours: `${nowDate.getHours()}:${nowDate.getMinutes()}`,
+                };
+
+                var options = {
+                    method: 'POST', // or 'PUT'
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }
+
+                fetch('http://localhost:3000/prof/to-up-card/<%- currentUser.code %>', options)
+                    .then(function(response) {
+                        return response.json();
+                    }) 
+                    .then(function(result) {
+                        if(result === true)
+                        {
+                            $('#modal__to-up-card').modal('hide');
+                            toast({
+                                title: 'Successfully!',
+                                message: `Thanh toán thành công! số dư của bạn được cộng thêm <span style="font-size: 14px; font-weight: bold; color: #8eff66;">+${denominations}</span> E-coin <3`,
+                                type: 'success',
+                                duration: 4000
+                            });
+                            callApiProf('<%= userId %>');
+                        }
+                    })
+                    .then(function(err){
+                        console.log(err);
+                    });
+            }
+            else {
+                toast({
+                    title: 'Warning!',
+                    message: 'Bạn cần nhập đầy đủ thông tin!',
+                    type: 'warning',
+                    duration: 4000
+                });
+            }
+        });
+    
+        $('.card__denomi').click(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        });
+
         $(document).on('click', '#upload-aphoto', function () {
             document.getElementById('selectedFile').click();
         });

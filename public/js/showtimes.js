@@ -1,9 +1,13 @@
-// API data
-document.addEventListener('DOMContentLoaded', function() {
+
+function loadPage(userId) {
+
     const listMovies = document.querySelector('#sliderShowtime');
     const btnLoader = document.querySelector('.section-loader');
     const listTimes = document.querySelector('#list--times');
 
+    const districts = document.querySelector('#place__district');
+    const cinemas = document.querySelector('#place-content');
+    const usercode = userId;
     const a = document.querySelector.bind(document);
     const aa = document.querySelectorAll.bind(document);
 
@@ -94,8 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         var html_temp = '';
                                         for(let i = 0; i < item.startTime.length; i++)
                                         {
-                                            console.log(item);
-                                            html_temp += `<a href="/bookings?idshow=${item.idShow[i]}&idmovie=${item.idMovies}&idcinema=${item.idCinema}" class="btn-sumit" >${item.startTime[i]}</a>`
+                                            html_temp += `<a href="${usercode ? `/bookings?idshow=${item.idShow[i]}&idmovie=${item.idMovies}&idcinema=${item.idCinema}` : 'http://localhost:3000/reg'}" class="btn-sumit">${item.startTime[i]}</a>`
                                             
                                         }
                                         html_item_tab += `<div class="item__time-cinema">
@@ -105,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     else
                                     {
                                         html_item_tab += `<div class="item__time-cinema">
-                                                        <a href="/bookings?idshow=${item.idShow}&idmovie=${item.idMovies}&idcinema=${item.idCinema}" class="btn-sumit">${item.startTime}</a>
+                                                        <a href="${usercode ? `/bookings?idshow=${item.idShow}&idmovie=${item.idMovies}&idcinema=${item.idCinema}`: 'http://localhost:3000/reg'}" class="btn-sumit">${item.startTime}</a>
                                                     </div>`  ;
                                     }
                                 })
@@ -267,5 +270,203 @@ document.addEventListener('DOMContentLoaded', function() {
           
         };
     });
+    //fecth API 
 
-});
+    fetch('http://localhost:3000/showtimes/api/cinema')
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            var district_data = data.district;
+            var cinema_data = data.cinema;
+
+            var html = '<li class="list-place active" data-filer="All"><i class="fad fa-map-marked-alt"></i> All</li>'
+            var htmls_district = district_data.map(function(data) {
+                return `
+                    <li class="list-place" data-filer="${data.id}"><i class="fad fa-map-marker-alt"></i> ${data.district}</li>
+                `;
+            })
+            html += htmls_district.join('');
+
+            districts.innerHTML = html;
+            
+            $('.list-place').click(function() {
+                const value = $(this).attr('data-filer');
+                if(value === 'All')
+                    $('.item-place').show('1000');
+                else
+                {
+                    $('.item-place').not('.' + value).hide('500');
+                    $('.item-place').filter('.' + value).show('1000');
+                }
+                $(this).addClass('active').siblings().removeClass('active');
+            })
+
+            var htmls_cinema = cinema_data.map(function(data) {
+                return `
+                    <div class="item-place ${data.idDistr}" valueid="${data.id}">
+                        <div class="place__info">
+                            <h4 class="info-title"><i class="fad fa-star-of-david"></i>${data.cinemaName}</h4>
+                            <p class="info-address"><i class="fad fa-map-pin" ></i>${data.cinemaAddress}</p>
+                        </div>
+                        <div class="place__btn">
+                            <a href="/cinema-view?id=${data.id}&name=${data.cinemaName.replaceAll(" ", "-")}"><i class="fad fa-map-marker-alt"></i> Xem chi tiết</a>
+                        </div>
+                    </div>
+                `;
+            })
+
+            cinemas.innerHTML = htmls_cinema.join('');
+            $('.item-place').click(function() {
+                var list__place = document.querySelector('#list__place');
+                var tabs__place = document.querySelector('#tabs__place-content');
+                
+                var idCinema = $(this).attr('valueid');
+                //Fetch Api 
+                btnLoader.classList.remove('hide');
+                fetch(`http://localhost:3000/showtimes/api/cinema/${idCinema}`)
+                    .then(function(response){
+                        return response.json();
+                    })
+                    .then(function(datas) {
+                        if(datas.length > 0)
+                        {
+                            var html_list = '';
+                            var html_tabs = '';
+                            
+                            datas.forEach(item => {
+                                var temp = item.data;
+                                if(temp.length === 1)
+                                {
+                                    var htmls_list_place = temp.map(function(data){
+                                    return `
+                                        <div class="item__place">
+                                            <span>${data.date[0].datename}</span>
+                                            <p class="times" valuetext="${data.date[0].datetime}">${data.date[0].day}</p>
+                                        </div>
+                                        `;  
+                                    });
+                                    html_list += htmls_list_place;
+                                 
+                                    var htmls_tabs__place = temp.map(function(data, index){
+                                        var html_item = data.startTime.map(function(item, index) {
+                                            return `<a href="${usercode ? `/bookings?idshow=${data.idShow[index]}&idmovie=${data.idMovies}&idcinema=${data.idCinema}` : 'http://localhost:3000/reg'}" class="btn-sumit">${item}</a>`;
+                                        })
+                                        return `
+                                        <div class="item item__place">
+                                            <div class="item__place-content">
+                                                <div class="place__movies">
+                                                    <div class="place-s-img">
+                                                        <img src="http://localhost:3000/api/image/${data.idMovies}/1" alt="">
+                                                    </div>
+                                                    <div class="content-place">
+                                                        <div class="contentPlace">
+                                                            <h3>${data.movieName}</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="place__info">
+                                                    <p>3D - Phụ Đề Tiếng Việt</p>
+                                                    <div class="item__place-cinema">
+                                                        ${html_item}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="lines"></div>
+                                        </div>
+                                        `;
+                                    })
+                                    html_tabs += htmls_tabs__place;
+                                }
+                                else {
+                                    var htmls_list_place = [temp[0]].map(function(data){
+                                        return `
+                                            <div class="item__place">
+                                                <span>${data.date[0].datename}</span>
+                                                <p class="times" valuetext="${data.date[0].datetime}">${data.date[0].day}</p>
+                                            </div>
+                                            `;  
+                                    });
+                                    html_list += htmls_list_place;
+                                    var htmls_temp = '';
+                                    for(let i = 0; i < temp.length; i++)
+                                    {
+                                        var htmls_tabs__place = [temp[i]].map(function(data, index){
+                                            var html_item = data.startTime.map(function(item, index) {
+                                                return `<a href="${usercode ? `/bookings?idshow=${data.idShow[index]}&idmovie=${data.idMovies}&idcinema=${data.idCinema}` : 'http://localhost:3000/reg'}" class="btn-sumit">${item}</a>`;
+                                            })
+                                            return `
+                                                <div class="item__place-content">
+                                                    <div class="place__movies">
+                                                        <div class="place-s-img">
+                                                            <img src="http://localhost:3000/api/image/${data.idMovies}/1" alt="">
+                                                        </div>
+                                                        <div class="content-place">
+                                                            <div class="contentPlace">
+                                                                <h3>${data.movieName}</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="place__info">
+                                                        <p>3D - Phụ Đề Tiếng Việt</p>
+                                                        <div class="item__place-cinema">
+                                                            ${html_item}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="lines"></div>
+                                            `;
+                                        })
+                                        htmls_temp += htmls_tabs__place;
+                                    }
+                                    html_tabs += `<div class="item item__place"> ${htmls_temp} </div>`;
+                                }
+                            })
+
+                            list__place.innerHTML = html_list;
+                            tabs__place.innerHTML = html_tabs;
+                        }
+                        else
+                        {
+                            list__place.innerHTML = `<h4 style="width: 100%;
+                                                        display: flex;
+                                                        justify-content: center;
+                                                        margin: 20px 0px;">Không Có Phim Nào Cho Rạp Này</h4>`;
+                        }
+
+                        const places = aa(".tabs__place-item .item__place");
+                        const placepanes = aa(".tabs__place-content .item__place");
+
+                            places.forEach((tab, index) => {
+                                const placepane = placepanes[index];
+                                tab.onclick = function () {
+                                    $(this).addClass("active").siblings().removeClass('active');
+                                    $(placepane).addClass("active").siblings().removeClass('active');
+                                };
+                        });
+                        btnLoader.classList.add('hide');
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
+
+
+                $('.tabs__place-content .item__place').removeClass('active');
+                $('.tabs__place-item .item__place').removeClass('active');
+                $(this).addClass('active').siblings().removeClass('active');
+
+                $('.slider__place').show();   
+
+                $("html, body").animate({
+                    scrollTop: $('#slider__place').offset().top
+                }, 'slow');
+           
+            })
+
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+
+}
+

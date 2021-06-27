@@ -1,8 +1,8 @@
 function callApiProf(id) {
     var postApi = `http://localhost:3000/prof/api/${id}`;
     var postUApi = `http://localhost:3000/prof/api/u/${id}`;
-
-    function start() {
+function start() {
+    
         getInfo(renderInfo);
         handleUpdateForm();
         renderImage();
@@ -45,6 +45,7 @@ function callApiProf(id) {
         document.getElementById('fullname').value =  document.getElementById('title-fullname').innerText = posts.fullname;
         document.getElementById('email').value = posts.email;
         document.getElementById('numberphone').value = posts.numberphone;
+        document.getElementById('surplus').textContent = posts.surplus.toLocaleString() + ' E-coin';
     }
 
     function renderImage(){

@@ -5,6 +5,7 @@ const UserAccount = db.define('UserAccount', {
 
     code: {
         type: DataTypes.STRING,
+        primaryKey: true,
         allowNull: false
     },
     email: {
@@ -34,6 +35,10 @@ const UserAccount = db.define('UserAccount', {
     avartar: {
         type: DataTypes.BLOB,
         allowNull: true
+    },
+    surplus: {
+        type: DataTypes.DOUBLE,
+        allowNull: true
     }
 
 });
@@ -47,15 +52,7 @@ UserAccount.findByEmail = async function (email) {
 }
 
 UserAccount.findByCode = async function (code) {
-    return UserAccount.findOne({
-        where: {
-            code: code,
-        },
-    });
-}
-
-UserAccount.findById = async function(id){
-    return UserAccount.findByPk(parseInt(id));
+    return UserAccount.findByPk(code);
 }
 
 UserAccount.finbByAll = async function () {
