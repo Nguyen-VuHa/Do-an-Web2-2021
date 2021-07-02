@@ -52,6 +52,10 @@ showTime.findByIdMovies = async function (idMovies) {
         where: {
             idMovies: idMovies,
         },
+        order: [
+            ['startDate', 'ASC'],
+            ['startTime', 'ASC'],
+        ]
     });
 }
 
@@ -60,6 +64,10 @@ showTime.findByIdCinema = async function (idCinema) {
         where: {
             idCinema: idCinema,
         },
+        order: [
+            ['startDate', 'ASC'],
+            ['startTime', 'ASC'],
+        ]
     });
 }
 

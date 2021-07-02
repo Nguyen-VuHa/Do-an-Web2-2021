@@ -233,7 +233,7 @@
 }
 
 .booking__step .row .seat {
-    font-size: 30px;
+    font-size: 25px;
     cursor: pointer;
 }
 
@@ -395,4 +395,48 @@
     bottom: 0;
     left: 0;
     width: 100%;
+}
+
+.modal__surplus {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.modal__surplus .group_surplus {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 250px;
+  padding-bottom: 1.5rem;
+}
+
+.modal__surplus .group_surplus .surplus__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-weight: 500;
+}
+
+.surplus__content{
+  display: flex;
+  flex-direction: column;
+}
+
+.surplus__content h4{
+    text-align: center;
+    margin-top: 10px;
+    width: 100%;
+    color: #8eff66;
+}
+
+.surplus__content .content__seats {
+  display: flex;
+}
+
+.surplus__content .content__seats .id_seats{
+  margin-left: 20px;
 }

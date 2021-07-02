@@ -1200,11 +1200,11 @@ header {
   }
 
   .action  .action__notify {
-      position: relative;
-      margin: 0 20px 0 0;
-      width: 40px;
-      height: 40px;
-      display: flex;
+    position: relative;
+    margin: 0 20px 0 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
     justify-content: center;
     align-items: center;
     border-top-left-radius: 50%;
@@ -1212,15 +1212,12 @@ header {
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
     cursor: pointer;
+    border: 1px solid #a6b2c9;
   }
 
   .action  .action__notify:hover {
       z-index: 10;
-      background: #54ab35;
-  }
-
-  .action  .action__notify:hover .fad {
-      color: white;
+      border: 2px solid #54ab35;
   }
 
   .action  .action__notify .fad {
@@ -1228,12 +1225,12 @@ header {
     font-size: 1.3em;
   }
   .action  .action__notify .action__notify-count {
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      top: -1px;
-      right: -1px;
-      width: 20px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: -1px;
+    right: -1px;
+    width: 20px;
     border-radius: 50%;
     color: #fff;
     background: #c65858;
@@ -1248,10 +1245,10 @@ header {
     display: flex;
     flex-direction: column;
     top: 50%;
-    right: 0%;
+    right: 50%;
     background: #121825;
-    width: 400px;
-    height: 500px;
+    width: 450px;
+    max-height: 642px;
     box-shadow: 0 -3px 20px rgb(0 0 0 / 50%);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -1294,7 +1291,7 @@ header {
       background-color: rgba(84,171,53,0.1);
   }
 
-  .notify_content .notify_content-item--view {
+  .notify_content .notify_content-item.view {
         background: #121825;
   }
 
@@ -1303,7 +1300,10 @@ header {
   }
 
   .notify_content .notify_content-item .image_item {
-     padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
   }
 
   .notify_content .notify_content-item .image_item img {
@@ -1312,23 +1312,29 @@ header {
   }
 
   .notify_content .notify_content-item .item--content {
-      padding: 5px;
-      display: flex;
-      flex-direction: column;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
     color: #a6b2c9;
-   
+  }
+
+  .notify_content .notify_content-item .item--content .notificatio__time{
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: #54ab35;
   }
 
   .notify_content .notify_content-item .item--content p {
       margin: 0;
+      font-size: 15px;
       line-height: 1.5rem;
-      font-weight: bold;
   }
 
   .notify_content .notify_content-item .item--content span {
-      margin: 0;
-      font-size: 12px;
-     
+     color: #54ab35;
+     margin: 0;
+     font-weight: 600;
   }
 
 .action .profile {
@@ -1596,7 +1602,8 @@ header {
 
 
       .__notify {
-          width: 330px;
+          width: 340px;
+          right: 0;
       }
 
      .action .__notify.active {

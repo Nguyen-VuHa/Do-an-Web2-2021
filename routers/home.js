@@ -1,6 +1,7 @@
 const express = require('express');
 const UserAccount = require('../models/useraccount');
 const Movies = require('../models/movies');
+const Notification = require('../models/notification');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -18,7 +19,8 @@ router.get('/', asyncHandler(async function(req, res){
     var someday = new Date();
     data.forEach(item => {
         var getDate = new Date(item.premiereDate);
-        if(someday.getTime() >= getDate.getTime())
+        var endDate = new Date(item.endDate);
+        if(someday.getTime() >= getDate.getTime() && someday.getTime() <= endDate.getTime())
         {
             var obData_hdc = {};
             var dStart = new Date(item.premiereDate);
@@ -35,7 +37,7 @@ router.get('/', asyncHandler(async function(req, res){
             }
             list_film_hdc.push(obData_hdc);
         }  
-        else {
+        else if(getDate.getTime() >= someday.getTime()){
             var obData_cmc = {};
             var d = new Date(item.premiereDate);
             var date = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
@@ -268,6 +270,30 @@ router.get('/api/image/:id/1', asyncHandler(async function(req, res) {
         res.end(image);
     }
  }));
+
+
+//API notification 
+router.get('/api/notification/:id', asyncHandler(async function(req, res) {
+    const noti = await Notification.findByIdUser(req.params.id);
+    res.json(noti);
+}));
+
+router.post('/api/notification/:id', asyncHandler(async function(req, res) {
+    const { iduser, status } = req.body;
+    const noti = await Notification.findByUserStatus(iduser, status);
+
+    noti.forEach(item => {
+        Notification.update({
+            status: 2,
+        }, {
+            where: {
+                idUser: item.idUser,
+                status: item.status
+            }
+        })
+    })
+    res.json(true);
+}));
 
 
 module.exports = router;

@@ -34,7 +34,7 @@
                                  </div>
                              </div>
                              <div class="btn-card">
-                                 <a href="movie/<%= item.movieId %>" class="btn">Mua vé</a>
+                                <a href="movie/<%= item.movieId %>?movie=true" class="btn">Mua vé</a>
                              </div>
                          </div>
                      </li>
@@ -64,7 +64,7 @@
                              </div>
                          </div>
                          <div class="btn-card">
-                             <a href="movie/<%= item.movieId %>" class="btn">Xem chi tiết</a>
+                             <a href="movie/<%= item.movieId %>?movie=false" class="btn">Xem chi tiết</a>
                          </div>
                      </div>
                  </li>
@@ -101,7 +101,7 @@
          </div>
          <!-- onclick js -->
          <a class="btn-prev" onclick="plusSlides(-1)" style="color:  #54ab35;">&#10094;</a>
-           <a class="btn-next" onclick="plusSlides(1)" style="color: #54ab35;">&#10095;</a>
+         <a class="btn-next" onclick="plusSlides(1)" style="color: #54ab35;">&#10095;</a>
          
          <div class="dotsbox" style="text-align:center">
              <span class="dot" onclick="currentSlide(1)"></span>

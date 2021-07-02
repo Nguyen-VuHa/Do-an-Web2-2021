@@ -28,6 +28,7 @@
     "nodemailer": "^6.6.0",
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.3",
+    "qrcode": "^1.4.4",
     "sequelize": "^6.6.2"
   }
 }

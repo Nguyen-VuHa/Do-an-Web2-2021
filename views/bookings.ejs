@@ -134,54 +134,197 @@
               <p style="text-align: center;">Vé đã mua <strong style="color: #e45757;">không thể thay đổi</strong> hoặc <strong style="color: #e45757;">hoàn tiền</strong>. <br>Mã vé sẽ được gửi qua tin nhắn <strong style="color: #54ab35;">SMS</strong> và  <strong style="color: #54ab35;">Email</strong> của bạn</p>
             </div>
             <div class="info__button" style="display: flex; justify-content: center;">
-                <a onclick="SubmitTicket(event)" class="btn__bookings btn btn-success" style="width: 90%; margin-bottom: 15px; color: #fff;">Đặt Vé</a>
+                <a class="btn__bookings btn btn-success" style="width: 90%; margin-bottom: 15px; color: #fff;" >Đặt Vé</a>
             </div>
          </div>
       </div>
     </div>
+
+    <style>
+      .modal-header, .modal-body, .modal-footer {
+            padding:9px 15px;
+            border-bottom: 1px solid #54ab35;
+            background-color: #121825;
+            color: #a6b2c9;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .modal-footer {
+          border-top: none;
+        }
+
+        .modal-content {
+          border: none;
+          background-color: transparent;
+        }
+
+    </style>
     
-    
-   
+    <div class="modal__pay modal fade" id="modal__pay" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Số dư hiện tại: <span style="color: #54ab35;"><%= currentUser.surplus.toLocaleString() %> </span> E-coin</h5>
+            <div type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="color: #e45757;"  >&times;</span>
+            </div>
+          </div>
+          <div class="modal-body">
+            <h4 style="text-align: center;">Thanh Toán E-Coin</h4>
+            <hr style="background: #a6b2c9; margin: 10px 10px;">
+            <div class="surplus__content">
+              <h4>Total Price:  <span></span> đ</h4>
+              <div class="content__seats">
+                <strong>Ghế </strong>
+                <div class="seats" style="margin-left: 20px;"></div>
+              </div>
+            </div>
+            <hr style="background: #a6b2c9; margin: 10px 10px;">
+            <ul class="modal__surplus">
+              <li class="group_surplus">
+                  <label class="surplus__title">Số dư E-coin:</label>
+                  <p style="margin-bottom: 0;"><span  style="color: #54ab35;"><%= currentUser.surplus.toLocaleString() %></span> E-coin</p>
+              </li>
+              <li class="group_surplus">
+                <label class="surplus__title">số E-coin thanh toán: </label>
+                <span class="total" style="color: #54ab35;"></span><span style="margin-left: 5px;"> E-coin</span>
+              </li>
+              <li class="group_surplus">
+                <label class="surplus__title">Số dư còn lại: </label>
+                <span class="cash_in" style="color: #54ab35;"></span><span style="margin-left: 5px;"> E-coin</span>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-pay__ecoin btn btn-primary">Thanh Toán</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </section>
 <script src="js/toastmesage.js"></script>
-<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD" data-sdk-integration-source="button-factory"></script>
 <script>
   //API
   var array_seats = [];
-  window.addEventListener('load', (event) => {
+ 
+  $(document).ready(function(){
       getMap(renderMapCinema);
-  });
-
-  function SubmitTicket(e) {
-    var index = document.querySelector('#box .show').textContent;
-    
-    if (array_seats.length < index)
-    {
-        toast({
-            title: `Warning!`, 
-            message: `Bạn đã đặt <span style="font-size: 14px; font-weight: bold; color: #e45757;">${array_seats.length}/${index}</span> tổng ghế ! Còn <span style="font-size: 14px; font-weight: bold; color: #e45757;">${(index - array_seats.length)}</span> ghế chưa chọn. . !`,
-            type: `warning`,
-            duration: 4500
-        });
-    }
-    else
-    {
-      var i = $('input[name="promotion"]:checked').val();
-      if(i === '1') {
-        $('.btn__bookings').attr("href", "https://www.sandbox.paypal.com/vn/signin");
-      }
-      if(i === '3') {
-        toast({
-                title: `Notification!`,
-                message: `Hiện tại! App chưa tích hợp thanh toán qua Visa, Mastercard,. . .`,
-                type: `info`,
+      const btnLoader = document.querySelector('.section-loader');
+      
+      $('.btn__bookings').click(function() {
+        var index = document.querySelector('#box .show').textContent;
+        
+        if (array_seats.length < index)
+        {
+            toast({
+                title: `Warning!`, 
+                message: `Bạn đã đặt <span style="font-size: 14px; font-weight: bold; color: #e45757;">${array_seats.length}/${index}</span> tổng ghế ! Còn <span style="font-size: 14px; font-weight: bold; color: #e45757;">${(index - array_seats.length)}</span> ghế chưa chọn. . !`,
+                type: `warning`,
                 duration: 4500
             });
-      }
-      
+        }
+        else
+        {
+          var i = $('input[name="promotion"]:checked').val();
+          if(i === '1') {
+            $('.btn__bookings').attr("href", "https://www.sandbox.paypal.com/vn/signin");
+          }
+          if(i === '2') {
+            $(this).attr('data-toggle', 'modal');
+            $(this).attr('data-target', '#modal__pay');
+          }
+          if(i === '3') {
+            toast({
+                    title: `Notification!`,
+                    message: `Hiện tại! App chưa tích hợp thanh toán qua Visa, Mastercard,. . .`,
+                    type: `info`,
+                    duration: 4500
+                });
+          }
+          
+        }
+      })
+
+      $('.btn-pay__ecoin').one('click', function() {
+        var today = new Date();
+        var idBooking = uuidv4();
+        var cashIn = $('.group_surplus .cash_in').text().replace('.', '');
+        var objectData = {
+          idUser: '<%- currentUser.code %>',
+          idMovie: '<%- data?.movie?.movieId %>',
+          idShowtime: '<%- data?.showtime?.idshow %>',
+          idCinema: '<%- data?.cinema?.idCinema %>',
+          idBooking: idBooking,
+          timeBooking: today,
+          showtime: '<%- data?.showtime?.time %>',
+          totalPrice: $('.group_surplus .total').text().replaceAll('.', '').replaceAll(' ',''),
+          arrSeats: $('.seats span').text().split(/(?:,| )+/).filter(n => n),
+          fare: '<%- data?.showtime?.fare %>',
+        }
+
+        if(cashIn < 0) {
+          toast({
+              title: 'Warning!',
+              message: 'E-coin không đủ để thanh toán! Bạn cần nạp E-coin đủ để thanh toán...',
+              type: 'warning',
+              duration: 3000
+          });
+        }
+        else
+        {
+          var options = {
+                    method: 'POST', // or 'PUT'
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(objectData),
+                }   
+          fetch('http://localhost:3000/bookings/bookings-pay-ecoin', options)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(result) {
+                if(result === true)
+                {
+                  getMap(renderMapCinema);
+                  toast({
+                        title: 'Successfully!',
+                        message: 'Đặt vé thành công!',
+                        type: 'success',
+                        duration: 3000
+                    });
+                    $('#modal__pay').css('display','none');
+                    setInterval(function(){ 
+                      location.reload();
+                    }, 2000);
+                }
+                else{
+                    toast({
+                        title: result.title_toast,
+                        message: result.message,
+                        type: result.type,
+                        duration: 3000
+                    });
+                }
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+          }
+      })
+  });
+
+  function uuidv4() {
+        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        )
     }
-    
-  }
 
   function getMap(callback) {
       var url = window.location.href;
@@ -205,7 +348,16 @@
       html += `<div class="row_name">${arrayChar[i]}</div>`
       var html_seats = '';
       for ( var j=0; j < result.sizeVertical; j++ ) { 
-          html_seats += `<div id="seat" class="seat" value="${arrayChar[i]}${i + j}"><i class="fad fa-loveseat"></i></div>`;
+          var idSeats = arrayChar[i] + (i + j);
+          var checkSeat = result.selectedSeat.filter(s => s === idSeats);
+          if(checkSeat.length > 0)
+          {
+            html_seats += `<div id="seat" class="seat occupied" value="${idSeats}"><i class="fad fa-loveseat"></i></div>`;
+          }
+          else
+          {
+            html_seats += `<div id="seat" class="seat" value="${idSeats}"><i class="fad fa-loveseat"></i></div>`;
+          }
       }
       htmls += `<div class="row"> 
             ${html}
@@ -217,6 +369,7 @@
 
   
     var list_id_seats = document.querySelector('.id_seats');
+    var list_seats_modal = document.querySelector('.content__seats .seats');
       $('.seat').click(function()
       {
         var index = document.querySelector('#box .show').textContent;
@@ -257,9 +410,15 @@
         array_seats.forEach(item => {
           htmls+= `<span> ${item} , </span>`
         });
+        
         list_id_seats.innerHTML = htmls;
+        list_seats_modal.innerHTML = htmls;
         let TotalPrice = result.fare * array_seats.length;
+        let cashIn = '<%= currentUser?.surplus %>' - TotalPrice;
         document.querySelector('.info__price').textContent = TotalPrice.toLocaleString() + " đ";
+        document.querySelector('.surplus__content h4 span').textContent = TotalPrice.toLocaleString();
+        document.querySelector('.group_surplus .total').textContent = TotalPrice.toLocaleString() + " ";
+        document.querySelector('.group_surplus .cash_in').textContent = cashIn.toLocaleString() + " ";
       });
 
       $('.btn-selected').click(function() {

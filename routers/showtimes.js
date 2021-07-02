@@ -58,45 +58,80 @@ router.get('/api/date/:id', asyncHandler(async function(req, res) {
             day = "" + addDays(i).getDate();
         else
             day = "0" + addDays(i).getDate();
-
-        var dateString = addDays(i).getFullYear() + "-" + month + "-" + day + "T00:00:00.000Z";
+           
+        var dateString = addDays(i).getFullYear() + "-" + month + "-" + day;
         var date = new Date(dateString);
         dates.push(date);
     }
 
+    var today = new Date();
+    var months = (today.getMonth() + 1);
+    var days = today.getDate();
+    if(months.toString().length > 1)
+        months = "" + (today.getMonth() + 1);
+    else
+        months = "0" + (today.getMonth() + 1);
+
+    if(days.toString().length > 1)
+        days = "" + today.getDate();
+    else
+        days = "0" + today.getDate();
+    let todayTemp = today.getFullYear() + "-" + months + "-" + days;
+    let daynow = new Date(todayTemp);
+   
     dates.forEach(idate => {
         showtime.forEach(item => { 
-            if(idate.getTime() === item.startDate.getTime())
+            var timeStart = item.startDate.getFullYear() + "-" + (item.startDate.getMonth() + 1) + "-" + item.startDate.getDate() + " " + item.startTime;
+            let dateStart = new Date(timeStart);
+            if(idate.getTime() === daynow.getTime())
             {
-                let nameCinema = "";
-                var objectItem = {};
-                var arrayStTime = [];
-                var arrayId = [];
-                cinemas.forEach(items => {
-                    if(items.id === item.idCinema)
-                    {
-                        nameCinema = items.nameTheater;
-                        return;
-                    }
-                });
-                arrayStTime.push(item.startTime);
-                arrayId.push(item.idShowtime);
-
-                cinema.forEach(items => {
-                    if(items.idCinema === item.idCinema && items.startDate.getTime() === item.startDate.getTime())
-                    {
-                        items.idShow.push(item.idShowtime);
-                        items.startTime.push(item.startTime);
-                    }
-                });
-
-                const data = cinema.filter(items => (items.idCinema === item.idCinema));
-
-                if(data.length > 0)
+                if(dateStart.getTime() < today.getTime())
                 {
-                    const t = data.filter(items => (items.startDate.getTime() === item.startDate.getTime()));
-                    if(t.length > 0)
-                        return;
+                   return;
+                }
+                else
+                {
+                    let nameCinema = "";
+                    var objectItem = {};
+                    var arrayStTime = [];
+                    var arrayId = [];
+                    cinemas.forEach(items => {
+                        if(items.id === item.idCinema)
+                        {
+                            nameCinema = items.nameTheater;
+                            return;
+                        }
+                    });
+                    arrayStTime.push(item.startTime);
+                    arrayId.push(item.idShowtime);
+    
+                    cinema.forEach(items => {
+                        if(items.idCinema === item.idCinema && items.startDate.getTime() === item.startDate.getTime())
+                        {
+                            items.idShow.push(item.idShowtime);
+                            items.startTime.push(item.startTime);
+                        }
+                    });
+    
+                    const data = cinema.filter(items => (items.idCinema === item.idCinema));
+    
+                    if(data.length > 0)
+                    {
+                        const t = data.filter(items => (items.startDate.getTime() === item.startDate.getTime()));
+                        if(t.length > 0)
+                            return;
+                        else
+                        {
+                            objectItem = {
+                                idShow: arrayId,
+                                idMovies: item.idMovies,
+                                idCinema: item.idCinema,
+                                nameCinema: nameCinema,
+                                startDate: item.startDate,
+                                startTime: arrayStTime,
+                            };
+                        }
+                    }
                     else
                     {
                         objectItem = {
@@ -108,20 +143,9 @@ router.get('/api/date/:id', asyncHandler(async function(req, res) {
                             startTime: arrayStTime,
                         };
                     }
+    
+                    cinema.push(objectItem);
                 }
-                else
-                {
-                    objectItem = {
-                        idShow: arrayId,
-                        idMovies: item.idMovies,
-                        idCinema: item.idCinema,
-                        nameCinema: nameCinema,
-                        startDate: item.startDate,
-                        startTime: arrayStTime,
-                    };
-                }
-
-                cinema.push(objectItem);
             }
         })
     })
@@ -210,7 +234,9 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
     const showtimes = await showTime.findByIdCinema(req.params.id);
     const listMovies = await Movies.findAll();
     const data = [];
-    
+
+    var today = new Date();
+
     showtimes.forEach(item => {
         const dates = [];
         const arrayId = [];
@@ -219,34 +245,92 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
         let strDay = '';
         let datetime = '';
         let datename = '';
-        
-        const temp = data.filter(items => items.idMovies === item.idMovies);
-        if(temp.length > 0)
+
+        var months = (item.startDate.getMonth() + 1);
+        var days = item.startDate.getDate();
+        if(months.toString().length > 1)
+            months = "" + (item.startDate.getMonth() + 1);
+        else
+            months = "0" + (item.startDate.getMonth() + 1);
+    
+        if(days.toString().length > 1)
+            days = "" + item.startDate.getDate();
+        else
+            days = "0" + item.startDate.getDate();
+
+        let dayTemp = item.startDate.getFullYear() + "-" + months + "-" + days + " " + item.startTime;
+        let daycheck = new Date(dayTemp);
+
+        if(daycheck.getTime() < today.getTime())
+            return;
+        else
         {
-            const t = data.filter(items => (items.startDate.getTime() === item.startDate.getTime() && items.idMovies === item.idMovies));
-            if(t.length > 0)
+            const temp = data.filter(items => items.idMovies === item.idMovies);
+            if(temp.length > 0)
             {
-                data.forEach(items => {
-                    if(items.startDate.getTime() === item.startDate.getTime() && items.idMovies === item.idMovies)
-                    {
-                        items.startTime.push(item.startTime);
-                        items.idShow.push(item.idShowtime);
+            
+                const t = data.filter(items => (items.startDate.getTime() === item.startDate.getTime() && items.idMovies === item.idMovies));
+                if(t.length > 0)
+                {
+                    data.forEach(items => {
+                        
+                        if(items.startDate.getTime() === item.startDate.getTime() && items.idMovies === item.idMovies)
+                        {
+                            items.startTime.push(item.startTime);
+                            items.idShow.push(item.idShowtime);
+                        }
+                    })
+                }
+                else
+                {
+                    strDay = item.startDate.getDate() + "-" + (item.startDate.getMonth() + 1);
+                    datetime = item.startDate.getFullYear() + "-" + (item.startDate.getMonth() + 1) + "-" +  item.startDate.getDate();
+                    datename = getDate(item.startDate.getDay());
+        
+                    var objdate = {
+                        day: strDay,
+                        datetime: datetime,
+                        datename: datename
                     }
-                })
+                    startdates.push(objdate);
+        
+                    listMovies.forEach(items => {
+                        if(items.movieId === item.idMovies)
+                        {
+                            nameMovies = items.movieName;
+                            return;
+                        }
+                    });
+                    dates.push(item.startTime);
+                    arrayId.push(item.idShowtime);
+        
+                    objectItem = {
+                        idShow: arrayId,
+                        idMovies: item.idMovies,
+                        idCinema: item.idCinema,
+                        movieName: nameMovies,
+                        startDate: item.startDate,
+                        date: startdates,
+                        startTime: dates
+                    };
+        
+                    data.push(objectItem);
+                }
             }
             else
             {
+            
                 strDay = item.startDate.getDate() + "-" + (item.startDate.getMonth() + 1);
                 datetime = item.startDate.getFullYear() + "-" + (item.startDate.getMonth() + 1) + "-" +  item.startDate.getDate();
                 datename = getDate(item.startDate.getDay());
-    
+
                 var objdate = {
                     day: strDay,
                     datetime: datetime,
                     datename: datename
                 }
                 startdates.push(objdate);
-    
+
                 listMovies.forEach(items => {
                     if(items.movieId === item.idMovies)
                     {
@@ -256,7 +340,7 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
                 });
                 dates.push(item.startTime);
                 arrayId.push(item.idShowtime);
-    
+
                 objectItem = {
                     idShow: arrayId,
                     idMovies: item.idMovies,
@@ -266,44 +350,8 @@ router.get('/api/cinema/:id',asyncHandler(async  function(req, res) {
                     date: startdates,
                     startTime: dates
                 };
-    
                 data.push(objectItem);
             }
-        }
-        else
-        {
-           
-                strDay = item.startDate.getDate() + "-" + (item.startDate.getMonth() + 1);
-                datetime = item.startDate.getFullYear() + "-" + (item.startDate.getMonth() + 1) + "-" +  item.startDate.getDate();
-                datename = getDate(item.startDate.getDay());
-    
-                var objdate = {
-                    day: strDay,
-                    datetime: datetime,
-                    datename: datename
-                }
-                startdates.push(objdate);
-    
-                listMovies.forEach(items => {
-                    if(items.movieId === item.idMovies)
-                    {
-                        nameMovies = items.movieName;
-                        return;
-                    }
-                });
-                dates.push(item.startTime);
-                arrayId.push(item.idShowtime);
-    
-                objectItem = {
-                    idShow: arrayId,
-                    idMovies: item.idMovies,
-                    idCinema: item.idCinema,
-                    movieName: nameMovies,
-                    startDate: item.startDate,
-                    date: startdates,
-                    startTime: dates
-                };
-                data.push(objectItem);
         }
     })
 

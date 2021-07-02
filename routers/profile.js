@@ -2,6 +2,7 @@ const express = require('express');
 const ensureLoggedIn = require('../middlewares/ensure_logged_in');
 const UserAccount = require('../models/useraccount');
 const ToUpCard = require('../models/toupcard');
+const Notification = require('../models/notification');
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
 
@@ -22,6 +23,17 @@ router.post('/photo/:id',asyncHandler(async function(req, res) {
     const data = await UserAccount.findByCode(req.params.id);
     data.avartar = datajson;
     await data.save();
+
+    let linkimg = `http://localhost:3000/prof/image/${req.params.id}`;
+    Notification.update({
+        linkimg: linkimg,
+    }, {
+        where: {
+            idUser: req.params.id,
+            type: 'wellcome'
+        }
+    });
+
     res.redirect('/prof/' + `${req.params.id}`);
 }));
 
@@ -61,10 +73,9 @@ router.post('/api/u/:id', asyncHandler(async function(req, res){
 
 router.post('/to-up-card/:id', asyncHandler(async function(req, res){ 
     const data = await UserAccount.findByCode(req.params.id);
-    let totalSurplus = data.surplus;
-    totalSurplus += req.body.denominations;
 
-    data.surplus = totalSurplus;
+    let totalSurplus = data.surplus;
+    data.surplus = (totalSurplus + parseFloat(req.body.denominations));
     await data.save();
 
     ToUpCard.create({ 

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UserAccount = require('../models/useraccount');
+const Notification = require('../models/notification');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const emailSend = require('../sendmail');
@@ -49,6 +50,17 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
             numberphone: numberphone,
             active: codeUser,
             surplus: 0
+        });
+        let today = new Date();
+
+        Notification.create({
+            idUser: codeUser,
+            message: '',
+            messbold: fullname,
+            linkimg: `http://localhost:3000/image/user-bg.png`,
+            time: today,
+            status: 0,
+            type: 'wellcome',
         });
         error = `reg-true`;
         title_toast = "Sucessfully!";

@@ -192,8 +192,6 @@ function loadPage(userId) {
             return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
         }
 
-
-
         fetch('http://localhost:3000/showtimes/api/date')
         .then(function(response){
             return response.json();

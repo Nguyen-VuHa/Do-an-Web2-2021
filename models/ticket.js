@@ -20,3 +20,9 @@ const Ticket = db.define('Ticket', {
         allowNull: false
     },
 })
+
+Ticket.finbByAll = async function () {
+    return Ticket.findAll();
+}
+
+module.exports = Ticket;

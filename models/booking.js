@@ -24,3 +24,13 @@ const Booking = db.define('Booking', {
         allowNull: false
     },
 })
+
+Booking.findByIdShow = async function (idShow) {
+    return Booking.findAll({
+        where: {
+            idShow: idShow,
+        },
+    });
+}
+
+module.exports = Booking;
