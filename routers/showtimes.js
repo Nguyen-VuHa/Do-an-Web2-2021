@@ -21,7 +21,8 @@ router.get('/api/movie',asyncHandler(async function(req, res) {
     var someday = new Date();
     data.forEach(item => {
         var getDate = new Date(item.premiereDate);
-        if(someday.getTime() >= getDate.getTime())
+        var endDate = new Date(item.endDate);
+        if(someday.getTime() >= getDate.getTime() && someday.getTime() <= endDate.getTime())
         {
             var obData_hdc = {};
             obData_hdc = {

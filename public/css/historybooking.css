@@ -1,0 +1,76 @@
+.history__bookings {
+    height: 100vh;
+    background: #121825;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.simplebar-scrollbar::before {
+    background-color: #a6b2c9 !important;
+}
+
+.table__hisbooking {
+    width: 90%;
+    height: 550px;
+}
+
+.history__bookings h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    font-size: 40px;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    text-align: center;
+    color: #8eff66;
+    text-shadow: 0 0 5px #54ab35, 0 0 25px #54ab35, 0 0 50px #54ab35, 0 0 200px #54ab35;
+    font-weight: 600;
+    cursor: pointer;
+   
+}
+
+.body__history tr:hover{
+    background: #a6b2c9;
+    color: #121825;
+}
+
+@media screen and (max-width: 600px) {
+    .table-dark td, .table-dark th, .table-dark thead th {
+        min-height: 50px;
+    }
+
+    table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+
+    thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+    tr { border-bottom: 3px solid #a6b2c9; }
+	
+	.table td { 
+		border: none;
+		border-bottom: 1px solid #a6b2c9;
+		position: relative;
+		padding-left: 40% !important; 
+	}
+	
+	.table td:before { 
+		position: absolute; 
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+
+    td:nth-of-type(1):before { content: "Rạp phim"; }
+	td:nth-of-type(2):before { content: "Phim"; }
+	td:nth-of-type(3):before { content: "Ngày Đặt Vé"; }
+	td:nth-of-type(4):before { content: "Ghế"; }
+}

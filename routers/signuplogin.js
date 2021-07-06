@@ -57,7 +57,7 @@ router.post('/dang-ky',asyncHandler(async function(req, res) {
             idUser: codeUser,
             message: '',
             messbold: fullname,
-            linkimg: `http://localhost:3000/image/user-bg.png`,
+            linkimg: `http://localhost:3000/prof/image/${codeUser}`,
             time: today,
             status: 0,
             type: 'wellcome',

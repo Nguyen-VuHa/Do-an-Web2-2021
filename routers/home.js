@@ -4,6 +4,10 @@ const Movies = require('../models/movies');
 const Notification = require('../models/notification');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
+const Booking = require('../models/booking');
+const Ticket = require('../models/ticket');
+const showTime = require('../models/showtime');
+const Theater = require('../models/theater');
 const router = express.Router();
 
 router.use(function(req, res, next){
@@ -295,5 +299,87 @@ router.post('/api/notification/:id', asyncHandler(async function(req, res) {
     res.json(true);
 }));
 
+router.post('/api/notiuuid/:id', asyncHandler(async function(req, res) {
+    const noti = await Notification.findByUuid(req.params.id);
+
+    noti.status = req.body.status;
+    await noti.save();
+    
+    res.json(true);
+}));
+
+
+router.get('/history-booking/:id', asyncHandler(async function(req, res) {
+    const bookings = await Booking.findByIdUser(req.params.id);
+    const tickets = await Ticket.findAll();
+    const showtimes = await showTime.findAll();
+    const movies = await Movies.findAll();
+    const cinemas = await Theater.findAll();
+    const arraySeats = [];
+    const arrayIdBK = [];
+    const arrayShow = [];
+    const nameMovie = [];
+    const nameCinema = [];
+    const arrayTime = [];
+
+    bookings.forEach(item => {
+        var obj = {
+            idBK: item.idBK,
+            idShow: item.idShow
+        }
+        arrayIdBK.push(obj);
+        let time = `${item.timeOfBooking.getHours()}:${item.timeOfBooking.getMinutes()} ${item.timeOfBooking.getDate()}/${item.timeOfBooking.getMonth() + 1}/${item.timeOfBooking.getFullYear()}`;
+        arrayTime.push(time);
+    })
+    
+    arrayIdBK.forEach(item => {
+        var arrayTemp = [];
+        tickets.forEach(items => {
+            if(items.idBK === item.idBK)
+            {
+                arrayTemp.push(items.idSeats);
+            }
+        })
+        arraySeats.push(arrayTemp);
+        showtimes.forEach(items => {
+            if(items.idShowtime === item.idShow)
+            {
+                var object = {
+                    idMovies: items.idMovies,
+                    idCinema: items.idCinema,   
+                }
+                arrayShow.push(object);
+                return;
+            }
+        })
+    })
+
+    arrayShow.forEach(item => {
+        movies.forEach(items => {
+            if(items.movieId === item.idMovies)
+            {
+                nameMovie.push(items.movieName);
+                return;
+            }
+        })
+        cinemas.forEach(items => {
+            if(items.id === item.idCinema)
+            {
+                nameCinema.push(items.nameTheater);
+                return;
+            }
+        })
+    })
+    
+    var objectData = {
+        movie: nameMovie,
+        cinema: nameCinema,
+        seats: arraySeats,
+        showtime: arrayShow,
+        time: arrayTime,
+    }
+
+    res.render('historyBooking', { objectData });
+}))
 
 module.exports = router;

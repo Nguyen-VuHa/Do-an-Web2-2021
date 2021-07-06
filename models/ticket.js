@@ -25,4 +25,12 @@ Ticket.finbByAll = async function () {
     return Ticket.findAll();
 }
 
+Ticket.findByIdBK = async function (idBK) {
+    return Ticket.findAll({
+        where: {
+            idBK: idBK,
+        },
+    });
+}
+
 module.exports = Ticket;

@@ -6,10 +6,13 @@ const User = require('../models/useraccount');
 const Cinema = require('../models/theater');
 const Bookings = require('../models/booking');
 const Tickets = require('../models/ticket');
+const Notification = require('../models/notification');
 const ensureLoggedIn = require('../middlewares/ensure_logged_in');
 const router = express.Router();
 
 const nodemailer = require('../sendmail');
+const Booking = require('../models/booking');
+const Ticket = require('../models/ticket');
 
 router.use(ensureLoggedIn);
 
@@ -38,6 +41,19 @@ router.get('/',asyncHandler(async function(req, res) {
     const dataUser = await User.findByCode(idUser);
     const dataCinema = await Cinema.findById(idcinema);
 
+    let countSeats = 0;
+    const bookings = await Booking.findByIdShow(idshow);
+    const tickets = await Ticket.findAll();
+
+    bookings.forEach(item => {
+        tickets.forEach(items => {
+            if(items.idBK === item.idBK)
+            {
+                countSeats += 1;
+            }
+        })
+    })
+    
     if(dataShow && dataMovies && dataUser && dataCinema)
     {
         var objectUser = {
@@ -55,7 +71,8 @@ router.get('/',asyncHandler(async function(req, res) {
         var objectCinema = {
             idCinema: dataCinema.id,
             nameCinema: dataCinema.nameTheater,
-            totalSeats: (dataCinema.sizeHorizontal * dataCinema.sizeVertical)
+            totalSeats: (dataCinema.sizeHorizontal * dataCinema.sizeVertical),
+            chooseSeats: (dataCinema.sizeHorizontal * dataCinema.sizeVertical) - countSeats,
         }   
 
         var timeStart = dataShow.startDate.getFullYear() + "-" + (dataShow.startDate.getMonth() + 1) + "-" + dataShow.startDate.getDate() + " " + dataShow.startTime;
@@ -110,7 +127,7 @@ router.get('/api/bookingstep',asyncHandler(async function(req, res) {
     res.json(objectData)
 }));
 
-router.post('/bookings-pay-ecoin' , asyncHandler(async function(req, res) {
+router.post('/bookings-payments' , asyncHandler(async function(req, res) {
     var objectData = req.body;
     const user = await User.findByCode(objectData.idUser);
     const bookings = await Bookings.findByIdShow(objectData.idShowtime);
@@ -118,6 +135,7 @@ router.post('/bookings-pay-ecoin' , asyncHandler(async function(req, res) {
     const movies = await Movies.findByMovieId(objectData.idMovie);
     const cinemas = await Cinema.findById(objectData.idCinema);
     arrSeats = [];
+    let checkSeats;
 
     var arraySeats = objectData.arrSeats;
 
@@ -130,52 +148,79 @@ router.post('/bookings-pay-ecoin' , asyncHandler(async function(req, res) {
         })
     });
 
-    Bookings.create({
-        idBK: objectData.idBooking,
-        idUser: objectData.idUser,
-        idShow: objectData.idShowtime,
-        timeOfBooking: objectData.timeBooking,
-        totalPrice: objectData.totalPrice,
-    });
-   
+    arraySeats.forEach(item => {
+        if(arrSeats.indexOf(item) === -1)
+        {
+            checkSeats = true;
+        }
+        else {
+            checkSeats = false;
+            return;
+        }
+    })
 
-    for(let i = 0; i < arraySeats.length; i++)
+    if(checkSeats === true)
     {
-        Tickets.create({
-            idTicket: Generate(),
-            idBK: objectData.idBooking,
-            idSeats: arraySeats[i],
-            price: objectData.fare
-        });
+        Bookings.create({
+                idBK: objectData.idBooking,
+                idUser: objectData.idUser,
+                idShow: objectData.idShowtime,
+                timeOfBooking: objectData.timeBooking,
+                totalPrice: objectData.totalPrice,
+            });
+
+        let today = new Date();
+
+        Notification.create({
+            idUser:  objectData.idUser,
+            linkimg: `http://localhost:3000/api/image/${movies.movieId}/1`,
+            time: today,
+            status: 0,
+            type: 'link',
+            message: `Bạn vừa hoàn thành đặt vé cho bộ phim <span>${movies.movieName}</span>. Kiểm tra gmail hoặc tin nhắn để nhận mã vé cũng như thông tin về vé. Chúc bạn xem phim vui vẻ <3`,
+            messbold: '',
+        })
+
+        for(let i = 0; i < arraySeats.length; i++)
+        {
+            Tickets.create({
+                idTicket: Generate(),
+                idBK: objectData.idBooking,
+                idSeats: arraySeats[i],
+                price: objectData.fare
+            });
+        }
+        
+        user.surplus -=  objectData.totalPrice;
+        await user.save();
+        var date = new Date(objectData.timeBooking);
+        var time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`;
+        var urlQRcode = 'https://cgv-cinema-movie.herokuapp.com/';
+
+        var objectSendmail = {
+            fullname: user.fullname,
+            nameMovie: movies.movieName,
+            idTicket: objectData.idBooking,
+            cinema: cinemas.nameTheater,
+            address: cinemas.addressTheater,
+            timeTick: time,
+            showtime: objectData.showtime,
+            totalPrice: objectData.totalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            idSeats: objectData.arrSeats,
+            urlQRcode: urlQRcode,
+        };
+
+    
+        var link = "#";
+        await nodemailer.sendBooking(user.email, 'CGV Việt Nam | Thông Tin Vé Phim', link, objectSendmail);
+
+        res.json(true);
+    }
+    else {
+        res.json(false);
     }
     
-    user.surplus -=  objectData.totalPrice;
-    await user.save();
-    var date = new Date(objectData.timeBooking);
-    var time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`;
-    var urlQRcode = 'https://cgv-cinema-movie.herokuapp.com/';
-
-    var objectSendmail = {
-        fullname: user.fullname,
-        nameMovie: movies.movieName,
-        idTicket: objectData.idBooking,
-        cinema: cinemas.nameTheater,
-        address: cinemas.addressTheater,
-        timeTick: time,
-        showtime: objectData.showtime,
-        totalPrice: objectData.totalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        idSeats: objectData.arrSeats,
-        urlQRcode: urlQRcode,
-    };
-
- 
-    var link = "#";
-    await nodemailer.sendBooking(user.email, 'CGV Việt Nam | Thông Tin Vé Phim', link, objectSendmail);
-
-    res.json(true);
-    
 }))
-
 
 function Generate() {
     const hex = "0123456789ABCDEF";

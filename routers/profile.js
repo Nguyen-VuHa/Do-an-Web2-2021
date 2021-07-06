@@ -78,6 +78,18 @@ router.post('/to-up-card/:id', asyncHandler(async function(req, res){
     data.surplus = (totalSurplus + parseFloat(req.body.denominations));
     await data.save();
 
+    let today = new Date();
+
+    Notification.create({
+        idUser:  req.params.id,
+        linkimg: `http://localhost:3000/prof/image/${req.params.id}`,
+        time: today,
+        status: 0,
+        type: 'info',
+        message: `Bạn vừa hoàn thành thanh toán E-coin! số dư của bạn được cộng thêm <span>+${req.body.denominations}</span> E-coin &#9829;`,
+        messbold: '',
+    });
+
     ToUpCard.create({ 
         idUser: req.params.id,
         idCard: req.body.idCard,
@@ -87,4 +99,11 @@ router.post('/to-up-card/:id', asyncHandler(async function(req, res){
     });
     res.json(true);
 }));
+
+router.get('/api/to-up-card/:id', asyncHandler(async function(req, res) {
+    const data = await ToUpCard.findByIdUser(req.params.id);
+    
+    res.json(data);
+}));
+
 module.exports = router;

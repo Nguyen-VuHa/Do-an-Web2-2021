@@ -60,6 +60,14 @@ Notification.findByIdUserType = async function (idUser, type) {
     });
 }
 
+Notification.findByUuid = async function (uuid) {
+    return Notification.findOne({
+        where: {
+            uuid: uuid,
+        }
+    });
+}
+
 
 Notification.findByUserStatus = async function (idUser, status) {
     return Notification.findAll({

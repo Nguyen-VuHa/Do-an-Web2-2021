@@ -509,3 +509,14 @@
 .slider__place {
   display: none;
 }
+
+@media screen and (max-width: 600px) {
+  .tabs__place-content .item__place .item__place-content {
+    flex-direction: column;
+  }
+
+  .item__place .item__place-content .place__info {
+    width: 100%;
+    margin: 0;
+  }
+}

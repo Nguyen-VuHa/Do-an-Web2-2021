@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="http://localhost:3000/css/cinema_sys.css">
     <link rel="stylesheet" href="http://localhost:3000/css/showtimes.css">
     <link rel="stylesheet" href="http://localhost:3000/css/booking.css">
+    <link rel="stylesheet" href="http://localhost:3000/css/historybooking.css">
     <% } %>
     <!-- link bootstrap cdn 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -33,14 +34,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- link lightslider JQuery -->
+    <%if (title === 'Thông Tin Tài Khoản') {%> 
+    <% } else {%>
     <link rel="stylesheet" href="css/lightslider.css">
     <script src="js/JQuery3.3.1.js"></script>
     <script src="js/lightslider.js"></script>
+    <% } %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
     <!-- link google fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
   <!-- link icon -->
+  <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css"/>
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
   <title><%- title %></title>
 </head>
@@ -70,9 +75,9 @@
             <span style="--i:20;"></span>
         </div>
     </div>
-    <%- title === 'Thông Tin Tài Khoản' ? '' : include('auth/header.ejs') %>
+    <%- title === 'Thông Tin Tài Khoản' || title === 'Booking Movies' ? '' : include('auth/header.ejs') %>
     <%- body %>
-    <%- title === 'Admin' ? '' :  include('auth/footer.ejs') %>
+    <%- title === 'Admin' || title === 'Booking Movies' ? '' :  include('auth/footer.ejs') %>
 </body>
 
 </html>

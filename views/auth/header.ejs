@@ -21,21 +21,23 @@
                                 <div class="action__notify-count"  id="notify_clicks" >
                                 </div>
                             </div>
-                            <div class="__notify" id="menu__notify">
+                            <div class="__notify" id="menu__notify" >
                                 <div  class="notify_title" >
                                     <h4 style="color: #a6b2c9; padding: 10px; font-size: 20px; margin: 0; font-weight: 600;">Thông Báo</h4>
                                 </div>
-                                <ul class="notify_content" id="notify_content">
-                                </ul>
+                                <div class="scroll_notification"  data-simplebar>
+                                    <ul class="notify_content" id="notify_content">
+                                    </ul>
+                                </div>
                             </div>
-                            <div onclick="menuDropMenuUser()" class="profile" id="profile_clicks" >
+                            <div class="profile" id="profile_clicks" >
                                 <img onerror="this.src='http://localhost:3000/image/user-bg.png'" class="avartar-user" src="">
                             </div>
                             <div class="menu" id="menu__profile">
                                 <h3><%- currentUser.fullname %><br><span>Số dư :  <b style="color: #54ab35;"><%- currentUser.surplus.toLocaleString() %> E-coin</b></span></h3>
                                 <ul>
                                     <li><i class="fal fa-user-circle"></i><a href="/prof/<%= currentUser.code %>">My Profile</a></li> 
-                                    <li><i class="fal fa-cog"></i><a href="#">Settings</a></li>     
+                                    <li><i class="fal far fa-history"></i><a href="/history-booking/<%= currentUser.code %>">Booking History</a></li>   
                                     <li><i class="fal fa-question-circle"></i><a href="#">Help</a></li>     
                                     <li><i class="fal fa-sign-out"></i><a href="/logout">Logout</a></li>     
                                 </ul>
@@ -62,13 +64,43 @@
                     </div>
                     <% } %>
                 </div>
-           
         </nav>
         <script src="js/toastmesage.js"></script>
         <script src="js/validateform.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+        <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
            <% if (currentUser) { %>
                 <script>
+                    function infoTicket(item) {
+                        let uuid = $(item).attr('uuid');
+                        var data = {
+                            status: 1,
+                        };
+
+                        var options = {
+                            method: 'POST', // or 'PUT'
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        }
+
+                        fetch(`http://localhost:3000/api/notiuuid/${uuid}`, options)
+                            .then(function(response) {
+                                return response.json();
+                            })
+                            .then(function(result) {
+                                if(result === true)
+                                {
+                                    location.href = 'http://localhost:3000/history-booking/<%- currentUser.code %>';
+                                }
+                            })
+                            .catch(function(err) {
+                                console.log(err);
+                            })
+                       
+                    } 
+
                     document.addEventListener('DOMContentLoaded', function() {
                         $('.avartar-user').attr('src', `http://localhost:3000/prof/image/<%-currentUser.code%>`);
                         var countNoti = document.querySelector('.action__notify-count');
@@ -88,13 +120,11 @@
 
                         function renderNotification(result)
                         {
-                            
                             var htmls = '';
                             let count = 0;
                             result.map(function(db) {
                                 if(db.status === 0)
                                     count += 1;
-                                
                                 
                             })
 
@@ -110,7 +140,6 @@
                                 countNoti.innerHTML = `<span id="notify_clicks">9+</span>`;
                             }
                             result.map(function(data) {
-
                                 var momentTime = moment(data.time).locale('vi').fromNow();
 
                                 if(data.type === 'wellcome')
@@ -119,7 +148,7 @@
                                     {
                                         htmls += `<li class="notify_content-item" uuid="${data.uuid}">
                                                 <div class="image_item">
-                                                    <img src="${data.linkimg}" alt="" style="width: 60px;
+                                                    <img onerror="this.src='http://localhost:3000/image/user-bg.png'" src="${data.linkimg}" alt="" style="width: 60px;
                                                                                         height: 60px;
                                                                                         object-fit: contain;
                                                                                         border-radius: 50%;">
@@ -139,7 +168,7 @@
                                     {
                                         htmls += `<li class="notify_content-item view" uuid="${data.uuid}">
                                                 <div class="image_item">
-                                                    <img src="${data.linkimg}" alt="" style="width: 60px;
+                                                    <img onerror="this.src='http://localhost:3000/image/user-bg.png'" src="${data.linkimg}" alt="" style="width: 60px;
                                                                                         height: 60px;
                                                                                         object-fit: contain;
                                                                                         border-radius: 50%;">
@@ -155,11 +184,101 @@
                                                 </div>
                                         </li>`;
                                     }
-                                    
+                                }
+                                else if (data.type === 'info') {
+                                    if(data.status === 0)
+                                    {
+                                        htmls += `<li class="notify_content-item" uuid="${data.uuid}">
+                                                <div class="image_item">
+                                                    <img onerror="this.src='http://localhost:3000/image/user-bg.png'" src="${data.linkimg}" alt="" style="width: 60px;
+                                                                                        height: 60px;
+                                                                                        object-fit: contain;
+                                                                                        border-radius: 50%;">
+                                                </div>
+                                                <div class="item--content"> 
+                                                    <div>
+                                                        <p>${data.message}</p>
+                                                    </div>
+                                                    <div class="notificatio__time">
+                                                        ${momentTime}
+                                                    </div>
+                                                </div>
+                                        </li>`;
+                                    }
+                                    else
+                                    {
+                                        htmls += `<li class="notify_content-item view" uuid="${data.uuid}">
+                                                <div class="image_item">
+                                                    <img onerror="this.src='http://localhost:3000/image/user-bg.png'" src="${data.linkimg}" alt="" style="width: 60px;
+                                                                                        height: 60px;
+                                                                                        object-fit: contain;
+                                                                                        border-radius: 50%;">
+                                                </div>
+                                                <div class="item--content"> 
+                                                    <div>
+                                                        <p>${data.message}</p>
+                                                    </div>
+                                                    <div class="notificatio__time">
+                                                        ${momentTime}
+                                                    </div>
+                                                </div>
+                                        </li>`;
+                                    }
+                                }
+                                else if (data.type === 'link') {
+                                    if(data.status === 0)
+                                    {
+                                        htmls += `<li class="notify_content-item" uuid="${data.uuid}" onclick="infoTicket(this)">
+                                                <div class="image_item">
+                                                <img src="${data.linkimg}" alt="" >
+                                                </div>
+                                                <div class="item--content"> 
+                                                    <div>
+                                                        <p>${data.message}</p>
+                                                    </div>
+                                                    <div class="notificatio__time">
+                                                        ${momentTime}
+                                                    </div>
+                                                </div>
+                                        </li>`;
+                                    }
+                                    else if(data.status === 2)
+                                    {
+                                        htmls += `<li class="notify_content-item seen" uuid="${data.uuid}" onclick="infoTicket(this)">
+                                                <div class="image_item">
+                                                <img src="${data.linkimg}" alt="" >
+                                                </div>
+                                                <div class="item--content"> 
+                                                    <div>
+                                                        <p>${data.message}</p>
+                                                    </div>
+                                                    <div class="notificatio__time">
+                                                        ${momentTime}
+                                                    </div>
+                                                </div>
+                                        </li>`;
+                                    }
+                                    else
+                                    {
+                                        htmls += `<li class="notify_content-item view" uuid="${data.uuid}" onclick="infoTicket(this)">
+                                            <div class="image_item">
+                                                <img src="${data.linkimg}" alt="" >
+                                                </div>
+                                                <div class="item--content"> 
+                                                    <div>
+                                                        <p>${data.message}</p>
+                                                    </div>
+                                                    <div class="notificatio__time">
+                                                        ${momentTime}
+                                                    </div>
+                                                </div>
+                                        </li>`;
+                                    }
                                 }
                             })
                             contetnNoti.innerHTML = htmls;
                         }
+
 
                         $('#profile_clicks').click(function() {
                             var divs = document.getElementById("menu__profile");
@@ -274,6 +393,6 @@
                });
                 </script>
             <% } %>
-        <script src="js/header.js"></script>
-       
+            <script src="js/header.js"></script>
+            <script src="../js/header.js"></script>
     </header>

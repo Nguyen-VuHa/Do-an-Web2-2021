@@ -21,7 +21,7 @@
                 <h3 style="font-family: 'Pattaya', sans-serif;" id="title-fullname"></h3>
                 <p style="font-family: 'Roboto', sans-serif;">Số dư TK: <b id="surplus" style="color: #54ab35;"></b></p>
                 <div class="info_frames--btn">
-                    <div class="btn"><a href="#">Liên kết Paypal</a></div>
+                    <div class="btn"><a href="#" id="history__btn" data-toggle="modal" data-target="#modal__history">Lịch Sử Giao Dịch</a></div>
                     <div class="btn"><a href="#" data-toggle="modal" data-target="#modal__to-up-card">Nạp E-coin</a></div>
                     <div class="btn"><a href="#">Phản Hồi</a></div>
                 </div>
@@ -177,6 +177,37 @@
             border-top-right-radius: 5px;
         }
     </style>
+    <!-- Modal -->
+    <div class="modal__history modal fade" id="modal__history" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Lịch Sử Nạp E-coin</h5>
+            <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </a>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Mã Thẻ</th>
+                        <th scope="col">Số Tiền Nạp</th>
+                        <th scope="col">Ngày nạp</th>
+                        <th scope="col">Giờ nạp</th>
+                      </tr>
+                    </thead>
+                    <tbody id="body__history">
+                    </tbody>
+                  </table>
+            </div>
+            <div class="modal-footer" style="border: none;">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+  </div>
+
     <form method="POST">
         <div class="modal fade" id="imageModalContainer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md modal-dialog-centered">
@@ -259,6 +290,39 @@
 <script src="../js/croppie.js"></script>
 <script src="../js/toastmesage.js"></script>
 <script >
+        $('#history__btn').click(function() {
+            fetch('http://localhost:3000/prof/api/to-up-card/<%- currentUser?.code %>')
+             .then(function(response) {
+                 return response.json();
+             })
+             .then(function(data) {
+                 if(data.length > 0)
+                 {
+                    var htmls = data.map(function(dt) {
+                    return ` <tr>
+                        <td>${dt.idUser}</td>
+                        <td>${dt.Denominations.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                        <td>${dt.dayTrading.substring(0,10)}</td>
+                        <td>${dt.tradingHours}</td>
+                      </tr>`;
+                    })
+                    document.querySelector('#body__history').innerHTML = htmls.join('');
+                 }
+                 else {
+                    var htmls = `<tr>
+                            <td colspan="4" class="text-center" style="font-size: 16px;
+                            text-transform: uppercase;">Không có giao dịch nào thực hiện</td>
+                        </tr>`;
+                    document.querySelector('#body__history').innerHTML = htmls;
+                 }
+
+               
+             })
+             .catch(function(err) {
+                 console.log(err);
+             })
+        })
+
         $('.btn-pay').click(function () {
             var seriNum = $('#seri').val();
             var idCard = $('#idcard').val();

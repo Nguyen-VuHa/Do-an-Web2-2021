@@ -1248,7 +1248,7 @@ header {
     right: 50%;
     background: #121825;
     width: 450px;
-    max-height: 642px;
+    max-height: 640px;
     box-shadow: 0 -3px 20px rgb(0 0 0 / 50%);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -1257,6 +1257,7 @@ header {
     visibility: hidden;
     transition: 0.5s;
     opacity: 0;
+    overflow: hidden;
   }
 
   .action .__notify.active {
@@ -1272,15 +1273,12 @@ header {
       border-bottom: 1px solid #54ab35;
   }
 
-  .__notify .notify_content {
-      position: relative;
-      margin: 0;
-      overflow: auto;
+  .simplebar-scrollbar::before {
+    background-color: #a6b2c9 !important;
   }
 
-  .notify_content::-webkit-scrollbar { 
-    width: 0 !important;
-    display: none; 
+  .__notify .scroll_notification{
+    height: 592px;
   }
   
   .notify_content .notify_content-item{
@@ -1295,6 +1293,10 @@ header {
         background: #121825;
   }
 
+  .notify_content .notify_content-item.seen {
+    background: #142512;
+}
+
   .notify_content .notify_content-item:hover {
     background-color: #c1dcb71a;
   }
@@ -1307,7 +1309,7 @@ header {
   }
 
   .notify_content .notify_content-item .image_item img {
-    width: 50px;
+    width: 60px;
     object-fit: contain;
   }
 

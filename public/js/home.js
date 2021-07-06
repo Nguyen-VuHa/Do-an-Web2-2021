@@ -1,11 +1,4 @@
 
-
-/* section advertisement -- Slide and hover video */
-const clip = document.querySelector('.clip');
-document.addEventListener('DOMContentLoaded', function(e) {
-    clip.play();
-});
-
 var counter = 1;
 setInterval(function(){
         document.getElementById('radio' + counter).checked = true;

@@ -33,4 +33,12 @@ Booking.findByIdShow = async function (idShow) {
     });
 }
 
+Booking.findByIdUser = async function (idUser) {
+    return Booking.findAll({
+        where: {
+            idUser: idUser,
+        },
+    });
+}
+
 module.exports = Booking;

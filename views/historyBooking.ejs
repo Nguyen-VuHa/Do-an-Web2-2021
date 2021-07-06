@@ -1,0 +1,36 @@
+<section class="history__bookings">
+        <h3>Lịch Sử Giao Dịch</h3>
+        <div class="table__hisbooking" data-simplebar>
+            <table class="history__table table table-dark" style="background-color: #121825; color: #a6b2c9;">
+                <thead>
+                  <tr>
+                    <th scope="col">Rạp phim</th>
+                    <th scope="col">Phim</th>
+                    <th scope="col">Ngày Đặt Vé</th>
+                    <th scope="col">Ghế</th>
+                  </tr>
+                </thead>
+                <tbody class="body__history">
+                    <% if(objectData) {%>
+                        <% for(let i = 0; i < objectData.movie.length ;i++) {%>
+                        <tr>
+                            <td><%= objectData.cinema[i] %></td>
+                            <td><%= objectData.movie[i] %></td>
+                            <td><%= objectData.time[i] %></td>
+                            <td>  <% objectData.seats[i].forEach(item=> { %>
+                                <span><%= item %>,</span>
+                                <% })%>
+                            </td>
+                        </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center" style="font-size: 16px;
+                            text-transform: uppercase;">Bạn chưa có giao dịch (đơn hàng) nào.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+              </table>
+        </div>
+</section>
+<script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
