@@ -15,10 +15,17 @@ router.get('/',asyncHandler(async function(req, res) {
     res.render('page404');
 }));
 
+function customTime(time) {
+    var day = time.getDate() < 10 ?  `0${time.getDate()}` : time.getDate();
+    var month = (time.getMonth() + 1) < 10 ?  `0${time.getMonth() + 1}` : time.getMonth() + 1;
+
+    return `${day}/${month}/${time.getFullYear()}`;
+}
+
 router.get('/:id',asyncHandler(async function(req, res) {
     const data = await Movies.findByMovieId(req.params.id);
     var d = new Date(data.premiereDate);
-    var date = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+    var date = customTime(d);
     const obData = {
         idMovies: req.params.id,
         movieName: data.movieName,

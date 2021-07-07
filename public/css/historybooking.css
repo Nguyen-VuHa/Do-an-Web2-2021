@@ -74,3 +74,63 @@
 	td:nth-of-type(3):before { content: "Ngày Đặt Vé"; }
 	td:nth-of-type(4):before { content: "Ghế"; }
 }
+
+/* ticket */
+.info__tickets {
+    background: #121825;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+}
+
+.info__tickets h3 {
+    display: inline-block;
+    margin-top: 25px;
+    font-size: 40px;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    text-align: center;
+    color: #8eff66;
+    text-shadow: 0 0 5px #54ab35, 0 0 25px #54ab35, 0 0 50px #54ab35, 0 0 200px #54ab35;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.group__info-ticket {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.group__info-ticket .group-ticket {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-left: 150px;
+    padding-bottom: 1.5rem;
+    list-style: none;
+}
+
+.group__info-ticket .group-ticket .group__title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    font-weight: bold;
+}
+
+.group__info-ticket .group-ticket p{
+    color: #f8090f;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.group__info-ticket .group-ticket span { 
+    font-size: 18px;
+    font-weight: 500;
+    color: #54ab35;
+}
+

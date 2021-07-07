@@ -25,6 +25,14 @@ const Booking = db.define('Booking', {
     },
 })
 
+Booking.findByIdBK = async function (idBK) {
+    return Booking.findOne({
+        where: {
+            idBK: idBK,
+        },
+    });
+}
+
 Booking.findByIdShow = async function (idShow) {
     return Booking.findAll({
         where: {

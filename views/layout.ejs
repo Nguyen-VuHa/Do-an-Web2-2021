@@ -75,9 +75,9 @@
             <span style="--i:20;"></span>
         </div>
     </div>
-    <%- title === 'Thông Tin Tài Khoản' || title === 'Booking Movies' ? '' : include('auth/header.ejs') %>
+    <%- title === 'Thông Tin Tài Khoản' || title === 'Booking Movies' || title === 'Ticket' ? '' : include('auth/header.ejs') %>
     <%- body %>
-    <%- title === 'Admin' || title === 'Booking Movies' ? '' :  include('auth/footer.ejs') %>
+    <%- title === 'Admin' || title === 'Booking Movies' || title === 'Ticket' ? '' :  include('auth/footer.ejs') %>
 </body>
 
 </html>

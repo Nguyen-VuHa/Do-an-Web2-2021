@@ -1,0 +1,35 @@
+<section class="info__tickets">
+    <div class="container">
+        <h3>Thông Tin Vé Phim</h3>
+        <ul class="group__info-ticket">
+            <li class="group-ticket"> 
+                <label class="group__title" for="">Mã Vé</label>
+                <p><%- objectData?.ticketCode %></p>
+            </li>
+            <li class="group-ticket"> 
+                <label class="group__title" for="">Tên Phim</label>
+                <span style="text-transform: uppercase;"><%- objectData?.nameMovie %></span>
+            </li>
+            <li class="group-ticket"> 
+                <label class="group__title" for="">Rạp Phim</label>
+                <span><%- objectData?.nameCinema %></span>
+            </li>
+            <li class="group-ticket"> 
+                <label class="group__title" for="">Địa Chỉ</label>
+                <span><%- objectData?.addressCinema %></span>
+            </li>
+            <li class="group-ticket"> 
+                <label class="group__title" for="">Thời Gian Đặt Vé</label>
+                <span><%- objectData?.timeBooking %></span>
+            </li>
+            <li class="group-ticket"> 
+                <label class="group__title" for="">Suất Chiếu</label>
+                <span><%- objectData?.timeShow %></span>
+            </li>
+            <li class="group-ticket"> 
+                <label class="group__title" for="">Vị Trí Ngồi</label>
+                <span><%- objectData?.seats %></span>
+            </li>
+        </ul>
+    </div>
+</section>

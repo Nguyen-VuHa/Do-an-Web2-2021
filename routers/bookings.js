@@ -4,22 +4,18 @@ const showTime = require('../models/showtime');
 const Movies = require('../models/movies');
 const User = require('../models/useraccount');
 const Cinema = require('../models/theater');
-const Bookings = require('../models/booking');
-const Tickets = require('../models/ticket');
 const Notification = require('../models/notification');
-const ensureLoggedIn = require('../middlewares/ensure_logged_in');
-const router = express.Router();
-
-const nodemailer = require('../sendmail');
 const Booking = require('../models/booking');
 const Ticket = require('../models/ticket');
+const ensureLoggedIn = require('../middlewares/ensure_logged_in');
+const router = express.Router();
+const nodemailer = require('../sendmail');
 
 router.use(ensureLoggedIn);
 
 router.use(function(req, res, next){
     res.locals.title = 'Booking Movies';
     next();
-
 });
 
 String.prototype.toHHMMSS = function () {
@@ -78,11 +74,10 @@ router.get('/',asyncHandler(async function(req, res) {
         var timeStart = dataShow.startDate.getFullYear() + "-" + (dataShow.startDate.getMonth() + 1) + "-" + dataShow.startDate.getDate() + " " + dataShow.startTime;
         let dateStart = new Date(timeStart);
         let dateEnd = new Date(dateStart.getTime() + (dataMovies.time * 60 * 1000));
-        var moviesTime = dataShow.startDate.getFullYear() + "-" + (dataShow.startDate.getMonth() + 1) + "-" + dataShow.startDate.getDate() + " " + dateEnd.getHours() + ":" + dateEnd.getMinutes();
     
         var objectShowtime = {
             idshow: dataShow.idShowtime,
-            time: `${timeStart} ~ ${moviesTime}`,
+            time: `${customTime(dateStart)} ~ ${customTime(dateEnd)}`,
             fare: dataShow.fare
         }   
 
@@ -100,12 +95,21 @@ router.get('/',asyncHandler(async function(req, res) {
 
 // API Bookings
 
+function customTime(time) {
+    var hours = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
+    var minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+    var day = time.getDate() < 10 ?  `0${time.getDate()}` : time.getDate();
+    var month = (time.getMonth() + 1) < 10 ?  `0${time.getMonth() + 1}` : time.getMonth() + 1;
+
+    return `${hours}:${minutes} ${day}/${month}/${time.getFullYear()}`;
+}
+
 router.get('/api/bookingstep',asyncHandler(async function(req, res) {
     const { idcinema, idshow} = req.query;
     const dataCinema = await Cinema.findById(idcinema);
     const dataShow = await showTime.findById(idshow);
-    const bookings = await Bookings.findByIdShow(idshow);
-    const tickets = await Tickets.findAll();
+    const bookings = await Booking.findByIdShow(idshow);
+    const tickets = await Ticket.findAll();
     arrSeats = [];
 
     bookings.forEach(item => {
@@ -130,8 +134,8 @@ router.get('/api/bookingstep',asyncHandler(async function(req, res) {
 router.post('/bookings-payments' , asyncHandler(async function(req, res) {
     var objectData = req.body;
     const user = await User.findByCode(objectData.idUser);
-    const bookings = await Bookings.findByIdShow(objectData.idShowtime);
-    const tickets = await Tickets.findAll();
+    const bookings = await Booking.findByIdShow(objectData.idShowtime);
+    const tickets = await Ticket.findAll();
     const movies = await Movies.findByMovieId(objectData.idMovie);
     const cinemas = await Cinema.findById(objectData.idCinema);
     arrSeats = [];
@@ -161,7 +165,7 @@ router.post('/bookings-payments' , asyncHandler(async function(req, res) {
 
     if(checkSeats === true)
     {
-        Bookings.create({
+        Booking.create({
                 idBK: objectData.idBooking,
                 idUser: objectData.idUser,
                 idShow: objectData.idShowtime,
@@ -183,7 +187,7 @@ router.post('/bookings-payments' , asyncHandler(async function(req, res) {
 
         for(let i = 0; i < arraySeats.length; i++)
         {
-            Tickets.create({
+            Ticket.create({
                 idTicket: Generate(),
                 idBK: objectData.idBooking,
                 idSeats: arraySeats[i],
@@ -194,8 +198,9 @@ router.post('/bookings-payments' , asyncHandler(async function(req, res) {
         user.surplus -=  objectData.totalPrice;
         await user.save();
         var date = new Date(objectData.timeBooking);
-        var time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`;
-        var urlQRcode = 'https://cgv-cinema-movie.herokuapp.com/';
+        
+        var time = customTime(date);
+        var urlQRcode = `http://localhost:3000/ticket?idBK=${objectData.idBooking}&idMovie=${objectData.idMovie}&idCinema=${objectData.idCinema}&idShow=${objectData.idShowtime}`;
 
         var objectSendmail = {
             fullname: user.fullname,
