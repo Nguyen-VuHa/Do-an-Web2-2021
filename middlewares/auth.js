@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const UserAccount = require('../models/useraccount');
 
-module.exports =asyncHandler(async function auth(req, res, next) {
+module.exports = asyncHandler(async function auth(req, res, next) {
     const { userId } = req.session;
     res.locals.currentUser = null;
     if(userId) {

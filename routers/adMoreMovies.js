@@ -4,8 +4,10 @@ const Movies = require('../models/movies');
 const District = require('../models/district');
 const Theaters = require('../models/theater');
 const showTime = require('../models/showtime');
+const Booking = require('../models/booking');
+const { Op } = require('sequelize');
 const asyncHandler = require('express-async-handler');
-const ensureLoggedIn = require('../middlewares/ensure_logged_in');
+const ensureLoggedIn = require('../middlewares/ensure_logged_admin');
 const local = require('../local.json');
 
 router.use(ensureLoggedIn);
@@ -406,6 +408,341 @@ router.post('/theater', asyncHandler(async function(req, res){
     }
     else
         res.json(false);
+}));
+
+router.get('/revenue', function(req, res) {
+    res.render('income');
+})
+
+router.get('/revenue/api', asyncHandler(async function(req, res) {
+    var dataBooking;
+    if(req.query.fromdate !== 'undefined' && req.query.todate !== 'undefined')
+    {
+        var startDate = new Date(req.query.fromdate + " 00:00:00");
+        var endDate = new Date(req.query.todate + " 00:00:00");
+        dataBooking = await Booking.findAll({
+            where: 
+            {
+                timeOfBooking: 
+                {
+                    [Op.between]: [startDate,endDate]
+                }
+            }
+        });;
+    }
+    else
+        dataBooking = await Booking.findAll();
+    
+    const showtime = await showTime.findAll();
+    const cinema = await Theaters.findAll();
+    let idCinema, nameCinema;
+    let arrShow = [];
+    if(dataBooking) {
+        dataBooking.forEach(item => {
+            let count = 0;
+            count += 1;
+            if(arrShow.filter(u => u.idShow === item.idShow).length > 0)
+            {
+                arrShow.forEach(items => {
+                    if(items.idShow === item.idShow)
+                    {
+                        items.countTicket += 1;
+                        items.totalPrice += item.totalPrice;
+                        return;
+                    }
+                })
+            }
+            else
+            {
+                var obj = {
+                    idShow: item.idShow,
+                    totalPrice: item.totalPrice,
+                    countTicket: count,
+                }
+                arrShow.push(obj);
+            }
+        })
+    
+        let arrData = [];
+      
+        for(let i = 0; i < arrShow.length; i++) {
+            showtime.forEach(item => {
+                if(arrShow[i].idShow === item.idShowtime)
+                {
+                    idCinema = item.idCinema;
+                    return;
+                }
+            })
+        
+            cinema.forEach(item => {
+                if(idCinema === item.id)
+                {
+                    nameCinema = item.nameTheater;
+                }
+            })
+        
+            if(arrData.filter(u => u.idCinema === idCinema).length > 0)
+            {
+                arrData.forEach(item => {
+                    if(item.idCinema === idCinema)
+                    {
+                        item.countTicket += arrShow[i].countTicket;
+                        item.totalPrice += arrShow[i].totalPrice;
+                        return;
+                    }
+                })
+            }
+            else
+            {
+                var option = {
+                    countTicket: arrShow[i].countTicket,
+                    totalPrice: arrShow[i].totalPrice,
+                    nameCinema: nameCinema,
+                    idCinema: idCinema,
+                }
+            
+                arrData.push(option);
+            }
+        }
+        
+        res.json(arrData);
+    }
+    else {
+        dataBooking.forEach(item => {
+            let count = 0;
+            count += 1;
+            if(arrShow.filter(u => u.idShow === item.idShow).length > 0)
+            {
+                arrShow.forEach(items => {
+                    if(items.idShow === item.idShow)
+                    {
+                        items.countTicket += 1;
+                        items.totalPrice += item.totalPrice;
+                        return;
+                    }
+                })
+            }
+            else
+            {
+                var obj = {
+                    idShow: item.idShow,
+                    totalPrice: item.totalPrice,
+                    countTicket: count,
+                }
+                arrShow.push(obj);
+            }
+        })
+    
+        let arrData = [];
+        for(let i = 0; i < arrShow.length; i++) {
+            showtime.forEach(item => {
+                if(arrShow[i].idShow === item.idShowtime)
+                {
+                    idCinema = item.idCinema;
+                    return;
+                }
+            })
+        
+            cinema.forEach(item => {
+                if(idCinema === item.id)
+                {
+                    nameCinema = item.nameTheater;
+                }
+            })
+        
+            if(arrData.filter(u => u.idCinema === idCinema).length > 0)
+            {
+                arrData.forEach(item => {
+                    if(item.idCinema === idCinema)
+                    {
+                        item.countTicket += arrShow[i].countTicket;
+                        item.totalPrice += arrShow[i].totalPrice;
+                        return;
+                    }
+                })
+            }
+            else
+            {
+                var option = {
+                    countTicket: arrShow[i].countTicket,
+                    totalPrice: arrShow[i].totalPrice,
+                    nameCinema: nameCinema,
+                    idCinema: idCinema,
+                }
+            
+                arrData.push(option);
+            }
+        }
+        
+        res.json(arrData);
+    }
+  
+}));
+
+router.get('/revenue-movie/api', asyncHandler(async function(req, res) {
+    var dataBooking;
+    if(req.query.fromdate !== 'undefined' && req.query.todate !== 'undefined')
+    {
+        var startDate = new Date(req.query.fromdate + " 00:00:00");
+        var endDate = new Date(req.query.todate + " 00:00:00");
+        dataBooking = await Booking.findAll({
+            where: 
+            {
+                timeOfBooking: 
+                {
+                    [Op.between]: [startDate,endDate]
+                }
+            }
+        });
+    }
+    else
+        dataBooking = await Booking.findAll();
+    
+    const showtime = await showTime.findAll();
+    const movie = await Movies.findAll();
+    let arrShow = [];
+    if(dataBooking) {
+        dataBooking.forEach(item => {
+            let count = 0;
+            count += 1;
+            if(arrShow.filter(u => u.idShow === item.idShow).length > 0)
+            {
+                arrShow.forEach(items => {
+                    if(items.idShow === item.idShow)
+                    {
+                        items.countTicket += 1;
+                        items.totalPrice += item.totalPrice;
+                        return;
+                    }
+                })
+            }
+            else
+            {
+                var obj = {
+                    idShow: item.idShow,
+                    totalPrice: item.totalPrice,
+                    countTicket: count,
+                }
+                arrShow.push(obj);
+            }
+        })
+    
+        let arrData = [];
+        let nameMovie, idMovie;
+        for(let i = 0; i < arrShow.length; i++) {
+            showtime.forEach(item => {
+                if(arrShow[i].idShow === item.idShowtime)
+                {
+                    idMovie = item.idMovies;
+                    return;
+                }
+            })
+
+            movie.forEach(item => {
+                if(idMovie === item.movieId)
+                {
+                    nameMovie = item.movieName;
+                }
+            })
+        
+            if(arrData.filter(u => u.idMovie === idMovie).length > 0)
+            {
+                arrData.forEach(item => {
+                    if(item.idMovie === idMovie)
+                    {
+                        item.countTicket += arrShow[i].countTicket;
+                        item.totalPrice += arrShow[i].totalPrice;
+                        return;
+                    }
+                })
+           
+
+            }
+            else {
+                var option = {
+                    countTicket: arrShow[i].countTicket,
+                    totalPrice: arrShow[i].totalPrice,
+                    nameMovie: nameMovie,
+                    idMovie: idMovie,
+                }
+            
+                arrData.push(option);
+            }
+           
+        }
+        
+        res.json(arrData);
+    }
+    else {
+        dataBooking.forEach(item => {
+            let count = 0;
+            count += 1;
+            if(arrShow.filter(u => u.idShow === item.idShow).length > 0)
+            {
+                arrShow.forEach(items => {
+                    if(items.idShow === item.idShow)
+                    {
+                        items.countTicket += 1;
+                        items.totalPrice += item.totalPrice;
+                        return;
+                    }
+                })
+            }
+            else
+            {
+                var obj = {
+                    idShow: item.idShow,
+                    totalPrice: item.totalPrice,
+                    countTicket: count,
+                }
+                arrShow.push(obj);
+            }
+        })
+    
+        console.log(arrShow);
+        let arrData = [];
+        for(let i = 0; i < arrShow.length; i++) {
+            showtime.forEach(item => {
+                if(arrShow[i].idShow === item.idShowtime)
+                {
+                    cinemas = item.idMovies;
+                    return;
+                }
+            })
+        
+            movie.forEach(item => {
+                if(cinemas === item.movieId)
+                {
+                    nameMovie = item.nameMovie;
+                }
+            })
+        
+            if(arrData.filter(u => u.idMovie === idMovie).length > 0)
+            {
+                arrData.forEach(item => {
+                    if(item.idMovie === idMovie)
+                    {
+                        item.countTicket += arrShow[i].countTicket;
+                        item.totalPrice += arrShow[i].totalPrice;
+                        return;
+                    }
+                })
+            }
+            else {
+                var option = {
+                    countTicket: arrShow[i].countTicket,
+                    totalPrice: arrShow[i].totalPrice,
+                    nameMovie: nameMovie,
+                    idMovie: idMovie,
+                }
+            
+                arrData.push(option);
+            }
+        }
+        
+        res.json(arrData);
+    }
+  
 }));
 
 module.exports = router;

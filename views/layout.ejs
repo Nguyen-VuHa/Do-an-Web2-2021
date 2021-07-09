@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="http://localhost:3000/css/showtimes.css">
     <link rel="stylesheet" href="http://localhost:3000/css/booking.css">
     <link rel="stylesheet" href="http://localhost:3000/css/historybooking.css">
+    <link rel="stylesheet" href="http://localhost:3000/css/income.css">
     <% } %>
     <!-- link bootstrap cdn 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -45,8 +46,10 @@
     <!-- link google fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
   <!-- link icon -->
-  <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css"/>
+  
   <title><%- title %></title>
 </head>
 <body>
@@ -75,7 +78,8 @@
             <span style="--i:20;"></span>
         </div>
     </div>
-    <%- title === 'Thông Tin Tài Khoản' || title === 'Booking Movies' || title === 'Ticket' ? '' : include('auth/header.ejs') %>
+
+    <%- title === 'Thông Tin Tài Khoản' || title === 'Booking Movies' || title === 'Ticket' ? '' : (title === 'Admin' ? include('auth/headerAd.ejs') :  include('auth/header.ejs')) %>
     <%- body %>
     <%- title === 'Admin' || title === 'Booking Movies' || title === 'Ticket' ? '' :  include('auth/footer.ejs') %>
 </body>

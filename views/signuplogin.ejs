@@ -64,37 +64,37 @@
                     </form>
                 </div>
             <div class="reg-advertisements">
-                <div class="content-poster">
-                    <div class="slider">
-                        <div class="slides">
-                            <input type="radio" name="radio-btn" id="radio1"> 
-                            <input type="radio" name="radio-btn" id="radio2"> 
-                            <input type="radio" name="radio-btn" id="radio3"> 
-                            <div class="slide first">
-                                <img src="image/promotion-1.jpg" alt="">
-                            </div>
-                            <div class="slide">
-                                <img src="image/promotion-2.jpg" alt="">
-                                </div>
-                                <div class="slide">
-                                    <img src="image/promotion-3.jpg" alt="">
-                                </div>
-                                <div class="navigation-auto">
-                                    <div class="auto-btn1"></div>
-                                    <div class="auto-btn2"></div>
-                                    <div class="auto-btn3"></div>
-                                </div>
+                <div class="movie__slider-poster">
+                    <div class="promotion-slider" style="width: 400px; height: 500px;">
+                        <!-- fade css -->
+                        <div class="myslider" style="display: none;">
+                            <img src="image/promotion-1.jpg" style="background-size:cover; width: 100%; height: 100%;">
                         </div>
-                        <div class="navigation-manual">
-                            <label for="radio1" class="btn-manual"></label>
-                            <label for="radio2" class="btn-manual"></label>
-                            <label for="radio3" class="btn-manual"></label>
+                        <div class="myslider" style="display: none;">
+                            <img src="image/promotion-2.jpg" style="background-size:cover; width: 100%; height: 100%;">
                         </div>
+                        <div class="myslider" style="display: block;">
+                            <img src="image/promotion-3.jpg" style="background-size:cover;  width: 100%; height: 100%;">
+                        </div>
+                        <!-- onclick js -->
+                        <a class="btn-prev" onclick="plusSlides(-1)" style="color:  #54ab35;">❮</a>
+                        <a class="btn-next" onclick="plusSlides(1)" style="color: #54ab35;">❯</a>
+                        
+                        <div class="dotsbox" style="text-align:center">
+                            <span class="dot" onclick="currentSlide(1)"></span>
+                            <span class="dot" onclick="currentSlide(2)"></span>
+                            <span class="dot active" onclick="currentSlide(3)"></span>
+                        </div>
+                        <!-- /onclick js -->
+                        <script>
+                            var array = document.querySelectorAll('.myslider');
+                        </script>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="js/home.js"></script>
     <script src="js/toastmesage.js"></script>
     <script src="js/validateform.js"></script>
     <script>

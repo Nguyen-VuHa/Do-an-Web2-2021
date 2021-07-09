@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
 
 .more-film {
-    width: 100%;
+    width: calc(100% - 250px);
     min-height: 70vh;
     height: auto;
-    margin: 0;
+    margin-left: 250px;
     padding: 0;
     background: url('/image/bg-cinema-1.jpg');
     background-size: cover;
@@ -313,14 +313,15 @@
 
 
 .theater-system {
-    width: 100%;
+    width: 1    00%;
     min-height: auto;
     height: auto;
-    margin: 0;
+    margin-left: 0;
     padding: 0;
 }
 
 .theater-system .theater-system_form {
+    margin-left: 250px;
     display: flex;
     flex-direction: column;
     height: auto;
@@ -386,10 +387,10 @@
 }
 
 .theater {
-    width: 100%;
+    width: calc(100% - 250px);
     min-height: auto;
     height: auto;
-    margin: 0;
+    margin-left: 250px;
     padding: 0;
     background: #121825;
     color: #a6b2c9;
@@ -421,8 +422,9 @@
 
 /* Show Time Manager */
 .show-manager {
-    width: 100%;
-    min-height: 90vh;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    margin-left: 250px;
     height: auto;
     background: #121825;
 }

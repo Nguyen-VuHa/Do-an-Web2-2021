@@ -375,13 +375,16 @@
                                {
                                    location.reload();
                                }
-                               else{
-                                   toast({
-                                       title: result.title_toast,
-                                       message: result.message,
-                                       type: result.type,
-                                       duration: 3000
-                                   });
+                               else if(result === 'admin'){
+                                    window.location.href = '/admin';
+                               }
+                               else {
+                                toast({
+                                    title: result.title_toast, 
+                                    message: result.message,
+                                    type: result.type,
+                                    duration: 4500
+                                });
                                }
                            })
                            .catch(function(err){

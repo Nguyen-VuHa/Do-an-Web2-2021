@@ -1,16 +1,65 @@
-
- 
     <!-- section advertisements -->
-    <section class="section--advertisement">
-        <div class="background-advertisement">
-            <div id="stars"></div>
-            <div id="stars2"></div>
-            <div id="stars3"></div>
+    <div class="modal-home">
+        <div class="modal-home-trailer">
+            <a class="btn-home-close" ><i class="fal fa-times-circle"></i></a>
+            <div class="content-video-trailler">
+                <iframe id="trailer" class="trailer" frameborder="0" src="https://www.youtube.com/embed/<%= ranking?.trailer %>?enablejsapi=1" allowfullscreen="true" ></iframe>
+            </div>
         </div>
-        <div class="content-advertisement" id="content-advertisement">
+    </div>
+    <section class="section--advertisement">
+        <div class="background__home">
+            <div class="bg_home"></div>
+            <div class="bg_advertis"></div>
+        </div>
+        <div class="content__section">
+            <div class="content__advertisement container">
+                <h3>Top Phim Trong Tuần</h3>
+                <div class="content__movie">
+                    <div class="card-top">
+                        <div class="card-img">
+                            <img src="http://localhost:3000/api/image/<%= ranking?.movieId %>/1" alt="">
+                        </div>
+                    </div>
+                    <div class="info-content">
+                        <h3><%= ranking?.movieName %></h3>
+                        <ul class="group__home-film">
+                            <li class="group-film"> 
+                                <label class="group__title" for="">Đạo diễn</label>
+                                <span><%= ranking?.directors %></span>
+                            </li>
+                            <li class="group-film"> 
+                                <label class="group__title" for="">Diễn viên</label>
+                                <span><%= ranking?.mainActor %></span>
+                            </li>
+                            <li class="group-film"> 
+                                <label class="group__title" for="">Thể loại</label>
+                                <span><%= ranking?.category %></span>
+                            </li>
+                            <li class="group-film"> 
+                                <label class="group__title" for="">Thời lượng</label>
+                                <span><%= ranking?.time %> phút</span>
+                            </li>
+                            <li class="group-film"> 
+                                <label class="group__title" for="">Đánh giá</label>
+                                <span><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></span>
+                            </li>
+                            <li class="group-film" style="padding: 0;">
+                                <a href= "movie/<%= ranking?.movieId %>?movie=true" class="btn btn-success" style="color: #fff;">Mua vé ngay</a>
+                                <button class="btn btn-success btn-modal" style="margin-left: 10px;">Xem trailer</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             
         </div>
-        <div class="content-poster" id="content-poster">
+        <div class="content__describe">
+            <div class="container">
+                <h5 style="color: #54ab35; text-transform: uppercase; font-weight: 600;">Chi Tiết</h5>
+                <p><%= ranking?.describe %></p>
+               
+            </div>
         </div>
     </section>
     <!-- Movie Schedule -->
@@ -119,7 +168,50 @@
      <script src="js/home.js"></script>
      <script src="js/api/apiHomepage.js"></script>
      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            callApiHomepage();
+         $('.bg_advertis').css({
+                'background': `url(http://localhost:3000/api/image/<%- ranking?.movieId %>/1) no-repeat`,
+                'width' : '60%',
+                'height' : '100%',
+                'background-size' : 'cover',
+                'position' : 'relative',
+                'transition' : '.5s',
+                });
+
+        var modalBtn = document.querySelector('.btn-modal');
+        var modalBg = document.querySelector('.modal-home');
+        var closeBtn = document.querySelector('.btn-home-close');
+
+        function playAllYouTubeVideos() { 
+            var iframes = document.querySelectorAll('iframe');
+                Array.prototype.forEach.call(iframes, iframe => { 
+                    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', 
+                func: 'playVideo' }), '*');
+            });
+        }
+
+        function stopAllYouTubeVideos() { 
+            var iframes = document.querySelectorAll('iframe');
+                Array.prototype.forEach.call(iframes, iframe => { 
+                    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', 
+                func: 'stopVideo' }), '*');
+            });
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modalBg) {  
+                modalBg.classList.remove('bg-active');
+                stopAllYouTubeVideos();
+            }
+        }
+
+        modalBtn.addEventListener('click', function() {
+            modalBg.classList.add('bg-active');
+            playAllYouTubeVideos();
         })
+
+        closeBtn.addEventListener('click', function() {
+            modalBg.classList.remove('bg-active');
+            stopAllYouTubeVideos();
+        })
+        
      </script>

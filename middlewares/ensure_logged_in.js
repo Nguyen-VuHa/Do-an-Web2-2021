@@ -4,6 +4,6 @@ module.exports = function ensureLoggedIn(req, res, next) {
     }
     else
     {
-        next();
+       next();
     }
 }

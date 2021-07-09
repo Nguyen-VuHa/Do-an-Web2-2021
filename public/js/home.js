@@ -1,16 +1,3 @@
-
-var counter = 1;
-setInterval(function(){
-        document.getElementById('radio' + counter).checked = true;
-        counter++;
-        if(counter > 3)
-        {
-            counter = 1;
-        }
-}, 5000);
-
-/* Movie Schedule Slide with Jquery lightslide */
-
 $(document).ready(function() {
   $('#autoWidth, #autoWidth2').lightSlider({
       autoWidth:true,

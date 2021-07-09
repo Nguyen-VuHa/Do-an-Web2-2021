@@ -1,20 +1,19 @@
-<!-- modal Trailer -->
-<div class="modal-bg">
-    <div class="modal-trailer">
-        <a class="btn-close" ><i class="fal fa-times-circle"></i></a>
-        <div class="content-video-trailler">
-            <iframe id="trailerIframe" class="trailerIframe" frameborder="0" src="https://www.youtube.com/embed/<%= obData.trailer %>?enablejsapi=1" allowfullscreen="true" ></iframe>
-        </div>
-    </div>
-</div>
 
 <section class="movie-detail">
-    <div class="background-advertisement">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
-      </div>
-      <div class="container">
+    <!-- modal Trailer -->
+    <div class="modal-bg">
+        <div class="modal-trailer">
+            <a class="btn-close" ><i class="fal fa-times-circle"></i></a>
+            <div class="content-video-trailler">
+                <iframe id="trailerIframe" class="trailerIframe" frameborder="0" src="https://www.youtube.com/embed/<%= obData.trailer %>?enablejsapi=1" allowfullscreen="true" ></iframe>
+            </div>
+        </div>
+    </div>
+        <div class="backgroun-detail">
+            <div class="bg"></div>
+            <div class="bg__detail"></div>
+        </div>
+        <div class="container">
         <div class="movie__title">
             <a href="/" style="text-decoration: none;"><h3>Trang Chủ</h3></a>
             <h4> &#10147; <%= obData.movieName %></h4>
@@ -52,7 +51,7 @@
                 </div>
             </div>
             <div class="movie__info--film">
-                <h4 class="film--name"><%= obData.movieName %> (<%= obData.specific %>)</h4>
+                <h4 class="film--name"><%= obData.movieName %> <%= obData.specific ? `(${obData.specific})` : '' %></h4>
                 <p class="film--desc"><%= obData.describe %></p>
                 <ul class="group__info-film">
                     <li class="group-film"> 
@@ -182,6 +181,19 @@
                 return response.json();
             })
             .then(function(data) {
+                $('.backgroun-detail .bg__detail').css({
+                    'background': `url(http://localhost:3000/api/image/<%= obData.idMovies %>/1) no-repeat`,
+                    'width' : '60%',
+                    'height' : '100%',
+                    'background-size' : 'cover',
+                    'position' : 'relative',
+                })
+
+                $('.film--desc').text(truncate($('.film--desc').text(), 300))
+                function truncate(str, n){
+                    return (str.length > n) ? str.substr(0, n-1) + '. . .' : str;
+                };
+
 
                 var htmls_distr = data.districts.map(function(db) {
                     return `<option value="${db.id}">${db.nameDistr}</option>`;

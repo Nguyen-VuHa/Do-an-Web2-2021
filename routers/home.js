@@ -15,7 +15,104 @@ router.use(function(req, res, next){
     next();
 });
 
+async function rankingMovie() {
+    const showtime = await showTime.findAll();
+    const movie = await Movies.findAll();
+    let arrShow = [];
+    let arrData = [];
+    let arrIdMovie = [];
+    var dataBooking = await Booking.findAll();
+
+    var someday = new Date();
+    movie.forEach(item => {
+        var getDate = new Date(item.premiereDate);
+        var endDate = new Date(item.endDate);
+        if(someday.getTime() >= getDate.getTime() && someday.getTime() <= endDate.getTime())
+        { 
+            arrIdMovie.push(item.movieId);
+        }
+    })
+
+    if(dataBooking) {
+        dataBooking.forEach(item => {
+            if(arrShow.filter(u => u.idShow === item.idShow).length > 0)
+            {
+                arrShow.forEach(items => {
+                    if(items.idShow === item.idShow)
+                    {
+                        items.totalPrice += item.totalPrice;
+                        return;
+                    }
+                })
+            }
+            else
+            {
+                var obj = {
+                    idShow: item.idShow,
+                    totalPrice: item.totalPrice,
+                }
+                arrShow.push(obj);
+            }
+        })
+    
+      
+        let idMovie;
+        for(let i = 0; i < arrShow.length; i++) {
+            showtime.forEach(item => {
+                if(arrShow[i].idShow === item.idShowtime)
+                {
+                    idMovie = item.idMovies;
+                    return;
+                }
+            })
+        
+            if(arrData.filter(u => u.idMovie === idMovie).length > 0)
+            {
+                arrData.forEach(item => {
+                    if(item.idMovie === idMovie)
+                    {
+                        item.totalPrice += arrShow[i].totalPrice;
+                        return;
+                    }
+                })
+            }
+            else {
+                var option = {
+                    totalPrice: arrShow[i].totalPrice,
+                    idMovie: idMovie,
+                }
+            
+                arrData.push(option);
+            }
+           
+        }
+    }
+
+    let rankData = [];
+    arrIdMovie.forEach(item => {
+        arrData.forEach(items => {
+            if(items.idMovie === item)
+            {
+                rankData.push(items);
+            }
+        })
+    })
+
+    let maxPrice = Math.max(...rankData.map(item => item.totalPrice))
+    let idMovie;
+    rankData.forEach(item => {
+        if(item.totalPrice === maxPrice)
+        {
+            idMovie = item.idMovie;
+        }
+    })
+
+    return idMovie;
+}
+
 router.get('/', asyncHandler(async function(req, res){
+    var idRankMovie = await rankingMovie();
+    var ranking = await Movies.findByMovieId(idRankMovie);
     var userId = req.session.userId;
     const data = await Movies.findAll();
     var list_film_hdc = [];
@@ -58,11 +155,11 @@ router.get('/', asyncHandler(async function(req, res){
     });
     if(userId)
     {
-        res.render('home', { list_film_cmc, list_film_hdc });
+        res.render('home', { list_film_cmc, list_film_hdc, ranking });
     }
     else {
         const dataId = await UserAccount.findByCode(userId);
-        res.render('home', { dataId, list_film_cmc, list_film_hdc });
+        res.render('home', { dataId, list_film_cmc, list_film_hdc, ranking });
     }
 }));
 
@@ -125,10 +222,16 @@ router.post('/login',asyncHandler(async function(req, res){
     }
     else if (found && bcrypt.compareSync(password, found.password))
     {
-        //null
         if(found.active === ''){
             req.session.userId = found.code;
-            res.json(true);
+            if(found.role === '0')
+            {
+                res.json('admin');
+            }
+            else
+            {
+                res.json(true);
+            }
         }
         else
         {
