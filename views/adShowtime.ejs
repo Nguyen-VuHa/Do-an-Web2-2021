@@ -54,6 +54,21 @@
             </div>
         </form>
     </div>
+    <div class="table-list">
+        <table class="table table-dark">
+            <thead>
+              <tr>
+                <th scope="col">ID Suất Chiếu</th>
+                <th scope="col">Tên Film</th>
+                <th scope="col">Rạp</th>
+                <th scope="col">Thời gian suất chiếu</th>
+                <th scope="col">Giá vé</th>
+              </tr>
+            </thead>
+            <tbody id="list-showtime">
+            </tbody>
+          </table>
+    </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
@@ -139,6 +154,7 @@
                                     type: `success`,
                                     duration: 3000
                                 });
+                                renderListData();
                                 document.getElementById('id_showtime').value = uuidv4();
                             }
                             else {
@@ -158,7 +174,42 @@
         }
     }
 
+    function renderListData() {
+        var listTable = document.querySelector('#list-showtime');
+        fetch('http://localhost:3000/admin/api/list-data')
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        if(data === null)
+                        {
+                            listTable.innerHTML = `<tr>
+                                                        <td colspan="5" class="text-center">You haven't added any movies yet!</td>
+                                                    </tr>`
+                        }
+                        else
+                        {
+                            var htmls = data.map(function(dt) {
+                                return `
+                                <tr class="btn-tr" onclick="bidingData('${dt.idShowtime}')">
+                                    <th scope="row">${dt.idShowtime}</th>
+                                    <td>${dt.idMovies}</td>
+                                    <td>${dt.idCinema}</td>
+                                    <td>${dt.startDate.substring(0, 10)} - ${dt.startTime}</td>
+                                    <td>${dt.fare}</td>
+                                </tr>
+                                `;
+                            });
+                            listTable.innerHTML = htmls.join('');
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    })
+    }
+
     document.addEventListener('DOMContentLoaded', (event) => {
+        renderListData();
         document.getElementById('id_showtime').value = uuidv4();
         var list = document.querySelector('#list--times');
         
@@ -224,7 +275,11 @@
                         `;
                     });
                     list_cinema.innerHTML = htmls_cinema.join('');
+                })
+                .catch(function(err) {
+                    console.log(err);
                 });
+                
             });
 
 </script>

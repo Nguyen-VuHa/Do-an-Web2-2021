@@ -23,6 +23,7 @@ async function rankingMovie() {
     let arrIdMovie = [];
     var dataBooking = await Booking.findAll();
 
+
     var someday = new Date();
     movie.forEach(item => {
         var getDate = new Date(item.premiereDate);
@@ -33,82 +34,94 @@ async function rankingMovie() {
         }
     })
 
-    if(dataBooking) {
-        dataBooking.forEach(item => {
-            if(arrShow.filter(u => u.idShow === item.idShow).length > 0)
-            {
-                arrShow.forEach(items => {
-                    if(items.idShow === item.idShow)
+    if(arrIdMovie.length > 0) {
+        if(dataBooking) {
+                dataBooking.forEach(item => {
+                    if(arrShow.filter(u => u.idShow === item.idShow).length > 0)
                     {
-                        items.totalPrice += item.totalPrice;
-                        return;
+                        arrShow.forEach(items => {
+                            if(items.idShow === item.idShow)
+                            {
+                                items.totalPrice += item.totalPrice;
+                                return;
+                            }
+                        })
+                    }
+                    else
+                    {
+                        var obj = {
+                            idShow: item.idShow,
+                            totalPrice: item.totalPrice,
+                        }
+                        arrShow.push(obj);
                     }
                 })
-            }
-            else
-            {
-                var obj = {
-                    idShow: item.idShow,
-                    totalPrice: item.totalPrice,
+            
+            
+                let idMovie;
+                for(let i = 0; i < arrShow.length; i++) {
+                    showtime.forEach(item => {
+                        if(arrShow[i].idShow === item.idShowtime)
+                        {
+                            idMovie = item.idMovies;
+                            return;
+                        }
+                    })
+                
+                    if(arrData.filter(u => u.idMovie === idMovie).length > 0)
+                    {
+                        arrData.forEach(item => {
+                            if(item.idMovie === idMovie)
+                            {
+                                item.totalPrice += arrShow[i].totalPrice;
+                                return;
+                            }
+                        })
+                    }
+                    else {
+                        var option = {
+                            totalPrice: arrShow[i].totalPrice,
+                            idMovie: idMovie,
+                        }
+                    
+                        arrData.push(option);
+                    }
+                
                 }
-                arrShow.push(obj);
             }
-        })
-    
-      
-        let idMovie;
-        for(let i = 0; i < arrShow.length; i++) {
-            showtime.forEach(item => {
-                if(arrShow[i].idShow === item.idShowtime)
+
+            let rankData = [];
+            arrIdMovie.forEach(item => {
+                arrData.forEach(items => {
+                    if(items.idMovie === item)
+                    {
+                        rankData.push(items);
+                    }
+                })
+            })
+
+            let maxPrice = Math.max(...rankData.map(item => item.totalPrice))
+            let idMovie;
+            rankData.forEach(item => {
+                if(item.totalPrice === maxPrice)
                 {
-                    idMovie = item.idMovies;
-                    return;
+                    idMovie = item.idMovie;
                 }
             })
-        
-            if(arrData.filter(u => u.idMovie === idMovie).length > 0)
-            {
-                arrData.forEach(item => {
-                    if(item.idMovie === idMovie)
-                    {
-                        item.totalPrice += arrShow[i].totalPrice;
-                        return;
-                    }
-                })
-            }
-            else {
-                var option = {
-                    totalPrice: arrShow[i].totalPrice,
-                    idMovie: idMovie,
-                }
-            
-                arrData.push(option);
-            }
-           
-        }
+
+        return idMovie;
     }
-
-    let rankData = [];
-    arrIdMovie.forEach(item => {
-        arrData.forEach(items => {
-            if(items.idMovie === item)
-            {
-                rankData.push(items);
-            }
-        })
-    })
-
-    let maxPrice = Math.max(...rankData.map(item => item.totalPrice))
-    let idMovie;
-    rankData.forEach(item => {
-        if(item.totalPrice === maxPrice)
-        {
-            idMovie = item.idMovie;
-        }
-    })
-
-    return idMovie;
+    else {
+        var itemRan = randomProperty(movie);
+        return itemRan.movieId;
+    }
+    
 }
+
+var randomProperty = function (obj) {
+    var keys = Object.keys(obj);
+    return obj[keys[ keys.length * Math.random() << 0]];
+};
 
 router.get('/', asyncHandler(async function(req, res){
     var idRankMovie = await rankingMovie();

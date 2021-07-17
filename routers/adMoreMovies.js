@@ -161,6 +161,12 @@ router.get('/showtime/api/list-data', asyncHandler(async function(req, res) {
     res.json(objectData);
 }));
 
+router.get('/api/list-data',asyncHandler(async function(req, res) {
+    const Showtime = (await showTime.findAll()).reverse();
+    
+    res.json(Showtime);
+}));
+
 // [GET] API INFO 
 router.get('/api/data', asyncHandler(async function(req, res) {
     const db = await Movies.findAll();

@@ -57,7 +57,9 @@
         <div class="content__describe">
             <div class="container">
                 <h5 style="color: #54ab35; text-transform: uppercase; font-weight: 600;">Chi Tiết</h5>
-                <p><%= ranking?.describe %></p>
+                <div id="text_describe">
+                  
+                </div>
                
             </div>
         </div>
@@ -176,6 +178,17 @@
                 'position' : 'relative',
                 'transition' : '.5s',
                 });
+
+        var text = '<%= ranking?.describe %>';
+
+        var arrText = text.split('br');
+
+        var htmls = '';
+        arrText.forEach(item => {
+            htmls += `<p>${item}</p>`;
+        })
+
+        $('#text_describe').html(htmls);
 
         var modalBtn = document.querySelector('.btn-modal');
         var modalBg = document.querySelector('.modal-home');

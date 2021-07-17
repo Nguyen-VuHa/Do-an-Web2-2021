@@ -52,7 +52,7 @@
             </div>
             <div class="movie__info--film">
                 <h4 class="film--name"><%= obData.movieName %> <%= obData.specific ? `(${obData.specific})` : '' %></h4>
-                <p class="film--desc"><%= obData.describe %></p>
+                <p class="film--desc"><%= obData.describe.replace('br', '') %></p>
                 <ul class="group__info-film">
                     <li class="group-film"> 
                         <label class="group__title" for="">Phân loại</label>
