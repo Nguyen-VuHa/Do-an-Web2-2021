@@ -18,8 +18,8 @@ Start MongoDB server and follow below given installation procedure on the Comman
 + Clone repository Project-CNW về máy thông qua dòng lệnh sau:
 `> git clone https://github.com/Nguyen-VuHa/Do-an-Web2-2021.git`
 + Chạy command line trong thư mục vừa được clone về, thực thi dòng lệnh sau:
-> npm install
+`> npm install                                                          `
 + Sau khi quá trình cài đặt hoàn tất, tiếp tục thực thi dòng lệnh sau:
-> node app.js
+`> node app.js                                                          `
 + Sau khi quá trình biên dịch hoàn tất, truy cập vào địa chỉ http://localhost:3000.
 
