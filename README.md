@@ -16,7 +16,7 @@ Start MongoDB server and follow below given installation procedure on the Comman
 + Tải và cài đặt NodeJS.
 + Tải và cài đặt Microsoft Visual Code.
 + Clone repository Project-CNW về máy thông qua dòng lệnh sau:
-> git clone 
+> git clone https://github.com/Nguyen-VuHa/Do-an-Web2-2021.git
 + Chạy command line trong thư mục vừa được clone về, thực thi dòng lệnh sau:
 > npm install
 + Sau khi quá trình cài đặt hoàn tất, tiếp tục thực thi dòng lệnh sau:
