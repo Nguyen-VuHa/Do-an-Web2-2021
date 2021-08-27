@@ -13,8 +13,8 @@ Start MongoDB server and follow below given installation procedure on the Comman
 + PostgreSQL
 + The Movies Database
 ## Cài Đặt
-+ Tải và cài đặt NodeJS.
-+ Tải và cài đặt Microsoft Visual Code.
++ Tải và cài đặt [NodeJS](https://nodejs.org/en/).
++ Tải và cài đặt [Microsoft Visual Code](https://code.visualstudio.com/).
 + Clone repository Project-CNW về máy thông qua dòng lệnh sau:
 > git clone https://github.com/Nguyen-VuHa/Do-an-Web2-2021.git
 + Chạy command line trong thư mục vừa được clone về, thực thi dòng lệnh sau:
