@@ -1,8 +1,4 @@
-$colorLayout: #121825;
-$colorGreen: #54ab35;
-$colorWhite: #fff;
-$colorText: #a6b2c9;
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import '../../assets/styles/global.scss';
 
 .header {
     box-shadow: 0 3px 10px rgba(0,  0,  0,   0.3);

@@ -1,38 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
 
 const HeaderLogin = () => {
     const [isToggle, setIsToggle] = useState(false);
-    const dropdownRef = useRef(null);
 
     const handleToggleForm = () => {
         setIsToggle(!isToggle);
     }
 
     const handleClickOutside = (event) => {
-        if(!event.target.closest('.btn-dropdown'))
+        if(!$(event.target).closest('.btn-dropdown').length)
         { 
-            if (dropdownRef && !dropdownRef.current.contains(event.target)) {
+            if(!$(event.target).closest('.dropdown_menu').length) {
                 setIsToggle(false);
             }
         }
     }
 
     useEffect(() => {
-        document.addEventListener('mousedown', function(event) {
+        window.onclick = function(event) {
             handleClickOutside(event);
-        });
-        return () => {
-            document.removeEventListener('mousedown', function(event) {
-                handleClickOutside(event);
-            });
         }
     }, []);
     
     return (
         <>
             <div className="btn btn-dropdown" onClick={() => handleToggleForm()}>Đăng Nhập</div>
-            <div className="dropdown_menu" id="dropdown_menu" ref={dropdownRef}>
+            <div className="dropdown_menu" id="dropdown_menu">
                 <form 
                     id="form-login" 
                     className={isToggle ? 'form-login active' : 'form-login'}
@@ -49,7 +44,7 @@ const HeaderLogin = () => {
                         <button type="button" className="btn btn-success">Đăng Nhập</button>
                         <Link to="/" className="btn-question-pass">Quên mật khẩu?</Link>  
                     </div>
-                    <Link to="/">
+                    <Link to="/auth/register" onClick={() => setIsToggle(false)}>
                         <div className="btn btn-success w-100">Đăng Ký Thành Viên</div>
                     </Link>
                 </form>
