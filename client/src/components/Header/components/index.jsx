@@ -22,6 +22,11 @@ const HeaderLogin = () => {
         document.addEventListener('mousedown', function(event) {
             handleClickOutside(event);
         });
+        return () => {
+            document.removeEventListener('mousedown', function(event) {
+                handleClickOutside(event);
+            });
+        }
     }, []);
     
     return (

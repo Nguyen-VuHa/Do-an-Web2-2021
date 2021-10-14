@@ -1,6 +1,7 @@
 $colorLayout: #121825;
 $colorGreen: #54ab35;
 $colorWhite: #fff;
+$colorText: #a6b2c9;
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 .header {
@@ -8,7 +9,7 @@ $colorWhite: #fff;
     position: sticky;
     top: 0px;
     background: $colorLayout;
-    z-index: 100;
+    z-index: 9999;
 
     ul > li {
         margin-left: 30px;
@@ -113,14 +114,19 @@ $colorWhite: #fff;
                         input {
                             width: 100%;
                             padding: 0 15px;
-                            font-size: 13px;
-                            color: #fff;
+                            font-size: 15px;
+                            color: $colorText;
                             line-height: 36px;
                             border: none;
                             outline: none;
                             background: #273245;
                             border-radius: 4px;
+
+                            &::placeholder {
+                                color: $colorText;
+                            }
                         }
+
                     }
 
                     .form-submit {
@@ -130,7 +136,7 @@ $colorWhite: #fff;
                         margin-bottom: 10px;
 
                         .btn-question-pass {
-                            color: #646e72;
+                            color: $colorText;
                             cursor: pointer;
                             font-weight: 400;
 
