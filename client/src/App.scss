@@ -1,0 +1,17 @@
+a, a:hover {
+    text-decoration: none;
+}
+
+
+ul li {
+    list-style: none;
+}
+
+.btn {
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
