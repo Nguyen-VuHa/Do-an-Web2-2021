@@ -5,12 +5,15 @@ import Header from './components/Header';
 import HomePage from './features/HomePage';
 import Footer from './components/Footer';
 import Auth from './features/Auth';
+import LoadingPage from './components/LoadingPage';
+import PageNotFound from './components/PageNotFound';
 
 
 function App() {
     return (
-        <Suspense fallback={<div>Loading. . .</div>} >
+        <Suspense fallback={<LoadingPage />} >
             {/* <ToastMessage autoDeleteInterval={3500}/> */}
+            <LoadingPage />
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/">
@@ -24,7 +27,7 @@ function App() {
                     </Route>
 
                     <Route path="*">
-                        <div>Page Not Found</div>
+                        <PageNotFound />
                     </Route>
                 </Switch>
             </BrowserRouter>

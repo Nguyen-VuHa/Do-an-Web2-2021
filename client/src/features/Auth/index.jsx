@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -7,6 +8,13 @@ import Register from './Register';
 
 const Auth = () => {
     const match = useRouteMatch();
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, []);
 
     return (
         <>

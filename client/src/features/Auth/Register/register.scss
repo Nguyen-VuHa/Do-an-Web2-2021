@@ -147,8 +147,13 @@
 
                 .terms {
                     display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
+                    flex-direction: column;
+                    align-items: flex-start;
+
+                    .terms-1 {
+                        display: flex;
+                        align-items: center;
+                    }
                 }
             }
         }

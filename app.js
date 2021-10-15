@@ -21,7 +21,9 @@ const cinemaViewRouter = require('./routers/cinemaview');
 const showTimeRouter = require('./routers/showtimes');
 const bookingRouter = require('./routers/bookings');
 const ticketRouter = require('./routers/tickets');
-
+// Router API in React JS
+const route = require('./routers/index');
+// ===============================
 app.use(cors());
 
 app.set('views', './views');
@@ -32,6 +34,7 @@ app.use(bodyParser.json({ limit: '100mb', extended: true }));
 app.use(express.static('public'));
 app.use(expressLayouts);
 
+route(app);
 //Session
 app.use(cookieSession({
     name: 'session',
@@ -39,7 +42,9 @@ app.use(cookieSession({
 
     maxAge: 24 * 60 * 60 * 1000
 }));
+//==========
 
+//==========
 app.use(authMiddleware);
 app.use('/', homeRouter);
 app.use('/prof', profRouter);
@@ -54,7 +59,7 @@ app.use('/bookings', bookingRouter);
 app.use('/ticket', ticketRouter);
 
 db.sync().then(function () {
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 5000;
     console.log(`Server is listening on port ${port}`);
     app.listen(port);
 }).catch(console.error);

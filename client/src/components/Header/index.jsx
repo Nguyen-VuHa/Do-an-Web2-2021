@@ -1,15 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import HeaderLogin from './components';
 import './header.scss';
 
 const Header = () => {
+    const macth = useRouteMatch();
+
     return (
         <header className="header">
             <nav className="header__content content">
                 <a href="/"><img className="logo" src="https://www.cgv.vn/skin/frontend/cgv/default/images/cgvlogo.png" alt="Logo App" /></a>
                 <ul className="content__links">
-                    <li className="item-link active">
+                    <li className={macth.url === '/' ? "item-link active" : "item-link"}>
                         <Link to="/">Trang Chủ</Link>
                     </li>
                     <li className="item-link">

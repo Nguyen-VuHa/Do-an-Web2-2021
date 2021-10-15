@@ -24,7 +24,7 @@ const Promotion = () => {
         }, 5000);
     
         return () => clearTimeout(timeout);
-      }, [indexImage, lenght]);
+    }, [indexImage, lenght]);
 
     useEffect(() => {
         window.addEventListener('resize', function() {
