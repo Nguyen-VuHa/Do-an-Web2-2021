@@ -47,7 +47,7 @@ class AuthController {
         })
         var now = new Date();
         NewNotification.create({
-            message: 'Wellcome to application Movie Booking!',
+            message: `Chào mừng <span>${data.fullname}</span> đến với CGV Việt Nam! Bầy giờ bạn có thể đặt vé xem phim trực tiếp trên web <3`,
             messageType: 'Wellcome',
             image: '',
             time: now,
@@ -62,12 +62,41 @@ class AuthController {
         res.json({ status: 200 });
     }
 
-    async getAccount (req, res) {
-        const sss = await Accounts.findAll();
-        
-        res.json({ status: 200, sss});
-    }
+    async loginAccount (req, res) {
+        const data = req.body;
 
+        const found = await Accounts.findOne({
+            where: {
+                email: data.email,
+            }
+        });
+        if(!found) {
+            res.json({ status: 'error', message: 'Email không tồn tại hoặc chưa được đăng ký!'});
+        } else if (found && bcrypt.compareSync(data.password, found.password)) {
+            if(found.active === '') {
+                const user = {
+                    id: found.idUser,
+                    email: found.email,
+                    fullname: found.fullname,
+                    role: found.role,
+                }
+
+                const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '40s' });
+                const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y' });
+
+                found.refreshToken = refreshToken;    
+                await found.save();
+
+                res.json({ status: 200, accessToken: accessToken, refreshToken: refreshToken, user});
+            }
+            else {
+                res.json({ status: 'error', message: 'Email chưa được kích hoạt vui lòng kiểm tra email!'});
+            }
+        }
+        else {
+            res.json({ status: 'error', message: 'Mật khẩu bị sai!'});
+        }
+    }
 }
 
 module.exports = new AuthController

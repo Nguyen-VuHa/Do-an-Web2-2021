@@ -5,11 +5,11 @@ const QRCode = require('qrcode');
 exports.send = asyncHandler(async function (to, subject, link, fullname, email) {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 587,
+    port: 465,
     secure: false,
     auth: {
-      user: 'cgv.cinema.vn@gmail.com' ,
-      pass: 'Vuha20111999'
+      user: 'VandaysZookbfpvx70@gmail.com',
+      pass: 'zuqVandays92'
     }
   });
 

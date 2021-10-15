@@ -6,7 +6,7 @@ import Header from '../../components/Header';
 import Register from './Register';
 
 
-const Auth = () => {
+const Auth = ({ login }) => {
     const match = useRouteMatch();
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const Auth = () => {
                 <Redirect exact from={match.url} to={`${match.url}/register`}/>
                 
                 <Route path={`${match.url}/register`}>
-                    <Header />
+                    <Header login={login}/>
                     <Register />
                     <Footer />
                 </Route>

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const expressLayouts = require('express-ejs-layouts');
 const cookieSession = require('cookie-session');    
 const cors = require('cors');
+require('dotenv').config();
 //===========================
 // Database
 const db = require('./models/database');

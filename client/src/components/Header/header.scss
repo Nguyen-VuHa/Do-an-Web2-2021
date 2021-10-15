@@ -143,6 +143,247 @@
                     }
                 }
             }
+
+            .action {
+                position: relative;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+
+                .action__notify {
+                    position: relative;
+                    margin: 0 20px 0 0;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-top-left-radius: 50%;
+                    border-top-right-radius: 50%;
+                    border-bottom-left-radius: 50%;
+                    border-bottom-right-radius: 50%;
+                    cursor: pointer;
+                    border: 1px solid #a6b2c9;
+
+                    i {
+                        color: $colorGreen;
+                      font-size: 1.3em;
+                    }
+
+                    .action__notify-count {
+                        position: absolute;
+                        display: flex;
+                        justify-content: center;
+                        top: -1px;
+                        right: -1px;
+                        width: 20px;
+                        border-radius: 50%;
+                        color: #fff;
+                        background: #c65858;
+
+                        span {
+                            font-size: 13px;
+                          }
+                    }
+                }
+
+                .action__notify:hover {
+                    z-index: 10;
+                    border: 2px solid $colorGreen;
+                }
+
+                .__notify {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    top: 50%;
+                    right: 50%;
+                    background: $colorLayout;
+                    width: 450px;
+                    max-height: 640px;
+                    box-shadow: 0 -3px 20px rgba(0, 0, 0, 50%);
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    border-bottom-left-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    visibility: hidden;
+                    transition: 0.5s;
+                    opacity: 0;
+                    overflow: hidden;
+
+                    &.active {
+                        top: 110%;
+                        visibility: visible;
+                        opacity: 1;
+                    }
+
+                    .notify_title {
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        border-bottom: 1px solid $colorGreen;
+                    }
+
+                    .notify_content {
+                        .notify_content-item{
+                            width: 100%;
+                            display: flex;
+                            padding: 5px;
+                            cursor: pointer;
+                            background-color: rgba(84,171,53,0.1);
+
+                            &.view {
+                                background: #121825;
+                            }
+
+                            &.seen {
+                                background: #142512;
+                            }
+
+                            &:hover {
+                                background-color: #c1dcb71a;
+                            }
+
+                            .image_item {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                padding: 5px;
+
+                                img {
+                                    width: 60px;
+                                    object-fit: contain;
+                                }
+                            }
+                            .item--content {
+                                padding: 5px;
+                                display: flex;
+                                flex-direction: column;
+                                color: $colorText;
+
+                                .notificatio__time{
+                                    font-size: 15px;
+                                    font-weight: 600;
+                                    margin-top: 6px;
+                                    color: $colorGreen;
+                                }
+
+                                p {
+                                    margin: 0;
+                                    font-size: 15px;
+                                    line-height: 1.5rem;
+                                }
+
+                                span {
+                                    color: $colorGreen;
+                                    margin: 0;
+                                    font-weight: 600;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .profile {
+                    position: relative;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    cursor: pointer;
+
+                    &:hover img{
+                        opacity: 0.5;
+                    }
+
+                    img {
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+                }
+
+                .menu {
+                    position: absolute;
+                    top: 60%;
+                    right: 0;
+                    padding: 10px 20px;
+                    background: $colorLayout;
+                    width: 300px;
+                    box-shadow: 0 -3px 20px rgba(0, 0, 0, 50%);
+                    border-radius: 10px;
+                    transition: 0.5s;
+                    visibility: hidden;
+                    opacity: 0;
+
+                    &.active {
+                        top: 110%;
+                        visibility: visible;
+                        opacity: 1;
+                    }
+
+                    h3{
+                        width: 100%;
+                        text-align: center;
+                        font-size: 18px;
+                        padding: 20px 0;
+                        font-weight: 500;
+                        font-size: 18px;
+                        color: $colorText;
+                        line-height: 1.2em;
+
+                        span{
+                            padding-top: 10px;
+                            font-size: 14px;
+                            font-weight: 400;
+                            color: $colorText;
+                        }
+                    }
+
+                    ul {
+                        padding: 0 !important;
+                        margin: 0 !important;
+                    }
+
+                    ul li {
+                        list-style: none;
+                        border-top: 1px solid rgba(0, 0, 0, 0.05);
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 0;
+
+                        i {
+                            max-width: 20px;
+                            margin-right: 10px;
+                            opacity: 0.5;
+                            transition: 0.5s;
+                            color: $colorText;
+                        }
+
+                        a {
+                            display: inline-block;
+                            text-decoration: none;
+                            color: #a6b2c9;
+                            font-weight: 500;
+                            transition: 0.5s;
+                        }
+                    }
+
+                    ul li:hover i
+                    {
+                        opacity: 1;
+                    }
+
+                    ul li:hover a
+                    {
+                        color: #54ab35;
+                    }
+                }
+            }
         }
     }
     

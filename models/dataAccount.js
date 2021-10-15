@@ -40,7 +40,7 @@ const Accounts = db.define('Account', {
         allowNull: true
     },
     refreshToken: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1000),
         allowNull: true
     }
 });

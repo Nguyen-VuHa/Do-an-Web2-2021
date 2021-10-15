@@ -5,6 +5,10 @@ const authApi = {
         const url = `auth/new-account`;
         return axiosClient.post(url, JSON.stringify(data));
     },
+    loginAccount: (data) => {
+        const url = `auth/login-account`;
+        return axiosClient.post(url, JSON.stringify(data));
+    },
     refreshToken: (data) => {
         const url = `auth/refresh-token`;
         return axiosClient.post(url, JSON.stringify(data));
