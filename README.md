@@ -9,20 +9,13 @@ Start MongoDB server and follow below given installation procedure on the Comman
 - Link Heroku Webapp : https://cgv-cinema-movie.herokuapp.com/ 
 - Project made in groups of 4 members according to the group registration link
 ## Thư Viện - Packages - API
-+ NodeJS Express
-+ PostgreSQL
-+ The Movies Database
-## Cài Đặt
-+ Tải và cài đặt [NodeJS](https://nodejs.org/en/).
++ NodeJS Express - Backend
++ PostgreSQL - Database
++ React JS - Frontend
++ Cloudinary - Host lưu trữ hình ảnh Poster
++ Iframe Youtube - Trình chiếu trailler phim
+## Nâng cấp dự án sử dụng Framework React JS 
++ Đang trong thời gian Upgrade dự án
++ Bạn nào có nhã hứng học tập React JS và Node JS hoặc thắc mắc thì có thể liên hệ gmail vuha201199@gmail.com để có thể cùng nhau học và giải đáp thắc mắc.
 
-+ Tải và cài đặt [Microsoft Visual Code](https://code.visualstudio.com/).
-
-+ Clone repository Project-CNW về máy thông qua dòng lệnh sau:
-
-`> git clone https://github.com/Nguyen-VuHa/Do-an-Web2-2021.git`
-+ Chạy command line trong thư mục vừa được clone về, thực thi dòng lệnh sau:
-`> npm install                                                          `
-+ Sau khi quá trình cài đặt hoàn tất, tiếp tục thực thi dòng lệnh sau:
-`> node app.js                                                          `
-+ Sau khi quá trình biên dịch hoàn tất, truy cập vào địa chỉ http://localhost:3000.
 
