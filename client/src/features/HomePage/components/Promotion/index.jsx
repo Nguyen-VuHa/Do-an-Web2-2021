@@ -2,7 +2,6 @@ import React from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
 const Promotion = () => {
     const [windowSize, setwindowSize] = useState(window.innerWidth);
@@ -45,21 +44,6 @@ const Promotion = () => {
             slideImageRef.current.style.transform = `translateX(-${slideWidth * indexImage}px)`;
         }
     }, [windowSize]);
-  
-
-    // useEffect(() => {
-    //     setInterval(function AutoNextSlide() {
-    //         if(indexImage >= (5 - 1))
-    //         {
-    //             setindexImage(0);
-    //             slideImageRef.current.style.transform = `translateX(-${slideWidth * 0}px)`
-    //             return;
-    //         }
-    //         setindexImage(indexImage + 1);
-    //         slideImageRef.current.style.transform = `translateX(-${indexImage === 0 ? slideWidth : slideWidth * (indexImage + 1)}px)`;
-    //     }, 4500);
-
-    // }, []);
 
     const handlePrevSlide = () => {
         if(indexImage <= 0)
@@ -87,7 +71,7 @@ const Promotion = () => {
     return (
         <section className="promotion">
             <div className="btn-prev" onClick={() => handlePrevSlide()}>
-                <AiFillCaretLeft />
+                <i className="far fa-chevron-left"></i>
             </div>
             <div className="slider-promotion" ref={slideImageRef}>
                 <div className="slider" >
@@ -110,7 +94,7 @@ const Promotion = () => {
                 </div>
             </div>
             <div className="btn-next" onClick={() => handleNextSlide()}>
-                <AiFillCaretRight />
+                <i className="far fa-chevron-right"></i>
             </div>
         </section>
     );

@@ -1,0 +1,54 @@
+@import '../../../../../../assets/styles/global.scss';
+
+.movie-view {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    background: $colorLayout;
+
+    .movie {
+        padding: 50px 30px;
+
+        &__control {
+            display: flex;
+            justify-content: space-between;
+
+            h3 {
+                color: $colorGreen;
+                font-family: 'Encode Sans SC', sans-serif;
+                font-weight: 600;
+            }
+
+            .btn-add {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                & > i {
+                    margin-right: 15px;
+                    margin-top: 2px;
+                }
+            }
+        }
+
+        .table-list {
+            background: $colorLayout;
+            color: $colorText;
+
+            thead {
+                color: $colorGreen;
+            }
+        }
+
+        .table th {
+            vertical-align: middle;
+        }
+
+        #list-movies {
+
+            .btn-edit {
+                width: auto;
+            }
+        }
+    }
+}

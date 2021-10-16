@@ -55,9 +55,9 @@ class AuthController {
             noti_idUser: getIdUser.idUser,
         });
 
-        var link = `http://localhost:5000/auth/active/${activeCode}`;
-        var pathEmail = data.email.substring(0, data.email.indexOf('@'));
-        await emailSend.send(data.email, 'CGV Việt Nam | Xác Nhận Tài Khoản', link, data.fullname, pathEmail);
+        // var link = `http://localhost:5000/auth/active/${activeCode}`;
+        // var pathEmail = data.email.substring(0, data.email.indexOf('@'));
+        // await emailSend.send(data.email, 'CGV Việt Nam | Xác Nhận Tài Khoản', link, data.fullname, pathEmail);
         
         res.json({ status: 200 });
     }

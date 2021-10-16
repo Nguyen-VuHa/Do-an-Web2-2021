@@ -1,0 +1,157 @@
+@import '../../../../../../assets/styles/global.scss';
+
+.movie-editor {
+    width: 100%;
+    height: auto;
+    background: $colorLayout;
+
+    .disp-none {
+        display: none;
+    }
+
+    .title {
+        width: 100%;
+        font-weight: 600;
+        font-size: 50px;
+        text-align: center;
+        padding-top: 30px;
+        color: $colorLoading;
+    }
+
+    .poster {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .poster-item {
+            position: relative;
+            width: 250px;
+            height: 300px;
+            margin: 10px;
+            list-style: none;
+            border: 1px solid $colorLoading;
+
+            .poster-item-img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                border-style: none;
+                opacity: 0;
+
+                &.show {
+                    opacity: 1;
+                }
+            }
+
+            .item-btn{
+                cursor: pointer;
+
+                i {
+                    position: absolute;
+                    top: 37%;
+                    left: 45%;
+                    font-size: 50px;
+                    border-radius: 50%;
+                    color: $colorLoading;
+
+                    &.active {
+                        display: none;
+                    }
+                }
+
+                &:hover i{
+                    opacity: 0.8;
+                }
+            }
+
+            .close-btn{
+                cursor: pointer;
+
+                i {
+                    position: absolute;
+                    top: 0;
+                    right: 5px;
+                    font-size: 25px;
+                    color: #ff0000;
+                    font-weight: 600;
+                    opacity: 0.8;
+
+                    i:hover {
+                        opacity: 1;
+                    }
+                }
+
+                i.active {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .form-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        grid-gap: 15px;
+        padding: 0 70px;
+
+        h3, label {
+            color: $colorText;
+        }
+
+        h3 {
+            font-size: 30px;
+            text-align: center;
+            border-bottom: 2px solid;
+        }
+
+        input, textarea {
+            font-family: 'Roboto', sans-serif;
+            background: #37424b;
+            font-weight: bold;
+            color: #a6b2c9;
+            width: 100%;
+            outline: none;
+            border: 1px solid #d5dbd9;
+            font-size: 15px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .form-message {
+            color: #ff0000;
+            font-size: 14px;
+            font-weight: 100;
+        }
+
+        .group-info-movie {
+            padding: 10px 30px;
+
+            textarea { 
+                min-height: 200px;
+            }
+
+            .form-datetime-picker {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 10px;
+            }
+        }
+
+        .group-info-related {
+            padding: 10px 30px;
+        }
+    }
+
+    .movie-editor-control {
+        width: 100%;
+        padding: 20px 50px;
+
+        .group-button {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+}

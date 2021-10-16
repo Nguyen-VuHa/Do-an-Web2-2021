@@ -317,11 +317,11 @@
         position: relative;
         margin-right: auto;
         margin-left: auto;
-        width: 92%;
+        width: 100%;
         height: 60vh;
         overflow: hidden;
         
-        svg {
+        i {
             font-size: 30px;
         }
         
@@ -357,9 +357,9 @@
             background: rgba(17,22,31, 0.54);
             color: $colorGreen;
             z-index: 100;
-            top: 50%;
+            top: 40%;
             width: 40px;
-            height: 60px;
+            height: 100px;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
