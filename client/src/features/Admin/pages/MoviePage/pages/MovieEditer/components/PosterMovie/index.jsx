@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import movieApi from '../../../../../../../../api/movieApi';
+import { useParams } from 'react-router';
 
 const PosterMovie = ({ setListPoster }) => {
+    const params = useParams();
+    
     const [image1, setImage1] = useState({
         base64: '',
         path: '',
@@ -17,6 +21,38 @@ const PosterMovie = ({ setListPoster }) => {
         base64: '',
         path: '',
     });
+
+    useEffect(() => {
+        if(params.movieId) {
+            async function getMovieById() {
+                const result = await movieApi.getPosterById(params.movieId);
+                if(result.status === 200)
+                {
+                    setImage1({
+                        base64: result.data.poster1,
+                        path: '',
+                    })
+                    setImage2({
+                        base64: result.data.poster2,
+                        path: '',
+                    })
+                    setImage3({
+                        base64: result.data.poster3,
+                        path: '',
+                    })
+                    setImage4({
+                        base64: result.data.poster4,
+                        path: '',
+                    })
+                }
+                else {
+                    alert('Failed fecth poster!');
+                }
+                
+            }
+            getMovieById();
+        }
+    }, [params]);
 
     const imageRef_1 = useRef(null);
     const imageRef_2 = useRef(null);

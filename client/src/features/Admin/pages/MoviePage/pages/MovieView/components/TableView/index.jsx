@@ -6,7 +6,6 @@ const TableView = () => {
     const [listMovie, setlistMovie] = useState([]);
 
     useEffect(() => {
-        console.log(listMovie);
         async function fecthAllMovie() { 
             var result = await movieApi.getAllMovie();
             setlistMovie(result.data);

@@ -21,6 +21,11 @@ const MoviePage = () => {
                 <Route path="/admin/movie/editor">
                     <MovieEditor />
                 </Route>
+
+                <Route path="/admin/movie/:movieId/update">
+                    <MovieEditor />
+                </Route>
+
             </Switch>
         </>
     );

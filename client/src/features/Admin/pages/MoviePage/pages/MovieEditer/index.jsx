@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router';
 import isByLength from 'validator/lib/isByteLength';
 import isEmpty from 'validator/lib/isEmpty';
 import movieApi from '../../../../../../api/movieApi';
@@ -11,6 +11,7 @@ import { HideLoading, ShowLoading } from '../../../../../../components/LoadingPa
 
 const MovieEditor = () => {
     const history = useHistory();
+    const params = useParams();
     const [listPoster, setListPoster] = useState({});
     const [listData, setlistData] = useState({});
     const [messageValid, setmessageValid] = useState({});
@@ -35,15 +36,35 @@ const MovieEditor = () => {
                 poster: listPoster,
                 dataMovie: listData
             }
-            var result = await movieApi.newMovie(data);
-            if(result.status === 200)
+            
+            if(!params.movieId)
             {
-                dispatch(HideLoading());
-                history.push('/admin/movie/view');
+                var result = await movieApi.newMovie(data);
+                if(result.status === 200)
+                {
+                    setTimeout(() => {
+                        dispatch(HideLoading());
+                        history.push('/admin/movie/view');
+                    }, 2000);
+                }
+                else{
+                    alert(result.message);
+                    dispatch(HideLoading());
+                }
             }
-            else{
-                alert(result.message);
-                dispatch(HideLoading());
+            else {
+                var result = await movieApi.updateMovie(data, params.movieId);
+                if(result.status === 200)
+                {
+                    setTimeout(() => {
+                        dispatch(HideLoading());
+                        history.push('/admin/movie/view');
+                    }, 2000);
+                }
+                else{
+                    alert(result.message);
+                    dispatch(HideLoading());
+                }
             }
         }
        
@@ -131,7 +152,7 @@ const MovieEditor = () => {
     return (
         <div className="movie-editor">
             <h3 class="title">Add Movies</h3>   
-            <PosterMovie listPoster={listPoster} setListPoster={setListPoster}/>
+            <PosterMovie setListPoster={setListPoster}/>
             <FormMovie setlistData={setlistData} messageValid={messageValid}/>
             <div className="movie-editor-control">
                 <div className="group-button">

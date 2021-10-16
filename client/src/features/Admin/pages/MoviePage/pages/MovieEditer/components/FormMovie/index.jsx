@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import movieApi from '../../../../../../../../api/movieApi';
+import moment from 'moment';
+import { useParams } from 'react-router';
 
 const FormMovie = ({ setlistData, messageValid }) => {
+    const params = useParams();
     const [listDataMovie, setListDataMovie] = useState({
         nameMovie: '',
         time: '',
@@ -14,6 +18,26 @@ const FormMovie = ({ setlistData, messageValid }) => {
     });
 
     useEffect(() => {
+        if(params.movieId) {
+            async function fecthDataForm() {
+                const result = await movieApi.getDataFormById(params.movieId);
+                setListDataMovie({
+                    nameMovie: result.data.movieName,
+                    time: result.data.time.toString(),
+                    description: result.data.describe,
+                    startdate: moment.utc(result.data.premiereDate).format('YYYY-MM-DD'),
+                    enddate: moment.utc(result.data.endDate).format('YYYY-MM-DD'),
+                    category: result.data.category,
+                    directors: result.data.directors,
+                    mainActor: result.data.mainActor,
+                    chanelId: result.data.trailer,
+                })
+            }
+            fecthDataForm();
+        }
+    }, []);
+
+    useEffect(() => {
         setlistData(listDataMovie);
     }, [listDataMovie]);
 
@@ -23,6 +47,7 @@ const FormMovie = ({ setlistData, messageValid }) => {
         var value = target.value;
         switch (name) {
             case 'nameMovie':
+                messageValid.nameMovie = '';
                 setListDataMovie({
                     ...listDataMovie,
                     nameMovie: value,
@@ -31,6 +56,7 @@ const FormMovie = ({ setlistData, messageValid }) => {
             case 'time':
                 const reg = /^[0-9\b]+$/;
                 if(value === '' || reg.test(value)) {
+                    messageValid.time = '';
                     setListDataMovie({
                         ...listDataMovie,
                         time: value,
@@ -38,42 +64,49 @@ const FormMovie = ({ setlistData, messageValid }) => {
                 }
                 break;
             case 'description':
+                messageValid.description = '';
                 setListDataMovie({
                     ...listDataMovie,
                     description: value,
                 })
                 break;
             case 'startdate':
+                messageValid.startdate = '';
                 setListDataMovie({
                     ...listDataMovie,
                     startdate: value,
                 })
                 break;
             case 'enddate':
+                messageValid.enddate = '';
                 setListDataMovie({
                     ...listDataMovie,
                     enddate: value,
                 })
                 break;
             case 'category':
+                messageValid.category = '';
                 setListDataMovie({
                     ...listDataMovie,
                     category: value,
                 })
                 break;
             case 'directors':
+                messageValid.directors = '';
                 setListDataMovie({
                     ...listDataMovie,
                     directors: value,
                 })
                 break;
             case 'mainActor':
+                messageValid.mainActor = '';
                 setListDataMovie({
                     ...listDataMovie,
                     mainActor: value,
                 })
                 break;
             case 'chanelId':
+                messageValid.chanelId = '';
                 setListDataMovie({
                     ...listDataMovie,
                     chanelId: value,
@@ -127,7 +160,7 @@ const FormMovie = ({ setlistData, messageValid }) => {
                         <div className="input-text">
                             <input 
                                 id="startdate" name="startdate" type="date" 
-                                value={listDataMovie.startdate}    
+                                value={listDataMovie.startdate} 
                                 onChange={(e) => handleChangeInput(e)}
                             />
                             <span className="form-message">{messageValid.startdate}</span>
