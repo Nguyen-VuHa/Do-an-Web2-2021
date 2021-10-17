@@ -1,0 +1,58 @@
+.area-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    input, select {
+        font-family: 'Roboto', sans-serif;
+        background: #37424b;
+        font-weight: bold;
+        color: #a6b2c9;
+        width: 100%;
+        outline: none;
+        border: 1px solid #d5dbd9;
+        font-size: 15px;
+        padding: 5px 10px;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
+
+    h3 {
+        text-align: center;
+        font-size: 50px;
+        font-family: 'Girassol', sans-serif;
+    }
+
+   
+
+    .layout-area {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 15px;
+
+        .form-data {
+            padding: 60px 150px;
+
+            .form-group {
+                width: 100%;
+
+                .option-province {
+                    width: 100%;
+                }
+            }
+        }
+
+        .list-area {
+            padding-right: 15px;
+            height: 300px;
+            overflow: auto;
+
+            &::-webkit-scrollbar {
+                width: 0;
+            }
+
+            
+        }
+    }
+}

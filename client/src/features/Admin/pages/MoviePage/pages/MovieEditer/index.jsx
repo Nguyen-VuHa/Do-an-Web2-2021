@@ -45,7 +45,7 @@ const MovieEditor = () => {
                     setTimeout(() => {
                         dispatch(HideLoading());
                         history.push('/admin/movie/view');
-                    }, 2000);
+                    }, 1000);
                 }
                 else{
                     alert(result.message);
@@ -59,7 +59,7 @@ const MovieEditor = () => {
                     setTimeout(() => {
                         dispatch(HideLoading());
                         history.push('/admin/movie/view');
-                    }, 2000);
+                    }, 1000);
                 }
                 else{
                     alert(result.message);

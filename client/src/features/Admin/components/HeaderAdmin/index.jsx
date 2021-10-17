@@ -24,6 +24,9 @@ const HeaderAdmin = () => {
                         <li className={match.url === '/admin/movie' ? "item-link active" : "item-link"}>
                             <Link to="/admin/movie">Quản Lý Phim</Link>
                         </li>
+                        <li className={match.url === '/admin/cenima-system' ? "item-link active" : "item-link"}>
+                            <Link to="/admin/cenima-system">Quản Lý Cụm Rạp</Link>
+                        </li>
                         <li className="item-link">
                             <Link to="/admin/thong-ke">Quản Lý Xuất Chiếu</Link>
                         </li>

@@ -19,16 +19,87 @@
                 font-weight: 600;
             }
 
-            .btn-add {
+            .group-control {
                 display: flex;
-                justify-content: center;
                 align-items: center;
 
-                & > i {
-                    margin-right: 15px;
-                    margin-top: 2px;
+                .group-search {
+                    margin-right: 30px;
+                    position: relative;
+                    display: flex;
+                    flex-direction: row;
+                    width: 100%;
+                    max-width: 500px;
+                    border-radius: 2px;
+                    padding: 0.5rem 1rem 0.6rem;
+                    background: rgba(57, 63, 84, 0.8);
+
+                    &::after {
+                        content: "";
+                        border: none;
+                        position: absolute;
+                        left: 0px;
+                        right: 0px;
+                        bottom: 0px;
+                        z-index: 999;
+                        height: 2px;
+                        border-bottom-left-radius: 2px;
+                        border-bottom-right-radius: 2px;
+                        background-position: 0% 0%;
+                        background: linear-gradient(to right, #B294FF, #57E6E6, #FEFFB8, #57E6E6, #B294FF, #57E6E6);
+                        background-size: 500% auto;
+                        animation: gradient 3s linear infinite;
+                    }
+                    
+                    input {
+                        flex-grow: 1;
+                        color: #BFD2FF;
+                        font-size: 16px;
+                        width: 500px;
+                        font-family: 'Roboto', sans-serif;
+                        background: rgba(57, 63, 84, 0.8);
+                        line-height: 2.4rem;
+                        vertical-align: middle;
+                        border: none;
+                        outline:none;
+
+                        &::-webkit-input-placeholder {
+                            color: #7881A1;
+                        }
+                    }
+
+                    button {
+                        background: transparent;
+                        cursor: pointer;
+                        color: #BFD2FF;
+                        font-size: 25px;
+                        margin-left: 10px;
+                        line-height: 2.4rem;
+                        vertical-align: middle;
+                        transition: color .25s;
+                        border: none;
+                        outline:none;
+
+                        &:hover {
+                            color: #7881A1;
+                        }
+                    }
+                }
+
+
+                
+                .btn-add {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+    
+                    & > i {
+                        margin-right: 15px;
+                        margin-top: 2px;
+                    }
                 }
             }
+            
         }
 
         .table-list {

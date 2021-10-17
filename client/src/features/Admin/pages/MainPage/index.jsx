@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import './mainpage.scss';
-
+import { Redirect, Route, Switch } from 'react-router';
 
 const MainPage = () => {
     return (
@@ -9,9 +9,16 @@ const MainPage = () => {
             <Helmet>
                 <title>Admin Manager | CGV Việt Nam</title>
             </Helmet>
-            <div className="sys-statistical">
-                
-            </div>
+            <Switch>
+                <Redirect exact from="/admin/thong-ke" to="/admin/thong-ke/view"/>
+
+                <Route path="/admin/thong-ke/view">
+                    <div className="sys-statistical">
+
+                    </div>
+                </Route>
+
+            </Switch>
         </>
     );
 };

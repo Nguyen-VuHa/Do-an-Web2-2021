@@ -24,7 +24,7 @@ const Films = db.define('R_Movie', {
         allowNull: false
     },
     describe: {
-        type: DataTypes.STRING(1000),
+        type: DataTypes.STRING(2000),
         allowNull: true
     },
     category: {

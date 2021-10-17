@@ -10,10 +10,19 @@ const MovieView = () => {
             <div className="movie">
                 <div className="movie__control">
                     <h3>Danh Sách Phim Có Trong Rạp</h3>
-                    <Link to="/admin/movie/editor" className="btn btn-success btn-add">
-                        <i className="fal fa-plus-circle"></i>
-                        Thêm Phim
-                    </Link>
+                    <div className="group-control">
+                        <div className="group-search">
+                            <input 
+                                type="text" placeholder="Tìm kiếm theo tên film . . ."
+                                
+                            ></input>
+                            <button type="button"><i className="far fa-search"></i></button>
+                        </div>
+                        <Link to="/admin/movie/editor" className="btn btn-success btn-add">
+                            <i className="fal fa-plus-circle"></i>
+                            Thêm Phim
+                        </Link>
+                    </div>
                 </div>
                 <div className="movie__gridview mt-3">
                     <TableView />

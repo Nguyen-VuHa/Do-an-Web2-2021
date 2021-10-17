@@ -14,8 +14,22 @@ function getAccessToken(){
     return localStorage.getItem('accessToken');
 }
 
+async function refresthTokenByTime () {
+    const refreshToken = getAccessToken();
+    const data = await axiosClient.post(
+        process.env.REACT_APP_API_URL + 'auth/refresh-token',
+        JSON.stringify(refreshToken)
+    )
+    localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
+}
+
 axiosClient.interceptors.request.use(async (config) => {
-    // config.headers['Authorization'] = `Bearer ${getAccessToken()}`;
+    // setInterval(() => {
+    //     refresthTokenByTime ();
+    // }, 1000 * 30);
+
+    config.headers['Authorization'] = `Bearer ${getAccessToken()}`;
 
     return config;
 });
@@ -29,26 +43,26 @@ axiosClient.interceptors.response.use(
         return response;
         },async (error) => {
         // Handle errors
-        // const originalRequest = error.config;
-        // if (error.response.status === 403  && !originalRequest._retry)
-        // {
+        const originalRequest = error.config;
+        if (error.response.status === 403  && !originalRequest._retry)
+        {
             
-        //     originalRequest._retry = true;
-        //     const refreshToken = { 
-        //         refreshToken: localStorage.getItem('refreshToken') 
-        //     };
-        //     const data = await axiosClient.post(
-        //         process.env.REACT_APP_API_URL + 'auth/refresh-token',
-        //         refreshToken
-        //     )
-        //     delete axios.defaults.headers.common['Authorization'];
-        //     axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.accessToken;
-        //     localStorage.setItem('accessToken', data.accessToken);
-        //     localStorage.setItem('refreshToken', data.refreshToken);
+            originalRequest._retry = true;
+            const refreshToken = { 
+                refreshToken: localStorage.getItem('refreshToken') 
+            };
+            const data = await axiosClient.post(
+                process.env.REACT_APP_API_URL + 'auth/refresh-token',
+                refreshToken
+            )
+            delete axios.defaults.headers.common['Authorization'];
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.accessToken;
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('refreshToken', data.refreshToken);
             
-        //     return axiosClient(originalRequest);
+            return axiosClient(originalRequest);
 
-        // }
+        }
         throw error;
     }
 );
