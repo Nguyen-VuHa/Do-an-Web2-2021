@@ -220,7 +220,19 @@
                         border-bottom: 1px solid $colorGreen;
                     }
 
+                    ul {
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    li {
+                        padding: 0;
+                    }
+
                     .notify_content {
+                        
+                      
+
                         .notify_content-item{
                             width: 100%;
                             display: flex;
