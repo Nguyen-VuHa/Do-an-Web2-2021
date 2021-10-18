@@ -12,7 +12,15 @@ const cinemaApi = {
     getAllDistrict: () => {
         const url = `api/all-district`;
         return axiosClient.get(url);
-    }
+    },
+    newCinema: (data) => {
+        const url = `api/new-cinema`;
+        return axiosClient.post(url, JSON.stringify(data));
+    },
+    getAllCinema: () => {
+        const url = `api/all-cinemas`;
+        return axiosClient.get(url);
+    },
 }
 
 export default cinemaApi;

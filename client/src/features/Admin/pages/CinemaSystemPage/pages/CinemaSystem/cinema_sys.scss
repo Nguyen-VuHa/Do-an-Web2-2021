@@ -1,0 +1,36 @@
+@import '../../../../../../assets/styles/global.scss';
+
+
+.cinema-sys {
+    width: 100%;
+    height: 100%;
+
+    .header-sys {
+        padding: 15px 50px;
+        display: flex;
+        justify-content: space-between;
+
+        h3 {
+            text-align: center;
+            font-size: 50px;
+            font-family: 'Girassol', sans-serif;
+        }
+        .control {
+            width: auto;
+
+            .btn-add {
+                width: auto;
+                vertical-align: middle;
+                font-family: 'Roboto', sans-serif;
+
+                & > i {
+                    margin-top: 2px;
+                }
+            }
+        }
+    }
+
+    .datagrid-view {
+        padding: 15px 50px;
+    }
+}

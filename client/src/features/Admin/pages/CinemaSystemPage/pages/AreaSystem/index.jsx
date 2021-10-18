@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './area_view.scss';
 import cinemaApi from '../../../../../../api/cinemaApi';
 
-const AreaSystem = () => {
+const AreaSystem = ({ isActive }) => {
     const [area, setArea] = useState([]);
     const [codeArea, setCodeArea] = useState('');
     const [nameArea, setNameArea] = useState('');
     const [listArea, setlistArea] = useState([]);
+
 
     useEffect(() => {
         async function fecthLocalDistrict() {
@@ -24,10 +25,10 @@ const AreaSystem = () => {
 
     useEffect(() => {
         fecthDataDistrict();
-    }, []);
+    }, [isActive]);
 
     const handleChangeSelect = (e) => {
-        setNameArea(area[e.target.selectedIndex - 1].name);
+        setNameArea(area[e.target.selectedIndex - 1]?.name);
         setCodeArea(e.target.value);
     }
 

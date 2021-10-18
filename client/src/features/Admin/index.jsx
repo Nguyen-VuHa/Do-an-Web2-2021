@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import HeaderAdmin from './components/HeaderAdmin';
-import CinemaSystemPage from './pages/CinemaSystemPage';
+import CinemaSystemPage from './pages/CinemaSystemPage'
 import MainPage from './pages/MainPage';
 import MoviePage from './pages/MoviePage';
 

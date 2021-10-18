@@ -1,0 +1,60 @@
+@import '../../../../../../assets/styles/global.scss';
+
+.modal {
+    z-index: 99999;
+    background: rgba(0,0,0,0.5);
+
+    .modal-dialog {
+        max-width: 80% !important;
+
+        .modal-content {
+            background: $colorLayout;
+            color: $colorText;
+
+            h5, span {
+                color: $colorGreen;
+            }
+
+            .modal-body {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-gap: 10px;
+
+                input, select, textarea {
+                    font-family: 'Roboto', sans-serif;
+                    background: #37424b;
+                    font-weight: bold;
+                    color: #a6b2c9;
+                    width: 100%;
+                    outline: none;
+                    border: 1px solid #d5dbd9;
+                    font-size: 15px;
+                    padding: 5px 10px;
+                    border-radius: 3px;
+                    transition: all 0.3s ease;
+                }
+
+                .form-cinema-1, .form-cinema-2, .gg-map {
+                    width: 100%;
+                }
+
+                .form-group-address {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    grid-gap: 10px;
+                    margin-bottom: 1rem;
+                }
+
+                .gg-map .google-map {
+                    height: 100%;
+                    width: auto;
+                }
+            }
+
+            .modal-footer {
+                z-index: 9999;
+            }
+        }
+      
+    }
+}
