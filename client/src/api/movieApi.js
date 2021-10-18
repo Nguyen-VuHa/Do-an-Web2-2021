@@ -21,6 +21,11 @@ const movieApi = {
         const url = `api/movie-data/${movieId}/update`;
         return axiosClient.get(url);
     },
+    //==============
+    getMovieHomePage: () => {
+        const url = `api/aG9tZXBhZ2U=/c4c60e3e-2d35-46b6-94ce-66a9d16121fe`;
+        return axiosClient.get(url);
+    }
 }
 
 export default movieApi;

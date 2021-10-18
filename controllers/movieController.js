@@ -1,4 +1,6 @@
 const Films = require('../models/dataMovie')
+const { Op } = require('sequelize');
+const db = require('../models/database');
 const { cloudinary } = require('../untils/cloudinary');
 
 class MovieController { 
@@ -172,6 +174,43 @@ class MovieController {
         });
 
         res.json({ status: 200, data});
+    }
+
+    async getMovieWithHomePage (req, res) {
+        
+        const movieCurrent = await Films.findAll({
+            where: {
+                premiereDate: {
+                    [Op.lte] : Date.now()
+                },
+                endDate: {
+                    [Op.gt]: Date.now()
+                }
+            },
+            attributes: ['movieId', 'movieName', 'premiereDate', 'endDate' ,'poster1',]
+        })
+
+        const movieComing = await Films.findAll({
+            where: {
+                premiereDate: {
+                    [Op.gt] : Date.now()
+                }
+            },
+            attributes: ['movieId', 'movieName', 'premiereDate' ,'poster1',]
+        })
+
+        const movieTrending = await Films.findAll({ 
+            order: db.random(), 
+            limit: 1,
+            attributes: ['movieId', 'movieName', 'directors', 'mainActor', 'category', 'describe', 'time' ,'poster1', 'trailer']
+        });
+
+
+        res.json({status: 200, data: {
+            movieCurrent,
+            movieComing,
+            movieTrending
+        }});
     }
 }
 

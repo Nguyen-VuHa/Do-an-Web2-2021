@@ -64,6 +64,18 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
             setTimeout(() => {
                 dispatch(HideLoading());
                 setisFecth(false);
+                setDataCinema({
+                    idArea: '',
+                    nameCinema: '',
+                    typeCinema: '2D',
+                    city: '',
+                    district: '',
+                    wards: '',
+                    horizontalSize: '',
+                    verticalSize: '',
+                    pointLat: '',
+                    pointLng: '',
+                })
                 buttonRef.current.click();
             }, 1500);
         }
