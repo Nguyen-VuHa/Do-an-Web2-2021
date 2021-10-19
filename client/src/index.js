@@ -5,11 +5,14 @@ import App from './App';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import store from './app/store';
+import { TrailerContextProvider } from './contexts/trailerContenxt';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <TrailerContextProvider>
+        <App />
+      </TrailerContextProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,0 +1,34 @@
+import React, { useContext } from 'react';
+import { TrailerContext } from '../../contexts/trailerContenxt';
+import './trailler_movie.scss';
+
+const TraillerMovie = () => {
+    const { state, dispatch } = useContext(TrailerContext);
+
+    const handleCloseModal = () => {
+        dispatch({
+            type: 'HIDEN_TRAILER',
+            payload: '',
+        })
+    }
+
+    return (
+        <div className={state.status ? "modal-trailler show" : "modal-trailler"}>
+            <div className="modal-bg" onClick={() => handleCloseModal()}></div>
+            <div className="content-trailer">
+                <a className="btn-close" onClick={() => handleCloseModal()}><i className="fal fa-times"></i></a>
+                <div className="content-video-trailler">
+                    <iframe id="trailerIframe" className="trailerIframe" frameBorder={0} src={`https://www.youtube.com/embed/${state.idChanel}?enablejsapi=1`} allowFullScreen="true" />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+TraillerMovie.propTypes = {
+
+};
+
+
+export default TraillerMovie;

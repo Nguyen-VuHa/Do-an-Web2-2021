@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { TrailerContext } from '../../../../contexts/trailerContenxt';
 
 const Advertisement = () => {
     const backgoundRef = useRef(null);
     const { data } = useSelector((state) => state.homepage);
     const { movieTrending } = data;
+    const { dispatch } = useContext(TrailerContext);
 
     useEffect(() => {
         if(movieTrending) {
@@ -19,6 +21,17 @@ const Advertisement = () => {
             backgoundRef.current.style = style;
         }
     }, [movieTrending]);
+
+    const handleViewTrailer = () => {
+        dispatch({
+            type: 'SHOW_TRAILER',
+            payload: {
+                status: true,
+                idChanel: movieTrending[0]?.trailer,
+            }
+        });
+    }
+
     return (
         <section className="advertisement">
             <div>
@@ -52,7 +65,7 @@ const Advertisement = () => {
                                     </li>
                                     <li className="group-film"> 
                                         <label className="group__title" htmlFor>Thời lượng</label>
-                                        <span>{movieTrending &&  movieTrending[0]?.time}</span>
+                                        <span>{movieTrending &&  movieTrending[0]?.time} phút</span>
                                     </li>
                                         <li className="group-film"> 
                                         <label className="group__title" htmlFor>Đánh giá</label>
@@ -60,7 +73,10 @@ const Advertisement = () => {
                                     </li>
                                     <li className="group-button">
                                         <Link to="/" className="btn btn-success">Mua vé ngay</Link>
-                                        <button className="btn btn-success btn-modal ml-2">Xem trailer</button>
+                                        <button 
+                                            className="btn btn-success btn-modal ml-2" 
+                                            onClick={() => handleViewTrailer()}
+                                        >Xem trailer</button>
                                     </li>
                                 </ul>
                             </div>

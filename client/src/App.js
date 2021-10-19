@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import LoadingPage from './components/LoadingPage';
 import PageNotFound from './components/PageNotFound';
+import TraillerMovie from './components/TraillerMovie';
 import { login } from './contants/loginSlice';
 import AdminPage from './features/Admin';
 import Auth from './features/Auth';
@@ -28,6 +29,7 @@ function App() {
         <Suspense fallback={<LoadingPage />} >
             {/* <ToastMessage autoDeleteInterval={3500}/> */}
             <LoadingPage />
+            <TraillerMovie />
             <BrowserRouter>
                 <Switch>
                     {
