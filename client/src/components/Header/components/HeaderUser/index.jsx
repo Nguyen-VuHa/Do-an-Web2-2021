@@ -35,18 +35,24 @@ const HeaderUser = () => {
         setIsUser(!isUser);
     }
 
+    const handleClickOutside = (event) => {
+        if(!$(event.target).closest('.action__notify').length) {
+            if(!$(event.target).closest('.__notify').length) {
+                setIsNoti(false);
+            }
+        }
+        if(!$(event.target).closest('.profile').length) {
+            if(!$(event.target).closest('.menu').length) {
+                setIsUser(false);
+            }
+        }
+    }
+
     useEffect(() => {
-        window.onclick = function (event) { 
-            if(!$(event.target).closest('.action__notify').length) {
-                if(!$(event.target).closest('.__notify').length) {
-                    setIsNoti(false);
-                }
-            }
-            if(!$(event.target).closest('.profile').length) {
-                if(!$(event.target).closest('.menu').length) {
-                    setIsUser(false);
-                }
-            }
+        window.addEventListener('click', handleClickOutside);
+
+        return () => {
+            window.removeEventListener('click', handleClickOutside);
         }
     }, []);
 
@@ -55,7 +61,7 @@ const HeaderUser = () => {
         localStorage.clear();
     }
 
-    const getCountNotify = async (accessToken) => {
+    let getCountNotify = async (accessToken) => {
         const result = await userApi.getCountNotify(accessToken);
         setcountNotify(result.count);
         setlinkImg(result.imgLink);
@@ -65,7 +71,10 @@ const HeaderUser = () => {
         if(accessToken) {
             getCountNotify(accessToken);
         }
-    }, []);
+        return () => {
+            getCountNotify = null;
+        }
+    }, [accessToken]);
 
     return (
         <div className="action">
@@ -86,7 +95,7 @@ const HeaderUser = () => {
                                 moment.locale('vi');
                                 const momentTime =  moment(data.time).fromNow();
                                 if(data.messageType === 'Wellcome') {
-                                    return  <li className="notify_content-item view" uuid="01725780-ddb2-11eb-9216-695a4c3ddb75">
+                                    return  <li className="notify_content-item view" key={data.uuid}>
                                                 <div className="image_item">
                                                     <img src={data.image ? data.image : Images.DefaultAvatar} alt="Not User" style={{width: '60px', height: '60px', objectFit: 'contain', borderRadius: '50%'}} />
                                                 </div>
@@ -100,7 +109,7 @@ const HeaderUser = () => {
                                                 </div>
                                             </li>
                                 } else {
-                                    return  <li className="notify_content-item view" uuid="876c3550-ded8-11eb-b430-997f27dca0da" onclick="infoTicket(this)">
+                                    return  <li className="notify_content-item view" key={data.uuid}>
                                                 <div className="image_item">
                                                     <img src="https://cgv-cinema-movie.herokuapp.com/api/image/F0xXBTK/1" alt="" />
                                                 </div>
@@ -127,7 +136,7 @@ const HeaderUser = () => {
                 <ul>
                     <li>
                         <i className="fal fa-user-circle" />
-                        <Link to="/">My Profile</Link>
+                        <Link to="/my-profile">My Profile</Link>
                     </li> 
                     <li>
                         <i className="fal far fa-history" />

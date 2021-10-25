@@ -14,15 +14,15 @@ function getAccessToken(){
     return localStorage.getItem('accessToken');
 }
 
-async function refresthTokenByTime () {
-    const refreshToken = getAccessToken();
-    const data = await axiosClient.post(
-        process.env.REACT_APP_API_URL + 'auth/refresh-token',
-        JSON.stringify(refreshToken)
-    )
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
-}
+// async function refresthTokenByTime () {
+//     const refreshToken = getAccessToken();
+//     const data = await axiosClient.post(
+//         process.env.REACT_APP_API_URL + 'auth/refresh-token',
+//         JSON.stringify(refreshToken)
+//     )
+//     localStorage.setItem('accessToken', data.accessToken);
+//     localStorage.setItem('refreshToken', data.refreshToken);
+// }
 
 axiosClient.interceptors.request.use(async (config) => {
     // setInterval(() => {

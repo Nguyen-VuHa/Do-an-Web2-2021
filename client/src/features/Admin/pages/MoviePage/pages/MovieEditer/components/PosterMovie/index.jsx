@@ -81,11 +81,11 @@ const PosterMovie = ({ setListPoster }) => {
         var name = target.name;
         switch (name) {
             case 'image1':
-                var files = target.files;
-                if(files.length !== 0)
+                let files1 = target.files;
+                if(files1.length !== 0)
                 {
                     let reader = new FileReader();
-                    reader.readAsDataURL(files[0]);
+                    reader.readAsDataURL(files1[0]);
                     reader.onload = (e) => {
                         setImage1({
                             ...image1,
@@ -99,11 +99,11 @@ const PosterMovie = ({ setListPoster }) => {
                 }   
                 break;
             case 'image2':
-                var files = target.files;
-                if(files.length !== 0)
+                let files2 = target.files;
+                if(files2.length !== 0)
                 {
                     let reader = new FileReader();
-                    reader.readAsDataURL(files[0]);
+                    reader.readAsDataURL(files2[0]);
                     reader.onload = (e) => {
                         setImage2({
                             ...image2,
@@ -117,11 +117,11 @@ const PosterMovie = ({ setListPoster }) => {
                 }   
                 break;
             case 'image3':
-                var files = target.files;
-                if(files.length !== 0)
+                let files3 = target.files;
+                if(files3.length !== 0)
                 {
                     let reader = new FileReader();
-                    reader.readAsDataURL(files[0]);
+                    reader.readAsDataURL(files3[0]);
                     reader.onload = (e) => {
                         setImage3({
                             ...image3,
@@ -135,11 +135,11 @@ const PosterMovie = ({ setListPoster }) => {
                 }   
                 break;
             case 'image4':
-                var files = target.files;
-                if(files.length !== 0)
+                let files4 = target.files;
+                if(files4.length !== 0)
                 {
                     let reader = new FileReader();
-                    reader.readAsDataURL(files[0]);
+                    reader.readAsDataURL(files4[0]);
                     reader.onload = (e) => {
                         setImage4({
                             ...image4,
@@ -165,7 +165,7 @@ const PosterMovie = ({ setListPoster }) => {
             poster4: image4.base64,
         }
         setListPoster(imageChange);
-    }, [image1, image2, image3, image4]);
+    }, [image1, image2, image3, image4, setListPoster]);
 
     return (
         <ul className="poster mt-5">

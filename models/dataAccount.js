@@ -35,6 +35,18 @@ const Accounts = db.define('Account', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    birthday: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    sex: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     surplus: {
         type: DataTypes.DOUBLE,
         allowNull: true

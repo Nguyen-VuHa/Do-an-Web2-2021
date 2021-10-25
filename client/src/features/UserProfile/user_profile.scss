@@ -1,0 +1,483 @@
+@import '../../assets/styles/global.scss';
+
+.profile-user {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: $colorLayout;
+
+    $colorInfo: #2bd2ff;
+    $colorHistory: #ff1f71;
+    $colorToUpCard: #f00;
+
+    .backgroun-content {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 0.4fr 0.6fr;
+        overflow: hidden;
+
+        .backgound-img {
+            width: 100%;
+            height: 100%;
+
+            &::before {
+                content: '';
+                position: absolute;
+                background: linear-gradient(90deg, $colorLayout, rgba(17,22,31, 0.3));
+                width: 100%;
+                height: 100%;
+            }
+
+            &::after {
+                content: '';    
+                position: absolute;
+                background: linear-gradient(0deg, $colorLayout, rgba(17,22,31, 0.3));
+                width: 100%;
+                height: 100%;
+                top: 0;
+            } 
+        }
+    }
+
+    .profile-content {
+        display: grid;
+        grid-template-columns: 0.4fr 0.6fr;
+        width: 100%;
+        height: 100%;
+        color: $colorText;
+        overflow: hidden;
+
+        .content-sidebar {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid rgba(0,0,0,0.125);
+            z-index: 2;
+
+            .avartar {
+                position: relative;
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                margin-top: 50px;
+                cursor: pointer;
+
+                .img-btn img{
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    object-fit: contain;
+                    overflow: hidden;   
+                }
+
+                .img-btn:hover img{
+                    border: 2px solid $colorGreen;
+                }
+
+                .display-none {
+                    display: none;
+                }
+
+                .choose-dialog {
+                    position: absolute;
+                    bottom: 5px;
+                    right: 5px;
+                    background: #263147;
+                    color: $colorText;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    font-size: 1.2rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    &:hover {
+                        background: #2a3853;
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .title-fullname {
+                padding: 15px 0;
+                font-family: 'Pattaya', sans-serif;
+                color: $colorInfo;
+            }
+
+            .price {
+
+                .surplus {
+                    color: $colorGreen;
+                }
+            }
+
+            .group-btn {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                .btn {
+                    position: relative;
+                    width: 300px;
+                    height: 50px;
+                    margin: 10px;
+
+                    div {
+                        font-family: 'Roboto', sans-serif;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        font-display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background: rgba(255, 255, 255, 0.05);
+                        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+                        border-top: 1px solid rgba(255, 255, 255, 0.1);
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 30px;
+                        color: #fff;
+                        z-index: 1;
+                        font-weight: 400;
+                        letter-spacing: 1px;
+                        text-decoration: none;
+                        overflow: hidden;
+                        transition: 0.5;
+                        backdrop-filter: blur(15px);
+
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 50%;
+                            height: 100%;
+                            background: linear-gradient(to left, rgba(255, 255, 255, 0.15), transparent);
+                            transform: skewX(45deg) translateX(0);
+                            transition: 0.5s;
+                        }
+                        
+                    }
+
+                    &:hover div{
+                        letter-spacing: 3px;
+                    }
+
+                    &:hover div::before {
+                        transform: skewX(45deg) translateX(200%);
+                    }
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: 50%;
+                        transform:  translateX(-50%);
+                        bottom: -5px;
+                        width: 30px;
+                        height: 10px;
+                        background: #f00;
+                        border-radius: 10px;
+                        transition: 0.5s;
+                        transition-delay: 0s;
+                    }
+
+                    &:hover::before {
+                        bottom: 0;
+                        height: 50%;
+                        width: 80%;
+                        border-radius: 30px;
+                        transition-delay: 0.5s;
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: 50%;
+                        transform:  translateX(-50%);
+                        top: -5px;
+                        width: 30px;
+                        height: 10px;
+                        background: #f00;
+                        border-radius: 10px;
+                        transition: 0.5s;
+                        transition-delay: 0s;
+                    }
+                    
+                    &:hover::after {
+                        top: 0;
+                        height: 50%;
+                        width: 80%;
+                        border-radius: 30px;
+                        transition-delay: 0.5s;
+                    }
+
+                    &.active::before {
+                        bottom: 0;
+                        height: 50%;
+                        width: 80%;
+                        border-radius: 30px;
+                        transition-delay: 0.5s;
+                    }
+
+                    &.active::after {
+                        top: 0;
+                        height: 50%;
+                        width: 80%;
+                        border-radius: 30px;
+                        transition-delay: 0.5s;
+                    }
+
+                    &:nth-child(1):before,
+                    &:nth-child(1)::after
+                    {
+                        background: $colorInfo;   
+                        box-shadow: 0 0 5px $colorInfo,
+                        0 0 15px $colorInfo,
+                        0 0 30px $colorInfo,
+                        0 0 60px $colorInfo,
+                    }
+
+                    &:nth-child(2):before,
+                    &:nth-child(2)::after
+                    {
+                        background: $colorHistory;   
+                        box-shadow: 0 0 5px $colorHistory,
+                        0 0 15px $colorHistory,
+                        0 0 30px $colorHistory,
+                        0 0 60px $colorHistory,
+                    }
+
+                    &:nth-child(3):before,
+                    &:nth-child(3)::after
+                    {
+                        background: $colorToUpCard;   
+                        box-shadow: 0 0 5px $colorToUpCard,
+                        0 0 15px $colorToUpCard,
+                        0 0 30px $colorToUpCard,
+                        0 0 60px $colorToUpCard,
+                    }
+                }
+            }
+        }
+
+        .content-form {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            z-index: 2;
+            position: relative;
+            transition: 700ms;
+
+            input, select, textarea{
+                background: #37424b;
+                font-weight: bold;
+                color: $colorGreen;
+                font-weight: 100;
+                width: 100%;
+                outline: none;
+                border: 1px solid #d5dbd9;
+                font-size: 18px;
+                padding: 5px 10px;
+                border-radius: 3px;
+                transition: all 0.3s ease;
+
+                &.disable {
+                    background: transparent;
+                    border-style: none;
+                    // color: $colorGreen;
+                    padding: 5px 0px;
+                }
+              }
+
+            .edit-profile, .transaction-history, .to-up-card{ 
+                position: absolute;
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .edit-profile {
+                bottom: 0%;
+                
+                .content {
+                    width: 100%;
+                    height: 90%;
+                    margin: 50px;
+                    padding: 20px;
+                    position: relative;
+                    overflow: hidden;
+
+                    div {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        height: auto;
+
+                        .title {
+                            color: $colorInfo;
+
+                            h3 {
+                                text-align: center;
+                                text-transform: uppercase;
+                                font-family: 'Roboto', sans-serif;
+                                font-weight: 600;
+                            }
+                        }
+
+                        .form-info {
+                            margin-top: 30px;
+                            font-size: 19px;
+                            font-family: 'Roboto', sans-serif;
+
+                            label {
+                                font-weight: 600;
+                                color: $colorInfo;
+                             
+                            }
+
+                            .group-layout {
+                                margin-top: 15px;
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                grid-gap: 15px;
+                            }
+                        }
+
+                        .controler {
+                            width: 100%;
+                            display: grid;
+                            margin-top: 30px;
+                            grid-gap: 15px;
+                            grid-template-columns: 1fr 1fr;
+
+                            .btn {
+                                background: rgba($colorInfo, 0.8);
+                                color: #fff;
+
+                                &:hover {
+                                    background: rgba(#274786, 0.8);
+                                }
+
+                                &.hide {
+                                    pointer-events: none;
+                                    background: rgba(#2a3853, 0.8);
+                                }
+                            }
+                        }
+                    }
+
+                    span {
+                        z-index: 1;
+                        background: linear-gradient(0deg ,transparent,$colorInfo);
+                    }
+                }
+            }
+
+            .transaction-history {
+                bottom: -100%;
+                background: $colorHistory;
+            }
+            .to-up-card {
+                bottom: -200%;
+                background: $colorToUpCard;
+            }
+
+            span {
+                position: absolute;
+                display: block;
+            }
+
+            span:nth-child(1)
+            {
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(90deg, transparent,#fff);
+                animation: animateTop 3.5s linear infinite;
+                animation-delay: 0.35s;
+            }
+
+            span:nth-child(2)
+            {
+                top: -100;
+                right: 0;
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(180deg, transparent,#fff);
+                animation: animateRight 3.5s linear infinite;
+                animation-delay: 1.2s;
+            }
+
+            span:nth-child(3)
+            {
+                right: -100;
+                bottom: 0;
+                height: 2px;
+                width: 100%;
+                background: linear-gradient(270deg, transparent,#fff);
+                animation: animateBottom 3.5s linear infinite;
+                animation-delay: 2s;
+            }
+
+            span:nth-child(4)
+            {
+                bottom: -100;
+                left: 0;
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(360deg, transparent,#fff);
+                animation: animateLeft 3.5s linear infinite;
+                animation-delay: 3s;
+            }
+        }
+    }
+}
+
+@keyframes animateTop {
+    0% {
+        left: -100%;
+    }
+    50%, 100% {
+        left: 100%;
+    }
+}
+
+@keyframes animateRight {
+    0% {
+        top: -100%;
+    }
+    50%, 100% {
+        top: 100%;
+    }
+}
+
+@keyframes animateBottom {
+    0% {
+        right: -100%;
+    }
+    50%, 100% {
+        right: 100%;
+    }
+}
+
+
+@keyframes animateLeft {
+    0% {
+        bottom: -100%;
+    }
+    50%, 100% {
+        bottom: 100%;
+    }
+}

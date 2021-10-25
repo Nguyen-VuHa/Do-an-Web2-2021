@@ -82,7 +82,7 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
     }
 
     return (
-        <div className="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
+        <div className="modal fade" id="modal-edit" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -120,9 +120,9 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
                                     <span className="form-message"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div className="form-group">
                                 <label>Loại Rạp</label>
-                                <select id="option-type" class="option-type" onChange={(e) => setDataCinema({
+                                <select id="option-type" className="option-type" onChange={(e) => setDataCinema({
                                             ...dataCinema,
                                             typeCinema: e.target.value
                                         })}>
@@ -136,10 +136,10 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
                             </div>
                         </div>
                         <div className="form-cinema-2">
-                            <div class="form-group-address">
+                            <div className="form-group-address">
                                 <div className="city-address">
                                     <label>Tỉnh / Thành Phố</label>
-                                    <div class="input-text">
+                                    <div className="input-text">
                                         <select id="option-city" className="option-theater">
                                             { listDistrict?.name ? <option value={listDistrict.name}> {listDistrict.name} </option> : '' }
                                         </select>
@@ -147,7 +147,7 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
                                 </div>
                                 <div className="district-address">
                                     <label>Quận / Huyện</label>
-                                    <div class="input-text">
+                                    <div className="input-text">
                                         <select 
                                             id="option-district" className="option-theater" 
                                             onChange={(e) => setDataCinema({
@@ -178,10 +178,10 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
                                     <span className="form-message"></span>
                                 </div>
                             </div>
-                            <div class="form-group-address">
+                            <div className="form-group-address">
                                 <div className="city-address">
                                     <label>Horizontal size</label>
-                                    <div class="input-text">
+                                    <div className="input-text">
                                         <input 
                                             id="horizonSize" name="horizonSize" type="text" 
                                             value={dataCinema.horizontalSize}
@@ -200,7 +200,7 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
                                 </div>
                                 <div className="district-address">
                                     <label>Vertical size</label>
-                                    <div class="input-text">
+                                    <div className="input-text">
                                         <input 
                                             id="verticalSize" name="verticalSize" type="text" 
                                             value={dataCinema.verticalSize}
@@ -220,10 +220,10 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
                             </div>
                         </div>
                         <div className="gg-map">
-                            <div class="form-group-address">
+                            <div className="form-group-address">
                                 <div className="city-address">
                                     <label>Point Lat</label>
-                                    <div class="input-text">
+                                    <div className="input-text">
                                         <input 
                                             id="latPoint" name="latPoint" type="text" 
                                             value={dataCinema.pointLat}
@@ -237,7 +237,7 @@ const CinemaSystemEdit = ({ buttonRef, setisFecth }) => {
                                 </div>
                                 <div className="district-address">
                                     <label>Point Lng</label>
-                                    <div class="input-text">
+                                    <div className="input-text">
                                         <input 
                                             id="lngPoint" name="lngPoint" type="text"
                                             value={dataCinema.pointLng}

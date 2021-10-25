@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import authApi from '../../../../api/authApi';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import isByLength from 'validator/lib/isByteLength';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
-import isByLength from 'validator/lib/isByteLength';
+import authApi from '../../../../api/authApi';
 import { login } from '../../../../contants/loginSlice';
-import { useDispatch } from 'react-redux';
 
 const HeaderLogin = () => {
     const [isToggle, setIsToggle] = useState(false);
@@ -14,11 +14,12 @@ const HeaderLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const isLogin = useSelector((state) => state.isLogin);
     
     const handleToggleForm = () => {
         setIsToggle(!isToggle);
     }
-
+   
     const handleClickOutside = (event) => {
         if(!$(event.target).closest('.btn-dropdown').length)
         { 
@@ -29,10 +30,14 @@ const HeaderLogin = () => {
     }
 
     useEffect(() => {
-        window.onclick = function(event) {
-            handleClickOutside(event);
+        if(!isLogin) {
+            window.addEventListener('click', handleClickOutside);
         }
-    }, []);
+
+        return () => {
+            window.removeEventListener('click', handleClickOutside);
+        }
+    }, [isLogin]);
 
     const handleSubmitLogin = async (e) => {
         e.preventDefault();

@@ -34,7 +34,6 @@ class AuthController {
             password: hash,
             fullname: data.fullname,
             role: 1,
-            avartar: '',
             numberphone: data.numberphone,
             active: activeCode,
             surplus: 0

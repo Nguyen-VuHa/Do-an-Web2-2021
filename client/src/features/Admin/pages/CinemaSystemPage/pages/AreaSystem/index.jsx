@@ -8,24 +8,28 @@ const AreaSystem = ({ isActive }) => {
     const [nameArea, setNameArea] = useState('');
     const [listArea, setlistArea] = useState([]);
 
+   
+    let fecthLocalDistrict = async () => {
+        const result = await cinemaApi.getAllArea();
+        setArea(result.district);
+    }
+    
 
-    useEffect(() => {
-        async function fecthLocalDistrict() {
-            const result = await cinemaApi.getAllArea();
-            setArea(result.district);
-        }
-
-        fecthLocalDistrict();
-    }, []);
-
-    async function fecthDataDistrict() {
+    let fecthDataDistrict = async () => {
         const result = await cinemaApi.getAllDistrict();
         setlistArea(result.data);
     }
 
     useEffect(() => {
+        fecthLocalDistrict();
         fecthDataDistrict();
-    }, [isActive]);
+        
+        return () => {
+            fecthLocalDistrict = null;
+            fecthDataDistrict = null;
+        }
+    }, []);
+
 
     const handleChangeSelect = (e) => {
         setNameArea(area[e.target.selectedIndex - 1]?.name);
@@ -89,12 +93,12 @@ const AreaSystem = ({ isActive }) => {
                     >Save Change</button>
                 </div>
                 <div className="list-area">
-                    <table id="dtVerticalScrollExample" class="table table-striped table-bordered table-sm" cellspacing="0"
+                    <table id="dtVerticalScrollExample" className="table table-striped table-bordered table-sm"
                         width="100%">
                         <thead>
                             <tr style={{color: 'green'}}>
-                                <th class="th-sm" scope="col">ID</th>
-                                <th class="th-sm" scope="col">Khu Vực</th>
+                                <th className="th-sm" scope="col">ID</th>
+                                <th className="th-sm" scope="col">Khu Vực</th>
                             </tr>
                             </thead>
                             <tbody id="list-district">

@@ -12,14 +12,10 @@ const CinemaSystemView = ({ buttonRef, setisFecth, isFecth }) => {
     }
 
     useEffect(() => {
-
         if(!isFecth) {
             fecthData();
         }
-
     }, [isFecth]);
-
-    console.log(listCinema);
 
     return (
         <div className="cinema-sys">

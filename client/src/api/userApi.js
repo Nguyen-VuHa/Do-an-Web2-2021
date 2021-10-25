@@ -17,6 +17,22 @@ const userApi = {
             }
         });
     },
+    getInfoUser: (accessToken) => {
+        const url = `api/922a85e5-0aa1-4977-bc26-0af50fe8e50e`;
+        return axiosClient.get(url, {
+            headers: {
+                'Authorization':`Bearer ${accessToken}` 
+            }
+        });
+    },
+    updateProfile: (accessToken, dataProfile) => {
+        const url = `api/user/2d01c471-7573-4bbb-8929-b6be0c346f4f`;
+        return axiosClient.post(url, dataProfile, {
+            headers: {
+                'Authorization':`Bearer ${accessToken}` 
+            }
+        });
+    },
 }
 
 export default userApi;

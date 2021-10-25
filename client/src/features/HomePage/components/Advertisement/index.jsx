@@ -52,23 +52,23 @@ const Advertisement = () => {
                                 <h4>{movieTrending &&  movieTrending[0]?.movieName}</h4>
                                 <ul className="list-info-movie">
                                     <li className="group-film"> 
-                                        <label className="group__title" htmlFor>Đạo diễn</label>
+                                        <label className="group__title">Đạo diễn</label>
                                         <span>{movieTrending &&  movieTrending[0]?.directors}</span>
                                     </li>
                                         <li className="group-film"> 
-                                        <label className="group__title" htmlFor>Diễn viên</label>
+                                        <label className="group__title">Diễn viên</label>
                                         <span>{movieTrending &&  movieTrending[0]?.mainActor}</span>
                                     </li>
                                     <li className="group-film"> 
-                                        <label className="group__title" htmlFor>Thể loại</label>
+                                        <label className="group__title">Thể loại</label>
                                         <span>{movieTrending &&  movieTrending[0]?.category}</span>
                                     </li>
                                     <li className="group-film"> 
-                                        <label className="group__title" htmlFor>Thời lượng</label>
+                                        <label className="group__title">Thời lượng</label>
                                         <span>{movieTrending &&  movieTrending[0]?.time} phút</span>
                                     </li>
                                         <li className="group-film"> 
-                                        <label className="group__title" htmlFor>Đánh giá</label>
+                                        <label className="group__title">Đánh giá</label>
                                         <span><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star-half-alt" /><i className="far fa-star" /></span>
                                     </li>
                                     <li className="group-button">

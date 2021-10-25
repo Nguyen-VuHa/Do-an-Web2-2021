@@ -11,6 +11,7 @@ import { login } from './contants/loginSlice';
 import AdminPage from './features/Admin';
 import Auth from './features/Auth';
 import HomePage from './features/HomePage';
+import UserProfile from './features/UserProfile';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
         if(accessToken) {
             dispatch(login());
         }
-    }, [accessToken]);
+    }, [accessToken, dispatch]);
 
     return (
         <Suspense fallback={<LoadingPage />} >
@@ -48,14 +49,19 @@ function App() {
                                 <HomePage />
                                 <Footer />
                             </Route>
+                            <Route path="/my-profile">
+                                <Header />
+                                <UserProfile />
+                                <Footer />
+                            </Route>
                             {
                                 isLogin ? '' :   <Route path="/auth">
                                                     <Auth />
                                                 </Route>
                             }
                         </>
+                        
                     }
-               
                     <Route path="*">
                         <PageNotFound />
                     </Route>

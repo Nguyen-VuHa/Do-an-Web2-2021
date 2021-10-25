@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TableItem from '../TableItem';
 import movieApi from '../../../../../../../../api/movieApi';
+import axios from 'axios';
 
 const TableView = () => {
     const [listMovie, setlistMovie] = useState([]);
@@ -11,6 +12,10 @@ const TableView = () => {
             setlistMovie(result.data);
         }
         fecthAllMovie();
+
+        return () => {
+           
+        }
     }, []);
 
     return (

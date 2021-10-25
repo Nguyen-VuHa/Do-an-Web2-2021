@@ -20,7 +20,7 @@ const HomePage = () => {
 
     useEffect(() => {
         dispatch(getDataHomePage());
-    }, []);
+    }, [dispatch]);
 
     return (
         <>

@@ -23,7 +23,7 @@ const Promotion = () => {
         }, 5000);
     
         return () => clearTimeout(timeout);
-    }, [indexImage, lenght]);
+    }, [indexImage, lenght, slideWidth]);
 
     useEffect(() => {
         window.addEventListener('resize', function() {
@@ -43,7 +43,7 @@ const Promotion = () => {
 
             slideImageRef.current.style.transform = `translateX(-${slideWidth * indexImage}px)`;
         }
-    }, [windowSize]);
+    }, [windowSize, indexImage]);
 
     const handlePrevSlide = () => {
         if(indexImage <= 0)

@@ -14,19 +14,19 @@ const Footer = () => {
                                 <h1 className="title-widget">CGV Việt Nam</h1>
                                 <ul>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Giới Thiệu</a>
+                                    <div><i className="fa fa-angle-double-right" /> Giới Thiệu</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Tiện Ích Online</a>
+                                    <div><i className="fa fa-angle-double-right" /> Tiện Ích Online</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Thẻ Quà Tặng</a>
+                                    <div><i className="fa fa-angle-double-right" /> Thẻ Quà Tặng</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Tuyển Dụng</a>
+                                    <div><i className="fa fa-angle-double-right" /> Tuyển Dụng</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Liên Hệ Quảng Cáo CGV</a>
+                                    <div><i className="fa fa-angle-double-right" /> Liên Hệ Quảng Cáo CGV</div>
                                 </li>
                                 </ul>
                             </li>
@@ -38,19 +38,19 @@ const Footer = () => {
                                 <h1 className="title-widget">Điều Khoản</h1>
                                 <ul>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Điều Khoảng Chung</a>
+                                    <div><i className="fa fa-angle-double-right" /> Điều Khoảng Chung</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Điều Khoản Giao Dịch</a>
+                                    <div><i className="fa fa-angle-double-right" /> Điều Khoản Giao Dịch</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Chính Sách Thanh Toán</a>
+                                    <div><i className="fa fa-angle-double-right" /> Chính Sách Thanh Toán</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Chính Sách Bảo Mật</a>
+                                    <div><i className="fa fa-angle-double-right" /> Chính Sách Bảo Mật</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Câu Hỏi Thường Gặp</a>
+                                    <div><i className="fa fa-angle-double-right" /> Câu Hỏi Thường Gặp</div>
                                 </li>
                                 </ul>
                             </li>
@@ -64,15 +64,15 @@ const Footer = () => {
                                 <li>
                                     <div className="social-menu">
                                     <ul>
-                                        <li><a href="https://www.facebook.com/cgvcinemavietnam" target="_blank"><i className="fab fa-facebook-f" style={{opacity: 1}} /></a></li>
-                                        <li><a href="https://www.youtube.com/cgvvietnam" target="_blank"><i className="fab fa-youtube" style={{opacity: 1}} /></a></li>
-                                        <li><a href="https://www.instagram.com/cgvcinemasvietnam/" target="_blank"><i className="fab fa-instagram" style={{opacity: 1}} /></a></li>
-                                        <li><a href="https://zalo.me/1884424922722396289" target="_blank"><i className="fab fa-twitter" style={{opacity: 1}} /></a></li>
+                                        <li><a href="https://www.facebook.com/cgvcinemavietnam" target="_blank" rel="noreferrer"><i className="fab fa-facebook-f" style={{opacity: 1}} /></a></li>
+                                        <li><a href="https://www.youtube.com/cgvvietnam" target="_blank" rel="noreferrer"><i className="fab fa-youtube" style={{opacity: 1}} /></a></li>
+                                        <li><a href="https://www.instagram.com/cgvcinemasvietnam/" target="_blank" rel="noreferrer"><i className="fab fa-instagram" style={{opacity: 1}} /></a></li>
+                                        <li><a href="https://zalo.me/1884424922722396289" target="_blank" rel="noreferrer"><i className="fab fa-twitter" style={{opacity: 1}} /></a></li>
                                     </ul>
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="http://online.gov.vn/Home/WebDetails/30270" target="_blank"><img width="100%" style={{marginTop: '20px'}} src={ Images.Image_BTC } alt="" /></a>
+                                    <a href="http://online.gov.vn/Home/WebDetails/30270" target="_blank" rel="noreferrer"><img width="100%" style={{marginTop: '20px'}} src={ Images.Image_BTC } alt="" /></a>
                                 </li>
                                 </ul>
                             </li>
@@ -84,10 +84,10 @@ const Footer = () => {
                                 <h1 className="title-widget">Chăm Sóc Khách Hàng</h1>
                                 <ul>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Hotline: 1900 1006</a>
+                                    <div><i className="fa fa-angle-double-right" /> Hotline: 1900 1006</div>
                                 </li>
                                 <li>
-                                    <a href><i className="fa fa-angle-double-right" /> Giờ Làm Việc 8:00 - 22:00(Tất cả các ngày bao gồm lễ)</a>
+                                    <div><i className="fa fa-angle-double-right" /> Giờ Làm Việc 8:00 - 22:00(Tất cả các ngày bao gồm lễ)</div>
                                 </li>
                                 <li>
                                     <a href="https://mail.google.com/"><i className="fa fa-angle-double-right" /> EMail Hỗ Trợ: cgv.cinema.vn@gmail.com</a>

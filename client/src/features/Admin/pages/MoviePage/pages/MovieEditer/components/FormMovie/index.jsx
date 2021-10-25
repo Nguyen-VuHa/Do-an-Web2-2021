@@ -35,11 +35,11 @@ const FormMovie = ({ setlistData, messageValid }) => {
             }
             fecthDataForm();
         }
-    }, []);
+    }, [params]);
 
     useEffect(() => {
         setlistData(listDataMovie);
-    }, [listDataMovie]);
+    }, [listDataMovie, setlistData]);
 
     const handleChangeInput = (e) => {
         var target = e.target;

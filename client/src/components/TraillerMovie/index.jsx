@@ -16,9 +16,9 @@ const TraillerMovie = () => {
         <div className={state.status ? "modal-trailler show" : "modal-trailler"}>
             <div className="modal-bg" onClick={() => handleCloseModal()}></div>
             <div className="content-trailer">
-                <a className="btn-close" onClick={() => handleCloseModal()}><i className="fal fa-times"></i></a>
+                <div className="btn-close" onClick={() => handleCloseModal()}><i className="fal fa-times"></i></div>
                 <div className="content-video-trailler">
-                    <iframe id="trailerIframe" className="trailerIframe" frameBorder={0} src={`https://www.youtube.com/embed/${state.idChanel}?enablejsapi=1`} allowFullScreen="true" />
+                    <iframe title="Trailler Movie" id="trailerIframe" className="trailerIframe" frameBorder="0" src={`https://www.youtube.com/embed/${state.idChanel}?enablejsapi=1`} allowFullScreen={true} />
                 </div>
             </div>
         </div>

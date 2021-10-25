@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import isByLength from 'validator/lib/isByteLength';
 import isEmpty from 'validator/lib/isEmpty';
 import movieApi from '../../../../../../api/movieApi';
+import { HideLoading, ShowLoading } from '../../../../../../components/LoadingPage/loadingSlice';
 import FormMovie from './components/FormMovie';
 import PosterMovie from './components/PosterMovie';
 import './movie_editor.scss';
-import { useDispatch } from 'react-redux';
-import { HideLoading, ShowLoading } from '../../../../../../components/LoadingPage/loadingSlice';
 
 const MovieEditor = () => {
     const history = useHistory();
@@ -53,8 +53,8 @@ const MovieEditor = () => {
                 }
             }
             else {
-                var result = await movieApi.updateMovie(data, params.movieId);
-                if(result.status === 200)
+                let resultMovie = await movieApi.updateMovie(data, params.movieId);
+                if(resultMovie.status === 200)
                 {
                     setTimeout(() => {
                         dispatch(HideLoading());
@@ -62,7 +62,7 @@ const MovieEditor = () => {
                     }, 1000);
                 }
                 else{
-                    alert(result.message);
+                    alert(resultMovie.message);
                     dispatch(HideLoading());
                 }
             }

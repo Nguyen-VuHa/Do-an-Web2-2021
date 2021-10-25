@@ -25,7 +25,6 @@ const CinemaSystemPage = () => {
                         }}>Cụm Khu Vực</div>
                         <div className={ !isActive ? "btn btn-cinema active" : "btn btn-cinema" } onClick={() => {
                             setisActive(false)
-                            console.log(contentRef)
                             contentRef.current.style.transform = `translateX(-100%)`;
                         }}>Cụm Rạp Phim</div>
                     </div>
