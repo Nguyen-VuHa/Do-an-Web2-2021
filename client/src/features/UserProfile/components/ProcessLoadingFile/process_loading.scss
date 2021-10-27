@@ -1,0 +1,70 @@
+@import '../../../../assets/styles/global.scss';
+
+.popup-loading {
+    position: fixed;
+    bottom: 10px;
+    left: 20px;
+    z-index: 999999999;
+    transition: all .4s ease;
+    visibility: hidden;
+    opacity: 0;
+
+    .card {
+        background-color: $colorLayout;
+        border: 1px solid $colorTitle;
+        width: 300px;
+
+        h4 {
+            font-family: 'Pattaya', sans-serif;
+            color: $colorTitle;
+        }
+
+        p {
+            color: $colorText;
+        }
+
+        .progress-outer{
+            background: $colorTitle;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 0  10px rgba(212, 221, 41,0.7);
+            overflow: hidden;
+
+            .progress{
+                height: 10px;
+                margin: 0;
+                overflow: visible;
+                border-radius: 50px;
+                background: $colorTitle;
+                width: 300px;
+
+                .progress-bar{
+                    padding: 0;
+                    margin: 0;
+                    border-radius: 50px;
+
+                    &.active{
+                        animation: reverse progress-bar-stripes 0.40s linear infinite, animate-positive 2s;
+                    }
+                }
+
+                .progress-value{
+                    position: relative;
+                    left: -45px;
+                    top: -5px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #fff;
+                    letter-spacing: 2px;
+                }
+
+                
+            }
+        }
+    }
+}
+
+.popup-loading.active {
+    visibility: visible;
+    opacity: 1;
+}

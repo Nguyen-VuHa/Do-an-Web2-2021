@@ -377,9 +377,22 @@
                         }
                     }
 
-                    span {
-                        z-index: 1;
-                        background: linear-gradient(0deg ,transparent,$colorInfo);
+                    span:nth-child(1) {
+                        background: linear-gradient(270deg , transparent, $colorInfo);
+                    }
+
+                    span:nth-child(2) {
+                        background: linear-gradient(180deg , transparent, $colorInfo);
+                    }
+
+                    span:nth-child(3)
+                    { 
+                        background: linear-gradient(90deg, transparent,$colorInfo);
+                    }
+
+                    span:nth-child(4)
+                    {
+                        background: linear-gradient(360deg, transparent,$colorInfo);
                     }
                 }
             }
@@ -402,82 +415,33 @@
             {
                 top: 0;
                 left: 0;
-                width: 100%;
-                height: 2px;
-                background: linear-gradient(90deg, transparent,#fff);
-                animation: animateTop 3.5s linear infinite;
-                animation-delay: 0.35s;
+                width: 60%;
+                height: 3px;
             }
 
             span:nth-child(2)
             {
-                top: -100;
+                bottom: 0;
                 right: 0;
-                width: 2px;
-                height: 100%;
-                background: linear-gradient(180deg, transparent,#fff);
-                animation: animateRight 3.5s linear infinite;
-                animation-delay: 1.2s;
+                width: 4px;
+                height: 75%;
             }
 
             span:nth-child(3)
             {
-                right: -100;
+                right: 0;
                 bottom: 0;
-                height: 2px;
-                width: 100%;
-                background: linear-gradient(270deg, transparent,#fff);
-                animation: animateBottom 3.5s linear infinite;
-                animation-delay: 2s;
+                height: 4px;
+                width: 45%;
             }
 
             span:nth-child(4)
             {
-                bottom: -100;
+                top: 0;
                 left: 0;
-                width: 2px;
+                width: 3px;
                 height: 100%;
-                background: linear-gradient(360deg, transparent,#fff);
-                animation: animateLeft 3.5s linear infinite;
-                animation-delay: 3s;
             }
         }
-    }
-}
-
-@keyframes animateTop {
-    0% {
-        left: -100%;
-    }
-    50%, 100% {
-        left: 100%;
-    }
-}
-
-@keyframes animateRight {
-    0% {
-        top: -100%;
-    }
-    50%, 100% {
-        top: 100%;
-    }
-}
-
-@keyframes animateBottom {
-    0% {
-        right: -100%;
-    }
-    50%, 100% {
-        right: 100%;
-    }
-}
-
-
-@keyframes animateLeft {
-    0% {
-        bottom: -100%;
-    }
-    50%, 100% {
-        bottom: 100%;
     }
 }

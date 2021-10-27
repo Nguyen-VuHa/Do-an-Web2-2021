@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Images from '../../../../contants/image';
 
 const SideBarProfile = ({ active, setActive }) => {
     const colorTextRef = useRef(null);
     const userInfo = JSON.parse(localStorage.getItem('user-info'));
-  
+    const stateAvartar = useSelector((state) => state.avartar);
 
     const handleInfoUser = () => {
         setActive(0);
@@ -25,11 +26,11 @@ const SideBarProfile = ({ active, setActive }) => {
         <>
             <div className="avartar">
                 <div className="img-btn">
-                    <img src={ Images.DefaultAvatar } alt="Not Avartar"/>
+                    <img src={ stateAvartar.imageUrl ? stateAvartar.imageUrl : Images.DefaultAvatar } alt="Not Avartar"/>
                 </div>
                 <div className="choose-dialog" id="upload-aphoto">
                     <input id='selectedFile' className="display-none" type='file' accept=".png, .jpg, .jpeg, .svg"/>
-                    <div className="btn-choose"><i className="fal fa-camera-alt"></i></div>
+                    <div className="btn-choose" data-toggle="modal" data-target="#modalEditorImage"><i className="fal fa-camera-alt"></i></div>
                 </div>
             </div>
             <h3 className="title-fullname" ref={colorTextRef}>{ userInfo?.fullname }</h3>

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../../contants/loginSlice';
 import 'simplebar';
 import 'simplebar/dist/simplebar.css';
@@ -16,8 +16,8 @@ const HeaderUser = () => {
     const [isUser, setIsUser] = useState(false);
     const [countNotify, setcountNotify] = useState(0);
     const [listNotify, setlistNotify] = useState([]);
-    const [linkImg, setlinkImg] = useState('');
     const dispatch = useDispatch();
+    const stateImage = useSelector((state) => state.avartar);
 
     const userInfo = JSON.parse(localStorage.getItem('user-info'));
     const accessToken = localStorage.getItem('accessToken');
@@ -64,7 +64,6 @@ const HeaderUser = () => {
     let getCountNotify = async (accessToken) => {
         const result = await userApi.getCountNotify(accessToken);
         setcountNotify(result.count);
-        setlinkImg(result.imgLink);
     }
 
     useEffect(() => {
@@ -129,7 +128,7 @@ const HeaderUser = () => {
                 </div>
             </div>
             <div className="profile" id="profile_clicks"  onClick={() => handleShowUser()}>
-                <img src={ linkImg ? linkImg : Images.DefaultAvatar } className="avartar-user" alt="not user" />
+                <img src={ stateImage.imageUrl ? stateImage.imageUrl : Images.DefaultAvatar } className="avartar-user" alt="not user" />
             </div>
             <div className={isUser ? "menu active" : "menu"} id="menu__profile">
                 <h3>{userInfo.fullname}<br /><span>Số dư : <b style={{color: '#54ab35'}}>0 E-coin</b></span></h3>

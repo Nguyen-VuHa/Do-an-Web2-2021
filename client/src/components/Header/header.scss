@@ -11,6 +11,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        .logo {
+            padding: 15px;
+            width: 250px;
+        }
     }
 
     .content {

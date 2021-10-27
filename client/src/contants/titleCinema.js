@@ -1,0 +1,5 @@
+const GLOBAL_TEXT = {
+    TITLE_CINEMA: 'BHD STAR CINEPLEX',
+}
+
+export default GLOBAL_TEXT;

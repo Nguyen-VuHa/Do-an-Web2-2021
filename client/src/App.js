@@ -13,7 +13,6 @@ import Auth from './features/Auth';
 import HomePage from './features/HomePage';
 import UserProfile from './features/UserProfile';
 
-
 function App() {
     const accessToken = localStorage.getItem('accessToken');
     const userInfo = JSON.parse(localStorage.getItem('user-info'));

@@ -5,34 +5,52 @@ import Images from '../../contants/image';
 import SideBarProfile from './components/SideBarProfile';
 import ContentProfile from './components/ContentProfile';
 import userApi from '../../api/userApi';
+import ModalEditImage from './components/ModalEditImage';
+import ProcessLoadingFile from './components/ProcessLoadingFile';
+import { useDispatch, useSelector } from 'react-redux';
+import { getImageUser } from './profileSlice';
+import GLOBAL_TEXT from '../../contants/titleCinema';
 
 const UserProfile = () => {
     const [active, setActive] = useState(0);
     const [dataUser, setDataUser] = useState({});
     const layoutRef = useRef(null);
     const accessToken = localStorage.getItem('accessToken');
-
+    const stateAvartar = useSelector((state) => state.avartar);
+    const dispatch = useDispatch();
+    
     useEffect(() => {
         let sizeLayout = active * 100;
         layoutRef.current.style.transform = `translateY(-${sizeLayout}%)`
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
     }, [active]);
 
     useEffect(() => {
-        let fecthData = async function fecthDataUser() {
-            const result = await userApi.getInfoUser(accessToken);
-            setDataUser(result.data);
+        if(accessToken) {
+            let fecthData = async function fecthDataUser() {
+                const result = await userApi.getInfoUser(accessToken);
+                setDataUser(result.data);
+            }
+            fecthData();
+
+            dispatch(getImageUser(accessToken));
+            
+            return () => {
+                fecthData = null;
+            }
         }
-        fecthData();
-        return () => {
-            fecthData = null;
-        }
-    }, [accessToken]);
+      
+    }, [accessToken, dispatch]);
     
    
     return (
         <>
             <Helmet>
-                <title>My Profile | CGV Cinemas Việt Nam</title>
+                <title>My Profile | { GLOBAL_TEXT.TITLE_CINEMA }</title>
             </Helmet>
             <div className="profile-user">
                 <div className="backgroun-content">
@@ -40,7 +58,7 @@ const UserProfile = () => {
 
                     </div>
                     <div className="content-right backgound-img">
-                        <img src={ Images.DefaultAvatar } alt="Not Backgound"/>
+                        <img src={ stateAvartar.imageUrl ? stateAvartar.imageUrl :  Images.DefaultAvatar } alt="Not Backgound"/>
                     </div>
                 </div>
                 <div className="profile-content">
@@ -60,6 +78,8 @@ const UserProfile = () => {
                     </div>
                 </div>
             </div>
+            <ModalEditImage />
+            <ProcessLoadingFile />
         </>
     );
 };

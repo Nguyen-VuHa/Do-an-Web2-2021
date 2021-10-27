@@ -99,12 +99,15 @@ class AuthController {
 
     async refreshToken (req, res) {
         const { refreshToken } = req.body;
+
         if(!refreshToken) return res.sendStatus(401);
+
         const isuser = await Accounts.findOne({
             where: {
                 refreshToken: refreshToken,
             }
         });
+
         if(!isuser) res.sendStatus(403); 
         try {
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
@@ -123,6 +126,7 @@ class AuthController {
             await isuser.save();
             
             res.json({status: 200, accessToken: accessToken, refreshToken: _refreshToken});
+            
         } catch (error) {
             console.log(error);
             return res.sendStatus(401);

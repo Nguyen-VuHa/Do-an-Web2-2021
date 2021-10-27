@@ -11,7 +11,7 @@ const Footer = () => {
                         <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                             <ul className="list-unstyled clear-margins">
                             <li className="widget-container widget_nav_menu">
-                                <h1 className="title-widget">CGV Việt Nam</h1>
+                                <h1 className="title-widget">BHD Star Cineplex</h1>
                                 <ul>
                                 <li>
                                     <div><i className="fa fa-angle-double-right" /> Giới Thiệu</div>
@@ -26,7 +26,7 @@ const Footer = () => {
                                     <div><i className="fa fa-angle-double-right" /> Tuyển Dụng</div>
                                 </li>
                                 <li>
-                                    <div><i className="fa fa-angle-double-right" /> Liên Hệ Quảng Cáo CGV</div>
+                                    <div><i className="fa fa-angle-double-right" /> Liên Hệ Quảng Cáo BHD</div>
                                 </li>
                                 </ul>
                             </li>
@@ -59,14 +59,14 @@ const Footer = () => {
                         <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                             <ul className="list-unstyled clear-margins">
                             <li className="widget-container widget_nav_menu">
-                                <h1 className="title-widget">Kết Nối CGV</h1>
+                                <h1 className="title-widget">Kết Nối BHD STAR</h1>
                                 <ul>
                                 <li>
                                     <div className="social-menu">
                                     <ul>
-                                        <li><a href="https://www.facebook.com/cgvcinemavietnam" target="_blank" rel="noreferrer"><i className="fab fa-facebook-f" style={{opacity: 1}} /></a></li>
-                                        <li><a href="https://www.youtube.com/cgvvietnam" target="_blank" rel="noreferrer"><i className="fab fa-youtube" style={{opacity: 1}} /></a></li>
-                                        <li><a href="https://www.instagram.com/cgvcinemasvietnam/" target="_blank" rel="noreferrer"><i className="fab fa-instagram" style={{opacity: 1}} /></a></li>
+                                        <li><a href="https://www.facebook.com/BHDStar" target="_blank" rel="noreferrer"><i className="fab fa-facebook-f" style={{opacity: 1}} /></a></li>
+                                        <li><a href="https://www.youtube.com/c/BHDStar" target="_blank" rel="noreferrer"><i className="fab fa-youtube" style={{opacity: 1}} /></a></li>
+                                        <li><a href="https://www.instagram.com/bhdstar.cineplex/" target="_blank" rel="noreferrer"><i className="fab fa-instagram" style={{opacity: 1}} /></a></li>
                                         <li><a href="https://zalo.me/1884424922722396289" target="_blank" rel="noreferrer"><i className="fab fa-twitter" style={{opacity: 1}} /></a></li>
                                     </ul>
                                     </div>

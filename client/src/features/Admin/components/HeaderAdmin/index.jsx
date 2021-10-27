@@ -16,7 +16,7 @@ const HeaderAdmin = () => {
         <>
             <header className="header">
                 <nav className="header__content content">
-                    <a href="/"><img className="logo" src="https://www.cgv.vn/skin/frontend/cgv/default/images/cgvlogo.png" alt="Logo App" /></a>
+                    <a href="/"><img className="logo" src="https://www.tiendauroi.com/wp-content/uploads/2020/02/bhd-star-cinema.png" alt="Logo App" /></a>
                     <ul className="content__links">
                         <li className={match.url === '/admin/thong-ke' ? "item-link active" : "item-link"}>
                             <Link to="/admin/thong-ke">Thông Kê</Link>

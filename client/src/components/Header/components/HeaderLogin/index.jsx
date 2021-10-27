@@ -95,7 +95,7 @@ const HeaderLogin = () => {
                 >
                     <div className="form-group">
                         <input 
-                            id="email" type="email"
+                            type="email"
                             name="email" className="input_text" placeholder="Email" 
                             value={email}
                             onChange={(e) => { 
@@ -109,7 +109,7 @@ const HeaderLogin = () => {
                     </div>
                     <div className="form-group">
                         <input 
-                            id="password" type="password" 
+                            type="password" 
                             name="password" className="input_text" placeholder="Password" 
                             value={password}
                             onChange={(e) => {

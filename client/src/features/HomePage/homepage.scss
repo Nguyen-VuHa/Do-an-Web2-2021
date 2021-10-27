@@ -320,7 +320,7 @@
         margin-right: auto;
         margin-left: auto;
         width: 100%;
-        height: 60vh;
+        height: 80vh;
         overflow: hidden;
         
         i {
@@ -328,7 +328,7 @@
         }
         
         .slider-promotion {
-            height: 60vh;
+            height: 100%;
             transition: 700ms;
             cursor: pointer;
 
@@ -338,8 +338,7 @@
                 position: absolute;
 
                 img {
-                    object-fit: cover;
-                    object-position: center;
+                    object-fit: inherit;
                 }
             }
         }

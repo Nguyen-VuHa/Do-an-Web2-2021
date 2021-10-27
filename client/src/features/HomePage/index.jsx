@@ -7,6 +7,7 @@ import MovieList from './components/MovieList';
 import Promotion from './components/Promotion';
 import './homepage.scss';
 import { getDataHomePage } from './homepageSlice';
+import GLOBAL_TEXT from '../../contants/titleCinema';
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const HomePage = () => {
     return (
         <>
             <Helmet>
-                <title>CGV Cinemas Việt Nam | Trang Chủ</title>
+                <title>{ GLOBAL_TEXT.TITLE_CINEMA } | Trang Chủ</title>
             </Helmet>
             <div className="main-page">
                 <Advertisement />

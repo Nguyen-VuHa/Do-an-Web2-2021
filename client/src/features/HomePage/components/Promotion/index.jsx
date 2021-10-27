@@ -2,6 +2,8 @@ import React from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Images from '../../../../contants/image';
+
 
 const Promotion = () => {
     const [windowSize, setwindowSize] = useState(window.innerWidth);
@@ -76,21 +78,21 @@ const Promotion = () => {
             <div className="slider-promotion" ref={slideImageRef}>
                 <div className="slider" >
                     <img 
-                        src="https://www.octoapp.cimbbank.com.vn/content/dam/cimbvietnam/amp/news_and_promo/Octo-CGV-website-banner-1583x527.jpg"
+                        src={ Images.BANNER_1 }
                         alt="Not Banner"
                     />
                 </div>
                 <div className="slider">
-                    <img src="https://vanhanhmall.com/wp-content/uploads/2019/01/Happy-New-Year-website-banner.jpg"  alt="Not Banner"/>
+                    <img src={ Images.BANNER_2 }  alt="Not Banner"/>
                 </div>
                 <div className="slider">
-                    <img src="https://thienmochuong.com/wp-content/uploads/2020/02/banner-vi%CC%81a-tha%CC%82%CC%80n-ta%CC%80i-.jpg"  alt="Not Banner"/>
+                    <img src={ Images.BANNER_3 }  alt="Not Banner"/>
                 </div>
                 <div className="slider">
-                    <img src="https://storage.googleapis.com/cdn.nhanh.vn/store/7136/artCT/43138/qua-tet-totoshop.png"  alt="Not Banner"/>
+                    <img src={ Images.BANNER_4 }  alt="Not Banner"/>
                 </div>
                 <div className="slider">
-                    <img src="https://www.cgv.vn/media/site/cache/1/980x415/b58515f018eb873dafa430b6f9ae0c1e/c/g/cgv-vincom-caolanh-3.png" alt="Not Banner"/>
+                    <img src={ Images.BANNER_5 } alt="Not Banner"/>
                 </div>
             </div>
             <div className="btn-next" onClick={() => handleNextSlide()}>
