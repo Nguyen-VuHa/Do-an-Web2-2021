@@ -1,16 +1,13 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-// module support
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
-//===========================
-// Database
+
 const db = require('./models/database');
-// Router API in React JS
-const route = require('./routers');
-// ===============================
+
+const route = require('./routers/index');
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
