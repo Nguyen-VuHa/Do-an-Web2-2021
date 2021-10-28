@@ -18,7 +18,7 @@ app.use(cors());
 route(app);
 
 
-if(process.env.NODE_ENV === "production") {
+if(process.env.NODE_ENV === "appstore") {
     app.use(express.static(path.join(__dirname, '/client/build')));
 
     app.get('*', (req, res) => {
