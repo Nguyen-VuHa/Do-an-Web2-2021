@@ -18,7 +18,7 @@ const TraillerMovie = () => {
             <div className="content-trailer">
                 <div className="btn-close" onClick={() => handleCloseModal()}><i className="fal fa-times"></i></div>
                 <div className="content-video-trailler">
-                    <iframe title="Trailler Movie" id="trailerIframe" className="trailerIframe" frameBorder="0" src={`https://www.youtube.com/embed/${state.idChanel}?enablejsapi=1`} allowFullScreen={true} />
+                    <iframe title="Trailler Movie" id="trailerIframe" className="trailerIframe" frameBorder="0" src={`https://www.youtube.com/embed/${state.idChanel}?autoplay=1`} allow="autoplay" allowFullScreen={true} />
                 </div>
             </div>
         </div>

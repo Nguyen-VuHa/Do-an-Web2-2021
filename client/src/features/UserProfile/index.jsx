@@ -10,6 +10,7 @@ import ProcessLoadingFile from './components/ProcessLoadingFile';
 import { useDispatch, useSelector } from 'react-redux';
 import { getImageUser } from './profileSlice';
 import GLOBAL_TEXT from '../../contants/titleCinema';
+import TransactionHistory from './components/TransactionHistory';
 
 const UserProfile = () => {
     const [active, setActive] = useState(0);
@@ -70,7 +71,7 @@ const UserProfile = () => {
                            <ContentProfile dataUser={dataUser}/>
                         </div>
                         <div className="transaction-history">
-
+                            <TransactionHistory />
                         </div>
                         <div className="to-up-card">
 

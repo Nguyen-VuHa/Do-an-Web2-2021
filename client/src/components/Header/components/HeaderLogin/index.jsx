@@ -58,7 +58,7 @@ const HeaderLogin = () => {
                 localStorage.setItem('user-info', JSON.stringify(result.user));
                 setIsToggle(false);
                 dispatch(login());
-                history.push('/')
+                history.push('/');
             }
         }
       

@@ -1,0 +1,56 @@
+@import '../../../../assets/styles/global.scss';
+
+.transaction-history {
+
+    .content {
+        $colorHistory: #ff1f71;
+    
+        .title {
+            width: 100%;
+    
+            h3 {
+                text-align: center;
+                font-family: 'Pattaya', sans-serif;
+                font-size: 40px;
+                color: $colorHistory;
+            }
+        }
+        
+        .table-history {
+
+            table {
+                overflow: hidden;
+
+                thead tr {
+                    color: $colorHistory;
+                }
+
+                tbody tr{
+                    color: $colorHistory;
+                    font-size: 20px;
+                    font-weight: 600;
+                    font-family: 'Baloo Tammudu 2', cursive;
+                }
+            }
+
+            .empty-col {
+                display: flex;
+                flex-direction: row !important;
+                align-items: center;
+                transform: translateX(27%);
+
+                .empty-image {
+                    width: 80px !important;
+                }
+
+                .text-empty {
+                    font-size: 19px;
+                    font-weight: 500;
+                    color: $colorHistory;
+                    margin-left: 10px;
+                    font-family: 'Roboto', sans-serif;
+                }
+            }
+        }
+    }
+}

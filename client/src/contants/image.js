@@ -8,6 +8,7 @@ import Banner4 from '../assets/images/Banner4.jpg';
 import Banner5 from '../assets/images/Banner5.jpg';
 import BorderItem from '../assets/images/borderHallowen.png';
 import Fare from '../assets/images/Fare.jpg';
+import NotItem from '../assets/images/NotItem.png';
 
 const Images = {
     Image_BTC: ImageBTC,
@@ -20,6 +21,7 @@ const Images = {
     BANNER_5: Banner5,
     BorderItem: BorderItem,
     FARE: Fare,
+    NOTITEM: NotItem
 }
 
 export default Images;
