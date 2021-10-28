@@ -53,44 +53,37 @@ function App() {
             <BrowserRouter>
                 <Switch>
                     {
-                        isLogin && userInfo.role === '0' 
-                        ? 
-                        <>
-                            <Redirect exact from="/" to="/admin"/>
-                            <Route path="/admin">
-                                <AdminPage />
-                            </Route>
-                        </>
-                        : 
-                        <>
-                            <Route exact path="/">
-                                <Header />
-                                <HomePage />
-                                <Footer />
-                            </Route>
-                            <Route path="/my-profile">
-                                <Header />
-                                <UserProfile />
-                                <Footer />
-                            </Route>
-                            <Route path="/cinema-system">
-                                <Header />
-                                <CinemaSystem />
-                                <Footer />
-                            </Route>
-                            {
-                                isLogin ? '' :   <Route path="/auth">
-                                                    <Auth />
-                                                </Route>
-                            }
-                        </>
-                        
+                        isLogin && userInfo.role === '0' && <Redirect exact from="/" to="/admin"/>
                     }
-                    <Route path="*">
-                        <PageNotFound />
+                    {
+                        isLogin ? '' :  <Route path="/auth">
+                                            <Auth isLogin={isLogin}/>
+                                        </Route>
+                    }
+                    <Route exact path="/">
+                        <Header />
+                        <HomePage />
+                        <Footer />
                     </Route>
+                    <Route path="/my-profile">
+                        <Header />
+                        <UserProfile />
+                        <Footer />
+                    </Route>
+                    <Route path="/cinema-system">
+                        <Header />
+                        <CinemaSystem />
+                        <Footer />
+                    </Route>
+
+                    <Route path="/admin">
+                        <AdminPage />
+                    </Route>
+                    
+                    <Route path="*" component={PageNotFound} />
                 </Switch>
             </BrowserRouter>
+            
             <div className={scrollHeight >= 1000 ? "btn-on-top show" : "btn-on-top"} onClick={() => handleToTop()}>
                 <i className="fad fa-angle-up"></i>
             </div>

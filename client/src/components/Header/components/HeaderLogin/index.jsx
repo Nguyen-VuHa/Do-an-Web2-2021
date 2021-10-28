@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import isByLength from 'validator/lib/isByteLength';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
@@ -15,6 +15,7 @@ const HeaderLogin = () => {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const isLogin = useSelector((state) => state.isLogin);
+    const history = useHistory();
     
     const handleToggleForm = () => {
         setIsToggle(!isToggle);
@@ -57,6 +58,7 @@ const HeaderLogin = () => {
                 localStorage.setItem('user-info', JSON.stringify(result.user));
                 setIsToggle(false);
                 dispatch(login());
+                history.push('/')
             }
         }
       
