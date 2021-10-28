@@ -45,6 +45,12 @@ const Promotion = () => {
 
             slideImageRef.current.style.transform = `translateX(-${slideWidth * indexImage}px)`;
         }
+
+        return () => {
+            window.removeEventListener('resize', function() {
+                setwindowSize(window.innerWidth);
+            });
+        }
     }, [windowSize, indexImage]);
 
     const handlePrevSlide = () => {

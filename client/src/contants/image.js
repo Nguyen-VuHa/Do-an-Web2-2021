@@ -6,6 +6,7 @@ import Banner2 from '../assets/images/Banner2.jpg';
 import Banner3 from '../assets/images/Banner3.jpg';
 import Banner4 from '../assets/images/Banner4.jpg';
 import Banner5 from '../assets/images/Banner5.jpg';
+import BorderItem from '../assets/images/borderHallowen.png';
 
 const Images = {
     Image_BTC: ImageBTC,
@@ -16,6 +17,7 @@ const Images = {
     BANNER_3: Banner3,
     BANNER_4: Banner4,
     BANNER_5: Banner5,
+    BorderItem: BorderItem,
 }
 
 export default Images;

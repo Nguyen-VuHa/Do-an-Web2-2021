@@ -1,3 +1,5 @@
+@import './assets/styles/global.scss';
+
 a, a:hover {
     text-decoration: none;
 }
@@ -20,4 +22,39 @@ img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.btn-on-top {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: $colorLayout;
+    border: 1px solid $colorGreen;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    transition: all .4s ease;
+    z-index: 9999;
+
+    &:hover {
+        background: rgba($colorGreen, 0.1);
+
+        i {
+            color: $colorText;
+        }
+        
+    }
+
+    i {
+        color: $colorGreen;
+        font-size: 30px;
+    }
+
+    &.show {
+        display: flex;
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { getImageUser } from '../../features/UserProfile/profileSlice';
@@ -11,6 +11,18 @@ const Header = () => {
     const accessToken = localStorage.getItem('accessToken');
     const macth = useRouteMatch();
     const dispatch = useDispatch();
+    const [scrollHeight, setscrollHeight] = useState(0);
+
+    useEffect(() => {
+        const handleWindowScroll = () => {
+            setscrollHeight(window.pageYOffset);
+        }
+
+        window.addEventListener('scroll', handleWindowScroll);
+        return () => {
+            window.removeEventListener('scroll', handleWindowScroll);
+        }
+    }, []);
     
     useEffect(() => {
         if(accessToken)
@@ -18,15 +30,15 @@ const Header = () => {
     }, [dispatch, accessToken]);
 
     return (
-        <header className="header">
+        <header className={ scrollHeight >= 90 ? "header hide" : "header"}>
             <nav className="header__content content">
                 <a href="/"><img className="logo" src="https://www.tiendauroi.com/wp-content/uploads/2020/02/bhd-star-cinema.png" alt="Logo App" /></a>
                 <ul className="content__links">
                     <li className={macth.url === '/' ? "item-link active" : "item-link"}>
                         <Link to="/">Trang Chủ</Link>
                     </li>
-                    <li className="item-link">
-                        <Link to="/">Hệ Thống Rạp</Link>
+                    <li className={macth.url === '/cinema-system' ? "item-link active" : "item-link"}>
+                        <Link to="/cinema-system">Hệ Thống Rạp</Link>
                     </li>
                     <li className="item-link">
                         <Link to="/">Lịch Chiếu</Link>
