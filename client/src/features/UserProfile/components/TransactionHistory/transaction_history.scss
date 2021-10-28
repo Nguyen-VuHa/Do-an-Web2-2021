@@ -4,7 +4,7 @@
 
     .content {
         $colorHistory: #ff1f71;
-    
+        
         .title {
             width: 100%;
     
@@ -15,11 +15,26 @@
                 color: $colorHistory;
             }
         }
+
+        div {
+            height: 200px;
+        }
         
         .table-history {
+            height: 200px;
+
+            .my-custom-scrollbar {
+                position: relative;
+                height: 200px;
+                overflow: auto;
+            }
+
+            .table-wrapper-scroll-y {
+                display: block;
+            }
 
             table {
-                overflow: hidden;
+                margin-bottom: 10px;
 
                 thead tr {
                     color: $colorHistory;
@@ -30,6 +45,10 @@
                     font-size: 20px;
                     font-weight: 600;
                     font-family: 'Baloo Tammudu 2', cursive;
+
+                    td {
+                        vertical-align: middle;
+                    }
                 }
             }
 

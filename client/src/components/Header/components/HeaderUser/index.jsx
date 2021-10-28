@@ -135,19 +135,19 @@ const HeaderUser = () => {
                 <ul>
                     <li>
                         <i className="fal fa-user-circle" />
-                        <Link to="/my-profile">My Profile</Link>
+                        <Link to="/my-profile" onClick={() => setIsUser(false)}>My Profile</Link>
                     </li> 
                     <li>
                         <i className="fal far fa-history" />
-                        <Link to="/">Booking History</Link>
+                        <Link to="/"  onClick={() => setIsUser(false)}>Booking History</Link>
                     </li>   
                     <li>
                         <i className="fal fa-question-circle" />
-                        <Link to="/">Help</Link>
+                        <Link to="/"  onClick={() => setIsUser(false)}>Help</Link>
                     </li>     
                     <li>
                         <i className="fal fa-sign-out" />
-                        <Link to="/" onClick={ () => handleLogout() }>Logout</Link>
+                        <Link to="/" onClick={ () => handleLogout()}>Logout</Link>
                     </li>     
                 </ul>
             </div>
