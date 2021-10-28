@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const db = require('./models/database');
 
-const route = require('./routers/index');
+const route = require('./routers');
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
