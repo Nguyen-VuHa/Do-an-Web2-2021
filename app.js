@@ -2,12 +2,11 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
+const route = require('./routers');
 const cors = require('cors');
 require('dotenv').config();
 
 const db = require('./models/database');
-
-const route = require('./routers');
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
