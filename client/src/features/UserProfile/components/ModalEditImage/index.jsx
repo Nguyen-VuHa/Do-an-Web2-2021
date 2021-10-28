@@ -57,7 +57,6 @@ const ModalEditImage = () => {
                     image.onload = function() {
                         this.width > this.height ? setStatusImage(1) :  setStatusImage(2)
                     }
-                   
                     setPathImage(imageBase64);
                 }
             }

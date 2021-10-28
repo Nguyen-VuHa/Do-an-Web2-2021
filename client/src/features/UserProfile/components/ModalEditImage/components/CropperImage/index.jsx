@@ -15,7 +15,7 @@ const CropperImage = ({imageUrl, statusImage, setCroppedAreaPixels}) => {
                 image={imageUrl && imageUrl}
                 crop={crop}
                 zoom={zoom}
-                aspect={1}
+                aspect={4/4}
                 cropShape="round"
                 objectFit={ statusImage === 0 ? "contain" : statusImage === 1  ? "horizontal-cover"  : "vertical-cover" }
                 showGrid={false}

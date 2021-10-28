@@ -45,10 +45,12 @@ const ProcessLoadingFile = () => {
     useEffect(() => {
         if(valueProcess === 100) { 
             const timeHide = setTimeout(() => {
+                settimeDirection(70);
                 dispatch(isHiden());
                 setValueProcess(0);
             }, 1000);
-    
+
+           
             return () => clearTimeout(timeHide);
         }
     }, [valueProcess, dispatch]);

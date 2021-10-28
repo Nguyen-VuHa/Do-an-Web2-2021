@@ -38,7 +38,7 @@ const Header = () => {
                         <Link to="/">Trang Chủ</Link>
                     </li>
                     <li className={macth.url === '/cinema-system' ? "item-link active" : "item-link"}>
-                        <Link to="/cinema-system">Hệ Thống Rạp</Link>
+                        <Link to="/cinema-system/view">Hệ Thống Rạp</Link>
                     </li>
                     <li className="item-link">
                         <Link to="/">Lịch Chiếu</Link>

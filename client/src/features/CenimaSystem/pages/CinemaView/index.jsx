@@ -1,11 +1,13 @@
 import React from 'react';
-import './cinema_view.scss';
-import TitleCinema from './components/TitleCinema';
-import GLOBAL_TEXT from '../../../../contants/titleCinema';
 import { Helmet } from 'react-helmet';
+import GLOBAL_TEXT from '../../../../contants/titleCinema';
+import './cinema_view.scss';
 import ContentCinema from './components/ContentCinema';
+import TitleCinema from './components/TitleCinema';
+import Videos from '../../../../contants/video';
 
 const CinemaView = () => {
+    
     return (
         <>
             <Helmet>
@@ -26,9 +28,13 @@ const CinemaView = () => {
                     <div className="line-top i4"></div>
                     <div className="line-right i1"></div>
                     <div className="line-right i2"></div>
-
-                   
                 </div>
+
+                <video 
+                    id="video-cinema-view"
+                    autoPlay muted loop
+                    src={Videos.ABSTRACT}
+                ></video>
             </div>
         </>
       
