@@ -131,7 +131,7 @@ const HeaderLogin = () => {
                         <Link to="/" className="btn-question-pass">Quên mật khẩu?</Link>  
                     </div>
                     <Link to="/auth/register" onClick={() => setIsToggle(false)}>
-                        <div className="btn btn-success w-100">Đăng Ký Thành Viên</div>
+                        <div className="btn-reg btn-success w-100" style={{ width: '100% !important' }}>Đăng Ký Thành Viên</div>
                     </Link>
                 </form>
             </div>

@@ -1,12 +1,13 @@
 @import './global.scss';
 
 @media screen and (max-width: 1024px) {
-    .btn {
-        width: 120px;
-        height: 35px;
-    }
-
     .header {
+
+        .btn {
+            width: 120px !important;
+            height: 35px !important;
+        }
+
         
       .header__content .logo {
         width: 200px;
@@ -33,6 +34,13 @@
                 width: 800px !important;
                 height: 500px !important;
             }
+        }
+    }
+
+    .system-cinema {
+        .content-cinema .wrapper-item {
+            grid-template-columns: 1fr 1fr 1fr !important;
+            padding: 80px 90px !important;
         }
     }
 }
@@ -116,12 +124,52 @@
             }
         }
     }
+
+    .system-cinema {
+        .content-cinema .wrapper-item {
+            grid-template-columns: 1fr 1fr !important;
+        }
+
+        .item-cinema-view {
+
+            .content .layout__content {
+                grid-template-columns: 1fr !important;
+
+                .info .line {
+                    max-width: 66% !important;
+                }
+
+                .map-api {
+                    height: 300px !important;
+                }
+            }
+
+            .content .layout .banner-ticket {
+                height: 300px !important;
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 640px) { 
-    .header .content__control .action .__notify {
-        right: -10% !important;
-        width: 350px !important;
+    .header {
+
+        .content__control .action .__notify {
+            right: -10% !important;
+            width: 350px !important;
+        }
+
+        .content__links .item-link {
+            width: 100%;
+        }
+    } 
+
+    .main-page .movie-list .card-movie {
+        width: 263px !important;
+
+        .card-img {
+            height: 350px !important;
+        }
     }
 
     .advertisement {
@@ -149,7 +197,7 @@
 
     .main-page {
         .promotion {
-            height: 25vh !important;
+            height: 30vh !important;
     
             .btn-prev, .btn-next {
                 height: 70px !important;
@@ -175,6 +223,61 @@
                 width: 360px !important;
                 height: 300px !important;
             }
+        }
+    }
+
+    .system-cinema {
+        .content-cinema .wrapper-item {
+            grid-template-columns: 1fr !important;
+            padding: 80px 55px !important;
+        }
+
+        .cinema-view .title-cinema h2 {
+            letter-spacing: 0;
+        }
+
+        .line-top.i1 {
+            width: 190px !important;
+        }
+
+        .line-top.i2 {
+            width: 125px !important;
+        }
+
+        .line-top.i3 {
+            width: 120px !important;
+        }
+
+        .item-cinema-view {
+            .content .layout__content .info h4 {
+                font-size: 20px !important;
+            }
+
+            .content .layout__content .map-api {
+                height: 200px !important;
+            }
+
+            .content .layout .banner-ticket {
+                height: 200px !important;
+            }
+
+            .content .layout__header h3 {
+                font-size: 30px !important;
+            }
+
+            .content .layout__header i {
+                font-size: 30px !important;
+                left: -10px !important;
+                top: 14px !important;
+            }
+
+            .content .layout__content .info {
+                padding: 10px !important;
+            }
+        } 
+        
+        .gm-style .gm-style-iw-c {
+            max-width: 320px !important;
         }
     }
 }
