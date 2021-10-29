@@ -96,7 +96,7 @@ const MovieEditor = () => {
 
         if(isEmpty(data.description))
             msg.description = "Trường này không được trống!";
-        else if(isByLength(data.description, 1000))
+        else if(isByLength(data.description, 2000))
             msg.description = "Mô tả không được vượt quá 1000 ký tự";
         else
             delete msg.description
