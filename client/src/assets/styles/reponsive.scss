@@ -1,0 +1,180 @@
+@import './global.scss';
+
+@media screen and (max-width: 1024px) {
+    .btn {
+        width: 120px;
+        height: 35px;
+    }
+
+    .header {
+        
+      .header__content .logo {
+        width: 200px;
+      }
+  
+      .content__links {
+        font-size: 0.85rem !important;
+      }
+    }
+
+    .main-page {
+
+        .promotion {
+            height: 40vh !important;
+        }
+    }
+
+    .modal-trailler {
+        .content-trailer {
+            width: 800px !important;
+            height: 500px !important;
+
+            .trailerIframe {
+                width: 800px !important;
+                height: 500px !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 764px) { 
+    .header { 
+        .header__content .logo {
+            width: 150px !important;
+        }
+
+        .btn-menu { 
+            display: flex !important;
+        }
+
+        .btn-menu.active ~ .content__links { 
+            transform: translateX(0%);
+        }
+
+        .content__links { 
+            position: fixed;
+            top: 12vh;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: initial !important;
+            padding: 0;
+            transform: translateX(-100%);
+            transition: transform .4s ease;
+
+            .item-link {
+                width: 50%;
+                padding: 15px 10px;
+                text-align: center;
+                border-radius: 0% !important;
+                color: $colorText;
+                font-size: 17px;
+              
+
+                &.active {
+                    background-color: #19851d;
+                    filter: brightness(1.2);
+
+                    a {
+                        color: $colorText !important;
+                        box-shadow: none !important;
+                        filter: brightness(1);
+                        background-color: transparent !important;
+                    }
+                }
+
+                a {
+                    box-shadow: none !important;
+                    filter: brightness(1);
+                    background-color: transparent !important;
+                }
+            }
+        }
+
+        &.hide {
+            opacity: 1 !important;
+            position: sticky !important;
+        }
+    }
+
+    .advertisement {
+
+        .warapper .content__movie .card-top{
+            display: none !important;
+        }
+    }
+
+    .modal-trailler {
+        .content-trailer {
+            width: 600px !important;
+            height: 400px !important;
+
+            .trailerIframe {
+                width: 600px !important;
+                height: 400px !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 640px) { 
+    .header .content__control .action .__notify {
+        right: -10% !important;
+        width: 350px !important;
+    }
+
+    .advertisement {
+
+        .warapper h3 {
+            text-align: center !important;
+        }
+
+        .warapper .content__movie {
+            flex-direction: column;
+            align-items: center;
+            .card-top{
+                display: flex !important;
+            }
+
+            .content__info h4 {
+                margin: 25px 0 !important;
+            }
+
+            .list-info-movie {
+                padding: 0;
+            }
+        }
+    }
+
+    .main-page {
+        .promotion {
+            height: 25vh !important;
+    
+            .btn-prev, .btn-next {
+                height: 70px !important;
+                
+            }
+        }
+
+        .advertisement .advertisement-bg {
+            grid-template-columns: 1fr !important;
+
+            .bg-home {
+                display: none !important;
+            }
+        }
+    }
+
+    .modal-trailler {
+        .content-trailer {
+            width: 360px !important;
+            height: 300px !important;
+
+            .trailerIframe {
+                width: 360px !important;
+                height: 300px !important;
+            }
+        }
+    }
+}

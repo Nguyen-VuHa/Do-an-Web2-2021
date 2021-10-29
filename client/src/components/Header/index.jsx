@@ -9,6 +9,7 @@ import './header.scss';
 const Header = () => {
     const isLogin = useSelector((state) => state.isLogin);
     const accessToken = localStorage.getItem('accessToken');
+    const [isShowMenu, setIsShowMenu] = useState(false);
     const macth = useRouteMatch();
     const dispatch = useDispatch();
     const [scrollHeight, setscrollHeight] = useState(0);
@@ -29,22 +30,29 @@ const Header = () => {
             dispatch(getImageUser(accessToken));
     }, [dispatch, accessToken]);
 
+    const handleShowMenu = () => {
+        setIsShowMenu(!isShowMenu);
+    }
+
     return (
         <header className={ scrollHeight >= 90 ? "header hide" : "header"}>
             <nav className="header__content content">
                 <a href="/"><img className="logo" src="https://www.tiendauroi.com/wp-content/uploads/2020/02/bhd-star-cinema.png" alt="Logo App" /></a>
+                <div className={isShowMenu ? "btn-menu active" : "btn-menu"} onClick={handleShowMenu}>
+                    <i className="fal fa-bars"></i>
+                </div>
                 <ul className="content__links">
                     <li className={macth.url === '/' ? "item-link active" : "item-link"}>
-                        <Link to="/">Trang Chủ</Link>
+                        <Link to="/" onClick={() => setIsShowMenu(false)}>Trang Chủ</Link>
                     </li>
                     <li className={macth.url === '/cinema-system' ? "item-link active" : "item-link"}>
-                        <Link to="/cinema-system/view">Hệ Thống Rạp</Link>
+                        <Link to="/cinema-system/view" onClick={() => setIsShowMenu(false)}>Hệ Thống Rạp</Link>
                     </li>
                     <li className="item-link">
-                        <Link to="/">Lịch Chiếu</Link>
+                        <Link to="/" onClick={() => setIsShowMenu(false)}>Lịch Chiếu</Link>
                     </li>
                     <li className="item-link">
-                        <Link to="/">Khuyến Mãi</Link>
+                        <Link to="/" onClick={() => setIsShowMenu(false)}>Khuyến Mãi</Link>
                     </li>
                 </ul>
                 <div className="content__control">
