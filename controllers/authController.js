@@ -35,7 +35,7 @@ class AuthController {
             fullname: data.fullname,
             role: 1,
             numberphone: data.numberphone,
-            active: activeCode,
+            active: '', //activeCode
             surplus: 0
         });
 
