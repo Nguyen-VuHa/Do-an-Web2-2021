@@ -13,6 +13,10 @@ const movieApi = {
         const url = `api/movie`;
         return axiosClient.get(url);
     },
+    getPagination: (page, textSearch) => {
+        const url = `api/movie-page?s=${textSearch}&page=${page}`;
+        return axiosClient.get(url);
+    },
     getPosterById: (movieId) => {
         const url = `api/movie-poster/${movieId}/update`;
         return axiosClient.get(url);

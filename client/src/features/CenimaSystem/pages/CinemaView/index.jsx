@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import GLOBAL_TEXT from '../../../../contants/titleCinema';
 import './cinema_view.scss';
@@ -7,6 +7,13 @@ import TitleCinema from './components/TitleCinema';
 import Videos from '../../../../contants/video';
 
 const CinemaView = () => {
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
     
     return (
         <>

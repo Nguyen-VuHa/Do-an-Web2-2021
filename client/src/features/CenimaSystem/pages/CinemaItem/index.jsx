@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import './cinema_item.scss';
 import GLOBAL_TEXT from '../../../../contants/titleCinema';
@@ -8,6 +8,13 @@ import GoogleApiMap from './components/GoogleApiMap';
 
 
 const CinemaViewContent = ({data}) => {
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
     
     return (
         <>

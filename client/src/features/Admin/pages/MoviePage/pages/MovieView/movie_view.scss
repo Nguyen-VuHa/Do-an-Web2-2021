@@ -120,6 +120,55 @@
             .btn-edit {
                 width: auto;
             }
+
+            .emty-item {
+                font-size: 20px;
+                text-align: center;
+                color: crimson;
+                font-family: 'Noto Sans Mono', monospace;
+            }
+        }
+
+        .pagination {
+            width: 100%;
+            padding: 50px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            li {
+                display: inline-block;
+                list-style: none;
+            }
+            
+    
+            a {
+                display: block;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                background-color: $colorLayout;
+                text-align: center;
+                text-decoration: none;
+                color: $colorText;
+                border-radius: 4px;
+                margin: 5px;
+                box-shadow: 1px 1px 6px rgba(255, 255, 255, 0.1);
+                transition: all .3s ease;
+                cursor: pointer;
+    
+                &:hover, &.active {
+                    color: #fff;
+                    background-color: $colorGreen;
+                }
+
+                &.disable {
+                    pointer-events: none;
+                    background: $colorText;
+                    color: $colorLayout;
+                }
+                
+            }	
         }
     }
 }

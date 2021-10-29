@@ -156,6 +156,32 @@ class MovieController {
         res.json({ status: 200, data});
     }
 
+    async getMoviePagination (req, res) {
+        let { s, page, size } = req.query;
+        if(!page) page = 1;
+        if(!size) size = 8;
+
+        const limit = parseInt(size);
+        const skip = (parseInt(page) - 1) * size;
+
+        const allMovie = await Films.findAll();
+
+        const paginationMovie = await Films.findAll({
+            where: {
+                movieName: {
+                    [Op.like]: `%${s ? s : ''}%`
+                }
+            },
+            limit: limit,
+            offset: skip,
+        });
+
+        res.json({ status: 200, totalMovie: allMovie.length, 
+            totalPages: Math.ceil((s ? paginationMovie.length : allMovie.length)  / limit), 
+            currentPage: page ? + page : 0,
+            data: paginationMovie });
+    }
+
     async getMoviePosterById (req, res) {
         const params = req.params.movieId;
         
