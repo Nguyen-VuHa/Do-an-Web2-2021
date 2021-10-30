@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+import Slider from "react-slick";
 import moment from 'moment';
 import 'moment/locale/vi';
 import { useOnScreen } from '../../../../hooks/IntersectionImage';
@@ -15,21 +14,36 @@ const MovieList = () => {
     const [movieCommingLoading, setMovieCommingLoading] = useState(false);
     const { data } = useSelector((state) => state.homepage);
     const { movieCurrent, movieComing } = data;
-    const responsive = {
-        desktop: {
-          breakpoint: { max: 3000, min: 1024 },
-          items: 6,
-        },
-        tablet: {
-          breakpoint: { max: 1024, min: 764 },
-          items: 3
-        },
-        mobile: {
-          breakpoint: { max: 464, min: 0 },
-          items: 1,
-          partialVisibilityGutter: 30,
-        }
-      };
+    const settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 6,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        responsive: [{
+                breakpoint: 1300,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                }
+            },
+                {
+                breakpoint: 800,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    initialSlide: 2
+                }
+            },
+                {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }]
+    };
 
     useEffect(() => {
         if(visibleMovie) {
@@ -44,7 +58,7 @@ const MovieList = () => {
         <section className="movie-list">
             <div className="movie-current current"  ref={ !movieCurrentLoading ? movieCurrentRef : null}>
                 <h3 className="current__title">Phim Hiện Đang Chiếu</h3>
-                <Carousel responsive={responsive}>
+                <Slider {...settings} >
                     {
                         movieCurrent ? movieCurrent.map((data) => {
                             return <div  key={data.movieId}>
@@ -70,11 +84,11 @@ const MovieList = () => {
                                     </div>
                         }) : <div />
                     }
-                </Carousel>
+                </Slider>
             </div>
             <div className="movie-current current mt-4" ref={ !movieCommingLoading ? movieCommingSoon : null}>
                 <h3 className="current__title">Comming Soon</h3>
-                <Carousel responsive={responsive}>
+                <Slider {...settings}>
                     { 
                         movieComing ? movieComing.map((data) => {
                             return  <div key={data.movieId}>
@@ -100,7 +114,7 @@ const MovieList = () => {
                                     </div>
                         }) : <div />
                     }
-                </Carousel>
+                </Slider>
             </div>
         </section>
     );

@@ -207,15 +207,6 @@
         .content__links .item-link {
             width: 100%;
         }
-    } 
-
-    .main-page .movie-list .card-movie {
-        width: 326px !important;
-        height: 350px;
-        
-        .card-img {
-            height: 350px !important;
-        }
     }
 
     .advertisement {
@@ -345,5 +336,11 @@
         .content-editor .edit-image.active .editor-croppie {
             width: 100%;
         }
+    }
+
+    .slick-slide > div > div {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
     }
 }
