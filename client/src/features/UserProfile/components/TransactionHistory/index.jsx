@@ -28,7 +28,7 @@ const TransactionHistory = () => {
                             </thead>
                             <tbody>
                                 <tr scope="row" >
-                                    <td colspan="5">
+                                    <td colSpan="5">
                                         <div className="empty-col">
                                                 <div className="empty-image">
                                                     <img src={ Images.NOTITEM } alt="Not Emty"/>

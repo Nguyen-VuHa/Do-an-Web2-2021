@@ -15,20 +15,42 @@ import TransactionHistory from './components/TransactionHistory';
 const UserProfile = () => {
     const [active, setActive] = useState(0);
     const [dataUser, setDataUser] = useState({});
+    const [sizePage, setsizePage] = useState(window.innerWidth);
     const layoutRef = useRef(null);
     const accessToken = localStorage.getItem('accessToken');
     const stateAvartar = useSelector((state) => state.avartar);
     const dispatch = useDispatch();
-    
+ 
     useEffect(() => {
+        
         let sizeLayout = active * 100;
-        layoutRef.current.style.transform = `translateY(-${sizeLayout}%)`
+        if(sizePage <= 764)
+            layoutRef.current.style.transform = `translateX(-${sizeLayout}%)`
+        else
+        {
+            layoutRef.current.style.transform = `translateY(-${sizeLayout}%)`
 
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        })
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+          
+
+      
     }, [active]);
+
+    useEffect(() => {
+        const windowResizePage = () => {
+            setsizePage(window.innerWidth);
+        }
+
+        window.addEventListener('resize', windowResizePage);
+
+        return () => {
+            window.removeEventListener('resize', windowResizePage);
+        }
+    }, []);
 
     useEffect(() => {
         if(accessToken) {

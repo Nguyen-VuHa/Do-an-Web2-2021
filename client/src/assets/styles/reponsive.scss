@@ -106,6 +106,49 @@
         }
     }
 
+    .profile-user {
+        .backgroun-content {
+            grid-template-columns: 0.1fr auto !important;
+        }
+
+        .profile-content {
+            grid-template-columns: 1fr !important;
+            
+            .content-form {
+                margin-top: 50px;
+
+                .edit-profile, .transaction-history, .to-up-card{  
+                    min-height: 88vh;
+                    height: auto !important;
+                }
+                
+                .edit-profile { 
+                    left: 0% !important;
+                }
+
+                .transaction-history {
+                    bottom: 0 !important;
+                    left: 100% !important;
+                    align-items: flex-start !important;
+                }
+
+                .to-up-card {
+                    bottom: 0 !important;
+                    left: 200% !important;
+                }
+            }
+        }
+    }
+
+    
+    .modal {
+        .content-editor .update-image.active {
+            display: flex !important;
+            flex-direction: column-reverse !important;
+
+        }
+    }
+
     .advertisement {
 
         .warapper .content__movie .card-top{
@@ -149,6 +192,8 @@
             }
         }
     }
+
+
 }
 
 @media screen and (max-width: 640px) { 
@@ -279,6 +324,26 @@
         
         .gm-style .gm-style-iw-c {
             max-width: 320px !important;
+        }
+    }
+
+    .profile-user {
+        .profile-content {
+            .content-form { 
+                .group-layout:nth-child(1) {
+                    grid-template-columns: 1fr !important;
+                }
+            }
+        }
+    }
+
+    .modal {
+        .modal-dialog.modal-dialog-centered {
+            max-width: 100% !important;
+        }
+
+        .content-editor .edit-image.active .editor-croppie {
+            width: 100%;
         }
     }
 }

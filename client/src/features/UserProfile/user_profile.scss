@@ -3,7 +3,8 @@
 .profile-user {
     position: relative;
     width: 100%;
-    height: 88vh;
+    min-height: 88vh;
+    height: auto;
     background: $colorLayout;
 
     $colorInfo: #2bd2ff;
