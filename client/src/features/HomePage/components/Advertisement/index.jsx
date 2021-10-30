@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TrailerContext } from '../../../../contexts/trailerContenxt';
@@ -39,13 +39,18 @@ const Advertisement = () => {
                     <div className="bg-home" />
                     <div className="bg-advertisement" ref={backgoundRef}/>
                 </div>
-                <div className="warapper">
+                <div className="warapper" >
                     <div className="content container">
                         <h3>Top Phim Trong Tuần</h3>
                         <div className="content__movie">
                             <div className="card-top">
                                 <div className="card-img">
-                                    <img src={movieTrending &&  movieTrending[0]?.poster1} alt="" />
+                                    {
+                                        movieTrending ? <img src={movieTrending &&  movieTrending[0]?.poster1} alt="" /> : 
+                                        <>
+                                            <span className="skeleton-box" style={{width: '100%', height: '100%'}}></span>
+                                        </>
+                                    }
                                 </div>
                             </div>
                             <div className="content__info">
@@ -53,23 +58,38 @@ const Advertisement = () => {
                                 <ul className="list-info-movie">
                                     <li className="group-film"> 
                                         <label className="group__title">Đạo diễn</label>
-                                        <span>{movieTrending &&  movieTrending[0]?.directors}</span>
+                                        {
+                                            movieTrending ? <span>{movieTrending &&  movieTrending[0]?.directors}</span>
+                                            : <span className="skeleton-box" style={{width: '100%', height: '24px'}}></span>
+                                        }
                                     </li>
                                         <li className="group-film"> 
                                         <label className="group__title">Diễn viên</label>
-                                        <span>{movieTrending &&  movieTrending[0]?.mainActor}</span>
+                                        {
+                                            movieTrending ? <span>{movieTrending &&  movieTrending[0]?.mainActor}</span> 
+                                            : <span className="skeleton-box" style={{width: '100%', height: '24px'}}></span>
+                                        }
                                     </li>
                                     <li className="group-film"> 
                                         <label className="group__title">Thể loại</label>
-                                        <span>{movieTrending &&  movieTrending[0]?.category}</span>
+                                        {
+                                            movieTrending ? <span>{movieTrending &&  movieTrending[0]?.category}</span>
+                                            : <span className="skeleton-box" style={{width: '100%', height: '24px'}}></span>
+                                        }
                                     </li>
                                     <li className="group-film"> 
                                         <label className="group__title">Thời lượng</label>
-                                        <span>{movieTrending &&  movieTrending[0]?.time} phút</span>
+                                        {
+                                            movieTrending ? <span>{movieTrending &&  movieTrending[0]?.time} phút</span>
+                                            : <span className="skeleton-box" style={{width: '100%', height: '24px'}}></span>
+                                        }
                                     </li>
-                                        <li className="group-film"> 
+                                        <li className="group-film">
                                         <label className="group__title">Đánh giá</label>
-                                        <span><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star-half-alt" /><i className="far fa-star" /></span>
+                                        {
+                                            movieTrending ? <span><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star-half-alt" /><i className="far fa-star" /></span>
+                                            : <span className="skeleton-box" style={{width: '100%', height: '24px'}}></span>
+                                        }
                                     </li>
                                     <li className="group-button">
                                         <Link to="/" className="btn btn-success">Mua vé ngay</Link>

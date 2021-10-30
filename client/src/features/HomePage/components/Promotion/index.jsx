@@ -3,14 +3,21 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Images from '../../../../contants/image';
-
+import { useOnScreen } from '../../../../hooks/IntersectionImage';
 
 const Promotion = () => {
     const [windowSize, setwindowSize] = useState(window.innerWidth);
     const [slideWidth, setslideWidth] = useState(0);
     const [indexImage, setindexImage] = useState(0);
+    const [promotionRef, visiblePormotion] = useOnScreen({ threshold: 0.2 });
+    const [statusLoading, setStatusLoading] = useState(false);
     const [lenght, setlenght] = useState(5);
     const slideImageRef = useRef(null);
+
+    useEffect(() => {
+        if(visiblePormotion) 
+            setStatusLoading(true);
+    }, [visiblePormotion]);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -77,28 +84,51 @@ const Promotion = () => {
 
 
     return (
-        <section className="promotion">
+        <section className="promotion" ref={ !statusLoading ? promotionRef : null }>
             <div className="btn-prev" onClick={() => handlePrevSlide()}>
                 <i className="far fa-chevron-left"></i>
             </div>
             <div className="slider-promotion" ref={slideImageRef}>
                 <div className="slider" >
-                    <img 
-                        src={ Images.BANNER_1 }
-                        alt="Not Banner"
-                    />
+                    {
+                        !statusLoading ? 
+                            visiblePormotion ? <img src={ Images.BANNER_1 }alt="Not Banner"/>
+                            : <span className="skeleton-box" style={{width: '100%', height: '100%'}}></span>
+                        : <img src={ Images.BANNER_1 }alt="Not Banner"/>
+                    }
                 </div>
                 <div className="slider">
-                    <img src={ Images.BANNER_2 }  alt="Not Banner"/>
+                    {
+                        !statusLoading ? 
+                            visiblePormotion ? <img src={ Images.BANNER_2 }  alt="Not Banner"/>
+                            : <span className="skeleton-box" style={{width: '100%', height: '100%'}}></span>
+                        : <img src={ Images.BANNER_2 }  alt="Not Banner"/>
+                    }
                 </div>
                 <div className="slider">
-                    <img src={ Images.BANNER_3 }  alt="Not Banner"/>
+                    {
+                        !statusLoading ? 
+                            visiblePormotion ?  <img src={ Images.BANNER_3 }  alt="Not Banner"/>
+                            : <span className="skeleton-box" style={{width: '100%', height: '100%'}}></span>
+                        :  <img src={ Images.BANNER_3 }  alt="Not Banner"/>
+                    }
                 </div>
                 <div className="slider">
-                    <img src={ Images.BANNER_4 }  alt="Not Banner"/>
+                    {
+                        !statusLoading ? 
+                            visiblePormotion ?   <img src={ Images.BANNER_4 }  alt="Not Banner"/>
+                            : <span className="skeleton-box" style={{width: '100%', height: '100%'}}></span>
+                        :   <img src={ Images.BANNER_4 }  alt="Not Banner"/>
+                    }
+                  
                 </div>
                 <div className="slider">
-                    <img src={ Images.BANNER_5 } alt="Not Banner"/>
+                    {
+                        !statusLoading ? 
+                            visiblePormotion ? <img src={ Images.BANNER_5 } alt="Not Banner"/>
+                            : <span className="skeleton-box" style={{width: '100%', height: '100%'}}></span>
+                        :    <img src={ Images.BANNER_5 } alt="Not Banner"/>
+                    }
                 </div>
             </div>
             <div className="btn-next" onClick={() => handleNextSlide()}>

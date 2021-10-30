@@ -3,7 +3,7 @@
 .profile-user {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: 88vh;
     background: $colorLayout;
 
     $colorInfo: #2bd2ff;
@@ -271,7 +271,7 @@
 
         .content-form {
             width: 100%;
-            height: 100vh;
+            height: 88vh;
             display: flex;
             z-index: 2;
             position: relative;
@@ -301,7 +301,7 @@
             .edit-profile, .transaction-history, .to-up-card{ 
                 position: absolute;
                 width: 100%;
-                height: 100vh;
+                height: 88vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -309,7 +309,7 @@
                 .content {
                     width: 100%;
                     height: 90%;
-                    margin: 50px;
+                    margin: 10px;
                     padding: 20px;
                     position: relative;
                     overflow: hidden;
@@ -331,7 +331,7 @@
                         }
 
                         .form-info {
-                            margin-top: 30px;
+                            margin-top: 20px;
                             font-size: 19px;
                             font-family: 'Roboto', sans-serif;
 
@@ -352,7 +352,6 @@
                         .controler {
                             width: 100%;
                             display: grid;
-                            margin-top: 30px;
                             grid-gap: 15px;
                             grid-template-columns: 1fr 1fr;
 
