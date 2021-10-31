@@ -1,0 +1,63 @@
+@import '../../../../assets/styles/global.scss';
+
+.movie-detail {
+
+    .info-movie {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+
+        h4 {
+            color: crimson;
+            font-size: 3rem;
+            margin: 0 40px;
+            margin-bottom: 50px;
+            font-family: 'Encode Sans SC', sans-serif;
+            font-weight: 600;
+        }
+
+        
+        .list-info-movie {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 1.2em;
+            font-family: "Baloo Tammudu 2", cursive;
+            
+            .btn {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 600;
+            }
+
+            .group-film {
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                padding-left: 120px;
+                padding-bottom: 2rem;
+
+                .group__title {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    margin: 0;
+                    font-weight: 600;
+                    color: $colorGreen;
+                }
+
+                span {
+                    font-weight: 500;
+                    color: $colorText;
+                }
+            }
+
+            .group-button {
+                margin-top: 30px;
+                display: flex;
+            }
+        }
+    }
+}

@@ -226,6 +226,14 @@ class MovieController {
         })
 
         const movieTrending = await Films.findAll({ 
+            where: {
+                premiereDate: {
+                    [Op.lte] : Date.now()
+                },
+                endDate: {
+                    [Op.gt]: Date.now()
+                }
+            },
             order: db.random(), 
             limit: 1,
             attributes: ['movieId', 'movieName', 'directors', 'mainActor', 'category', 'describe', 'time' ,'poster1', 'trailer']
@@ -236,6 +244,33 @@ class MovieController {
             movieCurrent,
             movieComing,
             movieTrending
+        }});
+    }
+
+    async getMovieDetail (req, res) {
+        
+        const movieCurrent = await Films.findAll({
+            where: {
+                premiereDate: {
+                    [Op.lte] : Date.now()
+                },
+                endDate: {
+                    [Op.gt]: Date.now()
+                }
+            },
+        })
+
+        const movieComing = await Films.findAll({
+            where: {
+                premiereDate: {
+                    [Op.gt] : Date.now()
+                }
+            },
+        })
+
+        res.json({status: 200, data: {
+            movieCurrent,
+            movieComing,
         }});
     }
 }

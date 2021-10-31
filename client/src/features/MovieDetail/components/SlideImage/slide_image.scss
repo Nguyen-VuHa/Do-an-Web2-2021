@@ -1,0 +1,75 @@
+@import '../../../../assets/styles/global.scss';
+
+.movie-detail { 
+
+    .slide-poster {
+        position: relative;
+        margin-right: auto;
+        margin-left: auto;
+        width: 100%;
+        min-height: 500px;
+        height: auto;
+        overflow: hidden;
+
+        i {
+            font-size: 30px;
+        }
+
+        .btn-next, .btn-prev {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(17,22,31, 0.54);
+            color: $colorGreen;
+            z-index: 100;
+            top: 40%;
+            width: 40px;
+            height: 100px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all .4s ease;
+
+            &:hover {
+                background: $colorGreen;
+                color: $colorText;
+            }
+        }
+
+        .btn-prev {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            left: 0;
+        }
+
+        .btn-next {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            right: 0;
+        }
+
+        &:hover {
+            .btn-prev, .btn-next { 
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        
+        .poster-carousel {
+            height: 100%;
+            transition: 700ms;
+            cursor: pointer;
+
+            .slider-poster {
+                width: 100%;
+                height: 500px;
+                position: absolute;
+
+                img {
+                    object-fit: inherit;
+                }
+            }
+        }
+    }
+}

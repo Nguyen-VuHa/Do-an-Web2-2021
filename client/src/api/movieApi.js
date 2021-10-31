@@ -29,6 +29,10 @@ const movieApi = {
     getMovieHomePage: () => {
         const url = `api/aG9tZXBhZ2U=/c4c60e3e-2d35-46b6-94ce-66a9d16121fe`;
         return axiosClient.get(url);
+    },
+    getMovieDetail: () => {
+        const url = `api/bW92aWU=/bec4a217-4bfb-4da6-b396-659e9949de62`;
+        return axiosClient.get(url);
     }
 }
 

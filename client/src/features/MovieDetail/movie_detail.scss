@@ -1,0 +1,125 @@
+@import '../../assets/styles/global.scss';
+
+.movie-detail {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    overflow: hidden;
+    
+    .bg-movie-detail {
+        position: absolute;
+        display: grid;
+        grid-template-columns: 0.3fr 0.7fr;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+
+        .bg-left {
+            position: relative;
+            height: 100%;
+            background-color: $colorLayout;
+        }
+
+        .bg-right::before {
+            content: '';
+            position: absolute;
+            background: linear-gradient(90deg, $colorLayout, rgba(17,22,31, 0.3));
+            width: 100%;
+            height: 100%;
+        }
+        
+        .bg-right::after {
+            content: '';    
+            position: absolute;
+            background: linear-gradient(0deg, $colorLayout, rgba(17,22,31, 0.3));
+            width: 100%;
+            height: 100%;
+            top: 0;
+        } 
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        z-index: 1;
+
+        .sider-bar {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 30px 0px;
+
+            a, span {
+                font-size: 25px;
+                border-bottom: 1px solid transparent;
+                font-family: "Baloo Tammudu 2", cursive;
+                font-weight: 600;
+                color: $colorText;
+                margin: 0;
+                cursor: pointer;
+            }
+
+            span {
+                margin: 0 10px;
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+
+            a:hover {
+                color: $colorGreen;
+            }
+       }
+
+        .layout-content {
+            display: flex;
+            width: 100%;
+            height: 100%;
+
+            .slide-poster {
+                margin-top: 1em;
+                width: 35%;
+                height: 100%;
+            }
+
+            .info-movie {
+                margin-top: 1em;
+                width: 65%;
+                height: 100%;
+            }
+       }
+
+       .description-movie {
+            width: 100%;
+            margin-top: 100px;
+            margin-bottom: 150px;
+            z-index: 100;
+
+            .title{
+                color: $colorGreen;
+                text-transform: uppercase;
+                font-weight: 600;
+                font-size: 25px;
+                text-align: center;
+            }
+
+            #text_describe {
+                color: $colorText;
+                white-space: pre-wrap;
+                font-size: 17px;
+                line-height: 2;
+                font-family: 'Noto Sans Mono', monospace;
+            }
+        }
+    }
+    
+}

@@ -6,6 +6,7 @@ import ProcessLoadingFile from "../features/UserProfile/components/ProcessLoadin
 import imageUsersSlice from '../features/UserProfile/components/ModalEditImage/imageUserSlice';
 import avartarUserSlice from '../features/UserProfile/profileSlice';
 import cinemaSlice from '../features/CenimaSystem/cinemaSystemSlice';
+import movieDetailSlice from "../features/MovieDetail/movieDetailSlice";
 
 export default configureStore({
     reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
         imageUser: imageUsersSlice,
         avartar: avartarUserSlice,
         cinemas: cinemaSlice,
+        movieDetail: movieDetailSlice,
     },
 })

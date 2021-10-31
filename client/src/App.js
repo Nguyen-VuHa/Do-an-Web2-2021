@@ -12,6 +12,7 @@ import AdminPage from './features/Admin';
 import Auth from './features/Auth';
 import CinemaSystem from './features/CenimaSystem';
 import HomePage from './features/HomePage';
+import MovieDetail from './features/MovieDetail';
 import UserProfile from './features/UserProfile';
 
 function App() {
@@ -73,6 +74,16 @@ function App() {
                     <Route path="/cinema-system">
                         <Header />
                         <CinemaSystem />
+                        <Footer />
+                    </Route>
+                    <Route path="/movie-current">
+                        <Header />
+                        <MovieDetail />
+                        <Footer />
+                    </Route>
+                    <Route path="/comming-soon">
+                        <Header />
+                        <MovieDetail />
                         <Footer />
                     </Route>
 

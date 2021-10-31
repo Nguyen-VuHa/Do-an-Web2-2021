@@ -78,7 +78,7 @@ const MovieList = () => {
                                                 </div>
                                             </div>
                                             <div className="btn-card">
-                                                <Link to="/" className="btn">Mua vé</Link>
+                                                <Link to={ data && `/movie-current/${data.movieId }?name=${data.movieName.replaceAll(' ', '-')}`} className="btn">Mua vé</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@ const MovieList = () => {
                                                 </div>
                                             </div>
                                             <div className="btn-card">
-                                                <Link to="/" className="btn">Mua vé</Link>
+                                                <Link to={ data && `/comming-soon/${data.movieId }?name=${data.movieName.replaceAll(' ', '-')}`} className="btn">Xem chi tiết</Link>
                                             </div>
                                         </div>
                                     </div>

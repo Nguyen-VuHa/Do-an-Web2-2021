@@ -92,7 +92,7 @@ const Advertisement = () => {
                                         }
                                     </li>
                                     <li className="group-button">
-                                        <Link to="/" className="btn btn-success">Mua vé ngay</Link>
+                                        <Link to={ movieTrending && `/movie-current/${movieTrending[0]?.movieId }?name=${movieTrending[0]?.movieName.replaceAll(' ', '-')}`} className="btn btn-success">Mua vé ngay</Link>
                                         <button 
                                             className="btn btn-success btn-modal ml-2" 
                                             onClick={() => handleViewTrailer()}
