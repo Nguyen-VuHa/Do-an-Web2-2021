@@ -7,6 +7,7 @@ import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import authApi from '../../../../api/authApi';
 import { login } from '../../../../contants/loginSlice';
+import { toast } from 'react-toastify';
 
 const HeaderLogin = () => {
     const [isToggle, setIsToggle] = useState(false);
@@ -50,7 +51,7 @@ const HeaderLogin = () => {
         if(valid) {
             const result = await authApi.loginAccount(data);
             if(result.status === 'error'){
-                alert(result.message);
+                toast.warn(`${result.message}`)
             }
             else {
                 localStorage.setItem('accessToken', result.accessToken);

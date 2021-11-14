@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import SideBar from '../../components/SideBar';
-import GLOBAL_TEXT from '../../../../contants/titleCinema';
-import SlideImage from '../../components/SlideImage';
-import ContentMovie from '../../components/ContentMovie';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import GLOBAL_TEXT from '../../../../contants/titleCinema';
+import CommentMovie from '../../components/CommentMovie';
+import { getAllComments } from '../../components/CommentMovie/commentSlice';
+import ContentMovie from '../../components/ContentMovie';
+import SideBar from '../../components/SideBar';
+import SlideImage from '../../components/SlideImage';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -18,15 +20,21 @@ const MovieCurrent = () => {
     const history = useHistory();
     const params = useParams();
     const location = useQuery();
+    const dispatch = useDispatch();
     const { data } = useSelector((state) => state.movieDetail);
     const { movieCurrent } = data;
-    
+
+
     useEffect(() => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         })
     }, []);
+
+    useEffect(() => {
+        dispatch(getAllComments(params.movieId));
+     }, [dispatch]);
 
     useEffect(() => {
         if(movieCurrent) {
@@ -40,11 +48,11 @@ const MovieCurrent = () => {
                     poster4: data[0].poster4,
                 })
                 const style = `
-                background: url(${data[0].poster1}) 0% 0% / cover no-repeat;
-                width: 100%;
-                height: 100%;
-                position: relative;
-                transition: all 0.5s ease 0s;
+                    background: url(${data[0].poster1}) 0% 0% / cover no-repeat;
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
+                    transition: all 0.5s ease 0s;
                 `;
                 backgoundRef.current.style = style;
             }
@@ -77,6 +85,7 @@ const MovieCurrent = () => {
                             </div>
                         </div>
                     </div>
+                    <CommentMovie />
                 </div>
                 <div className="bg-movie-detail">
                     <div className="bg-left" />

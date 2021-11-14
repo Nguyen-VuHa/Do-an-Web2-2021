@@ -7,6 +7,7 @@ import imageUsersSlice from '../features/UserProfile/components/ModalEditImage/i
 import avartarUserSlice from '../features/UserProfile/profileSlice';
 import cinemaSlice from '../features/CenimaSystem/cinemaSystemSlice';
 import movieDetailSlice from "../features/MovieDetail/movieDetailSlice";
+import commentSlice from "../features/MovieDetail/components/CommentMovie/commentSlice";
 
 export default configureStore({
     reducer: {
@@ -18,5 +19,6 @@ export default configureStore({
         avartar: avartarUserSlice,
         cinemas: cinemaSlice,
         movieDetail: movieDetailSlice,
+        comments: commentSlice,
     },
 })

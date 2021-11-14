@@ -193,7 +193,49 @@
         }
     }
 
+    .movie-detail {
+        .sider-bar {
+            a {
+                font-size: 20px !important;
+            }
+        }
 
+        .layout-content {
+            flex-direction: column;
+            .slide-poster, .info-movie {
+                width: 100% !important;
+            }
+
+            .info-movie {
+                h4 {
+                    margin: 0 !important;
+                    margin-bottom: 50px !important;
+                }
+
+                ul {
+                    padding: 0;
+                }
+            }
+        }
+
+        .comment-movie {
+            width: 100% !important;
+
+            .star-rating {
+
+                .title-rating {
+                    width: auto;
+                    font-size: 2.1rem !important;
+
+                }
+            }
+
+            .user-comment {
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 640px) { 
@@ -342,5 +384,37 @@
         display: flex !important;
         justify-content: center;
         align-items: center;
+    }
+
+    .movie-detail { 
+        .sider-bar {
+            a ,span {
+                font-size: 15px !important;
+            }
+        }
+
+        .comment-movie {
+
+            .star-rating {
+
+                .title-rating {
+                    font-size:  1.2rem !important;
+                    margin-bottom: 0.5rem;
+                }
+
+                label.star {
+                    font-size: 19px !important;
+                }
+            }
+
+            .user-comment {
+                max-width: 90% !important;
+                min-width: 90% !important;
+            }
+
+            .wrapper-comment ul .main-comment {
+                padding: 0 !important;
+            }
+        }
     }
 }

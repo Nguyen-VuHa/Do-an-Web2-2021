@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import PageNotFound from '../../components/PageNotFound';
 import './movie_detail.scss';
@@ -13,7 +13,7 @@ const MovieDetail = () => {
 
     useEffect(() => {
         dispatch(getMovieDetail());
-    }, [dispatch]);
+    }, []);
 
     return (
         <>

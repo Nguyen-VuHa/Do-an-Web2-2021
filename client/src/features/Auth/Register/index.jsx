@@ -6,6 +6,7 @@ import './register.scss';
 import authApi from '../../../api/authApi';
 import { useDispatch } from 'react-redux';
 import { ShowLoading, HideLoading } from '../../../components/LoadingPage/loadingSlice';
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const history = useHistory();
@@ -16,11 +17,16 @@ const Register = () => {
         const result = await authApi.registerAccount(value);
         if(result.status === 200)
         {
+            toast.success("Successfully!!! Đăng ký thành công!");
             dispatch(HideLoading());
             history.push('/');
         }
         else
-            alert(result.message);
+        {
+            toast.error(`Error!!! ${result.message}`);
+            dispatch(HideLoading());
+        }
+            
         
     }
     return (

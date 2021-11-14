@@ -24,9 +24,11 @@ const HeaderUser = () => {
 
     const handleShowNoti = async () => {
         if(accessToken) {
-            const result = await userApi.listNotify(accessToken);
-            setlistNotify(result.notify);
-            setcountNotify(0);
+            if(isNoti === false) {
+                const result = await userApi.listNotify(accessToken);
+                setlistNotify(result.notify);
+                setcountNotify(0);
+            }
             setIsNoti(!isNoti);
         }
     }

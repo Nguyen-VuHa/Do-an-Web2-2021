@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import GLOBAL_TEXT from '../../../../contants/titleCinema';
 import './cinema_view.scss';
-import ContentCinema from './components/ContentCinema';
 import TitleCinema from './components/TitleCinema';
-import Videos from '../../../../contants/video';
+import LoadingPage from '../../../../components/LoadingPage';
+
+const ContentCinema = React.lazy(() => import('./components/ContentCinema'));
 
 const CinemaView = () => {
 
@@ -23,9 +24,9 @@ const CinemaView = () => {
             <div className="cinema-view">
                 <TitleCinema />
                 <div className="content-cinema">
-
-                    <ContentCinema />
-
+                    <Suspense fallback={<LoadingPage />} >
+                        <ContentCinema />
+                    </Suspense>
                     <div className="line-top i1"></div>
                     <div className="line-top i2"></div>
                     <div className="line-left i1"></div>
@@ -36,12 +37,6 @@ const CinemaView = () => {
                     <div className="line-right i1"></div>
                     <div className="line-right i2"></div>
                 </div>
-
-                <video 
-                    id="video-cinema-view"
-                    autoPlay muted loop
-                    src={Videos.ABSTRACT}
-                ></video>
             </div>
         </>
       

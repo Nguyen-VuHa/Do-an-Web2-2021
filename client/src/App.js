@@ -1,6 +1,8 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -48,11 +50,12 @@ function App() {
 
     return (
         <Suspense fallback={<LoadingPage />} >
-            {/* <ToastMessage autoDeleteInterval={3500}/> */}
             <LoadingPage />
             <TraillerMovie />
+            <ToastContainer theme="colored" style={{zIndex: 999999999}}/>
             <BrowserRouter>
                 <Switch>
+                
                     {
                         isLogin && userInfo.role === '0' && <Redirect exact from="/" to="/admin"/>
                     }

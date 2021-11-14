@@ -1,4 +1,4 @@
-const Films = require('../models/dataMovie')
+const Films = require('../models/dataMovie');
 const { Op } = require('sequelize');
 const db = require('../models/database');
 const { cloudinary } = require('../untils/cloudinary');
