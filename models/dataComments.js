@@ -5,8 +5,8 @@ const Films = require('./dataMovie');
 
 const Comments = db.define('Comments', { 
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV1,
         primaryKey: true
     },
     comments: {
