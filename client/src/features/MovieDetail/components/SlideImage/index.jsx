@@ -36,7 +36,7 @@ const SlideImage = ({ imageRender }) => {
 
         return () => {
             window.removeEventListener('resize', function() {
-                setwindowSize(window.innerWidth);
+                setwindowSize(null);
             });
         }
     }, [windowSize, indexImage]);

@@ -19,10 +19,13 @@ const FeedbackComments = db.define('FeedbackComments', {
     }
 })
 
-FeedbackComments.belongsTo(Accounts, {foreignKey: 'FbComment_idUser'});
-Accounts.hasMany(FeedbackComments, {foreignKey: 'FbComment_idUser'});
+FeedbackComments.belongsTo(Accounts, { as: 'ParentComment', foreignKey: 'FbComment_idUser'});
+Accounts.hasMany(FeedbackComments, { as: 'ParentComment', foreignKey: 'FbComment_idUser'});
+
+FeedbackComments.belongsTo(Accounts, { as: 'ChildrenComment', foreignKey: 'FbCommentChildren_idUser'});
+Accounts.hasMany(FeedbackComments, { as: 'ChildrenComment', foreignKey: 'FbCommentChildren_idUser'});
 
 FeedbackComments.belongsTo(Comments, {foreignKey: 'FbComment_idComment'});
 Comments.hasMany(FeedbackComments, {foreignKey: 'FbComment_idComment'});
 
-module.exports = Comments;
+module.exports = FeedbackComments;

@@ -9,6 +9,10 @@ const commentApi = {
         const url = `api/add-comments`;
         return axiosClient.post(url,JSON.stringify(data));
     },
+    addFeedbackComments: (data) => {
+        const url = `api/add-feedback-comments`;
+        return axiosClient.post(url,JSON.stringify(data));
+    },
 }
 
 export default commentApi;

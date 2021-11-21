@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const Ratingstar = ({setRatngStar}) => {
+const Ratingstar = ({setRatngStar, ratingStar}) => {
+
+    useEffect(() => {
+        if(ratingStar === 0){
+            let elmRadio = document.getElementsByName('star');
+            for(var i=0;i<elmRadio.length;i++)
+                elmRadio[i].checked = false;
+        }
+    }, [ratingStar]);
     return (
         <>
             <div className="star-rating">
@@ -8,7 +16,7 @@ const Ratingstar = ({setRatngStar}) => {
                 <div className="stars">
                     <form action>
                         <input className="star star-5" id="star-5" type="radio" name="star" />
-                        <label className="star star-5" htmlFor="star-5" onClick={() =>setRatngStar(5)}/>
+                        <label className="star star-5" htmlFor="star-5" onClick={() => setRatngStar(5)}/>
                         <input className="star star-4" id="star-4" type="radio" name="star" />
                         <label className="star star-4" htmlFor="star-4" onClick={() =>setRatngStar(4)}/>
                         <input className="star star-3" id="star-3" type="radio" name="star" />

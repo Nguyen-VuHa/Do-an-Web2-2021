@@ -11,6 +11,11 @@ export const addComments = createAsyncThunk('ADD_COMMENT_MOVIE', async (data) =>
     return stateReponse;
 });
 
+export const addFeedbackComments = createAsyncThunk('ADD_FEEDBACK_COMMENT_MOVIE', async (data) => {
+    const stateReponse = await commentApi.addFeedbackComments(data);
+    return stateReponse;
+});
+
 const commentSlice = createSlice({
     name: 'movie-comments',
     initialState: {
@@ -40,6 +45,17 @@ const commentSlice = createSlice({
             state.error = action.payload;
         },
         [addComments.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.error = '';
+        },
+        [addFeedbackComments.pending]: (state) => {
+            state.loading = true;
+        },
+        [addFeedbackComments.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        [addFeedbackComments.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.error = '';
         },

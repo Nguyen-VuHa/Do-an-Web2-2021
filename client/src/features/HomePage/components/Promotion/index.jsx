@@ -55,7 +55,7 @@ const Promotion = () => {
 
         return () => {
             window.removeEventListener('resize', function() {
-                setwindowSize(window.innerWidth);
+                setwindowSize(null);
             });
         }
     }, [windowSize, indexImage]);

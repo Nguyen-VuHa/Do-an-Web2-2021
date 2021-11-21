@@ -184,10 +184,12 @@
                             }
                         }
 
-                        .btn-like.active {
+                        .btn-like.active, .btn-comment.active {
                             color: $colorGreen;
                             font-weight: 600;
                         }
+
+                        
 
                         span {
                             margin: 0 5px;

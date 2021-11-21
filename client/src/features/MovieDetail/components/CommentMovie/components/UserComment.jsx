@@ -1,40 +1,64 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify';
-import { addComments, getAllComments } from '../commentSlice';
+import { addComments, addFeedbackComments, getAllComments } from '../commentSlice';
+import Images from '../../../../../contants/image';
 
-const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngStar }) => {
+const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngStar, parentCommentId, setisComment, idRecipients }) => {
     const [textComment, settextComment] = useState('');
     const [statusFocus, setStatusFocus] = useState(false);
+    const stateImage = useSelector((state) => state.avartar);
     const dispatch = useDispatch();
+    const textCommentRef = useRef();
     const infoUser = JSON.parse(localStorage.getItem('user-info'));
 
     const removeText = () => {
-        let textComment = document.getElementById("text-comment");
-        textComment.textContent = "";
+        if(textCommentRef.current)
+            textCommentRef.current.textContent = "";
     }
 
     const handleSubmitComments = async () => {
             if(infoUser) {
                 if(ratingStar !== 0) {
                     if(textComment) { 
-                        const data = {
-                            comments: textComment,
-                            pointRating: ratingStar,
-                            idUser: infoUser.id,
-                            movieId: movieId,
+                        if(parentCommentId)
+                        {
+                            const data = {
+                                comments: textComment,
+                                idUser: infoUser.id,
+                                idComment:parentCommentId,
+                                idChidrenUser: idRecipients,
+                            }
+                            settextComment('');
+                            removeText();
+                            setStatusFocus(false);
+                            setisComment(-1);
+                            const res = await dispatch(addFeedbackComments(data));
+                            const result = unwrapResult(res);
+                            if(result.status === 200)
+                                dispatch(getAllComments(movieId));
+                            else
+                                toast.error('Comment Error!!!');
                         }
-                        settextComment('');
-                        removeText();
-                        setStatusFocus(false);
-                        setRatngStar(0);
-                        const res = await dispatch(addComments(data));
-                        const result = unwrapResult(res);
-                        if(result.status === 200)
-                            dispatch(getAllComments(movieId));
-                        else
-                            toast.error('Comment Error!!!');
+                        else {
+                            const data = {
+                                comments: textComment,
+                                pointRating: ratingStar,
+                                idUser: infoUser.id,
+                                movieId: movieId,
+                            }
+                            settextComment('');
+                            removeText();
+                            setStatusFocus(false);
+                            setRatngStar(0);
+                            const res = await dispatch(addComments(data));
+                            const result = unwrapResult(res);
+                            if(result.status === 200)
+                                dispatch(getAllComments(movieId));
+                            else
+                                toast.error('Comment Error!!!');
+                        }
                     }
                     else
                         toast.info('Bạn cần nhập gì đó!!!');
@@ -49,8 +73,9 @@ const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngS
     return (
         <>
             <div className="user-comment">
-                <img className="user-avartar" src="https://graph.facebook.com/1669001479976443/picture?width=400&amp;height=400" alt="Nguyễn Vũ Hạ" />
+                <img className="user-avartar" src={ stateImage.imageUrl ? stateImage.imageUrl : Images.DefaultAvatar } alt="Not Avartar" />
                 <div 
+                    ref={textCommentRef}
                     id="text-comment" className="text-comment" contentEditable="true" 
                     placeholder={ textComment ? '' : textPlaceholder } role="textbox" 
                     aria-multiline="true" spellcheck="false"
