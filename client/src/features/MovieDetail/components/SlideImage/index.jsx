@@ -109,3 +109,6 @@ SlideImage.propTypes = {
 
 
 export default SlideImage;
+  
+
+
