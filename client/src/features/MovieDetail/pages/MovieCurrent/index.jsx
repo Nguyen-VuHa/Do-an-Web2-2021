@@ -8,6 +8,12 @@ import { getAllComments } from '../../components/CommentMovie/commentSlice';
 import ContentMovie from '../../components/ContentMovie';
 import SideBar from '../../components/SideBar';
 import SlideImage from '../../components/SlideImage';
+import socketIO from 'socket.io-client';
+
+// const ENDPOINT='ws://localhost:8900';
+const ENDPOINT='/';
+let socket;
+
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -15,6 +21,7 @@ function useQuery() {
 
 const MovieCurrent = () => {
     const backgoundRef = useRef(null);
+    const [idFecthComments, setIdFecthComments] = useState('');
     const [dataRender, setDataRender] = useState([]);
     const [imageRender, setimageRender] = useState({});
     const history = useHistory();
@@ -24,6 +31,32 @@ const MovieCurrent = () => {
     const { data } = useSelector((state) => state.movieDetail);
     const { movieCurrent } = data;
 
+    useEffect(() => {
+        socket =  socketIO(ENDPOINT, { transports:['websocket']});
+
+        socket.on('connect', () => {});
+
+        socket.emit('addComments', {idComments: params.movieId});
+
+        socket.emit('joinRoom', {idComments: params.movieId});
+
+        socket.on('getComments', (idComments, Uuid) => {
+            setIdFecthComments(Uuid);
+        });
+
+        return () => {
+            socket.on('disconnect', () => {});
+            socket.emit('leaveRoom', {id: params.movieId})
+        }
+    }, []);
+
+    useEffect(() => {
+        const timeOutFetc = setTimeout(() => {
+            dispatch(getAllComments(params.movieId));
+        }, 1500);
+
+        return () => clearTimeout(timeOutFetc);
+    }, [idFecthComments]);
 
     useEffect(() => {
         window.scrollTo({

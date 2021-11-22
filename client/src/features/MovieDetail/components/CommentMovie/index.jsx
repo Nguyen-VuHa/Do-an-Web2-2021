@@ -83,7 +83,6 @@ const CommentMovie = () => {
                                                             && item.FeedbackComments.map((data) => {
                                                                 moment.locale('vi');
                                                                 const momentTime =  moment(data.createdAt).fromNow();
-                                                                console.log(data);
                                                                 return  <div className="dependent-comment" key={data.id}>
                                                                                 <div className="img-user">
                                                                                     <img src={data.ParentComment.avartar ? data.ParentComment.avartar : Images.DefaultAvatar } alt="Not User"/>
@@ -96,7 +95,7 @@ const CommentMovie = () => {
                                                                                                     <span>{ data.ParentComment.fullname}</span>
                                                                                                 </div>
                                                                                                 <div className="text">
-                                                                                                    <span>{data.ChildrenComment && data.ChildrenComment.idUser === data.ParentComment.idUser ? '' : data.ChildrenComment ? data.ChildrenComment.fullname : item.Account.fullname}</span>
+                                                                                                    <span>{item.Account.fullname === data.ParentComment.fullname && data.ChildrenComment?.idUser === data.ParentComment.idUser ? '' : data.ChildrenComment && data.ChildrenComment.idUser === data.ParentComment.idUser ? '' : data.ChildrenComment ? data.ChildrenComment.fullname : item.Account.fullname}</span>
                                                                                                     {data.comments}
                                                                                                 </div>
                                                                                             </div>
@@ -131,123 +130,8 @@ const CommentMovie = () => {
                                                 </div>
                                             </li>
                                 }) 
-                                : <div>Không có comments nào!</div> 
+                                : ''
                             }
-                            {/* <li>
-                                <div>
-                                    <div className="main-comment">
-                                        <div className="img-user">
-                                            <img src="https://scontent.fsgn5-11.fna.fbcdn.net/v/t1.6435-1/cp0/p48x48/163850079_1377620642585916_755443308252141825_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=0Oa5ZvEwNlkAX9q1Dej&_nc_ht=scontent.fsgn5-11.fna&oh=81be5e87782ae81ea7c8347ffac18da9&oe=61A2E0A2" alt="Not User"/>
-                                        </div>
-                                        <div className="comment-box">
-                                            <div>
-                                                <div className="box">
-                                                    <div className="content-comment">
-                                                        <div className="header-content">
-                                                            <span>Ánh Tuyết</span>
-                                                            <span>Đánh giá 5 sao</span>
-                                                        </div>
-                                                        <div className="text">
-                                                            Nền hơi nổi 😆😆😆 nhưng mà vẫn xấu trai
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="control-comment">
-                                                <div className="btn-like">Thích</div>
-                                                <span> · </span>
-                                                <div className="btn-comment">Phản hồi</div>
-                                                <span> · </span>
-                                                <span className="moment-time">20 giờ trước</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="dependent-comment">
-                                        <div className="img-user">
-                                            <img src="https://scontent.fsgn5-8.fna.fbcdn.net/v/t1.6435-1/cp0/p40x40/197356349_1664333703776554_5774747963175226297_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=7206a8&_nc_ohc=t9_JDPG5kPMAX-pz2jO&tn=Vrba0JpY6dLRS4oo&_nc_ht=scontent.fsgn5-8.fna&oh=235800840f677e659a926f2abc24cb17&oe=61A3C0EE" alt="Not User"/>
-                                        </div>
-                                        <div className="comment-box">
-                                            <div>
-                                                <div className="box">
-                                                    <div className="content-comment">
-                                                        <div className="header-content">
-                                                            <span>Nguyễn Vũ Hạ</span>
-                                                        </div>
-                                                        <div className="text">
-                                                            <span>Ánh Tuyết</span>
-                                                             xấu xưa giờ ồi :))
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="control-comment">
-                                                <div className="btn-like">Thích</div>
-                                                <span> · </span>
-                                                <div className="btn-comment">Phản hồi</div>
-                                                <span> · </span>
-                                                <span className="moment-time">20 giờ trước</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="dependent-comment">
-                                        <div className="img-user">
-                                            <img src="https://scontent.fsgn5-6.fna.fbcdn.net/v/t39.30808-1/cp0/p40x40/239469064_2901660860050060_1270716633943421248_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=7206a8&_nc_ohc=N8d4HRJVcb0AX_dP1F7&_nc_ht=scontent.fsgn5-6.fna&oh=064a223ca43a00d4e9dac702e5eee10b&oe=6184624F" alt="Not User"/>
-                                        </div>
-                                        <div className="comment-box">
-                                            <div>
-                                                <div className="box">
-                                                    <div className="content-comment">
-                                                        <div className="header-content">
-                                                            <span>Như Thùy</span>
-                                                        </div>
-                                                        <div className="text">
-                                                            <span>Ánh Tuyết</span>
-                                                            môi hơi đỏ nữa kakaa
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="control-comment">
-                                                <div className="btn-like">Thích</div>
-                                                <span> · </span>
-                                                <div className="btn-comment">Phản hồi</div>
-                                                <span> · </span>
-                                                <span className="moment-time">20 giờ trước</span>
-                                            </div>
-                                            <Usercomment textPlaceholder="Viết phản hồi..." maxWidth={600}/>
-                                        </div>
-                                    </div>
-                                    <div className="dependent-comment">
-                                        <div className="img-user">
-                                            <img src="https://scontent.fsgn5-11.fna.fbcdn.net/v/t1.6435-1/cp0/p48x48/163850079_1377620642585916_755443308252141825_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=0Oa5ZvEwNlkAX9q1Dej&_nc_ht=scontent.fsgn5-11.fna&oh=81be5e87782ae81ea7c8347ffac18da9&oe=61A2E0A2" alt="Not User"/>
-                                        </div>
-                                        <div className="comment-box">
-                                            <div>
-                                                <div className="box">
-                                                    <div className="content-comment">
-                                                        <div className="header-content">
-                                                            <span>Ánh Tuyết</span>
-                                                        </div>
-                                                        <div className="text">
-                                                            <span>Như Thùy</span>
-                                                            uýnh son á haha
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="control-comment">
-                                                <div className="btn-like">Thích</div>
-                                                <span> · </span>
-                                                <div className="btn-comment">Phản hồi</div>
-                                                <span> · </span>
-                                                <span className="moment-time">20 giờ trước</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li> */}
                         </ul>
                     </div>
                 </div>

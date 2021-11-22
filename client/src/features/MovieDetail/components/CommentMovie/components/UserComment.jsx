@@ -4,15 +4,23 @@ import { unwrapResult } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify';
 import { addComments, addFeedbackComments, getAllComments } from '../commentSlice';
 import Images from '../../../../../contants/image';
+import socketIO from 'socket.io-client';
+import { useParams } from 'react-router';
+
+// const ENDPOINT='ws://localhost:8900';
+const ENDPOINT='/';
+let socket =  socketIO(ENDPOINT, { transports:['websocket']});
+
 
 const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngStar, parentCommentId, setisComment, idRecipients }) => {
     const [textComment, settextComment] = useState('');
     const [statusFocus, setStatusFocus] = useState(false);
     const stateImage = useSelector((state) => state.avartar);
     const dispatch = useDispatch();
+    const params = useParams();
     const textCommentRef = useRef();
     const infoUser = JSON.parse(localStorage.getItem('user-info'));
-
+    
     const removeText = () => {
         if(textCommentRef.current)
             textCommentRef.current.textContent = "";
@@ -36,6 +44,7 @@ const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngS
                             setisComment(-1);
                             const res = await dispatch(addFeedbackComments(data));
                             const result = unwrapResult(res);
+                            socket.emit('joinRoom', {idComments: params.movieId});
                             if(result.status === 200)
                                 dispatch(getAllComments(movieId));
                             else
@@ -54,6 +63,7 @@ const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngS
                             setRatngStar(0);
                             const res = await dispatch(addComments(data));
                             const result = unwrapResult(res);
+                            socket.emit('joinRoom', {idComments: params.movieId});
                             if(result.status === 200)
                                 dispatch(getAllComments(movieId));
                             else
@@ -91,6 +101,7 @@ const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngS
                             settextComment('');
                             setStatusFocus(false);
                             removeText();
+                            
                         }}>Hủy</button>
                         <button 
                             className="btn btn-info"
