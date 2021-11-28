@@ -7,13 +7,16 @@ import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import store from './app/store';
 import { TrailerContextProvider } from './contexts/trailerContenxt';
+import { AuthContextProvider } from './contexts/authContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <TrailerContextProvider>
-        <App />
-      </TrailerContextProvider>
+      <AuthContextProvider>
+        <TrailerContextProvider>
+          <App />
+        </TrailerContextProvider>
+      </AuthContextProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

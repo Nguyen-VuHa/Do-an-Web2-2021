@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { AuthContext } from '../../contexts/authContext';
 import { getImageUser } from '../../features/UserProfile/profileSlice';
 import HeaderLogin from './components/HeaderLogin';
 import HeaderUser from './components/HeaderUser';
 import './header.scss';
 
 const Header = () => {
-    const isLogin = useSelector((state) => state.isLogin);
+    const { state } = useContext(AuthContext);
+    const { isLogin } = state;  
     const accessToken = localStorage.getItem('accessToken');
     const [isShowMenu, setIsShowMenu] = useState(false);
     const macth = useRouteMatch();

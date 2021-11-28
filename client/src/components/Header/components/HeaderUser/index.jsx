@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import 'simplebar/dist/simplebar.css';
 import userApi from '../../../../api/userApi';
 import Images from '../../../../contants/image';
 import moment from 'moment';
+import { AuthContext } from '../../../../contexts/authContext';
 
 const HeaderUser = () => {
     const [isNoti, setIsNoti] = useState(false);
@@ -18,8 +19,10 @@ const HeaderUser = () => {
     const [listNotify, setlistNotify] = useState([]);
     const dispatch = useDispatch();
     const stateImage = useSelector((state) => state.avartar);
+    const { state, dispatchAuth } = useContext(AuthContext);
+    const { fullname } = state;
+    console.log(fullname);
 
-    const userInfo = JSON.parse(localStorage.getItem('user-info'));
     const accessToken = localStorage.getItem('accessToken');
 
     const handleShowNoti = async () => {
@@ -60,6 +63,10 @@ const HeaderUser = () => {
 
     const handleLogout = () => {
         dispatch(logout());
+        dispatchAuth({
+            type: 'CLEAR_USER_INFO',
+            payload: null,
+        })
         localStorage.clear();
     }
 
@@ -133,7 +140,7 @@ const HeaderUser = () => {
                 <img src={ stateImage.imageUrl ? stateImage.imageUrl : Images.DefaultAvatar } className="avartar-user" alt="not user" />
             </div>
             <div className={isUser ? "menu active" : "menu"} id="menu__profile">
-                <h3>{userInfo.fullname}<br /><span>Số dư : <b style={{color: '#54ab35'}}>0 E-coin</b></span></h3>
+                <h3>{ fullname }<br /><span>Số dư : <b style={{color: '#54ab35'}}>0 E-coin</b></span></h3>
                 <ul>
                     <li>
                         <i className="fal fa-user-circle" />

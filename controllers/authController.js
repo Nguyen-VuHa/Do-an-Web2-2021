@@ -15,7 +15,20 @@ function randoomActiveCode(length) {
 }
 
 class AuthController { 
+    async getInfoUser (req, res) {
+        const { refreshToken } = req.query;
 
+        const data = await Accounts.findOne({
+            where: {
+                refreshToken: refreshToken,
+            },
+            attributes: ['idUser', 'email', 'fullname', 'role']
+        })
+
+        res.json({status: 200, data})
+    }
+
+    
     // POST auth/register 
     async newAccount (req, res) {
         const data = req.body;

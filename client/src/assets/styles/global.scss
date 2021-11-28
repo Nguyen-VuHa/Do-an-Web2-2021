@@ -36,6 +36,7 @@ $colorLoading: #00ff0a;
     position: relative;
     overflow: hidden;
     background-color: $colorLayout;
+    border-radius: 18px;
 
     &::after {
         position: absolute;

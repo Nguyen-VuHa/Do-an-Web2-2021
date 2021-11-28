@@ -35,9 +35,6 @@ const UserProfile = () => {
                 behavior: 'smooth'
             });
         }
-          
-
-      
     }, [active]);
 
     useEffect(() => {
@@ -78,7 +75,7 @@ const UserProfile = () => {
             <div className="profile-user">
                 <div className="backgroun-content">
                     <div className="content-left">
-
+                        
                     </div>
                     <div className="content-right backgound-img">
                         <img src={ stateAvartar.imageUrl ? stateAvartar.imageUrl :  Images.DefaultAvatar } alt="Not Backgound"/>

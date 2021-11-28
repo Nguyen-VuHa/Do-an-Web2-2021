@@ -1,0 +1,38 @@
+import React, { createContext, useReducer } from 'react';
+
+export const AuthContext = createContext();
+
+export const AuthContextProvider = (props) => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    const userInfo = {
+        id: '',
+        email: '',
+        fullname: '',
+        role: '',
+        isLogin: refreshToken ? true : false,
+    };
+    
+    const [state, dispatchAuth] = useReducer((state, action) => {
+        switch (action.type) {
+            case "SET_USER_INFO":
+                return {
+                    ...state,
+                    ...action.payload,
+                    isLogin: true,
+                };
+            case "CLEAR_USER_INFO":
+                return {
+                    ...userInfo,
+                    isLogin: false,
+                };
+            default:
+                return state;
+        }
+    }, userInfo)
+
+    return (
+        <AuthContext.Provider value={{state, dispatchAuth}}>
+            { props.children }
+        </AuthContext.Provider>
+    )
+}

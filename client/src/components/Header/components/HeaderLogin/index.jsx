@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import isByLength from 'validator/lib/isByteLength';
@@ -8,6 +8,7 @@ import isEmpty from 'validator/lib/isEmpty';
 import authApi from '../../../../api/authApi';
 import { login } from '../../../../contants/loginSlice';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../../../contexts/authContext';
 
 const HeaderLogin = () => {
     const [isToggle, setIsToggle] = useState(false);
@@ -17,6 +18,7 @@ const HeaderLogin = () => {
     const dispatch = useDispatch();
     const isLogin = useSelector((state) => state.isLogin);
     const history = useHistory();
+    const { dispatchAuth } = useContext(AuthContext); 
     
     const handleToggleForm = () => {
         setIsToggle(!isToggle);
@@ -56,7 +58,10 @@ const HeaderLogin = () => {
             else {
                 localStorage.setItem('accessToken', result.accessToken);
                 localStorage.setItem('refreshToken', result.refreshToken);
-                localStorage.setItem('user-info', JSON.stringify(result.user));
+                dispatchAuth({
+                    type: 'SET_USER_INFO',
+                    payload: result.user,
+                })
                 setIsToggle(false);
                 dispatch(login());
                 history.push('/');

@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { logout } from '../../../../contants/loginSlice';
+import { AuthContext } from '../../../../contexts/authContext';
 
 const HeaderAdmin = () => {
     const match = useRouteMatch();
     const dispatch = useDispatch();
+    const { dispatchAuth } = useContext(AuthContext);
 
     const handleLogout = () => {
         dispatch(logout());
+        dispatchAuth({
+            type: 'CLEAR_USER_INFO',
+            payload: null,
+        })
         localStorage.clear();
     }
     return (

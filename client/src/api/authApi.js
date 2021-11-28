@@ -1,6 +1,10 @@
 const { default: axiosClient } = require("./clientAxios");
 
 const authApi = {
+    getInfoUser: (refreshToken) => {
+        const url = `auth/get-info-user?refreshToken=${refreshToken}`;
+        return axiosClient.get(url);
+    },
     registerAccount: (data) => {
         const url = `auth/new-account`;
         return axiosClient.post(url, JSON.stringify(data));

@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Images from '../../../../contants/image';
+import { AuthContext } from '../../../../contexts/authContext';
 
 const SideBarProfile = ({ active, setActive }) => {
     const colorTextRef = useRef(null);
-    const userInfo = JSON.parse(localStorage.getItem('user-info'));
+    const { state } = useContext(AuthContext);
+    const { fullname } = state;
     const stateAvartar = useSelector((state) => state.avartar);
 
     const handleInfoUser = () => {
@@ -33,7 +35,7 @@ const SideBarProfile = ({ active, setActive }) => {
                     <div className="btn-choose" data-toggle="modal" data-target="#modalEditorImage"><i className="fal fa-camera-alt"></i></div>
                 </div>
             </div>
-            <h3 className="title-fullname" ref={colorTextRef}>{ userInfo?.fullname }</h3>
+            <h3 className="title-fullname" ref={colorTextRef}>{ fullname }</h3>
             <p className="price">Số dư TK: <b className="surplus">2.000.000 E-coin</b></p>
             <div className="group-btn">
                 <div className={active === 0 ? "btn active" : "btn"} onClick={() => handleInfoUser()}><div>Thông Tin Cá Nhân</div></div>
