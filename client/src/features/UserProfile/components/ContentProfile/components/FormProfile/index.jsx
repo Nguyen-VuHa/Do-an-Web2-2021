@@ -27,7 +27,7 @@ const FormProfile = ({ isEditor, dataUser, setvalueSubmit }) => {
                 email: dataUser.email,
                 fullname: dataUser.fullname,
                 numberphone: dataUser.numberphone,
-                birthday: moment(dataUser.birthday).format('YYYY-MM-DD'),
+                birthday: dataUser.birthday ? moment(dataUser.birthday).format('YYYY-MM-DD') : null,
                 sex: dataUser.sex,
                 address: dataUser.address,
             })

@@ -18,6 +18,7 @@ export const AuthContextProvider = (props) => {
                 return {
                     ...state,
                     ...action.payload,
+                    id: action.payload.idUser,
                     isLogin: true,
                 };
             case "CLEAR_USER_INFO":

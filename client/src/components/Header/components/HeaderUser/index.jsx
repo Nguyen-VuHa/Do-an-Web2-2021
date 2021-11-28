@@ -21,7 +21,6 @@ const HeaderUser = () => {
     const stateImage = useSelector((state) => state.avartar);
     const { state, dispatchAuth } = useContext(AuthContext);
     const { fullname } = state;
-    console.log(fullname);
 
     const accessToken = localStorage.getItem('accessToken');
 

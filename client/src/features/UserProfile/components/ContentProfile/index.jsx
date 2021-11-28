@@ -35,21 +35,21 @@ const ContentProfile = ({ dataUser }) => {
                 <span />
                 <div>
                     <div className="title">
-                        <h3>Thông Tin Cá Nhân</h3>
+                        <h3>Thông Tin Cá Nhân</h3> 
+                        <div>
+                            <div 
+                                className={!isEditor ? "btn btn-update mr-3" : "btn btn-update hide mr-3"}
+                                onClick={() => setIsEditor(!isEditor)}
+                            >
+                                Cập Nhật Thông Tin
+                            </div>
+                            <div className={isEditor ? "btn btn-save" : "btn btn-save hide"} onClick={() => handleSaveInfo()}>
+                                Lưu Lại
+                            </div>
+                        </div>
                     </div>
                     <div className="form-info">
                        <FormProfile isEditor={isEditor} dataUser={dataUser} setvalueSubmit={setvalueSubmit}/>
-                    </div>
-                    <div className="controler">
-                        <div 
-                            className={!isEditor ? "btn btn-update" : "btn btn-update hide"}
-                            onClick={() => setIsEditor(!isEditor)}
-                        >
-                            Cập Nhật Thông Tin
-                        </div>
-                        <div className={isEditor ? "btn btn-save" : "btn btn-save hide"} onClick={() => handleSaveInfo()}>
-                            Lưu Lại
-                        </div>
                     </div>
                 </div>
             </div>

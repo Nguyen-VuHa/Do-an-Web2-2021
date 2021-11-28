@@ -47,7 +47,7 @@
 
     .profile-content {
         display: grid;
-        grid-template-columns: 0.4fr 0.6fr;
+        grid-template-columns: 0.3fr 0.7fr;
         width: 100%;
         height: 100%;
         color: $colorText;
@@ -323,11 +323,35 @@
 
                         .title {
                             color: $colorInfo;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
 
                             h3 {
                                 text-align: center;
                                 font-family: 'Pattaya', sans-serif;
                                 font-size: 35px;
+                                flex-shrink: 0;
+                            }
+
+                            div {
+                                width: auto;
+                                display: flex;
+                                flex-direction: row;
+
+                                .btn {
+                                    background: rgba($colorInfo, 0.8);
+                                    color: #fff;
+    
+                                    &:hover {
+                                        background: rgba(#274786, 0.8);
+                                    }
+    
+                                    &.hide {
+                                        pointer-events: none;
+                                        background: rgba(#2a3853, 0.8);
+                                    }
+                                }
                             }
                         }
 
@@ -347,27 +371,6 @@
                                 display: grid;
                                 grid-template-columns: 1fr 1fr;
                                 grid-gap: 15px;
-                            }
-                        }
-
-                        .controler {
-                            width: 100%;
-                            display: grid;
-                            grid-gap: 15px;
-                            grid-template-columns: 1fr 1fr;
-
-                            .btn {
-                                background: rgba($colorInfo, 0.8);
-                                color: #fff;
-
-                                &:hover {
-                                    background: rgba(#274786, 0.8);
-                                }
-
-                                &.hide {
-                                    pointer-events: none;
-                                    background: rgba(#2a3853, 0.8);
-                                }
                             }
                         }
                     }
