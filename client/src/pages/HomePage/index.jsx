@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import globalText from 'src/contants/titleCinema';
 import {
     MainPage
 } from './HomePage.Style';
 import Advertisement from './Advertisement';
+import { useDispatch } from 'react-redux';
+import { fetchMovieHomePage } from 'src/reducers/homePageSlice';
 
 const HomePage = () => {
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(fetchMovieHomePage());
+    }, []);
     return (
         <>
             <Helmet>

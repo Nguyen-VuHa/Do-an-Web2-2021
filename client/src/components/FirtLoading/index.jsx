@@ -16,6 +16,12 @@ const Layout = styled.div`
 
     background: ${BlueGray};
     z-index: 999999;
+
+    @media screen and (max-width: 764px) {  
+        .css-36nhqm {
+            left: 30px;
+        }
+    }
 `;
 
 const TextLoading = styled.div`
@@ -25,6 +31,10 @@ const TextLoading = styled.div`
     font-size: 30px;
     font-weight: 500; 
     font-family: ${FontEncodeSans};
+
+    @media screen and (max-width: 764px) {  
+        font-size: 25px;
+    }
 `;
 
 const FirstLoading = () => {

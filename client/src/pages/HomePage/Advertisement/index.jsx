@@ -3,42 +3,42 @@ import {
     Layout, Warapper,
     WarapperContent, Title_3,
     ContentMovie, PosterCard, Image,
-    DetailMovie, Title_4, DetailContent,
-    DetailItem, DetailTitle
+    DescriptionMovie, TitleDescription,
+    TextDiscription
 } from './Advertisement.Style';
 import { LayoutBackground, ImageBG } from 'src/custom-fields/GlobalStyle/ImageBackground.Style';
+import DetailMovie from './DetailMovie';
+import { useSelector } from 'react-redux';
 
 const Advertisement = () => {
+    const {loading, movieTrend} = useSelector((state) => state.homepageState);
+
+    console.log(movieTrend);
     return (
         <Layout>
             <LayoutBackground>
                 <div></div>
-                <ImageBG url={'https://res.cloudinary.com/cgv-vi-t-nam/image/upload/v1637389662/poster_movie/xrpppgese4uyj8moqobu.jpg'} />
+                <ImageBG url={movieTrend.length > 0 && movieTrend[0].poster1} />
             </LayoutBackground>
             <Warapper>
                 <WarapperContent className="container">
                     <Title_3>Top Phim Trong Tuần</Title_3>
                     <ContentMovie>
                         <PosterCard>
-                            <Image src="https://res.cloudinary.com/cgv-vi-t-nam/image/upload/v1637389662/poster_movie/xrpppgese4uyj8moqobu.jpg" alt="Poster Not Found"/>
+                            <Image src={movieTrend.length > 0 ? movieTrend[0].poster1 : ''} alt="Poster Not Found"/>
                         </PosterCard>
-                        <DetailMovie>
-                            <Title_4
-                                style={{
-                                    color: 'crimson',
-                                    margin: '25px 40px'
-                                }}
-                            >Thiên Thần Hộ Mệnh</Title_4>
-                            <DetailContent>
-                                <DetailItem>
-                                    <DetailTitle>Đạo diễn</DetailTitle>
-                                    <span>Victor Vũ</span>
-                                </DetailItem>
-                            </DetailContent>
-                        </DetailMovie>
+                        <DetailMovie detail={movieTrend}/>
                     </ContentMovie>
                 </WarapperContent>
             </Warapper>
+            <DescriptionMovie>
+                <div className="container">
+                    <TitleDescription>-- Chi Tiết --</TitleDescription>
+                    <TextDiscription>
+                        {movieTrend.length > 0 && movieTrend[0].describe}
+                    </TextDiscription>
+                </div>
+            </DescriptionMovie>
         </Layout>
     );
 };

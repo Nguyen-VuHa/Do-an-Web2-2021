@@ -7,3 +7,5 @@ export const YellowGray = '#d4dd29';
 // font family
 export const FontRoboto = `'Roboto', sans-serif`;
 export const FontEncodeSans = `'Encode Sans SC', sans-serif`;
+export const FontOpenSans = `'Open Sans', sans-serif`;
+export const FontNotoSansMono = `'Noto Sans Mono', monospace`;

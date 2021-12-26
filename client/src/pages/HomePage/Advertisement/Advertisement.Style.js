@@ -1,5 +1,5 @@
+import { FontEncodeSans, FontNotoSansMono, FontOpenSans, GrayWhite, Green } from 'src/contants/cssContants';
 import styled from "styled-components";
-import { Green, White, FontEncodeSans } from 'src/contants/cssContants';
 
 export const Layout = styled.div`
     position: relative;
@@ -38,6 +38,13 @@ export const Title_3 = styled.h3`
     color: ${Green};
 
     margin: 40px 50px;
+
+    @media screen and (max-width: 764px) {  
+        font-size: 30px;
+        text-align: center;
+        margin: 10px 0;
+        margin-top: 30px;
+    }
 `;
 
 export const Title_4 = styled.h4`
@@ -49,11 +56,21 @@ export const Title_4 = styled.h4`
 
     color: ${Green};
     margin: 40px 50px;
+
+    @media screen and (max-width: 764px) {  
+        margin: 20px 0 !important;
+    }
 `;
 
 export const ContentMovie = styled.div`
     display: flex;
     width: 100%;
+
+    @media screen and (max-width: 764px) {  
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 export const PosterCard = styled.div`
@@ -78,14 +95,26 @@ export const Image = styled.img`
 
     object-fit: cover;
     object-position: top;
+
+    @media screen and (max-width: 1024px) {  
+        height: 100%;
+    }
+
+    @media screen and (max-width: 764px) {  
+        height: 350px;
+    }
 `;
 
-export const DetailMovie = styled.div`
+export const LayoutDetail = styled.div`
     display: flex;
     flex-direction: column;
 
     width: auto;
     margin-left: 10px;
+
+    @media screen and (max-width: 764px) {  
+        margin-left: 0;
+    }
 `;
 
 export const DetailContent = styled.ul`
@@ -93,6 +122,13 @@ export const DetailContent = styled.ul`
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+    
+    font-size: 17px;
+    font-family: ${FontOpenSans};
+
+    @media screen and (max-width: 764px) {  
+        padding: 10px;
+    }
 `;
 
 export const DetailItem = styled.li`
@@ -105,7 +141,7 @@ export const DetailItem = styled.li`
     padding-bottom: 1.5rem;
 
     span {
-        color: ${White};
+        color: ${GrayWhite};
     }
 `;
 
@@ -118,4 +154,32 @@ export const DetailTitle = styled.label`
     top: 0;
     left: 0;
     margin: 0;
+`;
+
+export const DescriptionMovie = styled.div`
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 150px;
+    z-index: 100;
+
+    @media screen and (max-width: 764px) {  
+        margin-top: 0;
+    }
+`;
+
+export const TitleDescription = styled.h5`
+    color: ${Green};
+    text-transform: uppercase;
+    
+    font-weight: 600;
+    font-size: 2em;
+    text-align: start;
+`;
+
+export const TextDiscription = styled.p`
+    color: ${GrayWhite};
+    white-space: pre-wrap;
+    font-size: 17px;
+    line-height: 2;
+    font-family: ${FontNotoSansMono};
 `;

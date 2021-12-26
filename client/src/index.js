@@ -5,7 +5,7 @@ import './assets/styles/reponsive.scss';
 import App from './App';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
-import store from './app/store';
+import store from 'src/app/store';
 
 ReactDOM.render(
     <React.StrictMode>

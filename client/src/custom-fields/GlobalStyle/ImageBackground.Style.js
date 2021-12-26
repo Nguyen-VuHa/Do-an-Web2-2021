@@ -14,6 +14,10 @@ export const LayoutBackground = styled.div`
     left: 0;
 
     background-color: ${BlueGray};
+
+    @media screen and (max-width: 764px) {  
+        grid-template-columns: 0fr 1fr;
+    }
 `;
 
 export const ImageBG = styled.div`
