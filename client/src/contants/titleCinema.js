@@ -1,5 +1,5 @@
-const GLOBAL_TEXT = {
-    TITLE_CINEMA: 'BHD STAR CINEPLEX',
+const globalText = {
+    TITLE_HOMEPAGE: 'BHD STAR CINEPLEX | Trang Chủ',
 }
 
-export default GLOBAL_TEXT;
+export default globalText;

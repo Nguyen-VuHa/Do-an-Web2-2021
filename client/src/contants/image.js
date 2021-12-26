@@ -21,7 +21,7 @@ const Images = {
     BANNER_5: Banner5,
     BorderItem: BorderItem,
     FARE: Fare,
-    NOTITEM: NotItem
+    NOTITEM: NotItem,
 }
 
 export default Images;

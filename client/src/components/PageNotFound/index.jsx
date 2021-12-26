@@ -1,7 +1,11 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import './page_not_found.scss';
+import './animationSVG.scss';
+import { 
+    PageLayout, Row, PageContent, Title,
+    ButtonNotFound, Text
+} from './PageNotFound.Style';
 
 const PageNotFound = () => {
     return (
@@ -9,8 +13,8 @@ const PageNotFound = () => {
             <Helmet>
                 <title>Page Not Found | ERROR</title>
             </Helmet>
-            <div className="page-notfound">
-                <div className="row">
+            <PageLayout>
+                <Row>
                     <svg width="100%" height="auto" viewBox="0 0 636 324" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="OBJECTS">
                         <g id="Group">
@@ -321,10 +325,10 @@ const PageNotFound = () => {
                         </linearGradient>
                         </defs>
                     </svg>
-                </div>
-                <div className="page-notfound-content">
-                    <h3>Oops! Page Not Found.</h3><br /><p style={{color: 'rgb(228, 145, 145)'}}>We can't find the page you're looking for.</p>
-                    <div className="button-notfound">
+                </Row>
+                <PageContent>
+                    <Title>Oops! Page Not Found.</Title><br /><Text>We can't find the page you're looking for.</Text>
+                    <ButtonNotFound>
                             <Link to="#">
                                 <span />
                                 <span />
@@ -337,19 +341,13 @@ const PageNotFound = () => {
                                 <span />
                                 <span />
                                 <span />
-                            GO HOME
+                                GO HOME
                             </Link>
-                    </div>
-                </div>
-            </div>
+                    </ButtonNotFound>
+                </PageContent>
+            </PageLayout>
         </>
     );
 };
-
-
-PageNotFound.propTypes = {
-
-};
-
 
 export default PageNotFound;

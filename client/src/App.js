@@ -1,4 +1,4 @@
-import { Suspense, useContext, useEffect, useState } from 'react';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,9 +7,8 @@ import './App.scss';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import LoadingPage from './components/LoadingPage';
-import PageNotFound from './components/PageNotFound';
 import TraillerMovie from './components/TraillerMovie';
-import { AuthContext } from './contexts/authContext';
+import { AuthContext, AuthContextProvider } from './contexts/authContext';
 import AdminPage from './features/Admin';
 import Auth from './features/Auth';
 import CinemaSystem from './features/CenimaSystem';
@@ -17,49 +16,81 @@ import HomePage from './features/HomePage';
 import MovieDetail from './features/MovieDetail';
 import UserProfile from './features/UserProfile';
 
+import GlobalStyle from './GlobalStyle';
+import FirstLoading from 'src/components/FirtLoading';
+
+const TheLayout = React.lazy(() => import('./layout/TheLayout'));
+const PageNotFound = React.lazy(() => import('./components/PageNotFound'));
+
+const loading = (
+    <div className="pt-3 text-center">
+       <div className="sk-spinner sk-spinner-pulse"></div>
+    </div>
+)
+
 function App() {
-    const [scrollHeight, setScrollHeight] = useState(0);
-    const { state, dispatchAuth } = useContext(AuthContext); 
-    const { isLogin, role } = state;
-    const refreshToken = localStorage.getItem('refreshToken');
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fecthDataUser = async (refreshToken) => {
-            const dataUser = await authApi.getInfoUser(refreshToken);
+        let timeOut = setTimeout(() => {
+            setIsLoading(false);    
+        }, 1000);
 
-            if(dataUser.status === 200)
-                dispatchAuth({
-                    type: 'SET_USER_INFO',
-                    payload: dataUser.data,
-                })
-        }
-
-        if(refreshToken) {
-            fecthDataUser(refreshToken);
-        }
-    }, [refreshToken]);
-
-    useEffect(() => {
-        const handleWindowScroll = () => {
-            setScrollHeight(window.pageYOffset);
-        }
-
-        window.addEventListener('scroll', handleWindowScroll);
-        return () => {
-            window.removeEventListener('scroll', handleWindowScroll);
-        }
+        return () => clearTimeout(timeOut);
     }, []);
+    // const [scrollHeight, setScrollHeight] = useState(0);
+    // const { state, dispatchAuth } = useContext(AuthContext); 
+    // const { isLogin, role } = state;
+    // const refreshToken = localStorage.getItem('refreshToken');
 
-    const handleToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        })
-    }
+    // useEffect(() => {
+    //     const fecthDataUser = async (refreshToken) => {
+    //         const dataUser = await authApi.getInfoUser(refreshToken);
+
+    //         if(dataUser.status === 200)
+    //             dispatchAuth({
+    //                 type: 'SET_USER_INFO',
+    //                 payload: dataUser.data,
+    //             })
+    //     }
+
+    //     if(refreshToken) {
+    //         fecthDataUser(refreshToken);
+    //     }
+    // }, [refreshToken]);
+
+    // useEffect(() => {
+    //     const handleWindowScroll = () => {
+    //         setScrollHeight(window.pageYOffset);
+    //     }
+
+    //     window.addEventListener('scroll', handleWindowScroll);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleWindowScroll);
+    //     }
+    // }, []);
+
+    // const handleToTop = () => {
+    //     window.scrollTo({
+    //         top: 0,
+    //         behavior: 'smooth',
+    //     })
+    // }
 
     return (
-        <>
-            <Suspense fallback={<LoadingPage />} >
+        <AuthContextProvider>
+            { isLoading ? <FirstLoading /> : '' }
+            <GlobalStyle />
+            <ToastContainer />
+            <React.Suspense fallback={loading}>
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path="/404" name="Page 404" render={props => <PageNotFound {...props} />} />
+                        <Route path="/" component={TheLayout} />
+                    </Switch>
+                </BrowserRouter>
+            </React.Suspense>
+            {/* <Suspense fallback={<LoadingPage />} >
                 <LoadingPage />
                 <TraillerMovie />
                 <ToastContainer theme="colored" style={{zIndex: 999999999}}/>
@@ -109,8 +140,8 @@ function App() {
                 <div className={scrollHeight >= 1000 ? "btn-on-top show" : "btn-on-top"} onClick={() => handleToTop()}>
                     <i className="fad fa-angle-up"></i>
                 </div>
-            </Suspense>
-        </>
+            </Suspense> */}
+        </AuthContextProvider>
 
     );
 }

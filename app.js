@@ -33,17 +33,8 @@ if(process.env.NODE_ENV === "appstore") {
 const Uuid = require('uuid');
 
 var server = require('http').Server(app);
-//var http = require('http').createServer(app);
 let comments = [];
 const io = require('socket.io')(server);
-// const io = require('socket.io')(8900, {
-//     cors: {
-//         //origin: "https://bibi-cosmetic-store.herokuapp.com/",
-//         origin: "http://localhost:3000",
-//         methods: ["GET", "POST"],
-//         transports: [ "websocket", "polling" ],
-//     }
-// });
 
 const addComments = (idComments, socketId) => {
     !comments.some(comment => comment.idComments === idComments) &&
@@ -85,6 +76,5 @@ io.on('connection', (socket) => {
 db.sync().then(function () {
     const port = process.env.PORT || 5000;
     console.log(`Server is listening on port ${port}`);
-    // http.listen(port);
     server.listen(port);
 }).catch(console.error);

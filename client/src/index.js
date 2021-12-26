@@ -6,20 +6,14 @@ import App from './App';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import store from './app/store';
-import { TrailerContextProvider } from './contexts/trailerContenxt';
-import { AuthContextProvider } from './contexts/authContext';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <AuthContextProvider>
-        <TrailerContextProvider>
-          <App />
-        </TrailerContextProvider>
-      </AuthContextProvider>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
