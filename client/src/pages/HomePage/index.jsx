@@ -7,6 +7,7 @@ import {
 import Advertisement from './Advertisement';
 import { useDispatch } from 'react-redux';
 import { fetchMovieHomePage } from 'src/reducers/homePageSlice';
+import Promotion from './Promotion';
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const HomePage = () => {
             </Helmet>
             <MainPage>
                 <Advertisement />
+                <Promotion />
             </MainPage>
         </>
     );

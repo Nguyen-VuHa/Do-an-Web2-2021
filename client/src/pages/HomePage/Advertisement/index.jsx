@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 const Advertisement = () => {
     const {loading, movieTrend} = useSelector((state) => state.homepageState);
 
-    console.log(movieTrend);
     return (
         <Layout>
             <LayoutBackground>

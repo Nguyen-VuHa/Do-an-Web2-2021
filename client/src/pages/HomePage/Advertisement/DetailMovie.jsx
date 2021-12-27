@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { 
     LayoutDetail, Title_4, DetailContent,
     DetailItem, DetailTitle 
 } from './Advertisement.Style';
 import { Button } from 'src/custom-fields/GlobalStyle/Button.Style';
+import { TrailerContext } from 'src/contexts/trailerContenxt';
 
 const DetailMovie = ({ detail }) => {
+    const { dispatchTrailer } = useContext(TrailerContext);
+    
     return (
         <LayoutDetail>
             <Title_4
@@ -43,7 +46,17 @@ const DetailMovie = ({ detail }) => {
                 </DetailItem>
                 <DetailItem className="pl-0">
                     <Button>Mua vé ngày</Button>
-                    <Button className="ml-2">Xem trailer</Button>
+                    <Button 
+                        className="ml-2"
+                        onClick={() => {
+                            dispatchTrailer({
+                                type: 'SHOW_TRAILER',
+                                payload: detail[0]?.trailer
+                            })
+                        }}
+                    >
+                        Xem trailer
+                    </Button>
                 </DetailItem>
             </DetailContent>
         </LayoutDetail>

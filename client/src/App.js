@@ -18,6 +18,8 @@ import UserProfile from './features/UserProfile';
 
 import GlobalStyle from './GlobalStyle';
 import FirstLoading from 'src/components/FirtLoading';
+import TrailerMovie from 'src/components/TrailerMovie';
+import { TrailerContextProvider } from './contexts/trailerContenxt';
 
 const TheLayout = React.lazy(() => import('./layout/TheLayout'));
 const PageNotFound = React.lazy(() => import('./components/PageNotFound'));
@@ -79,17 +81,20 @@ function App() {
 
     return (
         <AuthContextProvider>
-            { isLoading ? <FirstLoading /> : '' }
-            <GlobalStyle />
-            <ToastContainer />
-            <React.Suspense fallback={loading}>
-                <BrowserRouter>
-                    <Switch>
-                        <Route exact path="/404" name="Page 404" render={props => <PageNotFound {...props} />} />
-                        <Route path="/" component={TheLayout} />
-                    </Switch>
-                </BrowserRouter>
-            </React.Suspense>
+            <TrailerContextProvider>
+                { isLoading ? <FirstLoading /> : '' }
+                <GlobalStyle />
+                <ToastContainer />
+                <TrailerMovie />
+                <React.Suspense fallback={loading}>
+                    <BrowserRouter>
+                        <Switch>
+                            <Route exact path="/404" name="Page 404" render={props => <PageNotFound {...props} />} />
+                            <Route path="/" component={TheLayout} />
+                        </Switch>
+                    </BrowserRouter>
+                </React.Suspense>
+            </TrailerContextProvider>
             {/* <Suspense fallback={<LoadingPage />} >
                 <LoadingPage />
                 <TraillerMovie />
