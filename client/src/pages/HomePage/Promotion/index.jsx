@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { 
     LayoutPromotion, ButonCarousel,
-    
 } from './Promotion.Style';
 import SlidePromotion from './SlidePromotion';
 

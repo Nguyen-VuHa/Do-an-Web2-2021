@@ -26,8 +26,12 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
     }
 
+    img {
+        user-select: none;
+    }
+
     ::-webkit-scrollbar {
-        background-color: #1d2f58;
+        background-color: ${BlueGray};
         width: 0.8rem;
     }
     ::-webkit-scrollbar-thumb {

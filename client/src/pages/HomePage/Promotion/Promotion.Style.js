@@ -7,6 +7,14 @@ export const LayoutPromotion = styled.section`
     width: 100%;
     height: 80vh;
     overflow: hidden;
+
+    @media screen and (max-width: 1024px) {  
+        height: 65vh;
+    }
+
+    @media screen and (max-width: 764px) {  
+        height: 35vh;
+    }
 `;
 
 export const ButonCarousel = styled.div`
@@ -24,6 +32,10 @@ export const ButonCarousel = styled.div`
     opacity: 0;
     visibility: hidden;
     transition: all .4s ease;
+
+    @media screen and (max-width: 764px) {  
+        height: 70px;
+    }
 
     &.show {
         opacity: 1;

@@ -29,6 +29,10 @@ export const LayoutTrailer = styled.div`
     z-index: 10;
     position: relative;
     transition: all .4 ease;
+
+    @media screen and (max-width: 764px) {  
+        width: 90%;
+    }
 `;
 
 export const VideTrailer = styled.div`
@@ -64,4 +68,16 @@ export const ButtonClose = styled.div`
 export const Iframe = styled.iframe`
     width: 100%;
     height: 600px;
+
+    @media screen and (max-width: 1024px) {  
+        height: 400px;
+    }
+
+    @media screen and (max-width: 764px) {  
+        height: 300px;
+    }
+
+    @media screen and (max-width: 500px) {  
+        height: 250px;
+    }
 `;

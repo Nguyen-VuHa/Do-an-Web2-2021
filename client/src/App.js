@@ -7,7 +7,6 @@ import './App.scss';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import LoadingPage from './components/LoadingPage';
-import TraillerMovie from './components/TraillerMovie';
 import { AuthContext, AuthContextProvider } from './contexts/authContext';
 import AdminPage from './features/Admin';
 import Auth from './features/Auth';
