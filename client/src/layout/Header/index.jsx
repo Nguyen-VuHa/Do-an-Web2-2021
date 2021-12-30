@@ -3,7 +3,7 @@ import ContentMenuHeader from './ContentMenu';
 import { 
     Header, NavHeader, HeaderLogo
 } from './Header.Style';
-import { Button } from 'src/custom-fields/GlobalStyle/Button.Style';
+import { Button } from 'src/style-common/Button.Style';
 import LoginForm from './LoginForm';
 
 const TheHeader = () => {

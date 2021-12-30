@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormLayout, FormGroup, FormControl, TextLink } from './LoginForm.Style';
-import { InputForm } from 'src/custom-fields/GlobalStyle/Input.Style';
-import { Button } from 'src/custom-fields/GlobalStyle/Button.Style';
+import { InputForm } from 'src/style-common/Input.Style';
+import { Button } from 'src/style-common/Button.Style';
 
 const LoginForm = ({ isDropDown, dropdownRef }) => {
     const [email, setEmail] = useState('');

@@ -9,6 +9,9 @@ import Banner5 from '../assets/images/Banner5.jpg';
 import BorderItem from '../assets/images/borderHallowen.png';
 import Fare from '../assets/images/Fare.jpg';
 import NotItem from '../assets/images/NotItem.png';
+import MovieDefault from '../assets/images/movie-default.png';
+import PosterDefault from '../assets/images/poster-default.jpg';
+
 
 const Images = {
     Image_BTC: ImageBTC,
@@ -22,6 +25,8 @@ const Images = {
     BorderItem: BorderItem,
     FARE: Fare,
     NOTITEM: NotItem,
+    MOVIE_DEFAULT: MovieDefault,
+    POSTER_DEFAULT: PosterDefault,
 }
 
 export default Images;

@@ -3,8 +3,9 @@ import {
     LayoutDetail, Title_4, DetailContent,
     DetailItem, DetailTitle 
 } from './Advertisement.Style';
-import { Button } from 'src/custom-fields/GlobalStyle/Button.Style';
+import { Button } from 'src/style-common/Button.Style';
 import { TrailerContext } from 'src/contexts/trailerContenxt';
+import Images from 'src/contants/image';
 
 const DetailMovie = ({ detail }) => {
     const { dispatchTrailer } = useContext(TrailerContext);
@@ -16,23 +17,23 @@ const DetailMovie = ({ detail }) => {
                     color: 'crimson',
                     margin: '25px 40px'
                 }}
-            >{ detail.length > 0 && detail[0].movieName }</Title_4>
+            >{ detail.length > 0 ? detail[0].movieName : 'DEFAULT' }</Title_4>
             <DetailContent>
                 <DetailItem>
                     <DetailTitle>Đạo diễn</DetailTitle>
-                    <span>{ detail.length > 0 && detail[0].directors }</span>
+                    <span>{ detail.length > 0 ? detail[0].directors : 'DEFAULT' }</span>
                 </DetailItem>
                 <DetailItem>
                     <DetailTitle>Diễn viên</DetailTitle>
-                    <span>{ detail.length > 0 && detail[0].mainActor }</span>
+                    <span>{ detail.length > 0 ? detail[0].mainActor : 'DEFAULT' }</span>
                 </DetailItem>
                 <DetailItem>
                     <DetailTitle>Thể loại</DetailTitle>
-                    <span>{ detail.length > 0 && detail[0].category }</span>
+                    <span>{ detail.length > 0 ? detail[0].category : 'DEFAULT' }</span>
                 </DetailItem>
                 <DetailItem>
                     <DetailTitle>Thời lượng</DetailTitle>
-                    <span>{ detail.length > 0 && detail[0].time } phút</span>
+                    <span>{ detail.length > 0 ? detail[0].time  : 'DEFAULT'} phút</span>
                 </DetailItem>
                 <DetailItem>
                     <DetailTitle>Đánh giá</DetailTitle>
@@ -49,10 +50,12 @@ const DetailMovie = ({ detail }) => {
                     <Button 
                         className="ml-2"
                         onClick={() => {
-                            dispatchTrailer({
-                                type: 'SHOW_TRAILER',
-                                payload: detail[0]?.trailer
-                            })
+                            if(detail.length > 0) {
+                                dispatchTrailer({
+                                    type: 'SHOW_TRAILER',
+                                    payload: detail[0]?.trailer
+                                });
+                            }
                         }}
                     >
                         Xem trailer

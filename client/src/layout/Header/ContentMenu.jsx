@@ -4,7 +4,7 @@ import {
     ContentMenu,
     ItemMenu,
 } from './Header.Style';
-import { ButtonHeader } from 'src/custom-fields/GlobalStyle/Button.Style';
+import { ButtonHeader } from 'src/style-common/Button.Style';
 
 const ContentMenuHeader = () => {
     const [indexMenu, setIndexMenu] = useState(null);

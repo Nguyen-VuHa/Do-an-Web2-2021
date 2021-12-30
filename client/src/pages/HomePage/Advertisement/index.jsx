@@ -6,9 +6,10 @@ import {
     DescriptionMovie, TitleDescription,
     TextDiscription
 } from './Advertisement.Style';
-import { LayoutBackground, ImageBG } from 'src/custom-fields/GlobalStyle/ImageBackground.Style';
+import { LayoutBackground, ImageBG } from 'src/style-common/ImageBackground.Style';
 import DetailMovie from './DetailMovie';
 import { useSelector } from 'react-redux';
+import Images from 'src/contants/image';
 
 const Advertisement = () => {
     const {loading, movieTrend} = useSelector((state) => state.homepageState);
@@ -24,7 +25,7 @@ const Advertisement = () => {
                     <Title_3>Top Phim Trong Tuần</Title_3>
                     <ContentMovie>
                         <PosterCard>
-                            <Image src={movieTrend.length > 0 ? movieTrend[0].poster1 : ''} alt="Poster Not Found"/>
+                            <Image src={movieTrend.length > 0 ? movieTrend[0].poster1 : Images.POSTER_DEFAULT} alt="Poster Not Found"/>
                         </PosterCard>
                         <DetailMovie detail={movieTrend}/>
                     </ContentMovie>

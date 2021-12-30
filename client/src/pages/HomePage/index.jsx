@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { fetchMovieHomePage } from 'src/reducers/homePageSlice';
 import Promotion from './Promotion';
 import MovieCurrent from './MovieCurrent';
+import MovieComming from './MovieComming';
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const HomePage = () => {
     useEffect(() => {
         dispatch(fetchMovieHomePage());
     }, []);
+    
     return (
         <>
             <Helmet>
@@ -24,6 +26,7 @@ const HomePage = () => {
             <MainPage>
                 <Advertisement />
                 <MovieCurrent />
+                <MovieComming />
                 <Promotion />
             </MainPage>
         </>
