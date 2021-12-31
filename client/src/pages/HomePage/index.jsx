@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import globalText from 'src/contants/titleCinema';
 import {
     MainPage
@@ -20,9 +20,12 @@ const HomePage = () => {
     
     return (
         <>
-            <Helmet>
-                <title>{ globalText.TITLE_HOMEPAGE }</title>
-            </Helmet>
+            <HelmetProvider>
+                <Helmet>
+                    <title>{ globalText.TITLE_HOMEPAGE }</title>
+                </Helmet>
+            </HelmetProvider>
+          
             <MainPage>
                 <Advertisement />
                 <MovieCurrent />

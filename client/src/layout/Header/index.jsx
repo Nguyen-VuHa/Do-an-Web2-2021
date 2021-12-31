@@ -43,7 +43,9 @@ const TheHeader = () => {
     }, []);
 
     return (
-        <Header className={scrollHeight >= 90 ? "hide" : ""}>
+        <Header 
+            className={scrollHeight >= 90 ? "hide" : ""}
+        >
             <NavHeader>
                 <a href='/'>
                     <HeaderLogo  src="https://www.tiendauroi.com/wp-content/uploads/2020/02/bhd-star-cinema.png" alt="Logo App" />
@@ -53,7 +55,7 @@ const TheHeader = () => {
                     <Button ref={buttonRef} width={170} onClick={() => setIsDropDown(!isDropDown)}>
                         Đăng nhập
                     </Button>
-                    <LoginForm isDropDown={isDropDown} dropdownRef={dropdownRef}/>
+                    <LoginForm isDropDown={isDropDown} dropdownRef={dropdownRef} setIsDropDown={setIsDropDown}/>
                 </div>
             </NavHeader>
         </Header>

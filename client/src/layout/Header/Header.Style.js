@@ -9,7 +9,7 @@ export const Header = styled.header`
     top: 0px;
     
     width: 100%;
-    z-index: 9999;
+    z-index: 996;
     transform: translateY(0%);
     transition: all 0.5s ease;
 

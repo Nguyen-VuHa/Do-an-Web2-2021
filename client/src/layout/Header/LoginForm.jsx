@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { FormLayout, FormGroup, FormControl, TextLink } from './LoginForm.Style';
 import { InputForm } from 'src/style-common/Input.Style';
 import { Button } from 'src/style-common/Button.Style';
+import { Link } from 'react-router-dom';
 
-const LoginForm = ({ isDropDown, dropdownRef }) => {
+const LoginForm = ({ isDropDown, dropdownRef, setIsDropDown }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -48,7 +49,9 @@ const LoginForm = ({ isDropDown, dropdownRef }) => {
                 <Button type="button" className="w-50">Đăng nhập</Button>
                 <TextLink>Quên mật khẩu?</TextLink>
             </FormControl>
-            <Button type="button" className="w-100 mt-3">Đăng ký thành viên</Button>
+            <Link to="/auth/register" onClick={() => setIsDropDown(false)}>
+                <Button type="button" className="w-100 mt-3" >Đăng ký thành viên</Button>
+            </Link>
         </FormLayout>
     );
 };

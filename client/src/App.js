@@ -1,24 +1,13 @@
-import React, { Suspense, useContext, useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import authApi from './api/authApi';
-import './App.scss';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import LoadingPage from './components/LoadingPage';
-import { AuthContext, AuthContextProvider } from './contexts/authContext';
-import AdminPage from './features/Admin';
-import Auth from './features/Auth';
-import CinemaSystem from './features/CenimaSystem';
-import HomePage from './features/HomePage';
-import MovieDetail from './features/MovieDetail';
-import UserProfile from './features/UserProfile';
-
-import GlobalStyle from './GlobalStyle';
 import FirstLoading from 'src/components/FirtLoading';
 import TrailerMovie from 'src/components/TrailerMovie';
+import './App.scss';
+import { AuthContextProvider } from './contexts/authContext';
 import { TrailerContextProvider } from './contexts/trailerContenxt';
+import GlobalStyle from './GlobalStyle';
 
 const TheLayout = React.lazy(() => import('./layout/TheLayout'));
 const PageNotFound = React.lazy(() => import('./components/PageNotFound'));
@@ -88,8 +77,8 @@ function App() {
                 <React.Suspense fallback={loading}>
                     <BrowserRouter>
                         <Switch>
-                            <Route exact path="/404" name="Page 404" render={props => <PageNotFound {...props} />} />
                             <Route path="/" component={TheLayout} />
+                            <Route exact path="/404" name="Page 404" render={props => <PageNotFound {...props} />} />
                         </Switch>
                     </BrowserRouter>
                 </React.Suspense>

@@ -1,8 +1,7 @@
-import styled from 'styled-components';
-import { 
-    FontEncodeSans, FontRoboto, 
-    Green, White, GrayWhite 
+import {
+    FontEncodeSans, Green, White
 } from 'src/contants/cssContants';
+import styled from 'styled-components';
 
 export const ButtonHeader = styled.div`
     position: relative;
@@ -89,6 +88,11 @@ export const Button = styled.button`
 
     cursor: pointer;
     user-select: none;
+
+    &.submit {
+        opacity: 0.8;
+        pointer-events: none;
+    }
 
     &:hover {
         box-shadow: 0 0 5px #27df2d, 0 0 30px #27df2d, 0 0 80px #27df2d, 0 0 250px #27df2d;

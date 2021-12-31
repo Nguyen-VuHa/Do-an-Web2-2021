@@ -42,7 +42,7 @@ const MovieCurrent = () => {
                     item = 1;
                 
                 setItems(item);
-                setWidthItem(Math.ceil(sizeSlickRef.current.offsetWidth / item) + 10);
+                setWidthItem(Math.ceil(sizeSlickRef.current?.offsetWidth / item) + 10);
                 layoutSlideRef.current.style.transform = `translate3d(0px, 0px, 0px)`;
                 setIndex(0);
         });
@@ -67,7 +67,7 @@ const MovieCurrent = () => {
                 item = 1
             
             setItems(item);
-            setWidthItem(Math.ceil(sizeSlickRef.current.offsetWidth / item) + 10);
+            setWidthItem(Math.ceil(sizeSlickRef.current?.offsetWidth / item) + 10);
         }
     }, [sizeSlickRef]);
 

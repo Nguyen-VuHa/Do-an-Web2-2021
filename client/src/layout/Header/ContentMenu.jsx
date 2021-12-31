@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { 
     ContentMenu,
     ItemMenu,
@@ -8,16 +8,15 @@ import { ButtonHeader } from 'src/style-common/Button.Style';
 
 const ContentMenuHeader = () => {
     const [indexMenu, setIndexMenu] = useState(null);
-    const match = useRouteMatch();
 
     useEffect(() => {
-        if(match.url === '/') 
+        if(window.location.pathname === '/') 
             setIndexMenu(0);
-
+        else 
+            setIndexMenu(null);    
+        
         return () => setIndexMenu(null);
-    }, [match]);
-
-    
+    }, [window.location.pathname]);
 
     return (
         <>

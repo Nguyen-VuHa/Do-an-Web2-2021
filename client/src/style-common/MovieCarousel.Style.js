@@ -16,6 +16,10 @@ export const TitleMovie = styled.h3`
     color: ${Green};
     filter: brightness(1.2);
     font-family: ${FontEncodeSans};
+
+    @media screen and (max-width: 764px) {  
+        font-size: 23px;
+    }
 `;
 
 export const LayoutCarousel = styled.section`
@@ -129,5 +133,16 @@ export const DefaultItem = styled.div`
         font-size: 25px;
         font-weight: 600;
         font-family: ${FontNotoSansMono};
+    }
+
+    @media screen and (max-width: 764px) {  
+        flex-direction: column;
+        width: 70vw;
+        text-align: center;
+
+        span {
+            font-size: 20px;
+            margin-top: 10px;
+        }
     }
 `;
