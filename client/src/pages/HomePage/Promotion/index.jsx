@@ -27,7 +27,9 @@ const Promotion = () => {
             layoutSlideRef.current.style.transform = `translateX(-${indexImage === 0 ? slideWidth : slideWidth * (indexImage + 1)}px)`;
         }, 5000);
     
-        return () => clearTimeout(timeout);
+        return () => {
+            clearTimeout(timeout);
+        }
     }, [indexImage, length, slideWidth]);
 
     useEffect(() => {
@@ -46,6 +48,8 @@ const Promotion = () => {
             });
 
             layoutSlideRef.current.style.transform = `translateX(-${slideWidth * indexImage}px)`;
+
+            return () => setslideWidth(0);
         }
 
         return () => {

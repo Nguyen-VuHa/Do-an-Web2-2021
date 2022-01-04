@@ -43,13 +43,17 @@ const MovieComming = () => {
                 
                 setItems(item);
                 setWidthItem(Math.ceil(sizeSlickRef.current?.offsetWidth / item) + 10);
-                layoutSlideRef.current.style.transform = `translate3d(0px, 0px, 0px)`;
+                if(layoutSlideRef && layoutSlideRef.current) {
+                    layoutSlideRef.current.style.transform = `translate3d(0px, 0px, 0px)`;
+                }
                 setIndex(0);
         });
 
         return () => {
             window.removeEventListener('resize', function() {
                 setwindowSize(null);
+                setItems(1);
+                setIndex(0);
             });
         }
     }, [window.innerWidth]);
@@ -68,6 +72,11 @@ const MovieComming = () => {
             
             setItems(item);
             setWidthItem(Math.ceil(sizeSlickRef.current?.offsetWidth / item) + 10);
+
+            return () => {
+                setItems(0);
+                setWidthItem(0);
+            }
         }
     }, [sizeSlickRef]);
 

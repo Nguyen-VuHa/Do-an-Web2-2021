@@ -15,7 +15,7 @@ const initialState = {
 }
 
 const homepageSlice = createSlice({
-    name: 'moive-homepage',
+    name: 'movie-homepage',
     initialState: initialState,
     reducers: {},
     extraReducers: {

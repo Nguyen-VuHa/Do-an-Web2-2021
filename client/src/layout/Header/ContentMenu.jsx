@@ -12,6 +12,8 @@ const ContentMenuHeader = () => {
     useEffect(() => {
         if(window.location.pathname === '/') 
             setIndexMenu(0);
+        else if (window.location.pathname === '/system-cinema/cinema')
+            setIndexMenu(1);
         else 
             setIndexMenu(null);    
         
@@ -29,8 +31,8 @@ const ContentMenuHeader = () => {
                     </Link>
                 </ItemMenu>
                 <ItemMenu>
-                    <Link to="#">
-                        <ButtonHeader content="Hệ thống rạp phim">
+                    <Link to={ indexMenu === 1 ? '#' : '/system-cinema/cinema' }>
+                        <ButtonHeader content="Hệ thống rạp phim" className={indexMenu === 1 ? 'active' : ''}>
                             <i className="fal fa-pallet-alt"></i>
                         </ButtonHeader>
                     </Link>

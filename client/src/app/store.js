@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import homepageSlice from "src/reducers/homePageSlice";
+import systemCinemaSlice from "src/reducers/systemCinemaSlice";
 // import loadingSlice from '../components/LoadingPage/loadingSlice';
 // import isLonginSlice from '../contants/loginSlice';
 // import dataHomePpage from '../features/HomePage/homepageSlice';
@@ -13,5 +14,6 @@ import homepageSlice from "src/reducers/homePageSlice";
 export default configureStore({
     reducer: {
         homepageState: homepageSlice,
+        systemCinemaState: systemCinemaSlice,
     },
 })
