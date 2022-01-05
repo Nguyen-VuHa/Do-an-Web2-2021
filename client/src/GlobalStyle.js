@@ -45,6 +45,12 @@ const GlobalStyle = createGlobalStyle`
     ::-webkit-scrollbar-thumb:active {
         background-color: ${GrayWhite};
     }
+        
+    @keyframes shimmer {
+        100% {
+            transform: translateX(100%);
+        }
+    }
 
     @keyframes floating {
         0% {

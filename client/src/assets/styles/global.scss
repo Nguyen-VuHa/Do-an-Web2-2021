@@ -30,35 +30,35 @@ $colorLoading: #00ff0a;
 
 // Loading Skeleton
 
-.skeleton-box { 
-    display: inline-block;
-    height: 1em;
-    position: relative;
-    overflow: hidden;
-    background-color: $colorLayout;
-    border-radius: 18px;
+// .skeleton-box { 
+//     display: inline-block;
+//     height: 1em;
+//     position: relative;
+//     overflow: hidden;
+//     background-color: $colorLayout;
+//     border-radius: 18px;
 
-    &::after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        transform: translateX(-100%);
-        background-image: linear-gradient(
-          90deg,
-          rgba($colorText, 0) 0,
-          rgba($colorText, 0.2) 40%,
-          rgba($colorText, 0.5) 70%,
-          rgba($colorText, 0)
-        );
-        animation: shimmer 2s infinite;
-        content: '';
-      }
+//     &::after {
+//         position: absolute;
+//         top: 0;
+//         right: 0;
+//         bottom: 0;
+//         left: 0;
+//         transform: translateX(-100%);
+//         background-image: linear-gradient(
+//           90deg,
+//           rgba($colorText, 0) 0,
+//           rgba($colorText, 0.2) 40%,
+//           rgba($colorText, 0.5) 70%,
+//           rgba($colorText, 0)
+//         );
+//         animation: shimmer 2s infinite;
+//         content: '';
+//       }
     
-      @keyframes shimmer {
-        100% {
-          transform: translateX(100%);
-        }
-      }
-}
+//       @keyframes shimmer {
+//         100% {
+//           transform: translateX(100%);
+//         }
+//       }
+// }

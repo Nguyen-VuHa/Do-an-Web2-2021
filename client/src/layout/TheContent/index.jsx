@@ -11,7 +11,7 @@ const loading = (
 
 const TheContent = () => {
     return (
-        <div style={{paddingTop: '86px'}}>
+        <div style={{paddingTop: '86px', minHeight: '100vh'}}>
             <Suspense fallback={loading}>
                 <Switch>
                     {routes.map((route, idx) => {
