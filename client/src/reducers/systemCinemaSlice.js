@@ -5,7 +5,6 @@ const initialState = {
     loading: false,
     error: '',
     systemCinema: [],
-    detailsCinema: {},
 }
 
 export const fetchSystemCinema = createAsyncThunk('GET_SYSTEM_CINEMA', async () => {

@@ -7,10 +7,10 @@ import {
 import Images from 'src/contants/image';
 
 const CardCinema = ({ props }) => {
-    const { nameCinema, district, city, typeCinema  } = props;
+    const { id, nameCinema, district, city, typeCinema  } = props;
 
     return (
-        <Link to="#">
+        <Link to={`/system-cinema/detail/${id}/cinema`}>
             <LayoutCard>
                 <span></span>
                 <span></span>

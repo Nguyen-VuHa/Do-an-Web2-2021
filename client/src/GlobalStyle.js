@@ -59,6 +59,67 @@ const GlobalStyle = createGlobalStyle`
             filter: hue-rotate(360deg);
         }
     }
+
+    @keyframes animateLeft {
+        0% {
+            left: -10%;
+            filter: hue-rotate(0deg);
+        }
+        5% {
+            left: 0%;
+        }
+        10% {
+            width: 10%;
+        }
+        20% {
+            width: 15%;
+        }
+        30% {
+            width: 20%;
+        }
+        40% {
+            width: 25%;
+        }
+        50% {
+            width: 30%;
+        }
+        60% {
+            // left: 45%;
+        }
+        100% {
+            width: 50%;
+            left: 100%;
+            filter: hue-rotate(360deg);
+        }
+    }
+
+    @keyframes animateRight {
+        0% {
+            right: -10%;
+        }
+        5% {
+            right: 0%;
+        }
+        10% {
+            right: 10%;
+        }
+        20% {
+            right: 15%;
+        }
+        30% {
+            right: 20%;
+        }
+        40% {
+            right: 25%;
+        }
+        50% {
+            right: 30%;
+        }
+        100% {
+            width: 60%;
+            right: 100%;
+        }
+    }
 `;
 
 export default GlobalStyle;
