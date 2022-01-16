@@ -16,7 +16,6 @@ const HomePage = () => {
     const { loading } = useSelector(state => state.homepageState);
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log(loading);
     const dispatch = useDispatch();
     
     useEffect(() => {

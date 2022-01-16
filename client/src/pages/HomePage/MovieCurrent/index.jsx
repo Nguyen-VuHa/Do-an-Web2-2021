@@ -90,7 +90,7 @@ const MovieCurrent = () => {
     }
 
     const handleNextSlide = () => {
-        if(index >= (count - items + 1))
+        if(index >= (count - items))
         {
             return;
         }
@@ -103,8 +103,7 @@ const MovieCurrent = () => {
             <TitleMovie>-- Phim hiện đang chiếu --</TitleMovie>
             <LayoutCarousel>
                 {
-                    count > 5  
-                    && <ButonCarousel 
+                    <ButonCarousel 
                         className="left"
                         onClick={handlePrevSlide}
                     >
@@ -136,8 +135,7 @@ const MovieCurrent = () => {
                     </SlickList>
                 </LayoutSlideCarousel>
                 {
-                    count > 5  
-                    &&  <ButonCarousel 
+                    <ButonCarousel 
                         className="right"
                         onClick={handleNextSlide}
                     >

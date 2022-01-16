@@ -10,7 +10,6 @@ const MovieCard = ({ className, setWidthItem, data }) => {
     const [isHover, setIsHover] = useState(false);
     const layoutRef = useRef(null);
 
-    console.log(data);
     useEffect(() => {
         if(layoutRef && layoutRef.current) {
             setWidthItem && setWidthItem(layoutRef.current.offsetWidth);

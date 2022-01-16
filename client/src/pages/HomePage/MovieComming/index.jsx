@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import Images from 'src/contants/image';
 
 const MovieComming = () => {
-    const {loading, movieComming } = useSelector((state) => state.homepageState);
+    const { movieComming } = useSelector((state) => state.homepageState);
 
     const layoutSlideRef = useRef(null);
     const sizeSlickRef = useRef(null);
@@ -103,8 +103,7 @@ const MovieComming = () => {
             <TitleMovie>-- Phim sắp chiếu --</TitleMovie>
             <LayoutCarousel>
                 {
-                    count > 5  
-                    && <ButonCarousel 
+                    <ButonCarousel 
                         className="left"
                         onClick={handlePrevSlide}
                     >
@@ -136,8 +135,7 @@ const MovieComming = () => {
                     </SlickList>
                 </LayoutSlideCarousel>
                 {
-                    count > 5  
-                    &&  <ButonCarousel 
+                    <ButonCarousel 
                         className="right"
                         onClick={handleNextSlide}
                     >
