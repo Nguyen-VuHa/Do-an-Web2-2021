@@ -9,17 +9,20 @@ const SystemCinema = React.lazy(() => import('src/pages/SystemCinema'));
 const SystemCinemaDetail = React.lazy(() => import('src/pages/SystemCinemaDetail'));
 // Movie Detail
 const MovieDetail = React.lazy(() => import('src/pages/MovieDetail'));
+const PageNotFound = React.lazy(() => import('src/components/PageNotFound'));
 
 // array routes
 const routes = [
+    { path: '/error/404', name: 'HomePage', component: PageNotFound, exact: true},
+
     { path: '/', name: 'HomePage', component: HomePage, exact: true},
     { path: '/auth/register', name: 'Register', component: Register, exact: true},
 
     { path: '/system-cinema/cinema', name: 'System Cinema', component: SystemCinema, exact: true},
     { path: '/system-cinema/detail/:cinemaId/cinema', name: 'System Cinema Detail', component: SystemCinemaDetail, exact: true},
 
-    { path: '/movie/movie-current/:idMovie', name: 'Movie Detail Current', component: MovieDetail, exact: true},
-    { path: '/movie/movie-comming/:idMovie', name: 'Movie Detail CommingSoon', component: MovieDetail, exact: true},
+    { path: '/movie/movie-current/:movieId', name: 'Movie Detail Current', component: MovieDetail, exact: true},
+    { path: '/movie/movie-comming/:movieId', name: 'Movie Detail CommingSoon', component: MovieDetail, exact: true},
 ];
 
 export default routes;

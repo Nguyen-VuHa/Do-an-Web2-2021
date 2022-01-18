@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { BlueGray, FontBalooTammudu2, FontNotoSansMono, GrayWhite, Green } from 'src/contants/cssContants';
 
 export const MovieDetailLayout = styled.div`
-
     position: relative;
     display: flex;
     flex-direction: column;
@@ -40,9 +39,14 @@ export const BreadcrumbLayout = styled.div`
         }
     }
 
-
     a:hover {
         color: ${Green};
+    }
+
+    @media screen and (max-width: 768px) {  
+        a, span { 
+            font-size: 20px;
+        }
     }
 `;
 
@@ -50,6 +54,10 @@ export const LayoutContent = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
+
+    @media screen and (max-width: 768px) {  
+        flex-direction: column;
+    }
 `;
 
 export const LayoutSlidePoster = styled.div`
@@ -58,11 +66,24 @@ export const LayoutSlidePoster = styled.div`
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0px 3px 10px ${BlueGray};
+
+    @media screen and (max-width: 1024px) {  
+        height: 450px;
+    }
+
+    @media screen and (max-width: 768px) {  
+        width: 100%;
+    }
 `;
 
 export const LayoutContentMovie = styled.div`
     width: 65%;
     height: 100%;
+
+    @media screen and (max-width: 768px) {  
+        width: 100%;
+        margin-top: 15px;
+    }
 `;
 
 export const DescriptionMovie = styled.div`
@@ -70,6 +91,10 @@ export const DescriptionMovie = styled.div`
     margin-top: 100px;
     margin-bottom: 150px;
     z-index: 100;
+
+    @media screen and (max-width: 768px) {  
+        margin-top: 0;
+    }
 `;
 
 export const TitleDescription = styled.h5`

@@ -2,26 +2,24 @@ import React from 'react';
 import {
     Image, LayoutSlide, SlideItem
 } from './SlidePoster.Style';
-import Images from 'src/contants/image';
+import { useSelector } from 'react-redux';
 
 const SlidePromotion = (props) => {
-   
+    const { movieDetail } = useSelector(state => state.movieState);
+
     return (
         <LayoutSlide ref={props.layoutSlideRef}>
             <SlideItem className="slider">
-                <Image src={ Images.BANNER_1 }alt="Not Banner"/>
+                <Image src={ movieDetail && movieDetail.poster1 } alt="Not Poster"/>
             </SlideItem>
             <SlideItem className="slider">
-                <Image src={ Images.BANNER_2 }alt="Not Banner"/>
+                <Image src={ movieDetail && movieDetail.poster2 } alt="Not Poster"/>
             </SlideItem>
             <SlideItem className="slider">
-                <Image src={ Images.BANNER_3 }alt="Not Banner"/>
+                <Image src={ movieDetail && movieDetail.poster3 } alt="Not Poster"/>
             </SlideItem>
             <SlideItem className="slider">
-                <Image src={ Images.BANNER_4 }alt="Not Banner"/>
-            </SlideItem>
-            <SlideItem className="slider">
-                <Image src={ Images.BANNER_5 }alt="Not Banner"/>
+                <Image src={ movieDetail && movieDetail.poster4 } alt="Not Poster"/>
             </SlideItem>
         </LayoutSlide>
     );

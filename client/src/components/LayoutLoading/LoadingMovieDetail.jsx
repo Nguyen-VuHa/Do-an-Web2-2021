@@ -3,7 +3,7 @@ import { SkeletonBox } from 'src/style-common/Skeleton.Style';
 import { BlueGray } from 'src/contants/cssContants';
 import styled from 'styled-components';
 
-const HomePageLayout = styled.div`
+const MovieDetailLayout = styled.div`
     position: fixed;
     z-index: 500;
     top: 0;
@@ -28,15 +28,18 @@ const FlexBox = styled.div`
 `;
 
 
-const LoadingHomePage = () => {
+const LoadingMovieDetail = () => {
     return (
-        <HomePageLayout>
+        <MovieDetailLayout>
             <LayoutContent className='container flex-column'>
-                <SkeletonBox width={350} height={50} className='mt-5'/>
+                <div className="d-flex">
+                    <SkeletonBox width={150} height={40} className='mt-5'/>
+                    <SkeletonBox width={350} height={40} className='mt-5 ml-3'/>
+                </div>
                 <LayoutContent>
                     <SkeletonBox width={300} height={400} className='mt-5 mr-5'/>
                     <div>
-                        <SkeletonBox width={350} height={50} className='mt-5'/>
+                        <SkeletonBox width={350} height={40} className='mt-5'/>
                         <FlexBox>
                             <SkeletonBox width={150} height={25} className='mt-5'/>
                             <SkeletonBox width={350} height={25} className='mt-5 ml-3'/>
@@ -52,8 +55,8 @@ const LoadingHomePage = () => {
                     </div>
                 </LayoutContent>
             </LayoutContent>
-        </HomePageLayout>
+        </MovieDetailLayout>
     );
 };
 
-export default LoadingHomePage;
+export default LoadingMovieDetail;

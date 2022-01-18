@@ -33,6 +33,11 @@ const movieApi = {
     getMovieDetail: () => {
         const url = `api/bW92aWU=/bec4a217-4bfb-4da6-b396-659e9949de62`;
         return axiosClient.get(url);
+    },
+    // client api
+    getMovieDetailById: (movieId) => {
+        const url = `api/movie/movie-detail/${movieId}`;
+        return axiosClient.get(url);
     }
 }
 

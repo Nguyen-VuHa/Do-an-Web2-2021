@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { 
     MovieDetailLayout, LayoutContent,
@@ -9,23 +9,61 @@ import { LayoutBackground, ImageBG } from 'src/style-common/ImageBackground.Styl
 import Breadcrumb from './Breadcrumb';
 import SlidePoster from './SlidePoster';
 import DetailMovie from './DetailMovie';
+import LoadingMovieDetail from 'src/components/LayoutLoading/LoadingMovieDetail';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { getMovieDetailById } from 'src/reducers/movieSlice';
 
 const MovieDetail = () => {
+    const params = useParams();
+    const dispatch = useDispatch();
+    const { loading, movieDetail, error } = useSelector(state => state.movieState);
+    const history = useHistory();
+    
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
+        if(params && params.movieId) {
+            dispatch(getMovieDetailById(params.movieId));
+        }
+    }, []);
+
+    useEffect(() => {
+        if(error) {
+            history.push('/error/404');
+        }
+    }, [error]);
+
+    useEffect(() => {
+        if(loading === false) {
+            let timeOut = setTimeout(() => {
+                setIsLoading(false);
+            }, 1000);
+
+            return () => clearTimeout(timeOut);
+        }
+    }, [loading]);
+
     return (
         <>
-             <HelmetProvider>
+            <HelmetProvider>
                 <Helmet>
-                    <title>Movie Detail | BHD STAR</title>
+                    <title>{ movieDetail && `${movieDetail.movieName} | BHD STAR CINEPLEX` }</title>
                 </Helmet>
             </HelmetProvider>
 
+            { isLoading ? <LoadingMovieDetail /> : '' }
             <MovieDetailLayout>
                 <LayoutBackground>
                     <div></div>
-                    <ImageBG url="https://res.cloudinary.com/cgv-vi-t-nam/image/upload/v1635526318/poster_movie/dzfeavoow4acgu9atmwr.jpg" />
+                    <ImageBG url={movieDetail && movieDetail.poster1} />
                 </LayoutBackground>
                 <div className="container" style={{zIndex: '1'}}>
-                    <Breadcrumb />
+                    <Breadcrumb movieName={movieDetail && movieDetail.movieName}/>
                     <LayoutContent>
                         <LayoutSlidePoster>
                             <SlidePoster />
@@ -37,7 +75,9 @@ const MovieDetail = () => {
                     <DescriptionMovie className="container">
                         <TitleDescription>Chi Tiết</TitleDescription>
                         <TextDescription>
-                        Phim được thực hiện dựa trên các sự kiện có thật xảy ra tại một trong những cung đường trekking nổi tiếng nhất nước ta: Tà Năng - Phan Dũng. Đây cũng là tác phẩm đầu tiên của điện ảnh Việt Nam làm về chủ đề sinh tồn. Phim mới Rừng Thế Mạng khởi chiếu tại các rạp chiếu phim từ 31.12.2021.
+                            {
+                                movieDetail && movieDetail.describe ? movieDetail.describe : 'DEFAULT'
+                            }
                         </TextDescription>
                     </DescriptionMovie>
                 </div>

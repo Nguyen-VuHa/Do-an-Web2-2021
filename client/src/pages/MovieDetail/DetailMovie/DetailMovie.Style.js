@@ -6,6 +6,10 @@ export const LayoutDetailMovie = styled.div`
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+    
+    @media screen and (max-width: 768px) {  
+        margin: 0;
+    }
 `;
 
 export const TitleMovieName = styled.h4`
@@ -15,6 +19,12 @@ export const TitleMovieName = styled.h4`
     margin-bottom: 50px;
     font-family: ${FontEncodeSans};
     font-weight: 600;
+
+    @media screen and (max-width: 768px) {  
+        margin: 30px 20px;
+        font-size: 1.9rem;
+        text-align: center;
+    }
 `;
 
 export const InfoMovie = styled.ul`
@@ -24,6 +34,10 @@ export const InfoMovie = styled.ul`
     align-items: flex-start;
     font-size: 1.2em;
     font-family: ${FontBalooTammudu2};
+
+    @media screen and (max-width: 768px) {  
+        padding: 0 15px;
+    }
 `;
 
 export const GroupInfo = styled.li`
@@ -39,7 +53,7 @@ export const GroupInfo = styled.li`
         color: ${GrayWhite};
     }
 
-    & .group-control {
+    &.group-control {
         margin-top: 30px;
         display: flex;
     }

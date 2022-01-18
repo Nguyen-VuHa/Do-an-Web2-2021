@@ -7,7 +7,7 @@ import SlideImagePoster from './SlideImagePoster';
 const SlidePoster = () => {
     const [showButton, setShowButton] = useState(false);
 
-    const [length, setLength] = useState(5);
+    const [length, setLength] = useState(4);
     const [slideWidth, setslideWidth] = useState(0);
     const [indexImage, setindexImage] = useState(0);
 
@@ -62,7 +62,7 @@ const SlidePoster = () => {
     const handlePrevSlide = () => {
         if(indexImage <= 0)
         {
-            setindexImage(5 - 1);
+            setindexImage(4 - 1);
             layoutSlideRef.current.style.transform = `translateX(-${slideWidth * (5 - 1)}px)`;
             return;
         }
@@ -71,7 +71,7 @@ const SlidePoster = () => {
     }
 
     const handleNextSlide = () => {
-        if(indexImage >= (5 - 1))
+        if(indexImage >= (4 - 1))
         {
             setindexImage(0);
             layoutSlideRef.current.style.transform = `translateX(-${slideWidth * 0}px)`

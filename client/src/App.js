@@ -78,7 +78,6 @@ function App() {
                     <BrowserRouter>
                         <Switch>
                             <Route path="/" component={TheLayout} />
-                            <Route exact path="/404" name="Page 404" render={props => <PageNotFound {...props} />} />
                         </Switch>
                     </BrowserRouter>
                 </React.Suspense>

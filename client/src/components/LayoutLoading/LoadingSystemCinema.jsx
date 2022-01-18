@@ -5,12 +5,13 @@ import styled from 'styled-components';
 
 const SystemCiemaLayout = styled.div`
     position: fixed;
-    z-index: 999;
-    
-    width: 100%;
+    z-index: 500;
+    top: 0;
+
+    width: 100vw;
     height: 100vh;
     background: ${BlueGray};
-   
+    padding-top: 80px;
 `;
 
 const LayoutContent = styled.div`

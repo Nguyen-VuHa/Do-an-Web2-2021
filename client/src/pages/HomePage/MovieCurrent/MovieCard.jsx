@@ -35,7 +35,7 @@ const MovieCard = ({ className, setWidthItem, data }) => {
                 </ContentBox>
             </CardContent>
             <LayoutButton>
-                <Link to="#">
+                <Link to={`/movie/movie-current/${data?.movieId}`}>
                     <ButtonCard>Mua vé</ButtonCard>
                 </Link>
             </LayoutButton>
