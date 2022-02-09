@@ -6,12 +6,12 @@ const commentApi = {
         return axiosClient.get(url);
     },
     addComments: (data) => {
-        const url = `api/add-comments`;
-        return axiosClient.post(url,JSON.stringify(data));
+        const url = `api/comments/create`;
+        return axiosClient.post(url, JSON.stringify(data));
     },
     addFeedbackComments: (data) => {
-        const url = `api/add-feedback-comments`;
-        return axiosClient.post(url,JSON.stringify(data));
+        const url = `api/comments/create-feedback-comments`;
+        return axiosClient.post(url, JSON.stringify(data));
     },
 }
 

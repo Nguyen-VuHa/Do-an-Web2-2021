@@ -102,7 +102,6 @@ const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngS
                             settextComment('');
                             setStatusFocus(false);
                             removeText();
-                            
                         }}>Hủy</button>
                         <button 
                             className="btn btn-info"

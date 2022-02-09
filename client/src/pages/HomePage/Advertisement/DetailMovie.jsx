@@ -5,7 +5,7 @@ import {
 } from './Advertisement.Style';
 import { Button } from 'src/style-common/Button.Style';
 import { TrailerContext } from 'src/contexts/trailerContenxt';
-import Images from 'src/contants/image';
+import { Link } from 'react-router-dom';
 
 const DetailMovie = ({ detail }) => {
     const { dispatchTrailer } = useContext(TrailerContext);
@@ -46,7 +46,12 @@ const DetailMovie = ({ detail }) => {
                     </span>
                 </DetailItem>
                 <DetailItem className="pl-0">
-                    <Button>Mua vé ngày</Button>
+                    <Link to={`/movie/movie-current/${detail.length > 0 && detail[0]?.movieId}`}>
+                        <Button>
+                            Mua vé ngày
+                        </Button>
+                    </Link>
+                   
                     <Button 
                         className="ml-2"
                         onClick={() => {

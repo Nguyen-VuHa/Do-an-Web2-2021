@@ -5,8 +5,8 @@ const verifyToken = require('../middlewares/verifyToken');
 const CommentController = require('../controllers/commentController');
 
 router.get('/comments/:movieId', CommentController.getComments);
-router.post('/add-comments', CommentController.addComments);
-router.post('/add-feedback-comments', CommentController.addFeedbackComments);
+router.post('/comments/create', verifyToken,  CommentController.addComments);
+router.post('/comments/create-feedback-comments', verifyToken , CommentController.addFeedbackComments);
 
 
 module.exports = router;

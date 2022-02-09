@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../../contants/loginSlice';
-import 'simplebar';
-import 'simplebar/dist/simplebar.css';
 import userApi from '../../../../api/userApi';
 import Images from '../../../../contants/image';
 import moment from 'moment';
@@ -108,7 +106,7 @@ const HeaderUser = () => {
                                                 </div>
                                                 <div className="item--content"> 
                                                     <div>
-                                                    <p dangerouslySetInnerHTML={{__html: data.message }}></p>
+                                                        <p dangerouslySetInnerHTML={{__html: data.message }}></p>
                                                     </div>
                                                     <div className="notificatio__time">
                                                         { momentTime }

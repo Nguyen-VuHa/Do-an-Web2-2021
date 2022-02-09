@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     LayoutDetailMovie, TitleMovieName,
     InfoMovie, GroupInfo, LabelInfo,
 } from './DetailMovie.Style';
 import { Button } from 'src/style-common/Button.Style';
 import { useSelector } from 'react-redux';
+import { TrailerContext } from 'src/contexts/trailerContenxt';
 
 
 const DetailMovie = () => {
+    const { dispatchTrailer } = useContext(TrailerContext);
+
     const { movieDetail } = useSelector(state => state.movieState);
 
     const [isCurrent, setIsCurrent] = useState(false);
@@ -15,7 +18,7 @@ const DetailMovie = () => {
     useEffect(() => {
         if(window.location.pathname.includes('/movie-current'))
             setIsCurrent(true);
-    }, [window.location.pathname]);
+    }, [window.location.pathname]); 
 
     return (
         <>
@@ -46,7 +49,18 @@ const DetailMovie = () => {
                         {
                             isCurrent && <Button>Đặt vé</Button>
                         }
-                        <Button className="ml-3">Xem trailler</Button>
+                        <Button className="ml-3"
+                            onClick={() => {
+                                if(movieDetail) {
+                                    dispatchTrailer({
+                                        type: 'SHOW_TRAILER',
+                                        payload: movieDetail?.trailer
+                                    });
+                                }
+                            }}
+                        >
+                            Xem trailler
+                        </Button>
                     </GroupInfo>
                 </InfoMovie>
             </LayoutDetailMovie>

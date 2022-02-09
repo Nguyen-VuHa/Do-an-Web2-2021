@@ -2,6 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import homepageSlice from "src/reducers/homePageSlice";
 import systemCinemaSlice from "src/reducers/systemCinemaSlice";
 import movieSlice from "src/reducers/movieSlice";
+import commentSlice from "src/reducers/commentSlice";
+import notifySlice from "src/reducers/notifySlice";
 // import loadingSlice from '../components/LoadingPage/loadingSlice';
 // import isLonginSlice from '../contants/loginSlice';
 // import dataHomePpage from '../features/HomePage/homepageSlice';
@@ -17,5 +19,7 @@ export default configureStore({
         homepageState: homepageSlice,
         systemCinemaState: systemCinemaSlice,
         movieState: movieSlice,
+        commentState: commentSlice,
+        notifyState: notifySlice,
     },
 })

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { 
     MovieDetailLayout, LayoutContent,
@@ -13,14 +13,17 @@ import LoadingMovieDetail from 'src/components/LayoutLoading/LoadingMovieDetail'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getMovieDetailById } from 'src/reducers/movieSlice';
+import Comment from './Comment';
+import { getAllComments } from 'src/reducers/commentSlice';
 
 const MovieDetail = () => {
     const params = useParams();
-    const dispatch = useDispatch();
-    const { loading, movieDetail, error } = useSelector(state => state.movieState);
     const history = useHistory();
-    
+    const dispatch = useDispatch();
+
+    const { loading, movieDetail, error } = useSelector(state => state.movieState);
     const [isLoading, setIsLoading] = useState(true);
+    const [isCurrent, setIsCurrent] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -29,6 +32,8 @@ const MovieDetail = () => {
     useEffect(() => {
         if(params && params.movieId) {
             dispatch(getMovieDetailById(params.movieId));
+
+            dispatch(getAllComments(params.movieId));
         }
     }, []);
 
@@ -47,6 +52,12 @@ const MovieDetail = () => {
             return () => clearTimeout(timeOut);
         }
     }, [loading]);
+
+    useEffect(() => {
+        if(window.location.pathname.includes('/movie-current'))
+            setIsCurrent(true);
+    }, [window.location.pathname]); 
+
 
     return (
         <>
@@ -82,6 +93,13 @@ const MovieDetail = () => {
                     </DescriptionMovie>
                 </div>
             </MovieDetailLayout>
+            {
+                isCurrent 
+                ? <div className="container">
+                    <Comment />
+                </div>
+                : ''
+            }
         </>
     );
 };

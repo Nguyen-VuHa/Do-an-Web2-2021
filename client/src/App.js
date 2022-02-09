@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,6 +19,7 @@ const loading = (
 )
 
 function App() {
+
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -28,51 +29,13 @@ function App() {
 
         return () => clearTimeout(timeOut);
     }, []);
-    // const [scrollHeight, setScrollHeight] = useState(0);
-    // const { state, dispatchAuth } = useContext(AuthContext); 
-    // const { isLogin, role } = state;
-    // const refreshToken = localStorage.getItem('refreshToken');
-
-    // useEffect(() => {
-    //     const fecthDataUser = async (refreshToken) => {
-    //         const dataUser = await authApi.getInfoUser(refreshToken);
-
-    //         if(dataUser.status === 200)
-    //             dispatchAuth({
-    //                 type: 'SET_USER_INFO',
-    //                 payload: dataUser.data,
-    //             })
-    //     }
-
-    //     if(refreshToken) {
-    //         fecthDataUser(refreshToken);
-    //     }
-    // }, [refreshToken]);
-
-    // useEffect(() => {
-    //     const handleWindowScroll = () => {
-    //         setScrollHeight(window.pageYOffset);
-    //     }
-
-    //     window.addEventListener('scroll', handleWindowScroll);
-    //     return () => {
-    //         window.removeEventListener('scroll', handleWindowScroll);
-    //     }
-    // }, []);
-
-    // const handleToTop = () => {
-    //     window.scrollTo({
-    //         top: 0,
-    //         behavior: 'smooth',
-    //     })
-    // }
-
+    
     return (
         <AuthContextProvider>
             <TrailerContextProvider>
                 { isLoading ? <FirstLoading /> : '' }
                 <GlobalStyle />
-                <ToastContainer />
+                <ToastContainer theme="colored" style={{zIndex: 999999999}}/>
                 <TrailerMovie />
                 <React.Suspense fallback={loading}>
                     <BrowserRouter>

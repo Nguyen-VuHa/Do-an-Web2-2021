@@ -6,6 +6,11 @@ import App from './App';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import store from 'src/app/store';
+import 'simplebar';
+import 'simplebar/dist/simplebar.css';
+import 'moment/locale/vi';
+import 'simplebar';
+import 'simplebar/dist/simplebar.css';
 
 ReactDOM.render(
     <React.StrictMode>

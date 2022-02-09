@@ -9,6 +9,7 @@ export const AuthContextProvider = (props) => {
         email: '',
         fullname: '',
         role: '',
+        numberOfNotify: 0,
         isLogin: refreshToken ? true : false,
     };
     
@@ -20,6 +21,16 @@ export const AuthContextProvider = (props) => {
                     ...action.payload,
                     id: action.payload.idUser,
                     isLogin: true,
+                };
+            case "SET_NUMBER_OF_NOTIFY":
+                return {
+                    ...state,
+                    numberOfNotify: action.payload,
+                };
+            case "CLEAR_NUMBER_OF_NOTIFY":
+                return {
+                    ...state,
+                    numberOfNotify: 0,
                 };
             case "CLEAR_USER_INFO":
                 return {

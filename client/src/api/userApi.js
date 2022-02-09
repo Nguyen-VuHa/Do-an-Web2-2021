@@ -2,8 +2,16 @@ const { default: axiosClient } = require("./clientAxios");
 
 const userApi = {
     getCountNotify: (accessToken) => {
-        const url = `api/6698afba-1c21-478d-a519-4b09200586e5`;
+        const url = `api/notification/count-notify`;
         return axiosClient.get(url, {
+            headers: {
+                'Authorization':`Bearer ${accessToken}` 
+            }
+        });
+    },
+    getNotifications: (accessToken) => {
+        const url = `api/notification/list`;
+        return axiosClient.post(url, {}, {
             headers: {
                 'Authorization':`Bearer ${accessToken}` 
             }
