@@ -1,22 +1,32 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { LayoutInputComment, AvatarComment, CommentText, CommentAction } from './Comment.Style';
 import Images from 'src/contants/image';
+import { AuthContext } from 'src/contexts/authContext';
 
-const InputComment = ({ placeholder, onSubmit }) => {
+const InputComment = ({ placeholder, onSubmit, clearText }) => {
     const textCommentRef = useRef();
 
     const [statusFocus, setStatusFocus] = useState(false);
     const [textComment, setTextComment] = useState('');
 
+    const { state } = useContext(AuthContext);
+    const { avartar } = state;
+    
     const removeText = () => {
         if(textCommentRef.current)
             textCommentRef.current.textContent = "";
     }
 
+    useEffect(() => {
+        if(clearText === true) {
+            removeText();
+        }
+    }, [clearText]);
+
     return (
         <LayoutInputComment>
             <AvatarComment 
-                src={ Images.DefaultAvatar } 
+                src={ avartar ? avartar : Images.DefaultAvatar } 
                 alt="Not Avartar"
             />
             <CommentText 

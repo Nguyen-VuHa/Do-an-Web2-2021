@@ -1,10 +1,50 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ActionCommentLayout, ButtonAction } from './Comment.Style';
 import InputComment from './InputComment';
+import { toast } from 'react-toastify';
+import { AuthContext } from 'src/contexts/authContext';
+import { useDispatch } from 'react-redux';
+import { addFeedbackComments, defautlCreateStatus, getAllComments } from 'src/reducers/commentSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useParams } from 'react-router-dom';
 
-const ActionComment = ({ createdAt }) => {
-  
-    const [activeComment, setActiveComment] = useState(false);
+const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  onActive, active }) => {
+    const { state } = useContext(AuthContext);
+    const { id, isLogin } = state;
+    
+    const params = useParams();
+    const dispatch = useDispatch();
+
+    const handleFeedbackComment = async (cmtText) => {
+        if(isLogin) {
+            if(cmtText) {
+                const data = {
+                    comments: cmtText,
+                    idUser: id,
+                    nameTag: idRecipients === id ? '' : fullname,
+                    idComment: commentParentId,
+                    idChidrenUser: idRecipients,
+                }
+                const res = await dispatch(addFeedbackComments(data));
+                const result = unwrapResult(res);
+                if(result.status === 200)
+                {
+                    onActive && onActive();
+                    setTimeout(() => {
+                        dispatch(getAllComments(params.movieId));
+                        dispatch(defautlCreateStatus());
+                    }, 800);
+                }
+                else
+                    toast.error('Add comment failed!');
+            }
+            else {
+                toast.error('Hãy viết gì đó cho bình luận này?');
+            }
+        }
+        else
+            toast.warn('Bạn chưa đăng nhập!');
+    }
 
     return (
         <>
@@ -12,7 +52,12 @@ const ActionComment = ({ createdAt }) => {
                 <ButtonAction>Thích</ButtonAction>
                 <span> · </span>
                 <ButtonAction
-                    onClick={() => setActiveComment(!activeComment)}
+                    onClick={() => {
+                        if(isLogin)
+                            onActive && onActive();
+                        else
+                            toast.warn('Bạn chưa đăng nhập!\n Vui lòng đăng nhập để phản hồi');
+                    }}
                 >
                     Phản hồi
                 </ButtonAction>
@@ -20,7 +65,10 @@ const ActionComment = ({ createdAt }) => {
                 <ButtonAction className="no-hover">{ createdAt }</ButtonAction>
             </ActionCommentLayout>
             {
-                activeComment && <InputComment placeholder="Phản hồi về bình luận này..."/>
+                active && <InputComment 
+                    placeholder="Phản hồi về bình luận này..."
+                    onSubmit={(cmtText) => handleFeedbackComment(cmtText)}
+                />
             }
         </>
     );

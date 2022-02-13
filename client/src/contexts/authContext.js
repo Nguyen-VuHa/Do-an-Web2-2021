@@ -9,6 +9,7 @@ export const AuthContextProvider = (props) => {
         email: '',
         fullname: '',
         role: '',
+        avartar: '',
         numberOfNotify: 0,
         isLogin: refreshToken ? true : false,
     };

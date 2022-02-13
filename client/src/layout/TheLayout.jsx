@@ -9,14 +9,16 @@ import { AuthContext } from 'src/contexts/authContext';
 import userApi from 'src/api/userApi';
 
 const TheLayout = () => { 
-    const { dispatchAuth } = useContext(AuthContext);
+    const { state, dispatchAuth } = useContext(AuthContext);
+    const { isLogin } = state;
+    
     const refreshToken = localStorage.getItem('refreshToken');
     const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
         const fecthDataUser = async (refreshToken) => {
             const dataUser = await authApi.getInfoUser(refreshToken);
-
+            
             if(dataUser.status === 200)
             {
                 dispatchAuth({
@@ -35,10 +37,10 @@ const TheLayout = () => {
             }
         }
 
-        if(refreshToken) {
+        if(refreshToken && isLogin === true) {
             fecthDataUser(refreshToken);
         }
-    }, []);
+    }, [isLogin]);
 
 
     return (

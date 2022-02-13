@@ -51,14 +51,14 @@ class CommentController {
         res.json({status: 200});
     }
 
-     async addFeedbackComments (req, res) { 
+    async addFeedbackComments (req, res) { 
         const data = req.body;
         FeedbackComments.create({
             comments: data.comments,
+            nameTag: data.nameTag,
             FbComment_idUser: data.idUser,
             FbCommentChildren_idUser : data.idChidrenUser ? data.idChidrenUser : null,
             FbComment_idComment: data.idComment,
-            
         })
 
         res.json({status: 200});

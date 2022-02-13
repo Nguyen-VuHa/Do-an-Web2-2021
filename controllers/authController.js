@@ -1,4 +1,5 @@
 const Accounts = require('../models/dataAccount');
+const ImageUsers = require('../models/dataImageUser');
 const NewNotification = require('../models/dataNotification');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -22,7 +23,7 @@ class AuthController {
             where: {
                 refreshToken: refreshToken,
             },
-            attributes: ['idUser', 'email', 'fullname', 'role']
+            attributes: ['idUser', 'email', 'fullname', 'role', 'avartar'],
         })
 
         res.json({status: 200, data})

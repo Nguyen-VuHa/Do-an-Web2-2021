@@ -20,7 +20,7 @@ const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngS
     const params = useParams();
     const textCommentRef = useRef();
     const { state } = useContext(AuthContext);
-    const { isLogin, id} = state;
+    const { isLogin, id } = state;
     
     const removeText = () => {
         if(textCommentRef.current)

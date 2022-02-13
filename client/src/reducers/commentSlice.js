@@ -24,7 +24,11 @@ const commentSlice = createSlice({
         createStatus: 0,
         comments: [],
     },
-    reducers: {},
+    reducers: {
+        defautlCreateStatus(state) {
+            state.createStatus = 0;
+        }
+    },
     extraReducers: {
         [getAllComments.pending]: (state) => {
             state.loading = true;
@@ -57,13 +61,15 @@ const commentSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        [addFeedbackComments.fulfilled]: (state, { payload }) => {
+        [addFeedbackComments.fulfilled]: (state) => {
             state.loading = false;
             state.error = '';
+            state.createStatus = 1;
         },
     }
 });
 
 
-const  { reducer } = commentSlice;
+const  { actions, reducer } = commentSlice;
+export const { defautlCreateStatus } = actions;
 export default reducer;

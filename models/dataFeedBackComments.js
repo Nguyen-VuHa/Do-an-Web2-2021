@@ -13,6 +13,10 @@ const FeedbackComments = db.define('FeedbackComments', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    nameTag: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     countLike: {
         type: DataTypes.INTEGER,
         allowNull: true,
