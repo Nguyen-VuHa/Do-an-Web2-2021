@@ -57,6 +57,7 @@ const NotifyUser = () => {
             setLoadingNotify(true);
         }, 500);
     }
+    
     useEffect(() => {
         window.addEventListener('click', handleClickOutside);
         window.addEventListener('scroll', handleScrollHide);
@@ -84,7 +85,6 @@ const NotifyUser = () => {
         }
     }, [activeDropNotify, loading]);
     
-
     return (
         <>
             <ButtonNotify
@@ -104,9 +104,9 @@ const NotifyUser = () => {
                 <i className="fal fa-bells"></i>
                 {
                     numberOfNotify && numberOfNotify !== 0 
-                    && <NotifyCount>
+                    ? <NotifyCount>
                         <span>{ numberOfNotify }</span>
-                    </NotifyCount>
+                    </NotifyCount> : ''
                 }
             </ButtonNotify>
 

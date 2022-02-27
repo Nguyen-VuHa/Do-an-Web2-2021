@@ -27,7 +27,7 @@ const TheLayout = () => {
                 })
                 
                 const numOfNotify = await userApi.getCountNotify(accessToken);
-                
+
                 if(numOfNotify.status === 200) {
                     dispatchAuth({
                         type: 'SET_NUMBER_OF_NOTIFY',

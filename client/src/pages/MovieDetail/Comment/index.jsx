@@ -12,7 +12,10 @@ import { AuthContext } from 'src/contexts/authContext';
 import { useParams } from 'react-router-dom';
 import { addComments, defautlCreateStatus, getAllComments } from 'src/reducers/commentSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
-
+import socketIO from 'socket.io-client';
+// const ENDPOINT='ws://localhost:8900';
+const ENDPOINT='/';
+let socket =  socketIO(ENDPOINT, { transports:['websocket']});
 
 const Comment = () => {
     const [raitingStar, setRaitingStar] = useState(0);
@@ -38,7 +41,8 @@ const Comment = () => {
             }
             const statusResult = await dispatch(addComments(data));
             const result = unwrapResult(statusResult);
-
+            socket.emit('joinRoom', {idComments: params.movieId});
+            
             if(result.status === 200)
             {
                 setRaitingStar(0);

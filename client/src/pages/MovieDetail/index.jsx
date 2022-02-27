@@ -15,6 +15,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import { getMovieDetailById } from 'src/reducers/movieSlice';
 import Comment from './Comment';
 import { getAllComments } from 'src/reducers/commentSlice';
+import socketIO from 'socket.io-client';
+
+// const ENDPOINT='ws://localhost:8900';
+const ENDPOINT='/';
+let socket;
 
 const MovieDetail = () => {
     const params = useParams();
@@ -24,10 +29,40 @@ const MovieDetail = () => {
     const { loading, movieDetail, error } = useSelector(state => state.movieState);
     const [isLoading, setIsLoading] = useState(true);
     const [isCurrent, setIsCurrent] = useState(false);
+    const [idFecthComments, setIdFecthComments] = useState('');
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    useEffect(() => {
+        socket =  socketIO(ENDPOINT, { transports:['websocket']});
+
+        socket.on('connect', () => {});
+
+        socket.emit('addComments', {idComments: params.movieId});
+
+        socket.emit('joinRoom', {idComments: params.movieId});
+
+        socket.on('getComments', (idComments, Uuid) => {
+            setIdFecthComments(Uuid);
+        });
+
+        return () => {
+            socket.on('disconnect', () => {});
+            socket.emit('leaveRoom', {id: params.movieId})
+        }
+    }, []);
+
+    useEffect(() => {
+        if(idFecthComments) {
+            const timeOutFetc = setTimeout(() => {
+                dispatch(getAllComments(params.movieId));
+            }, 1000);
+    
+            return () => clearTimeout(timeOutFetc);
+        }
+    }, [idFecthComments]);
 
     useEffect(() => {
         if(params && params.movieId) {

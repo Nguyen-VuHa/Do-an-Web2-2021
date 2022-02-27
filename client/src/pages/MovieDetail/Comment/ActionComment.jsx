@@ -7,6 +7,10 @@ import { useDispatch } from 'react-redux';
 import { addFeedbackComments, defautlCreateStatus, getAllComments } from 'src/reducers/commentSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useParams } from 'react-router-dom';
+import socketIO from 'socket.io-client';
+// const ENDPOINT='ws://localhost:8900';
+const ENDPOINT='/';
+let socket =  socketIO(ENDPOINT, { transports:['websocket']});
 
 const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  onActive, active }) => {
     const { state } = useContext(AuthContext);
@@ -27,6 +31,8 @@ const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  on
                 }
                 const res = await dispatch(addFeedbackComments(data));
                 const result = unwrapResult(res);
+                socket.emit('joinRoom', {idComments: params.movieId});
+
                 if(result.status === 200)
                 {
                     onActive && onActive();

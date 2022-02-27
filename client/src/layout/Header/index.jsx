@@ -7,6 +7,7 @@ import { Button } from 'src/style-common/Button.Style';
 import LoginForm from './LoginForm';
 import { AuthContext } from 'src/contexts/authContext';
 import NotifyUser from './NotifyUser';
+import MenuUser from './MenuUser';
 
 const TheHeader = () => {
     const { state } = useContext(AuthContext);
@@ -60,6 +61,7 @@ const TheHeader = () => {
                     isLogin ? 
                     <div className="position-relative d-flex justify-content-around align-items-center">
                         <NotifyUser />
+                        <MenuUser />
                     </div>
                     :
                     <div className="position-relative">
