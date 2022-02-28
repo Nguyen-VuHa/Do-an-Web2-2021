@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TitleRaiting, Star } from './Comment.Style';
+import { TitleRaiting, Star, LayoutRaitingStar } from './Comment.Style';
 
 const RaitingStar = ({setRaitingStar, raitingStar}) => {
 
@@ -12,7 +12,7 @@ const RaitingStar = ({setRaitingStar, raitingStar}) => {
     }, [raitingStar]);
 
     return (
-        <div className="d-flex">
+        <LayoutRaitingStar>
             <TitleRaiting>Đánh giá</TitleRaiting>
             <Star>
                 <form>
@@ -38,7 +38,7 @@ const RaitingStar = ({setRaitingStar, raitingStar}) => {
                     />
                 </form>
             </Star>
-        </div>
+        </LayoutRaitingStar>
     );
 };
 

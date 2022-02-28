@@ -4,9 +4,22 @@ import styled from 'styled-components';
 export const LayoutComment = styled.div`
     width: 70%;
     padding-bottom: 40px;
+
+    @media screen and (max-width: 600px) {  
+        width: 100%;
+    }
 `;
 
 // Raiting star 
+export const LayoutRaitingStar = styled.div`
+    display: flex;
+    width: 100%;
+
+    @media screen and (max-width: 600px) {  
+        flex-direction: column;
+        align-items: flex-start;
+    }
+`;
 export const TitleRaiting = styled.div`
     font-family: ${FontBalooTammudu2};
     font-size: 2.5rem;
@@ -15,6 +28,15 @@ export const TitleRaiting = styled.div`
     align-items: flex-end;
     color: ${YellowGray};
     margin-right: 2rem;
+
+    @media screen and (max-width: 768px) {  
+        font-size: 2.4rem;
+    }
+
+    @media screen and (max-width: 600px) {  
+        font-size: 1.5rem;
+        margin-right: 0;
+    }
 `;
 
 export const Star = styled.div`
@@ -52,6 +74,16 @@ export const Star = styled.div`
         font-family: "Font Awesome 5 Pro";
         color: $colorText;
     }
+
+    @media screen and (max-width: 600px) {  
+        label.star {
+            float: right;
+            padding: 10px;
+            font-size: 30px;
+            color: #444;
+            transition: all .2s;
+        }
+    }
 `;
 
 // Input comment 
@@ -63,6 +95,11 @@ export const LayoutInputComment = styled.div`
     line-height: 1.6;
     max-width: 750px;
     min-width: 600px;
+
+    @media screen and (max-width: 600px) {  
+        max-width: 280px;
+        min-width: 0;
+    }
 `;
 
 export const AvatarComment = styled.img`
@@ -116,6 +153,10 @@ export const MainComment = styled.div`
     position: relative;
     padding: 4px 0 0 16px;
     display: flex;
+
+    @media screen and (max-width: 600px) {  
+        padding: 0;
+    }
 `;
 
 export const ImageUser = styled.div`
@@ -152,6 +193,10 @@ export const CommentContent = styled.div`
     span {
         color: ${YellowGray};
         font-weight: 600;
+    }
+
+    @media screen and (max-width: 600px) {  
+        min-width: 0;
     }
 `;
 
@@ -210,4 +255,8 @@ export const DependentComment = styled.div`
     flex-direction: row;
     margin-top: 5px;
     padding-left: 54px;
+
+    @media screen and (max-width: 600px) {  
+        padding: 0;
+    }
 `;
