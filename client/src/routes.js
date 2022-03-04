@@ -10,6 +10,8 @@ const SystemCinemaDetail = React.lazy(() => import('src/pages/SystemCinemaDetail
 // Movie Detail
 const MovieDetail = React.lazy(() => import('src/pages/MovieDetail'));
 const PageNotFound = React.lazy(() => import('src/components/PageNotFound'));
+// User Profile 
+const UserProfileMain = React.lazy(() => import('src/pages/UserProfile/UserProfileMain'));
 
 // array routes
 const routes = [
@@ -24,5 +26,9 @@ const routes = [
     { path: '/movie/movie-current/:movieId', name: 'Movie Detail Current', component: MovieDetail, exact: true},
     { path: '/movie/movie-comming/:movieId', name: 'Movie Detail CommingSoon', component: MovieDetail, exact: true},
 ];
+
+export const routesUser = [
+    { path: '/profile', name: 'User Profile', component: UserProfileMain, exact: false},
+]
 
 export default routes;

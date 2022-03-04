@@ -23,7 +23,7 @@ class AuthController {
             where: {
                 refreshToken: refreshToken,
             },
-            attributes: ['idUser', 'email', 'fullname', 'role', 'avartar'],
+            attributes: ['idUser', 'email', 'fullname', 'role', 'avartar', 'surplus'],
         })
 
         res.json({status: 200, data})

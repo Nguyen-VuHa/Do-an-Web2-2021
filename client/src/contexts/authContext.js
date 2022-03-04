@@ -11,6 +11,7 @@ export const AuthContextProvider = (props) => {
         role: '',
         avartar: '',
         numberOfNotify: 0,
+        surplus: 0,
         isLogin: refreshToken ? true : false,
     };
     

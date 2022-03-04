@@ -66,7 +66,7 @@ const MenuUser = () => {
                     </Text>
                     <div className="d-flex mt-2">
                         <Text className="fw-400 ">Số dư :</Text>
-                        <Text className="fw-600 txt-green ml-2">NaN đ</Text>
+                        <Text className="fw-600 txt-green ml-2">{state && state.surplus ? state.surplus.toLocaleString() : '0'} đ</Text>
                     </div>
                 </div>
                 <div className="w-100 px-5">
@@ -76,7 +76,7 @@ const MenuUser = () => {
                     <li className="m-0 p-0">
                         <ButtonMenu>
                             <i className="fal fa-user-circle" />
-                            <Link to="#" >My Profile</Link>
+                            <Link to="/profile" onClick={() => setActiveDropNotify(false)}>My Profile</Link>
                         </ButtonMenu>
                     </li>   
                     <li>

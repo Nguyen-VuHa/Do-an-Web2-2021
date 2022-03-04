@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 
-const FormProfile = ({ isEditor, dataUser, setvalueSubmit }) => {
+const   FormProfile = ({ isEditor, dataUser, setvalueSubmit }) => {
     const [valueForm, setValueForm] = useState({
         idUser: '',
         email: '',

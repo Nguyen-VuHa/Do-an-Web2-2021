@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useContext } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-
-import routes from 'src/routes';
+import { AuthContext } from 'src/contexts/authContext';
+import routes, { routesUser } from 'src/routes';
   
 const loading = (
   <div className="pt-3 text-center">
@@ -10,11 +10,14 @@ const loading = (
 )
 
 const TheContent = () => {
+    const { state } = useContext(AuthContext);
+    const { isLogin } = state;
+
     return (
         <div style={{paddingTop: '86px', minHeight: '100vh'}}>
             <Suspense fallback={loading}>
                 <Switch>
-                    {routes.map((route, idx) => {
+                    { routes.map((route, idx) => {
                         return route.component && (
                             <Route
                                 key={idx}
@@ -26,7 +29,23 @@ const TheContent = () => {
                                 )} 
                             />
                         )
-                    })}
+                    }) }
+
+                    {
+                        isLogin && routesUser.map((route, idx) => {
+                            return route.component && (
+                                <Route
+                                    key={idx}
+                                    path={route.path}
+                                    exact={route.exact}
+                                    name={route.name}
+                                    render={props => (
+                                        <route.component {...props} />
+                                    )} 
+                                />
+                            )
+                        })
+                    }
                     <Redirect from="/" to="/" />
                 </Switch>
             </Suspense>

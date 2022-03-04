@@ -49,7 +49,7 @@ class UserController {
         const dataUser = await Accounts.findByPk(idUser , {
             attributes: ['idUser', 'email', 'fullname', 'numberphone', 'birthday', 'sex', 'address']
         });
-      
+        
         res.json({status: 200, data: dataUser });
     }
 

@@ -2,6 +2,13 @@ import { GrayWhite, Green } from "src/contants/cssContants";
 import styled from "styled-components";
 
 export const Text = styled.div`
+    width: auto;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.002em;
+    white-space: pre-wrap;
+    
     font-size: 16px;
     font-family: 'Roboto';
     color: ${GrayWhite};

@@ -31,7 +31,7 @@ const MovieCard = ({ className, setWidthItem, data }) => {
             >
                 <ContentBox>
                     <h3>{ data?.movieName }</h3>
-                    <p>{moment(data?.premiereDate).format('DD/MM/YYYY')}</p>
+                    <p>từ {moment(data?.premiereDate).format('DD/MM/YYYY')} đến {moment(data?.endDate).format('DD/MM/YYYY')}</p>
                 </ContentBox>
             </CardContent>
             <LayoutButton>

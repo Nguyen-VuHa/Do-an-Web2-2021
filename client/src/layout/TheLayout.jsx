@@ -18,7 +18,7 @@ const TheLayout = () => {
     useEffect(() => {
         const fecthDataUser = async (refreshToken) => {
             const dataUser = await authApi.getInfoUser(refreshToken);
-            
+        
             if(dataUser.status === 200)
             {
                 dispatchAuth({
