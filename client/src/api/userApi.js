@@ -1,3 +1,4 @@
+import enCodeDataJson from "src/contants/funtionEnCode";
 const { default: axiosClient } = require("./clientAxios");
 
 const userApi = {
@@ -35,8 +36,12 @@ const userApi = {
         });
     },
     updateProfile: (accessToken, dataProfile) => {
-        const url = `api/user/2d01c471-7573-4bbb-8929-b6be0c346f4f`;
-        return axiosClient.post(url, dataProfile, {
+        const url = `api/user/update-info`;
+        return axiosClient.post(url, 
+        {
+            data: enCodeDataJson(dataProfile),
+        }, 
+        {
             headers: {
                 'Authorization':`Bearer ${accessToken}` 
             }

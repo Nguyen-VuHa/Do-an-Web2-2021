@@ -57,8 +57,12 @@ class UserController {
     }
 
     async updateProfile (req, res) { 
-        const dataProfile = req.body;
+        const dataJson = req.body;
         const idUser = req.userId;
+
+        let decodeData = dataJson.data.split('..');
+        let keys = Buffer.from(decodeData[1]).toString('base64');
+        let dataProfile = JSON.parse(Buffer.from(decodeData[0].replace(keys, ''), 'base64'));
 
         await Accounts.update({
             fullname: dataProfile.fullname,
