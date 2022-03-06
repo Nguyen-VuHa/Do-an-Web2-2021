@@ -8,7 +8,6 @@ const LayoutInput = styled.input`
     color: ${Green};
 
     width: 100%;
-    height: auto;
     border: none; 
 
     &:focus {
@@ -31,17 +30,20 @@ const LayoutInput = styled.input`
     }
 `;
 
-const InputText = ({placeholder, className, onChangeText, setValue}) => {
+const InputNumber = ({placeholder, className, onChangeText, setValue}) => {
     return (
         <LayoutInput
             className={className}
             placeholder={placeholder ? placeholder : 'Nhập input text...'}
             onChange={(e) => {
-                onChangeText && onChangeText(e.target.value);
+                const reg = new RegExp('^[0-9]+$');
+                if(e.target.value === '' || reg.test(e.target.value))
+                    onChangeText && onChangeText(e.target.value);
+                
             }}
-            value={setValue && setValue}
+            value={setValue ? setValue : ''}
         />
     );
 };
 
-export default InputText;
+export default InputNumber;

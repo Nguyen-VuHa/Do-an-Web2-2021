@@ -25,11 +25,12 @@ const userApi = {
             }
         });
     },
-    getInfoUser: (accessToken) => {
-        const url = `api/922a85e5-0aa1-4977-bc26-0af50fe8e50e`;
+    getInfoUser: (payload) => {
+        const url = `api/user/infomation/${payload.userId}`;
+        
         return axiosClient.get(url, {
             headers: {
-                'Authorization':`Bearer ${accessToken}` 
+                'Authorization':`Bearer ${payload.accessToken}` 
             }
         });
     },

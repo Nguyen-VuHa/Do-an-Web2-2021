@@ -4,7 +4,7 @@ const router = express.Router();
 
 const userController = require('../controllers/userController');
 
-router.get('/922a85e5-0aa1-4977-bc26-0af50fe8e50e', verifyToken, userController.getInfoUser);  
+router.get('/user/infomation/:id', verifyToken, userController.getInfoUser);  
 router.get('/notification/count-notify', verifyToken, userController.getCountNotification);
 router.get('/avartar/efcdbd4f-50f9-4517-abd3-c136c6cf123c', verifyToken, userController.getAvartarUser);
 router.get('/get-image/f3cbabb5-c184-431e-b5b7-e48a4f17cb06', verifyToken, userController.getAllImageUser);

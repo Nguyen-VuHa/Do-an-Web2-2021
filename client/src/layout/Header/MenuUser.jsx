@@ -76,7 +76,7 @@ const MenuUser = () => {
                     <li className="m-0 p-0">
                         <ButtonMenu>
                             <i className="fal fa-user-circle" />
-                            <Link to="/profile" onClick={() => setActiveDropNotify(false)}>My Profile</Link>
+                            <Link to={`/profile/infomation/${state.idUser}`} onClick={() => setActiveDropNotify(false)}>My Profile</Link>
                         </ButtonMenu>
                     </li>   
                     <li>

@@ -44,13 +44,16 @@ class UserController {
     }
 
     async getInfoUser (req, res) { 
-        const idUser = req.userId;
+        const idUser = req.params.id;
 
         const dataUser = await Accounts.findByPk(idUser , {
             attributes: ['idUser', 'email', 'fullname', 'numberphone', 'birthday', 'sex', 'address']
         });
         
-        res.json({status: 200, data: dataUser });
+        if(dataUser && Object.keys(dataUser).length > 0) 
+            res.json({status: 200, data: dataUser });
+        else+
+            res.json({status: 403, message: 'USER INVALED!!!' });
     }
 
     async updateProfile (req, res) { 

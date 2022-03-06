@@ -28,7 +28,7 @@ const UserProfileMain = () => {
             </HelmetProvider>
             <div className='container'>
                 <HeaderProfile />
-                <Divider style={{marginTop: '6rem', borderBottom: '1px solid'}}/>
+                <Divider style={{marginTop: '8rem', borderBottom: '1px solid'}}/>
                 <TabbarProfile />
                 <React.Suspense>
                     <Switch>
