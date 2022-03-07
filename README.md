@@ -16,6 +16,4 @@ Start MongoDB server and follow below given installation procedure on the Comman
 + Iframe Youtube - Trình chiếu trailler phim
 ## Nâng cấp dự án sử dụng Framework React JS 
 + Đang trong thời gian Upgrade dự án
-+ Bạn nào có thắc mắc thì có thể liên hệ gmail vuha201199@gmail.com để có thể cùng nhau học và giải đáp thắc mắc.
-
 
