@@ -12,6 +12,10 @@ export const LayoutHeaderProfile = styled.div`
     border-bottom-left-radius: 8px;
     
     cursor: pointer;
+
+    @media screen and (max-width: 600px) {  
+        height: 250px;
+    }
 `;
 
 export const ButtonChangeBackground = styled.div`
@@ -53,6 +57,10 @@ export const LayoutAvatarProfile = styled.div`
 
     bottom: -24%;
     z-index: 1;
+
+    @media screen and (max-width: 600px) {  
+       bottom: -45%;
+    }
 `;
 
 

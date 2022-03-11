@@ -30,4 +30,8 @@ export const ButtonTabbar = styled.div`
             background: transparent;
         }
     }
+
+    @media screen and (max-width: 600px) {  
+        font-size: 13px;
+    }
 `;

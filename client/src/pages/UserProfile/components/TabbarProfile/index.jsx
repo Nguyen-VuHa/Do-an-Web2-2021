@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from 'src/contexts/authContext';
 import { ButtonTabbar } from './TabbarProfile.Style';
@@ -6,6 +6,14 @@ import { ButtonTabbar } from './TabbarProfile.Style';
 const TabbarProfile = () => {
     const [statusActive, setStatusActive] = useState(0);
     const {state} = useContext(AuthContext);
+
+    useEffect(() => {
+        if(window.location.pathname.includes('/profile/infomation'))
+            setStatusActive(0);
+        if(window.location.pathname.includes('/profile/history-transaction'))
+            setStatusActive(1);
+    }, [window.location.pathname]);
+    
     
     return (
         <div className="d-flex w-100">
@@ -20,15 +28,17 @@ const TabbarProfile = () => {
                     Thông tin cá nhân
                 </ButtonTabbar>
             </Link>
-            <ButtonTabbar
-                className={statusActive === 1 ? "active" : ""}
-                onClick={() => {
-                    if(statusActive !== 1) 
-                        setStatusActive(1)
-                }}
-            >
-                Lịch sử giao dịch
-            </ButtonTabbar>
+            <Link to={state?.idUser ? `/profile/history-transaction/${state?.idUser}` : '#'}>
+                <ButtonTabbar
+                    className={statusActive === 1 ? "active" : ""}
+                    onClick={() => {
+                        if(statusActive !== 1) 
+                            setStatusActive(1)
+                    }}
+                >
+                    Lịch sử giao dịch
+                </ButtonTabbar>
+            </Link>
             <ButtonTabbar
              className={statusActive === 2 ? "active" : ""}
                 onClick={() => {

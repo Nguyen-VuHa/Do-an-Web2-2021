@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from 'src/contexts/authContext';
 import { 
     LayoutHeaderProfile, ButtonChangeBackground,
@@ -11,14 +11,26 @@ const HeaderProfile = () => {
     const { state } = useContext(AuthContext);
     const { avartar, fullname } = state;
 
+    const [sizeWindows, setSizeWindows] = useState(window.innerWidth);
+
+    useEffect(() => {
+        let handleResize = () => {
+            setSizeWindows(window.innerWidth);
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <LayoutHeaderProfile>
             <ButtonChangeBackground>
-                <i className="fal fa-camera-alt mr-2"></i>
-                Thêm ảnh bìa
+                <i className={ sizeWindows > 600 ? "fal fa-camera-alt mr-2": "fal fa-camera-alt" }></i>
+                { sizeWindows > 600 && 'Thêm ảnh bìa' }
             </ButtonChangeBackground>
             <LayoutAvatarProfile>
-                <div>
+                <div className='d-flex flex-column justify-content-centet align-items-center'>
                     <div className="position-relative d-flex justify-content-centet align-items-center">
                         <ButtonDialog>
                             <i className="fal fa-camera-alt"></i>

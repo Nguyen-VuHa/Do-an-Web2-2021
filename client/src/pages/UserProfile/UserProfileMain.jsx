@@ -5,11 +5,13 @@ import HeaderProfile from './components/HeaderProfile';
 import { Divider } from 'src/style-common/Layout.Style';
 import TabbarProfile from './components/TabbarProfile';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import HistoryTransactionPage from './pages/HistoryTransactionPage';
 
 const PersonalInfomationPage = React.lazy(() => import('./pages/PersonalInfomationPage'));
 
 const routesProfile = [
     { path: '/profile/infomation/:idUser', name: 'User Profile', component: PersonalInfomationPage, exact: true},
+    { path: '/profile/history-transaction/:idUser', name: 'History Transaction', component: HistoryTransactionPage, exact: true},
 ]
 
 

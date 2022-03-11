@@ -17,11 +17,16 @@ export const AuthContextProvider = (props) => {
     
     const [state, dispatchAuth] = useReducer((state, action) => {
         switch (action.type) {
+            case "UPDATE_FULLNAME_USER_INFO":
+                return {
+                    ...state,
+                    fullname: action.payload,
+                };
             case "SET_USER_INFO":
                 return {
                     ...state,
                     ...action.payload,
-                    id: action.payload.idUser,
+                    id: action.payload?.idUser,
                     isLogin: true,
                 };
             case "SET_NUMBER_OF_NOTIFY":

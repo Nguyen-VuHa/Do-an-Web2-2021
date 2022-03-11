@@ -38,6 +38,10 @@ export const Text = styled.div`
     ${'' /* Font Size Text Custome */}
     &.font-params {
         font-size: ${props => props.fontSize}px !important; 
+
+        @media screen and (max-width: 600px) {  
+            font-size: 25px !important;
+        }
     }
 
     ${'' /* Custome Front Family */}
@@ -45,4 +49,6 @@ export const Text = styled.div`
     &.fml-baloo-tammudu-2 {
         font-family: 'Baloo Tammudu 2';
     }
+
+    
 `;

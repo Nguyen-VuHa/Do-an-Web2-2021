@@ -18,17 +18,17 @@ app.use(cors());
 route(app);
 
 
-if(process.env.NODE_ENV === "appstore") {
-    app.use(express.static(path.join(__dirname, '/client/build')));
+// if(process.env.NODE_ENV === "appstore") {
+//     app.use(express.static(path.join(__dirname, '/client/build')));
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-    })
-} else {
-    app.get('/', (req, res) => {
-        res.send('Api Running!');
-    })
-}
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+//     })
+// } else {
+//     app.get('/', (req, res) => {
+//         res.send('Api Running!');
+//     })
+// }
 
 const Uuid = require('uuid');
 
@@ -43,10 +43,6 @@ const addComments = (idComments, socketId) => {
 
 const removeComments = (socketId) => {
     comments = comments.filter(comment => comment.socketId !== socketId);
-}
-
-const getIdComment = (idComments) => {
-    return comments.find(comment => comment.idComments === idComments);
 }
 
 io.on('connection', (socket) => {

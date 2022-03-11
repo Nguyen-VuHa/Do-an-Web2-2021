@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text } from 'src/style-common/Text.Style';
 import { Button } from 'src/style-common/Button.Style';
 import { White, Green } from 'src/contants/cssContants';
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getInfomationUser, setDefaultStatus, updateInfomationUser } from 'src/reducers/profileSlice';
 import { ClipLoader } from 'react-spinners';
+import { AuthContext } from 'src/contexts/authContext';
 
 const handleCheckSubmit = (profile) => {
     if(profile && Object.keys(profile).length > 0) {
@@ -19,6 +20,7 @@ const handleCheckSubmit = (profile) => {
 }
 
 const HeaderPersonalInfo = ({ isEdit, setIsEdit }) => {
+    const { dispatchAuth } = useContext(AuthContext);
     const { profile, statusUpdate } = useSelector(state => state.profileState);
     const dispatch = useDispatch();
     const accessToken = localStorage.getItem('accessToken');
@@ -27,6 +29,10 @@ const HeaderPersonalInfo = ({ isEdit, setIsEdit }) => {
 
     useEffect(() => {
         if(statusUpdate === 1) {
+            dispatchAuth({
+                type: 'UPDATE_FULLNAME_USER_INFO',
+                payload: profile.fullname,
+            })
             toast.success('Cập nhật thành công!');
             dispatch(setDefaultStatus());
             setIsEdit(false);
@@ -42,7 +48,7 @@ const HeaderPersonalInfo = ({ isEdit, setIsEdit }) => {
     
     return (
         <div className="pt-4 w-100 d-flex justify-content-between align-items-center">
-            <Text className="fml-baloo-tammudu-2 txt-green font-params fw-bold" fontSize={30} style={{borderBottom: `2px solid ${Green}`}}>
+            <Text className="fml-baloo-tammudu-2 txt-green font-params fw-bold" fontSize={30}>
                 Thông tin chi tiết
             </Text>
             <Button
