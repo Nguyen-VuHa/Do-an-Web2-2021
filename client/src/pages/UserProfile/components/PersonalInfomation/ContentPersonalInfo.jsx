@@ -58,22 +58,23 @@ const ContentPersonalInfo = ({ isEdit }) => {
        <>
             <LayoutContent className="mt-3">
                 <FormGroup className="flex-column">
-                    <Text className="fml-baloo-tammudu-2">Mã Thành Viên</Text>
+                    <Text >Mã Thành Viên</Text>
                     <InputText 
                         className="disable"
                         setValue={profile && profile?.idUser ? profile?.idUser : ''}
                     />
                 </FormGroup>
                 <FormGroup className="flex-column">
-                    <Text className="fml-baloo-tammudu-2">Email/Tên tài khoản</Text>
+                    <Text >Email/Tên tài khoản</Text>
                     <InputText 
                         className="disable"
                         setValue={profile && profile?.email ? profile?.email : ''}
                     />
                 </FormGroup>
                 <FormGroup className="flex-column">
-                    <Text className="fml-baloo-tammudu-2">Họ tên Khách hàng</Text>
+                    <Text >Họ tên Khách hàng</Text>
                     <InputText 
+                        placeholder="Nhập họ và tên"
                         className={ isEdit ? "edit" : "disable" }
                         setValue={fullName}
                         onChangeText={(text) => {
@@ -82,8 +83,9 @@ const ContentPersonalInfo = ({ isEdit }) => {
                     />
                 </FormGroup>
                 <FormGroup className="flex-column">
-                    <Text className="fml-baloo-tammudu-2">Số điện thoại</Text>
+                    <Text >Số điện thoại</Text>
                     <InputNumber 
+                        placeholder="Nhập số điện thoại liên lạc"
                         className={ isEdit ? "edit" : "disable" }
                         setValue={numberPhone}
                         onChangeText={(text) => {
@@ -92,14 +94,14 @@ const ContentPersonalInfo = ({ isEdit }) => {
                     />
                 </FormGroup>
                 <FormGroup className="flex-column">
-                    <Text className="fml-baloo-tammudu-2">Ngày sinh</Text>
+                    <Text >Ngày sinh</Text>
                     <InputText 
                         className="disable"
                         setValue={profile && profile?.birthday ? moment(profile?.birthday).format('DD/MM/YYYY') : ''}
                     />
                 </FormGroup>
                 <FormGroup className="flex-column">
-                    <Text className="fml-baloo-tammudu-2">Giới tính</Text>
+                    <Text >Giới tính</Text>
                     <InputSelect 
                         className={isEdit ? "" : "disable"}
                         disabled={isEdit}
@@ -124,7 +126,7 @@ const ContentPersonalInfo = ({ isEdit }) => {
                 </FormGroup>
             </LayoutContent>
             <FormGroup className="flex-column mt-3">
-                <Text className="fml-baloo-tammudu-2">Địa chỉ</Text>
+                <Text >Địa chỉ</Text>
                 <InputText 
                     className={ isEdit ? "edit w-100" : "disable w-100" }
                     setValue={address}

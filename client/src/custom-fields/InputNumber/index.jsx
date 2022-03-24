@@ -3,7 +3,6 @@ import { BlueGray, FontBalooTammudu2, Green } from 'src/contants/cssContants';
 import styled from 'styled-components';
 
 const LayoutInput = styled.input`
-    font-family: ${FontBalooTammudu2};
     background: ${BlueGray};
     color: ${Green};
 

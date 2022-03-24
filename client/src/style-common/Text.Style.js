@@ -1,4 +1,4 @@
-import { GrayWhite, Green } from "src/contants/cssContants";
+import { BlueGray, GrayWhite, Green, YellowGray } from "src/contants/cssContants";
 import styled from "styled-components";
 
 export const Text = styled.div`
@@ -33,6 +33,14 @@ export const Text = styled.div`
     ${'' /* Color Text Customs */}
     &.txt-green {
         color: ${Green} !important;
+    }
+
+    &.txt-gray-blue {
+        color: ${BlueGray} !important;
+    }
+
+    &.txt-yellow-gray {
+        color: ${YellowGray} !important;
     }
 
     ${'' /* Font Size Text Custome */}

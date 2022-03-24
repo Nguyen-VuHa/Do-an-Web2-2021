@@ -1,5 +1,5 @@
 import {
-    FontEncodeSans, Green, White
+    FontEncodeSans, Green, White, YellowGray
 } from 'src/contants/cssContants';
 import styled from 'styled-components';
 
@@ -88,13 +88,26 @@ export const Button = styled.button`
 
     cursor: pointer;
     user-select: none;
+    border: 1px solid ${Green};
+    
+    &.btn-back {
+        background: transparent;
+        border: 1px solid ${Green};
+        color: ${Green};
+
+        &:hover {
+            box-shadow: none !important;
+            background: rgba(0,0,0,0.3);
+        }
+    }
 
     &.submit {
-        opacity: 0.8;
+        opacity: 0.5;
         pointer-events: none;
     }
 
     &:hover {
+        opacity: 0.8;
         box-shadow: 0 0 5px #27df2d, 0 0 30px #27df2d, 0 0 80px #27df2d, 0 0 250px #27df2d;
         filter: brightness(1.2);
     }

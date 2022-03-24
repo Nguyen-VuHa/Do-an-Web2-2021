@@ -11,6 +11,15 @@ export const updateInfomationUser = createAsyncThunk('UPDATE_USER_INFOMATION', a
     return stateReponse;
 });
 
+export const getWalletPersonalUser = createAsyncThunk('GET_WALLET_PERSONAL_USER', async () => {
+    const stateReponse = await userApi.getAllWalletPersonal();
+    return stateReponse;
+});
+
+export const createNewRechargeMoneyUser = createAsyncThunk('CREATE_RECHARGE_MONEY_USER', async (data) => {
+    const stateReponse = await userApi.createRechargeMoney(data);
+    return stateReponse;
+});
 
 const profileSlice = createSlice({
     name: 'profileUser',
@@ -19,35 +28,52 @@ const profileSlice = createSlice({
         error: '',
         profile: null,
         statusUpdate: 0,
+        statusRecharge: 0,
+        walletList: [],
     },
     reducers: {
         setFullNameUser(state, action) {
-            state.profile = {
-                ...state.profile,
-                fullname: action.payload,
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    fullname: action.payload,
+                }
             }
         },
         setNumberPhoneUser(state, action) {
-            state.profile = {
-                ...state.profile,
-                numberphone: action.payload,
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    numberphone: action.payload,
+                }
             }
         },
         setSexUser(state, action) {
-            state.profile = {
-                ...state.profile,
-                sex: action.payload,
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    sex: action.payload,
+                }
             }
         },
         setAddressUser(state, action) {
-            state.profile = {
-                ...state.profile,
-                address: action.payload,
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    address: action.payload,
+                }
             }
         },
-
         setDefaultStatus(state) {
-            state.statusUpdate = 0
+            return {
+                ...state,
+                statusUpdate: 0,
+                statusRecharge: 0,
+            };
         },
     },
     extraReducers: {
@@ -77,6 +103,33 @@ const profileSlice = createSlice({
             state.error = '';
             state.statusUpdate = 1;
         },
+        // UPDATE ALL WALLET PERSONAL
+        [getWalletPersonalUser.pending]: (state) => {
+            state.loading = true;
+        },
+        [getWalletPersonalUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        [getWalletPersonalUser.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.error = '';
+            state.walletList = payload.data;
+        },
+         // CREATE NEW RECHARGE MONEY
+         [createNewRechargeMoneyUser.pending]: (state) => {
+            state.loading = true;
+        },
+        [createNewRechargeMoneyUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+            state.statusRecharge = 2;
+        },
+        [createNewRechargeMoneyUser.fulfilled]: (state) => {
+            state.loading = false;
+            state.error = '';
+            state.statusRecharge = 1;
+        },
     }
 });
 
@@ -84,6 +137,5 @@ const { actions, reducer } = profileSlice;
 export const { 
     setFullNameUser, setNumberPhoneUser,
     setSexUser, setAddressUser, setDefaultStatus,
-
- } = actions;
+} = actions;
 export default reducer;

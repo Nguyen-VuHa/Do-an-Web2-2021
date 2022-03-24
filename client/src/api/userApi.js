@@ -80,6 +80,22 @@ const userApi = {
             }
         });
     },
+    getAllWalletPersonal: () => {
+        const url = `api/user/wallet-personal`;
+        return axiosClient.get(url,{
+            headers: {
+                'Authorization':`Bearer ${localStorage.getItem('accessToken')}` 
+            }
+        });
+    },
+    createRechargeMoney: (data) => {
+        const url = `api/recharge-money/create`;
+        return axiosClient.post(url, data, {
+            headers: {
+                'Authorization':`Bearer ${localStorage.getItem('accessToken')}` 
+            }
+        });
+    },
 }
 
 export default userApi;

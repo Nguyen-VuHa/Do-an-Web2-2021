@@ -10,12 +10,8 @@ const ToUpCard = db.define('ToUpCard', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Denominations: {
+    denominations: {
         type: DataTypes.DOUBLE,
-        allowNull: false
-    },  
-    dayTrading: {
-        type: DataTypes.DATE,
         allowNull: false
     },
     tradingHours: {

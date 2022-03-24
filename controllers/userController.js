@@ -3,6 +3,7 @@ const NewNotification = require('../models/dataNotification');
 const Accounts = require('../models/dataAccount');
 const ImageUsers = require('../models/dataImageUser');
 const { cloudinary } = require('../untils/cloudinary');
+const WalletPersonal = require('../models/dataWalletPersonal');
 
 class UserController {  
     
@@ -133,6 +134,60 @@ class UserController {
         });
 
         res.json({status: 200});
+    }
+
+    async getWalletPersonal (req, res) {
+        const userId = req.userId;
+
+        const wallet = await WalletPersonal.findAll({
+            where:{
+                toUpCard_idUser: userId,
+            },
+        });
+        
+        res.json({ status: 200, data: wallet });
+    }
+
+    async createRechargeMoney (req, res) {
+        const userId = req.userId;
+        const data = req.body;
+
+        let today = new Date();
+
+        await WalletPersonal.create({
+            code: data.code,
+            seriNumber: data.seriNumber,
+            denominations: data.denominations,
+            tradingHours: `${today.getHours()}:${today.getMinutes() + 1}`,
+            toUpCard_idUser: userId,
+        });
+
+        const dataUser = await Accounts.findOne({
+            where: {
+                idUser: userId,
+            }
+        });
+
+        await Accounts.update({
+            surplus: (data.denominations + dataUser.surplus),
+        }, {
+            where: {
+                idUser: userId,
+            }
+        })
+
+        var now = new Date();
+
+        await NewNotification.create({
+            message: `Chúc mừng <span>${dataUser.fullname}</span> đã nạp thành công số tiền <span>${data.denominations.toLocaleString()} đ</span> vào ví tiền! Vui lòng kiểm tra ví tiền của bạn và xin cảm ơn <3`,
+            messageType: 'Wellcome',
+            image: dataUser.avartar,
+            time: now,
+            status: 0,
+            noti_idUser: userId,
+        });
+
+        res.json({ status: 200 });
     }
 }
 
