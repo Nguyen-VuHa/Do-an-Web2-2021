@@ -15,7 +15,7 @@ const HistoryTransactionPage = () => {
     }, []);
 
     return (
-        <div className='position-relative w-100'>
+        <div className='position-relative w-100' style={{minHeight: '400px'}}>
             { loading ? <LoadingInfoUser /> : '' }
 
             <HeaderHistoryTrans />

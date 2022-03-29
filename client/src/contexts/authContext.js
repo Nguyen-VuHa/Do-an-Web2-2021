@@ -17,6 +17,11 @@ export const AuthContextProvider = (props) => {
     
     const [state, dispatchAuth] = useReducer((state, action) => {
         switch (action.type) {
+            case "SET_AVARTAR_USER":
+                return {
+                    ...state,
+                    avartar: action.payload,
+                };
             case "UPDATE_FULLNAME_USER_INFO":
                 return {
                     ...state,

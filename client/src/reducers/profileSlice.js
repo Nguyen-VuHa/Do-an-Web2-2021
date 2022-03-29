@@ -21,6 +21,16 @@ export const createNewRechargeMoneyUser = createAsyncThunk('CREATE_RECHARGE_MONE
     return stateReponse;
 });
 
+export const getAllImageUser = createAsyncThunk('GET_ALL_IMAGE_USER', async () => {
+    const stateReponse = await userApi.getAllImageUser();
+    return stateReponse;
+})
+
+export const updateAvartar = createAsyncThunk('SAVE_AVARTAR_USER', async (data) => {
+    const stateReponse = await userApi.saveAvartarUser(data);
+    return stateReponse;
+})
+
 const profileSlice = createSlice({
     name: 'profileUser',
     initialState: {
@@ -29,7 +39,9 @@ const profileSlice = createSlice({
         profile: null,
         statusUpdate: 0,
         statusRecharge: 0,
+        statusUpdateAvartar: 0,
         walletList: [],
+        userAvatar: [],
     },
     reducers: {
         setFullNameUser(state, action) {
@@ -73,6 +85,7 @@ const profileSlice = createSlice({
                 ...state,
                 statusUpdate: 0,
                 statusRecharge: 0,
+                statusUpdateAvartar: 0,
             };
         },
     },
@@ -129,6 +142,33 @@ const profileSlice = createSlice({
             state.loading = false;
             state.error = '';
             state.statusRecharge = 1;
+        },
+        // GET ALL USER AVATAR 
+         [getAllImageUser.pending]: (state) => {
+            state.loading = true;
+        },
+        [getAllImageUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        [getAllImageUser.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.error = '';
+            state.userAvatar = action.payload?.data;
+        },
+        // CREATE NEW AVARTAR
+        [updateAvartar.pending]: (state) => {
+            state.loading = true;
+        },
+        [updateAvartar.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+            state.statusUpdateAvartar = 2;
+        },
+        [updateAvartar.fulfilled]: (state) => {
+            state.loading = false;
+            state.error = '';
+            state.statusUpdateAvartar = 1;
         },
     }
 });

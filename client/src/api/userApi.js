@@ -47,20 +47,20 @@ const userApi = {
             }
         });
     },
-    updateImageUser: (accessToken, dataBase64) => {
+    updateImageUser: (dataBase64) => {
         let data = dataBase64;
-        const url = `api/image/82fcfba6-1d63-443a-b7b9-d10b9941f3c6`;
-        return axiosClient.post(url,  {data: data} , {
+        const url = `api/user/update-avartar`;
+        return axiosClient.post(url, {data: data} , {
             headers: {
-                'Authorization':`Bearer ${accessToken}` 
+                'Authorization':`Bearer ${localStorage.getItem('accessToken')}` 
             }
         });
     },
-    getAllImageUser: (accessToken) => {
-        const url = `api/get-image/f3cbabb5-c184-431e-b5b7-e48a4f17cb06`;
+    getAllImageUser: () => {
+        const url = `api/user/all-image-user`;
         return axiosClient.get(url , {
             headers: {
-                'Authorization':`Bearer ${accessToken}` 
+                'Authorization':`Bearer ${localStorage.getItem('accessToken')}` 
             }
         });
     },
@@ -72,11 +72,11 @@ const userApi = {
             }
         });
     },
-    saveAvartarUser: (accessToken, objData) => {
-        const url = `api/avartar/f0fa6ed4-3b4a-4e69-8a27-2063055e27a6`;
-        return axiosClient.post(url, { data: objData },{
+    saveAvartarUser: (data) => {
+        const url = `api/user/change-avartar`;
+        return axiosClient.post(url, data ,{
             headers: {
-                'Authorization':`Bearer ${accessToken}` 
+                'Authorization':`Bearer ${localStorage.getItem('accessToken')}` 
             }
         });
     },

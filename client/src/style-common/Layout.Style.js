@@ -22,3 +22,19 @@ export const FormGroup = styled.div`
         align-items: start;
     }
 `;
+
+export const Col = styled.div`
+    display: grid;
+    width: 100%;
+    height: 100%;
+
+    &.column-2 {
+        grid-template-columns: 1fr 1fr;
+
+        @media screen and (max-width: 764px) {  
+            grid-template-columns: 1fr;
+        }
+    }
+
+    ${props => props.gapSize ? `grid-gap:${props.gapSize}px;` : 'grid-gap: 10px'}
+`;

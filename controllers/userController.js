@@ -123,10 +123,12 @@ class UserController {
 
     async saveAvartarUser (req, res) {
         const userId = req.userId;
-        const objdata = req.body;
+        const data = req.body;
+
+        console.log(userId, data);
 
         Accounts.update({
-            avartar:  objdata.data.imgUrl
+            avartar:  data?.imgUrl,
         }, {
             where: {
                 idUser: userId,

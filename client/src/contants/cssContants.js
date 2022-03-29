@@ -5,6 +5,7 @@ export const White = '#FFFFFF';
 export const GrayWhite = '#a6b2c9';
 export const YellowGray = '#d4dd29';
 export const Gray = '#1c262f';
+export const RedError = '#ff0000';
 // font family
 export const FontRoboto = `'Roboto', sans-serif`;
 export const FontEncodeSans = `'Encode Sans SC', sans-serif`;

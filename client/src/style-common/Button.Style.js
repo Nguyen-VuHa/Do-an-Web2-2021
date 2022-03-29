@@ -1,5 +1,5 @@
 import {
-    FontEncodeSans, Green, White, YellowGray
+    FontEncodeSans, Green, RedError, White, YellowGray
 } from 'src/contants/cssContants';
 import styled from 'styled-components';
 
@@ -94,6 +94,17 @@ export const Button = styled.button`
         background: transparent;
         border: 1px solid ${Green};
         color: ${Green};
+
+        &:hover {
+            box-shadow: none !important;
+            background: rgba(0,0,0,0.3);
+        }
+    }
+
+    &.btn-error {
+        background: transparent;
+        border: 1px solid ${RedError};
+        color: ${White};
 
         &:hover {
             box-shadow: none !important;

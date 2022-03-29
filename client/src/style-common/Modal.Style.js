@@ -17,6 +17,7 @@ export const LayoutModal = styled.div`
     height: 100%;
     z-index: -99999;
 
+    overflow-x: auto;
     transition: all .4s ease;
 
     &.show {
@@ -51,6 +52,16 @@ export const ContentModal = styled.div`
 
     &.mb {
         width: 50%;
+    }
+
+    @media screen and (max-width: 764px) {  
+        margin-top: 490px;
+        margin-bottom: 100px;
+    }
+
+    @media screen and (max-width: 600px) {  
+        margin-top: 450px;
+        margin-bottom: 100px;
     }
 `;
 
