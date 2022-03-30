@@ -50,7 +50,8 @@ class AuthController {
             role: 1,
             numberphone: data.numberphone,
             active: '', //activeCode
-            surplus: 0
+            surplus: 0,
+            birthday: new Date(data.birthDay),
         });
 
         const getIdUser = await Accounts.findOne({

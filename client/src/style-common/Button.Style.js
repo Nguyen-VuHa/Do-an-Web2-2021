@@ -1,5 +1,5 @@
 import {
-    FontEncodeSans, Green, RedError, White, YellowGray
+    FontEncodeSans, Green, RedError, White
 } from 'src/contants/cssContants';
 import styled from 'styled-components';
 
@@ -125,5 +125,37 @@ export const Button = styled.button`
     
     &:focus {
         outline: none;
+    }
+`;
+
+
+export const ButtonIcon = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid ${Green};
+    
+    cursor: pointer;
+    user-select: none;
+    transition: all .35s ease;
+
+    &:hover {
+        background: ${Green};
+        color: ${White};
+        
+        i, div {
+            color: ${White};
+        }
+
+    }
+
+    i, div{
+        transition: all .35s ease;
+        font-size: 20px;
+        color: ${Green};
     }
 `;

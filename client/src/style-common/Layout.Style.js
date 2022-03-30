@@ -36,5 +36,10 @@ export const Col = styled.div`
         }
     }
 
+    &.column-7 { 
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-gap: 3px;
+    }
+
     ${props => props.gapSize ? `grid-gap:${props.gapSize}px;` : 'grid-gap: 10px'}
 `;

@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { 
-    LayoutForm, FormGroup, TitleLabel,
-    TextMessage
-} from './FormRegister.Style';
+import { useHistory } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import authApi from 'src/api/authApi';
+import ComboboxDate from 'src/custom-fields/ComboboxDate';
 import { Button } from 'src/style-common/Button.Style';
 import { InputForm } from 'src/style-common/Input.Style';
-import isEmail from 'validator/lib/isEmail';
 import isByLength from 'validator/lib/isByteLength';
+import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
-import { ClipLoader } from 'react-spinners';
-import authApi from 'src/api/authApi';
-import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
-
+import { FormGroup, LayoutForm, TextMessage, TitleLabel } from './FormRegister.Style';
+import moment from 'moment';
 
 const FormRegister = () => {
     const [isSubmit, setIsSubmit] = useState(false);
@@ -22,6 +20,7 @@ const FormRegister = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [c_password, setCPassword] = useState('');
+    const [birthDay, setBirthDay] = useState('');
     const [numberphone, setNumberPhone] = useState('');
 
     const [validateMsg, setValidateMsg] = useState({});
@@ -64,6 +63,11 @@ const FormRegister = () => {
         else
             delete msg.numberphone
 
+        if(isEmpty(data.birthDay))
+            msg.birthDay = "Trường này không được trống!";
+        else
+            delete msg.birthDay
+
         setValidateMsg(msg);
         if(Object.keys(msg).length > 0) return false;
     
@@ -74,6 +78,7 @@ const FormRegister = () => {
         var target = e.target;
         var name = target.name;
         var value = target.value;
+
         switch (name) {
             case 'fullname':
                 delete validateMsg.fullname
@@ -111,6 +116,7 @@ const FormRegister = () => {
                 password,
                 c_password,
                 numberphone,
+                birthDay,
             };
             var messageError = await validateForm(data);
             if(messageError) {
@@ -194,6 +200,22 @@ const FormRegister = () => {
                         className={validateMsg.c_password ? "invalid-feedback show" : "invalid-feedback" }
                     >
                         { validateMsg.c_password && validateMsg.c_password}
+                    </TextMessage>
+                </div>
+            </FormGroup>
+            <FormGroup className="mt-2">
+                <TitleLabel>Ngày sinh:</TitleLabel>
+                <div className="d-flex flex-column w-100">
+                    <ComboboxDate 
+                        onChange={(date) => {
+                            delete validateMsg.birthDay
+                            setBirthDay(date);
+                        }}
+                    />
+                    <TextMessage 
+                        className={validateMsg.birthDay ? "invalid-feedback show" : "invalid-feedback" }
+                    >
+                        { validateMsg.birthDay && validateMsg.birthDay}
                     </TextMessage>
                 </div>
             </FormGroup>
