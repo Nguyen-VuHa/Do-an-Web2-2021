@@ -19,6 +19,7 @@ const ShowtimesByMoviePage = () => {
                     <title>{ globalText.TITLE_MOVIE_SHOWTIMES }</title>
                 </Helmet>
             </HelmetProvider>
+            
             <div>
                 <ShowtimesByMovie />
             </div>

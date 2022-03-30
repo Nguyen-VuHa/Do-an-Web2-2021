@@ -3,6 +3,7 @@ const globalText = {
     TITLE_REGISTER: 'Tạo Thẻ Thành Viên | BHD STAR CINEPLEX',
     TITLE_SYSTEM_CINEMA: 'BHD STAR CINEPLEX | Hệ Thống Rạp Phim',
     TITLE_MOVIE_SHOWTIMES: 'BHD STAR CINEPLEX | Lịch chiếu theo phim',
+    TITLE_MOVIE_SHOWTIMES_BY_CINEMA: 'BHD STAR CINEPLEX | Lịch chiếu theo rạp',
 }
 
 export default globalText;

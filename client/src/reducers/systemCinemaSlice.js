@@ -5,10 +5,16 @@ const initialState = {
     loading: false,
     error: '',
     systemCinema: [],
+    cinemaLocation: [],
 }
 
 export const fetchSystemCinema = createAsyncThunk('GET_SYSTEM_CINEMA', async () => {
     const stateReponse = await cinemaApi.getAllCinema();
+    return stateReponse;
+});
+
+export const fetchCinemaLocation = createAsyncThunk('GET_CINEMA_LOCATION', async () => {
+    const stateReponse = await cinemaApi.getAllDistrict();
     return stateReponse;
 });
 
@@ -29,6 +35,19 @@ const systemCinemaSlice = createSlice({
             state.loading = false;
             state.error = '';
             state.systemCinema = payload.data;
+        },
+        // GET ALL SYSTEM CINEMA
+        [fetchCinemaLocation.pending]: (state) => {
+            state.loading = true;
+        },
+        [fetchCinemaLocation.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        [fetchCinemaLocation.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.error = '';
+            state.cinemaLocation = payload.data;
         },
     }
 });
