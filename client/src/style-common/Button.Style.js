@@ -1,5 +1,5 @@
 import {
-    FontEncodeSans, Green, RedError, White
+    FontEncodeSans, Green, RedError, White, YellowGray
 } from 'src/contants/cssContants';
 import styled from 'styled-components';
 
@@ -157,5 +157,26 @@ export const ButtonIcon = styled.div`
         transition: all .35s ease;
         font-size: 20px;
         color: ${Green};
+    }
+`;
+
+export const ButtonTabbar = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid ${YellowGray};
+    color: ${YellowGray};
+
+    cursor: pointer;
+    user-select: none;
+
+    padding: 8px 16px;
+
+    transition: all .35s ease;
+
+    &:hover, &.active {
+        background: ${YellowGray};
+        color: ${White};
     }
 `;

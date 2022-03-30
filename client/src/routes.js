@@ -13,6 +13,10 @@ const PageNotFound = React.lazy(() => import('src/components/PageNotFound'));
 // User Profile 
 const UserProfileMain = React.lazy(() => import('src/pages/UserProfile/UserProfileMain'));
 
+// Movie Showtimes
+const MovieShowTimes = React.lazy(() => import('src/pages/MovieShowtimes'));
+
+
 // array routes
 const routes = [
     { path: '/error/404', name: 'HomePage', component: PageNotFound, exact: true},
@@ -25,6 +29,8 @@ const routes = [
 
     { path: '/movie/movie-current/:movieId', name: 'Movie Detail Current', component: MovieDetail, exact: true},
     { path: '/movie/movie-comming/:movieId', name: 'Movie Detail CommingSoon', component: MovieDetail, exact: true},
+    { path: '/movie-showtimes', name: 'Movie Showtimes', component: MovieShowTimes, exact: false},
+    
 ];
 
 export const routesUser = [

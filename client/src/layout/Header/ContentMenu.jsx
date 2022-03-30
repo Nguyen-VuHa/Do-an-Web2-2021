@@ -14,8 +14,8 @@ const ContentMenuHeader = () => {
             setIndexMenu(0);
         else if (window.location.pathname === '/system-cinema/cinema')
             setIndexMenu(1);
-        else 
-            setIndexMenu(null);    
+        else if (window.location.pathname === '/movie-showtimes/showtimes-by-movie') 
+            setIndexMenu(2);    
         
         return () => setIndexMenu(null);
     }, [window.location.pathname]);
@@ -38,8 +38,8 @@ const ContentMenuHeader = () => {
                     </Link>
                 </ItemMenu>
                 <ItemMenu>
-                    <Link to="#">
-                        <ButtonHeader content="Lịch chiếu">
+                    <Link to={ indexMenu === 2 ? '#' : '/movie-showtimes/showtimes-by-movie' }>
+                        <ButtonHeader content="Lịch chiếu" className={indexMenu === 2 ? 'active' : ''}>
                             <i className="fal fa-calendar-alt"></i>
                         </ButtonHeader>
                     </Link>
