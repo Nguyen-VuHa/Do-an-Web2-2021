@@ -5,6 +5,7 @@ import movieSlice from "src/reducers/movieSlice";
 import commentSlice from "src/reducers/commentSlice";
 import notifySlice from "src/reducers/notifySlice";
 import profileSlice from "src/reducers/profileSlice";
+import showtimeSlice from 'src/reducers/showtimeSlice';
 // import loadingSlice from '../components/LoadingPage/loadingSlice';
 // import isLonginSlice from '../contants/loginSlice';
 // import dataHomePpage from '../features/HomePage/homepageSlice';
@@ -23,5 +24,6 @@ export default configureStore({
         commentState: commentSlice,
         notifyState: notifySlice,
         profileState: profileSlice,
+        showtimeState: showtimeSlice,
     },
 })

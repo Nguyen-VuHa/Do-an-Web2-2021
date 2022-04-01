@@ -10,7 +10,7 @@ const LayoutInputDate = styled.div`
     align-items: center;
 
     width: 100%;
-    height: 42px;
+    height: 40px;
 
     padding: 12px 16px;
 
@@ -84,7 +84,7 @@ const ComboboxDate = ({ onChange, className }) => {
     
 
     return (
-        <div className='position-relative d-flex'>
+        <div className={`${className} position-relative d-flex`}>
             <LayoutInputDate
                 ref={buttonRef}
                 className={dateChange ? `${className} active` : `${className}`}

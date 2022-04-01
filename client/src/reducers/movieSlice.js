@@ -6,6 +6,11 @@ export const getMovieDetailById = createAsyncThunk('GET_MOVIE_DETAIL_BY_ID', asy
     return stateReponse;
 });
 
+export const getMovieCurrent = createAsyncThunk('GET_MOVIE_CURRENT', async () => {
+    const stateReponse = await movieApi.getMovieCurrentShow();
+    return stateReponse;
+});
+
 const movieSlice = createSlice({
     name: 'movie',
     initialState: {
@@ -28,6 +33,19 @@ const movieSlice = createSlice({
             state.loading = false;
             state.error = '';
             state.movieDetail = payload.data;
+        },
+         // GET MOVIE CURRENT
+         [getMovieCurrent.pending]: (state) => {
+            state.loading = true;
+        },
+        [getMovieCurrent.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+        },
+        [getMovieCurrent.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.error = '';
+            state.movieArr = payload.data;
         },
     }
 });

@@ -9,6 +9,7 @@ const SelectInput = styled.div`
     align-items: center;
 
     width: 100%;
+    height: 40px;
     padding: 0.5rem .75rem;
 
     cursor: pointer;
@@ -16,7 +17,6 @@ const SelectInput = styled.div`
 
     background: #FFFFFF;
 
-    height: 2.4rem;
     border: 1px solid ${GrayWhite};
     background: ${BlueGray};
     box-sizing: border-box;
@@ -146,7 +146,7 @@ const Options = styled.div`
     }
 `;
 
-const InputSelect = ({ placeholder, active, dataMap, onChange, disabled = true, className }) => {
+const InputSelect = ({ placeholder, active, dataMap, onChange, disabled = true, className, style }) => {
     const dropRef = useRef(null);
     const buttonRef = useRef(null);
 
@@ -170,7 +170,7 @@ const InputSelect = ({ placeholder, active, dataMap, onChange, disabled = true, 
     }, []);
 
     return (
-        <div className="position-relative w-100 h-auto">
+        <div className="position-relative w-100 h-auto" style={style}>
             <SelectInput
                 ref={buttonRef}
                 className={ active ? isActive ? `active drop-active ${className}` : `active ${className}` : isActive ? `drop-active ${className}` : className }
@@ -206,8 +206,7 @@ const InputSelect = ({ placeholder, active, dataMap, onChange, disabled = true, 
                             key={index}
                             onClick={() => {
                                 setValueSelected(item.name);
-                                onChange &&
-                                onChange(item.id);
+                                onChange && onChange(item.id);
                             }}
                         >
                             <span>{item.name}</span>

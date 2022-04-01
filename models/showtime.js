@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const db = require('./database');
 
 const showTime = db.define('ShowTime', {
-
     idShowtime: {
         type: DataTypes.STRING,
         primaryKey: true,

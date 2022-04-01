@@ -1,7 +1,7 @@
 import React, { Suspense, useContext } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { AuthContext } from 'src/contexts/authContext';
-import routes, { routesUser } from 'src/routes';
+import routes, { routesAdmin, routesUser } from 'src/routes';
   
 const loading = (
   <div className="pt-3 text-center">
@@ -33,6 +33,22 @@ const TheContent = () => {
 
                     {
                         isLogin && routesUser.map((route, idx) => {
+                            return route.component && (
+                                <Route
+                                    key={idx}
+                                    path={route.path}
+                                    exact={route.exact}
+                                    name={route.name}
+                                    render={props => (
+                                        <route.component {...props} />
+                                    )} 
+                                />
+                            )
+                        })
+                    }
+
+                    {
+                        routesAdmin && routesAdmin.map((route, idx) => {
                             return route.component && (
                                 <Route
                                     key={idx}

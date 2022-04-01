@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlueGray, FontBalooTammudu2, Green } from 'src/contants/cssContants';
+import { BlueGray, FontBalooTammudu2, Green, RedError, White } from 'src/contants/cssContants';
 import styled from 'styled-components';
 
 const LayoutInput = styled.input`
@@ -7,11 +7,12 @@ const LayoutInput = styled.input`
     color: ${Green};
 
     width: 100%;
+    height: 40px;
     border: none; 
 
     &:focus {
         outline: none;
-        padding: 8px; 
+        padding-left: 8px; 
     }
 
     &::placeholder {
@@ -23,9 +24,28 @@ const LayoutInput = styled.input`
     }
 
     &.edit {
-        padding: 8px;
+        padding-left: 8px;
         border-radius: 8px;
         border: 1px solid ${props => props.color ? props.color : Green};
+    }
+
+    &.error {
+        padding-left: 8px;
+        border-radius: 8px;
+        border: 1px solid ${RedError};
+        color: ${RedError};
+    }
+
+    &.i-border {
+        padding-left: 8px;
+        border-radius: 8px;
+        border: 1px solid ${props => props.color ? props.color : White};
+
+        &:focus, &:hover {
+            outline: none;
+            padding-left: 8px; 
+            border: 1px solid ${props => props.color ? props.color : Green};
+        }
     }
 `;
 

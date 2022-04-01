@@ -16,6 +16,8 @@ const UserProfileMain = React.lazy(() => import('src/pages/UserProfile/UserProfi
 // Movie Showtimes
 const MovieShowTimes = React.lazy(() => import('src/pages/MovieShowtimes'));
 
+// Admin Routes
+const AdminShowTimePage = React.lazy(() => import('src/pages/AdminPage/AdminMain'));
 
 // array routes
 const routes = [
@@ -35,6 +37,10 @@ const routes = [
 
 export const routesUser = [
     { path: '/profile', name: 'User Profile', component: UserProfileMain, exact: false},
+]
+
+export const routesAdmin = [
+    { path: '/admin', name: 'Admin Page', component: AdminShowTimePage, exact: false},
 ]
 
 export default routes;

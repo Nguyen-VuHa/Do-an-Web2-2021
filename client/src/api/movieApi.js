@@ -38,6 +38,11 @@ const movieApi = {
     getMovieDetailById: (movieId) => {
         const url = `api/movie/movie-detail/${movieId}`;
         return axiosClient.get(url);
+    },
+    getMovieCurrentShow: () => {
+        const url = `api/movie/movie-current`;
+        return axiosClient.get(url);
+        
     }
 }
 

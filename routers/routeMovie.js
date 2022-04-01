@@ -16,6 +16,7 @@ router.get('/movie-poster/:movieId/update', movieController.getMoviePosterById);
 router.get('/movie-data/:movieId/update', movieController.getMovieDataById);
 // api Movie Detail
 router.get('/bW92aWU=/bec4a217-4bfb-4da6-b396-659e9949de62', movieController.getMovieDetail);
+router.get('/movie/movie-current', movieController.getMovieShowCurrent);
 
 
 

@@ -1,4 +1,4 @@
-import { BlueGray, GrayWhite, Green, YellowGray } from "src/contants/cssContants";
+import { BlueGray, GrayWhite, Green, YellowGray, RedError } from "src/contants/cssContants";
 import styled from "styled-components";
 
 export const Text = styled.div`
@@ -58,5 +58,12 @@ export const Text = styled.div`
         font-family: 'Baloo Tammudu 2';
     }
 
-    
+    &.min-width-params {
+        min-width: ${props => props.minWidth}px !important; 
+        white-space: pre-wrap;
+    }
+
+    & span {
+        color: ${RedError};
+    }
 `;

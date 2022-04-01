@@ -247,6 +247,22 @@ class MovieController {
         }});
     }
 
+    async getMovieShowCurrent (req, res) {
+        const movieCurrent = await Films.findAll({
+            where: {
+                premiereDate: {
+                    [Op.lte] : Date.now()
+                },
+                endDate: {
+                    [Op.gt]: Date.now()
+                }
+            },
+            attributes: ['movieId', 'movieName', 'premiereDate', 'endDate' ,'poster1',]
+        });
+
+        res.json({status: 200, data: movieCurrent});
+    }
+
     async getMovieDetail (req, res) {
         
         const movieCurrent = await Films.findAll({
