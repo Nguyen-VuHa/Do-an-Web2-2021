@@ -58,6 +58,10 @@ export const Text = styled.div`
         font-family: 'Baloo Tammudu 2';
     }
 
+    &.fml-endcode-sans-sc {
+        font-family: 'Encode Sans SC', sans-serif;
+    }
+
     &.min-width-params {
         min-width: ${props => props.minWidth}px !important; 
         white-space: pre-wrap;

@@ -4,6 +4,7 @@ import globalText from 'src/contants/titleCinema';
 import ShowtimesByMovie from '../components/ShowtimesByMovie';
 import { useDispatch } from 'react-redux';
 import { fetchMovieHomePage } from 'src/reducers/homePageSlice';
+import ShowTimeDetail from '../components/ShowtimesByMovie/ShowTimeDetail';
 
 const ShowtimesByMoviePage = () => {
     const dispatch = useDispatch(); 
@@ -22,6 +23,7 @@ const ShowtimesByMoviePage = () => {
             
             <div>
                 <ShowtimesByMovie />
+                <ShowTimeDetail />
             </div>
         </>
     );

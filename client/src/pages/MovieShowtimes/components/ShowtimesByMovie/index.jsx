@@ -3,8 +3,11 @@ import { useSelector } from 'react-redux';
 import Images from 'src/contants/image';
 import { ButonCarousel, DefaultItem, Layout, LayoutCarousel, LayoutSlideCarousel, SlickList, SlickSlide, SlickTrack } from 'src/style-common/MovieCarousel.Style';
 import MovieCard from './MovieCard';
+import { useDispatch } from 'react-redux';
+import { fetchShowTimesByMovie, setNameMovie } from 'src/reducers/showtimeSlice';
 
 const ShowtimesByMovie = () => {
+    const dispatch = useDispatch();
     const {loading, movieCurrent } = useSelector((state) => state.homepageState);
     
     const layoutSlideRef = useRef(null);
@@ -116,6 +119,10 @@ const ShowtimesByMovie = () => {
                                     return  <SlickSlide 
                                                 key={item.movieId}
                                                 width={(widthItem)}
+                                                onClick={() => {
+                                                    dispatch(fetchShowTimesByMovie(item.movieId));
+                                                    dispatch(setNameMovie(item.movieName))
+                                                }}
                                             >
                                                 <MovieCard data={item}/>
                                             </SlickSlide>

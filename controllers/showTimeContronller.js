@@ -1,7 +1,7 @@
 const Cinemas = require("../models/dataCinema");
 const Films = require("../models/dataMovie");
 const MovieShowTimes = require("../models/dataShowtimes");
-
+const { Op } = require('sequelize');
 
 class ShowTimesController {  
     async getAllShowtimes (req, res) {
@@ -40,6 +40,32 @@ class ShowTimesController {
         res.json({ status: 200 });
     }
 
+    async getShowtimesByMovie (req, res) { 
+        const params = req.params.movieId;
+
+        let data = await Cinemas.findAll({
+            include: [
+                {
+                    model: MovieShowTimes,
+                    include:  {
+                        model: Films,
+                        where: {
+                            movieId: params,
+                        },
+                        attributes: ['movieId','movieName']
+                    },
+                    where: {
+                        showTime_idCinema: {
+                            [Op.not]: null,
+                        }
+                    }
+                },
+            ],
+            attributes: [ "id", "nameCinema" ]
+        })
+
+        res.json({ status: 200, data: data})
+    }
 }
 
 module.exports = new ShowTimesController

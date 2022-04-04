@@ -11,6 +11,11 @@ export const fetchAllShowTimes = createAsyncThunk('FETCH_ALL_SHOWTIME', async ()
     return stateReponse;
 });
 
+export const fetchShowTimesByMovie = createAsyncThunk('FETCH_SHOWTIME_BY_MOVIE', async (movieId) => {
+    const stateReponse = await showtimeApi.fetchShowtimesByMovie(movieId);
+    return stateReponse;
+});
+
 
 const showtimeSlice = createSlice({
     name: 'showtimes',
@@ -18,9 +23,17 @@ const showtimeSlice = createSlice({
         loading: false,
         error: '',
         showtimes: [],
+        showtimesByMovie: [],
+        movieNameShowTimes: '',
         statusSubmit: 0,
     },
     reducers: {
+        setNameMovie(state, action) { 
+            return {
+                ...state,
+                movieNameShowTimes: action.payload,
+            };
+        },
         setDefaultStatus(state) { 
             return {
                 ...state,
@@ -56,11 +69,25 @@ const showtimeSlice = createSlice({
             state.error = '';
             state.showtimes = payload.data;
         },
+         // GET SHOWTIMES BY MOVIE
+         [fetchShowTimesByMovie.pending]: (state) => {
+            state.loading = true;
+        },
+        [fetchShowTimesByMovie.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+        },
+        [fetchShowTimesByMovie.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.error = '';
+            state.showtimesByMovie = payload.data;
+        },
     }
 });
 
 const { reducer, actions } = showtimeSlice;
 export const { 
     setDefaultStatus,
+    setNameMovie,
 } = actions;
 export default reducer;
