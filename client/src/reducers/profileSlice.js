@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import userApi from "src/api/userApi";
 
-export const getInfomationUser = createAsyncThunk('GET_USER_INFOMATION', async ({ userId, accessToken}) => {
-    const stateReponse = await userApi.getInfoUser({ userId, accessToken});
+export const getInfomationUser = createAsyncThunk('GET_USER_INFOMATION', async () => {
+    const stateReponse = await userApi.getInfoUser();
     return stateReponse;
 });
 

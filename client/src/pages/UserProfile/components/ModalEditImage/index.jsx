@@ -183,7 +183,7 @@ const ModalEditImage = ({ isShow, setIsShow }) => {
                                         value=""
                                     />
                                 </div>
-                                <div className="editor-image" data-simplebar style={{width: '100%', maxHeight: '67vh'}} >
+                                <div className="editor-image" data-simplebar style={{width: '100%', maxHeight: '50vh'}} >
                                     <ListImageUser onChangeImage={onChangeImage}/>
                                 </div>
                             </div>

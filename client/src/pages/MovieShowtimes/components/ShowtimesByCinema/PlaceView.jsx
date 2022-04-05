@@ -23,20 +23,20 @@ const PlaceItem = styled.li`
     margin-right: 5px;
     margin-bottom: 5px;
 
-    &:hover {
+    &:hover, &.active {
         background: #2d5269e6;
         color: ${YellowGray};
     }
+
 `;
 
 
 const PlaceView = () => {
     const { cinemaLocation } = useSelector(state => state.systemCinemaState);
 
-    console.log(cinemaLocation);
     return (
         <LayoutPlace className="container">
-            <PlaceItem>
+            <PlaceItem className='active'>
                 <i className="fad fa-map-marked-alt mr-2"></i>
                 Tất cả
             </PlaceItem>

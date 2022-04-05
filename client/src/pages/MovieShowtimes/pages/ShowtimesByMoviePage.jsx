@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import globalText from 'src/contants/titleCinema';
-import ShowtimesByMovie from '../components/ShowtimesByMovie';
 import { useDispatch } from 'react-redux';
+import globalText from 'src/contants/titleCinema';
 import { fetchMovieHomePage } from 'src/reducers/homePageSlice';
+import ShowtimesByMovie from '../components/ShowtimesByMovie';
 import ShowTimeDetail from '../components/ShowtimesByMovie/ShowTimeDetail';
 
 const ShowtimesByMoviePage = () => {
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();  
 
     useEffect(() => {
         dispatch(fetchMovieHomePage());

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Text } from 'src/style-common/Text.Style';
-import { Button } from 'src/style-common/Button.Style';
-import { White, Green } from 'src/contants/cssContants';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { getInfomationUser, setDefaultStatus, updateInfomationUser } from 'src/reducers/profileSlice';
 import { ClipLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import { White } from 'src/contants/cssContants';
 import { AuthContext } from 'src/contexts/authContext';
+import { getInfomationUser, setDefaultStatus, updateInfomationUser } from 'src/reducers/profileSlice';
+import { Button } from 'src/style-common/Button.Style';
+import { Text } from 'src/style-common/Text.Style';
 
 const handleCheckSubmit = (profile) => {
     if(profile && Object.keys(profile).length > 0) {
@@ -42,7 +42,7 @@ const HeaderPersonalInfo = ({ isEdit, setIsEdit }) => {
             toast.error('Cập nhật thất bại!');
             dispatch(setDefaultStatus());
             setIsSubmit(false);
-            dispatch(getInfomationUser({userId: profile.idUser, accessToken}));
+            dispatch(getInfomationUser());
         }
     }, [statusUpdate]);
     

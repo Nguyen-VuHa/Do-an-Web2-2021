@@ -26,12 +26,12 @@ const userApi = {
             }
         });
     },
-    getInfoUser: (payload) => {
-        const url = `api/user/infomation/${payload.userId}`;
+    getInfoUser: () => {
+        const url = `api/user/infomation`;
         
         return axiosClient.get(url, {
             headers: {
-                'Authorization':`Bearer ${payload.accessToken}` 
+                'Authorization':`Bearer ${localStorage.getItem('accessToken')}` 
             }
         });
     },

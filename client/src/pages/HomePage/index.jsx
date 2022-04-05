@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import globalText from 'src/contants/titleCinema';
 import {
@@ -13,24 +13,15 @@ import MovieComming from './MovieComming';
 import LoadingHomePage from 'src/components/LayoutLoading/LoadingHomePage';
 
 const HomePage = () => {
-    const { loading } = useSelector(state => state.homepageState);
-    const [isLoading, setIsLoading] = useState(true);
-
+    const { movieTrend } = useSelector(state => state.homepageState);
     const dispatch = useDispatch();
     
-    useEffect(() => {
-        dispatch(fetchMovieHomePage());
-    }, []);
-
-    useEffect(() => {
-        if(loading === false) {
-            let timeOut = setTimeout(() => {
-                setIsLoading(false);
-            }, 500);
-
-            return () => clearTimeout(timeOut);
+    useLayoutEffect(() => {
+        if(movieTrend && movieTrend.length === 0)
+        {
+            dispatch(fetchMovieHomePage());
         }
-    }, [loading]);
+    }, []);
     
     return (
         <>
@@ -40,13 +31,17 @@ const HomePage = () => {
                 </Helmet>
             </HelmetProvider>
 
-            { isLoading ? <LoadingHomePage /> : '' }
-            <MainPage>
-                <Advertisement />
-                <MovieCurrent />
-                <MovieComming />
-                <Promotion />
-            </MainPage>
+            { 
+                movieTrend && movieTrend.length === 0
+                ? <LoadingHomePage /> 
+                : <MainPage>
+                    <Advertisement />
+                    <MovieCurrent />
+                    <MovieComming />
+                    <Promotion />
+                </MainPage> 
+            }
+            
         </>
     );
 };

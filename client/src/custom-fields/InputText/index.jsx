@@ -30,9 +30,10 @@ const LayoutInput = styled.input`
     }
 `;
 
-const InputText = ({placeholder, className, onChangeText, setValue}) => {
+const InputText = ({placeholder, className, onChangeText, setValue, disabled = false}) => {
     return (
         <LayoutInput
+            disabled={disabled}
             className={className}
             placeholder={placeholder ? placeholder : 'Nhập input text...'}
             onChange={(e) => {

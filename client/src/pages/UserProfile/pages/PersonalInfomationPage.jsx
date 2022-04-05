@@ -16,7 +16,7 @@ const PersonalInfomationPage = () => {
 
     useEffect(() => {
         if(params && params.idUser && accessToken) {
-            dispatch(getInfomationUser({userId: params.idUser, accessToken}))
+            dispatch(getInfomationUser())
         }
     }, []);
 

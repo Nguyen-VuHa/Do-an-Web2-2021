@@ -9,13 +9,14 @@ import { fetchSystemCinema } from 'src/reducers/systemCinemaSlice';
 import LoadingSystemCinema from 'src/components/LayoutLoading/LoadingSystemCinema';
 
 const MainSystemCinema = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const { loading } = useSelector(state => state.systemCinemaState);
+    const [isLoading, setIsLoading] = useState(false);
+    const { loading, systemCinema } = useSelector(state => state.systemCinemaState);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchSystemCinema());
+        if(systemCinema && systemCinema.length === 0)
+            dispatch(fetchSystemCinema());
     }, []);
 
     useEffect(() => {
@@ -26,6 +27,8 @@ const MainSystemCinema = () => {
 
             return () => clearTimeout(timeOut);
         }
+        else    
+            setIsLoading(loading);
     }, [loading]);
     
     return (
@@ -36,11 +39,15 @@ const MainSystemCinema = () => {
                 </Helmet>
             </HelmetProvider>
 
-            { isLoading ? <LoadingSystemCinema /> : '' }
-            <Layout>
-                <Title />
-                <ContentCinema />
-            </Layout>
+            { 
+                systemCinema && systemCinema.length === 0 
+                ? <LoadingSystemCinema /> 
+                : <Layout>
+                    <Title />
+                    <ContentCinema />
+                </Layout> 
+            }
+            
         </>
      
     );

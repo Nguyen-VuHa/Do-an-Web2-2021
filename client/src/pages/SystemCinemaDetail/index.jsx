@@ -24,7 +24,8 @@ const SystemCinemaDetail = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(fetchSystemCinema());
+        if(systemCinema && systemCinema.length === 0)
+            dispatch(fetchSystemCinema());
     }, []);
     
     useEffect(() => {

@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { AuthContext } from 'src/contexts/authContext';
 import userApi from 'src/api/userApi';
 import authApi from 'src/api/authApi';
+import { uuidv4 } from 'src/utils/generalUUID';
 
 function randomMoney(min, max){
     return Math.floor(Math.random() * (max - min)) + min;
@@ -35,6 +36,13 @@ const ModalTransECoin = ({ isShow, setIsShow }) => {
  
     const [seriNumber, setSeriNumber] = useState('');
     const [idCard, setIdCard] = useState('');
+
+    useEffect(() => {
+        if(isShow) {
+            setSeriNumber(uuidv4(10));
+            setIdCard(uuidv4(14));
+        }
+    }, [isShow]);
 
     useEffect(() => {
         let body = document.body;
@@ -133,6 +141,7 @@ const ModalTransECoin = ({ isShow, setIsShow }) => {
                     <FormGroup className="flex-column w-100">
                         <Text >Số Seri</Text>
                         <InputText 
+                            disabled={true}
                             className="edit mt-4"
                             placeholder="Nhập mã số seri..."
                             onChangeText={(text) => setSeriNumber(text)}
@@ -142,6 +151,7 @@ const ModalTransECoin = ({ isShow, setIsShow }) => {
                     <FormGroup className="flex-column w-100 mt-4">
                         <Text >Nhập mã thẻ</Text>
                         <InputText 
+                            disabled={true}
                             className="edit mt-4"
                             placeholder="Nhập mã số thẻ..."
                             onChangeText={(text) => setIdCard(text)}
