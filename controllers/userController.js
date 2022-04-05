@@ -45,7 +45,7 @@ class UserController {
     }
 
     async getInfoUser (req, res) { 
-        const idUser = req.params.id;
+        const idUser = req.userId;
 
         const dataUser = await Accounts.findByPk(idUser , {
             attributes: ['idUser', 'email', 'fullname', 'numberphone', 'birthday', 'sex', 'address']
