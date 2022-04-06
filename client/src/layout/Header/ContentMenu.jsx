@@ -10,7 +10,6 @@ const ContentMenuHeader = () => {
     const [indexMenu, setIndexMenu] = useState(null);
 
     useEffect(() => {
-        console.log(window.location.pathname.includes('/movie-showtimes'));
         if(window.location.pathname === '/') 
             setIndexMenu(0);
         else if (window.location.pathname.includes('/system-cinema'))

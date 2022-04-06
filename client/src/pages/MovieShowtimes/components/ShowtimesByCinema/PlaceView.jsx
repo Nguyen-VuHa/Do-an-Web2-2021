@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { GrayWhite, YellowGray } from 'src/contants/cssContants';
 import styled from 'styled-components';
+import { CinemaFilterContext } from '../../contexts/CinemaFilterContext';
 
 const LayoutPlace = styled.ul`
     display: flex;
@@ -34,16 +35,36 @@ const PlaceItem = styled.li`
 const PlaceView = () => {
     const { cinemaLocation } = useSelector(state => state.systemCinemaState);
 
+    const { stateFilter, dispatchFilter } = useContext(CinemaFilterContext);
+    const { placeSelect } = stateFilter;
+
+    
     return (
         <LayoutPlace className="container">
-            <PlaceItem className='active'>
+            <PlaceItem className={ placeSelect === 'ALL' ? 'active' : '' } 
+                onClick={() => {
+                    dispatchFilter({
+                        type: 'SET_PLACE_SELECT',
+                        payload: 'ALL'
+                    })
+                }}
+            >
                 <i className="fad fa-map-marked-alt mr-2"></i>
                 Tất cả
             </PlaceItem>
             {
                 cinemaLocation && cinemaLocation.length > 0
                 && cinemaLocation.map((c) => {
-                    return <PlaceItem key={c.id}>
+                    return <PlaceItem 
+                        key={c.id}
+                        className={placeSelect === c.id ? 'active' : ''}
+                        onClick={() => {
+                            dispatchFilter({
+                                type: 'SET_PLACE_SELECT',
+                                payload: c.id,
+                            });
+                        }}
+                    >
                         <i className="fad fa-map-marker-alt"></i>
                         { c.district }
                     </PlaceItem>

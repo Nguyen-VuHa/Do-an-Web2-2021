@@ -5,6 +5,8 @@ import globalText from 'src/contants/titleCinema';
 import { fetchCinemaLocation, fetchSystemCinema } from 'src/reducers/systemCinemaSlice';
 import CinemaView from '../components/ShowtimesByCinema/CinemaView';
 import PlaceView from '../components/ShowtimesByCinema/PlaceView';
+import ShowTimeDetail from '../components/ShowtimesByCinema/ShowTimeDetail';
+import { CinemaFilterContextProvider } from '../contexts/CinemaFilterContext';
 
 const ShowtimesByCinemaPage = () => {
     const dispatch = useDispatch(); 
@@ -17,7 +19,7 @@ const ShowtimesByCinemaPage = () => {
         }
 
         dispatch(fetchCinemaLocation());
-
+        
         waitDispatch(300)
         .then(() => {
             dispatch(fetchSystemCinema());
@@ -34,8 +36,11 @@ const ShowtimesByCinemaPage = () => {
                 </Helmet>
             </HelmetProvider>
 
-            <PlaceView />
-            <CinemaView />
+            <CinemaFilterContextProvider>
+                <PlaceView />
+                <CinemaView />
+                <ShowTimeDetail />
+            </CinemaFilterContextProvider>
         </>
     );
 };

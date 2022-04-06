@@ -1,7 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { GrayWhite, YellowGray } from 'src/contants/cssContants';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { GrayWhite } from 'src/contants/cssContants';
+import Images from 'src/contants/image';
+import { fetchShowtimesByCinema } from 'src/reducers/showtimeSlice';
+import { EmptyDataTable, ImageDefault } from 'src/style-common/Table.Style';
+import { Text } from 'src/style-common/Text.Style';
 import styled from 'styled-components';
+import { CinemaFilterContext } from '../../contexts/CinemaFilterContext';
 
 const LayoutCinemaView = styled.ul`
     display: flex;
@@ -34,6 +39,7 @@ const CinemaViewInfo = styled.div`
     width: 100%;
     height: 100%;
     background: #151f28;
+    border: 1px solid transparent;
 
     &:hover {
         background: #263247;
@@ -41,6 +47,7 @@ const CinemaViewInfo = styled.div`
 
     &.active {
         background: #2d5269e6;
+        border: 1px solid ${GrayWhite};
     }
 `;
 
@@ -73,15 +80,44 @@ const InfoAddress = styled.p`
 
 
 const CinemaView = () => {
+    const dispatch = useDispatch();
+
     const { systemCinema } = useSelector(state => state.systemCinemaState);
+    const { stateFilter, dispatchFilter } = useContext(CinemaFilterContext);
+    const { placeSelect, cinemaSelect } = stateFilter;
+
+    const [dataMap, setDataMap] = useState([]);
+
+    useEffect(() => {
+        setDataMap(systemCinema);
+    }, [systemCinema]);
+
+    useEffect(() => {
+        if(placeSelect === 'ALL')
+            setDataMap(systemCinema);
+        else
+            setDataMap(systemCinema.filter(s => s.C_idArea === placeSelect));
+    }, [placeSelect]);
 
     return (
         <LayoutCinemaView className='container'>
             {
-                systemCinema && systemCinema.length > 0
-                && systemCinema.map((sys_c) => {
-                    return <CinemaViewItem key={sys_c.id}>
-                        <CinemaViewInfo>
+                dataMap && dataMap.length > 0
+                ? dataMap.map((sys_c) => {
+                    return <CinemaViewItem 
+                        key={sys_c.id}
+                        onClick={() => {
+                            dispatchFilter({
+                                type: 'SET_CINEMA_SELECT',
+                                payload: {
+                                    id: sys_c.id,
+                                    nameCinema: sys_c.nameCinema,
+                                },
+                            })
+                            dispatch(fetchShowtimesByCinema(sys_c.id))
+                        }}
+                    >
+                        <CinemaViewInfo className={ sys_c.id === cinemaSelect ? 'active' : ''}>
                             <InfoTitle>
                                 <i className="fad fa-star-of-david"></i>
                                 { sys_c.nameCinema }
@@ -92,7 +128,11 @@ const CinemaView = () => {
                             </InfoAddress>
                         </CinemaViewInfo>
                     </CinemaViewItem>
-                })
+                }) : 
+                <EmptyDataTable>
+                    <ImageDefault url={Images.MOVIE_DEFAULT} />
+                    <Text className="mt-4 fw-600 font-params fml-baloo-tammudu-2" fontSize={20}>Không có rạp chiếu film nào!</Text>
+                </EmptyDataTable>
             }
         </LayoutCinemaView>
     );

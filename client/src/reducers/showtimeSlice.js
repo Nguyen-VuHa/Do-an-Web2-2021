@@ -16,6 +16,11 @@ export const fetchShowTimesByMovie = createAsyncThunk('FETCH_SHOWTIME_BY_MOVIE',
     return stateReponse;
 });
 
+export const fetchShowtimesByCinema = createAsyncThunk('FETCH_SHOWTIME_BY_CINEMA', async (idCinema) => {
+    const stateReponse = await showtimeApi.fetchShowtimesByCinema(idCinema);
+    return stateReponse;
+});
+
 
 const showtimeSlice = createSlice({
     name: 'showtimes',
@@ -24,6 +29,7 @@ const showtimeSlice = createSlice({
         error: '',
         showtimes: [],
         showtimesByMovie: [],
+        showtimesByCinema: [],
         movieNameShowTimes: '',
         statusSubmit: 0,
     },
@@ -81,6 +87,19 @@ const showtimeSlice = createSlice({
             state.loading = false;
             state.error = '';
             state.showtimesByMovie = payload.data;
+        },
+         // GET SHOWTIMES BY CINEMA
+        [fetchShowtimesByCinema.pending]: (state) => {
+            state.loading = true;
+        },
+        [fetchShowtimesByCinema.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+        },
+        [fetchShowtimesByCinema.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.error = '';
+            state.showtimesByCinema = payload.data;
         },
     }
 });
