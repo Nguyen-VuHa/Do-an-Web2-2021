@@ -82,7 +82,7 @@ const InfoAddress = styled.p`
 const CinemaView = () => {
     const dispatch = useDispatch();
 
-    const { systemCinema } = useSelector(state => state.systemCinemaState);
+    const { systemCinema, loading } = useSelector(state => state.systemCinemaState);
     const { stateFilter, dispatchFilter } = useContext(CinemaFilterContext);
     const { placeSelect, cinemaSelect } = stateFilter;
 
@@ -102,19 +102,23 @@ const CinemaView = () => {
     return (
         <LayoutCinemaView className='container'>
             {
-                dataMap && dataMap.length > 0
+                dataMap && dataMap.length > 0 && loading === false
                 ? dataMap.map((sys_c) => {
                     return <CinemaViewItem 
                         key={sys_c.id}
                         onClick={() => {
-                            dispatchFilter({
-                                type: 'SET_CINEMA_SELECT',
-                                payload: {
-                                    id: sys_c.id,
-                                    nameCinema: sys_c.nameCinema,
-                                },
-                            })
-                            dispatch(fetchShowtimesByCinema(sys_c.id))
+                            if(sys_c.id !== cinemaSelect)
+                            {
+                                document.getElementById("list-showtimes").scrollIntoView({behavior: "smooth"})
+                                dispatchFilter({
+                                    type: 'SET_CINEMA_SELECT',
+                                    payload: {
+                                        id: sys_c.id,
+                                        nameCinema: sys_c.nameCinema,
+                                    },
+                                })
+                                dispatch(fetchShowtimesByCinema(sys_c.id))
+                            }
                         }}
                     >
                         <CinemaViewInfo className={ sys_c.id === cinemaSelect ? 'active' : ''}>
@@ -128,7 +132,7 @@ const CinemaView = () => {
                             </InfoAddress>
                         </CinemaViewInfo>
                     </CinemaViewItem>
-                }) : 
+                }) : loading === false &&
                 <EmptyDataTable>
                     <ImageDefault url={Images.MOVIE_DEFAULT} />
                     <Text className="mt-4 fw-600 font-params fml-baloo-tammudu-2" fontSize={20}>Không có rạp chiếu film nào!</Text>

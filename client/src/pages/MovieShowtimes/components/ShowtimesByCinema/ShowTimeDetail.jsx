@@ -29,7 +29,7 @@ const ShowTimeDetail = () => {
     }, [loading]);
     
     return (
-        <div className='container position-relative mt-5'>
+        <div className='container position-relative' style={{paddingTop: '100px' }} id="list-showtimes">
             {
                 isLoading ? <LoadingShowTimes />
                 : <>

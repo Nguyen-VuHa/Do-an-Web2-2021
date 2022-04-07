@@ -50,7 +50,7 @@ const LoginForm = ({ isDropDown, dropdownRef, setIsDropDown }) => {
         var valid = validatorLogin(data, setValidator);
         if(valid) {
             const result = await authApi.loginAccount(data);
-            if(result.status === 'error'){
+            if(result.status === 400){
                 toast.warn(`${result.message}`)
             }
             else {

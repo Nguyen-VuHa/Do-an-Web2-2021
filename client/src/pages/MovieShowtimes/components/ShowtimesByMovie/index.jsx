@@ -114,7 +114,7 @@ const ShowtimesByMovie = () => {
                             ref={layoutSlideRef}
                         >
                             {
-                                movieCurrent && movieCurrent.length > 0
+                                movieCurrent && movieCurrent.length > 0 && loading === false
                                 ? movieCurrent.map(item => {
                                     return  <SlickSlide 
                                                 key={item.movieId}
@@ -127,7 +127,7 @@ const ShowtimesByMovie = () => {
                                                 <MovieCard data={item}/>
                                             </SlickSlide>
                                 })
-                                : <DefaultItem>
+                                : loading === false && <DefaultItem>
                                     <img src={Images.MOVIE_DEFAULT } alt='NOT ITEM'/>
                                     <span className='ml-4'>Không có phim hiện đang chiếu!</span>
                                 </DefaultItem>
