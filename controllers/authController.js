@@ -93,7 +93,7 @@ class AuthController {
             });
     
             if(!found) {
-                res.json({ status: 'error', message: 'Email không tồn tại hoặc chưa được đăng ký!'});
+                res.json({ status: 400, message: 'Email không tồn tại hoặc chưa được đăng ký!'});
             } else if (found && bcrypt.compareSync(data.password, found.password)) {
                 if(found.active === '') {
                     const user = {
@@ -120,7 +120,7 @@ class AuthController {
             }
         }
         catch(err) {
-            res.json({ status: 400, message: err});
+            res.status(400).json({ message: err });
         }
      
     }

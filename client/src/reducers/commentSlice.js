@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import commentApi from 'src/api/commentApi';
 
-export const getAllComments = createAsyncThunk('GET_COMMENT_MOVIE', async (movieId) => {
-    const stateReponse = await commentApi.getCommentMovie(movieId);
+export const getAllComments = createAsyncThunk('GET_COMMENT_MOVIE', async ({movieId, currentPage}) => {
+    const stateReponse = await commentApi.getCommentMovie({movieId, currentPage});
     return stateReponse;
 });
 
@@ -23,6 +23,7 @@ const commentSlice = createSlice({
         error: '',
         createStatus: 0,
         comments: [],
+        totalPage: 0
     },
     reducers: {
         defautlCreateStatus(state) {
@@ -40,7 +41,8 @@ const commentSlice = createSlice({
         [getAllComments.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.error = '';
-            state.comments = payload.data;
+            state.comments = state.comments.concat(payload.data);
+            state.totalPage = payload.totalPage;
         },
         [addComments.pending]: (state) => {
             state.loading = true;

@@ -260,3 +260,14 @@ export const DependentComment = styled.div`
         padding: 0;
     }
 `;
+
+export const LayoutFetchData = styled.div`
+    width: 100%;
+    height: 300px;
+
+    display: flex;
+    justify-content: center;
+    align-items: start;
+
+    padding-top: 40px;
+`;

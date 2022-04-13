@@ -195,7 +195,7 @@ exports.send = asyncHandler(async function (to, subject, link, fullname, email) 
                                                 <tr>
                                                     <td class="img pb-45" style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 45px;">
                                                         <a href="https://cgv-cinema-movie.herokuapp.com/" target="_blank">
-                                                            <img src="https://www.cgv.vn/skin/frontend/cgv/default/images/cgvlogo.png" width="200" height="88" border="0" alt="Steam" />
+                                                            <img src="https://www.tiendauroi.com/wp-content/uploads/2020/02/bhd-star-cinema.png" width="200" height="88" border="0" alt="Steam" />
                                                         </a>
     
                                                     </td>
@@ -227,7 +227,7 @@ exports.send = asyncHandler(async function (to, subject, link, fullname, email) 
                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                           <td class="title-48 c-blue1 fw-b a-center" style="font-size:48px; line-height:52px; font-family:'Motiva Sans', Helvetica, Arial, sans-serif; color:#3a9aed; font-weight:bold; text-align:center;">
-                            <a href="${link}" style="text-decoration: none; color: #54ab35;">Active Account</a>											</td>
+                            <a href="${link}" style="text-decoration: none; color: #54ab35;">Confirm Account</a>											</td>
                         </tr>
                       </table>
                     </td>

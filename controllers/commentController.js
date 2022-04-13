@@ -2,11 +2,18 @@ const Comments = require('../models/dataComments');
 const UserAccount = require('../models/dataAccount');
 const FeedbackComments = require('../models/dataFeedBackComments');
 const Films = require('../models/dataMovie');
+const queString = require('querystring');
 
 class CommentController { 
 
     async getComments (req, res) { 
         const params = req.params;
+        let url = req.originalUrl.split('?');
+        let queryUrl = null;
+
+        if(url.length > 1) 
+            queryUrl = queString.parse(url[1]);
+
         try {
             const data = await Comments.findAll({
                 include: [{
@@ -28,12 +35,17 @@ class CommentController {
                 where: {
                     Comment_movieId: params.movieId,
                 },
-                order: [
-                    ['createdAt', 'DESC'],
-                ],
+                limit: queryUrl.pageSize,
+                offset: (queryUrl.pageSize * queryUrl.page) - queryUrl.pageSize,
             });
+
+            let totalCount = await Comments.count({
+                where: {
+                    Comment_movieId: params.movieId,
+                },
+            })
             
-            res.json({status: 200, data});
+            res.json({status: 200, data, totalPage: Math.ceil(totalCount / queryUrl.pageSize)});
         } catch {
             res.json({status: 200, data: []});
         }

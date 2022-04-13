@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { LayoutComment, MainComment, ImageUser, CommentBox,  ContentBox, CommentContent, CommentContentText, DependentComment } from './Comment.Style';
+import React, { useContext, useEffect, useState } from 'react';
+import { LayoutComment, MainComment, ImageUser, CommentBox,  ContentBox, CommentContent, CommentContentText, DependentComment, LayoutFetchData } from './Comment.Style';
 import InputComment from './InputComment';
 import RaitingStar from './RaitingStar';
 import { Divider } from 'src/style-common/Layout.Style';
@@ -13,11 +13,21 @@ import { useParams } from 'react-router-dom';
 import { addComments, defautlCreateStatus, getAllComments } from 'src/reducers/commentSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import socketIO from 'socket.io-client';
+import { ClipLoader } from 'react-spinners';
+import { Green } from 'src/contants/cssContants';
+import { useOnScreen } from 'src/hooks/IntersectionImage';
+
+
 // const ENDPOINT='ws://localhost:8900';
 const ENDPOINT='/';
 let socket =  socketIO(ENDPOINT, { transports:['websocket']});
 
 const Comment = () => {
+
+    const [commentRef, visibleComment] = useOnScreen({ threshold: 0.2 });
+    const [commentLoading, setCommentLoading] = useState(false);
+
+    const [isFetchComment, setIsFetchComment] = useState(1);
     const [raitingStar, setRaitingStar] = useState(0);
     const [commentActive, setCommentActive] = useState(-1);
 
@@ -29,7 +39,7 @@ const Comment = () => {
 
     const accessToken = localStorage.getItem('accessToken');
 
-    const { comments, createStatus } = useSelector(state => state.commentState);
+    const { comments, createStatus, totalPage } = useSelector(state => state.commentState);
 
     const handleSubmitComment = async (textCmt) => {
         if(params && params.movieId && createStatus === 0) {
@@ -63,6 +73,20 @@ const Comment = () => {
             setCommentActive(idComment);
     }
 
+    useEffect(() => {
+        if(visibleComment) {
+            setCommentLoading(true);
+        }
+    }, [visibleComment]);
+
+    useEffect(() => {
+        if(commentLoading) {
+            setCommentLoading(false);
+            dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
+            setIsFetchComment(isFetchComment + 1);
+        }
+    }, [commentLoading]);
+
     return (
         <>
             <LayoutComment>
@@ -87,7 +111,7 @@ const Comment = () => {
                     }}
                 />
                 <Divider />
-                <div className="d-flex w-100 h-auto mt-3">
+                <div className="w-100 h-auto mt-3">
                     <ul className="p-0">
                         {
                             comments && comments.length > 0
@@ -169,6 +193,11 @@ const Comment = () => {
                             })
                         }
                     </ul>
+                    {
+                        isFetchComment === totalPage ? "" : <LayoutFetchData ref={!commentLoading ? commentRef : null}>
+                            <ClipLoader size={30} color={Green}/>
+                        </LayoutFetchData>
+                    }
                 </div>
             </LayoutComment> 
         </>

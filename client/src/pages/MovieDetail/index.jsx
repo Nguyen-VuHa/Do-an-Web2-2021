@@ -67,8 +67,6 @@ const MovieDetail = () => {
     useEffect(() => {
         if(params && params.movieId) {
             dispatch(getMovieDetailById(params.movieId));
-
-            dispatch(getAllComments(params.movieId));
         }
     }, []);
 

@@ -1,8 +1,8 @@
 const { default: axiosClient } = require("./clientAxios");
 
 const commentApi = {
-    getCommentMovie: (movieId) => {
-        const url = `api/comments/${movieId}`;
+    getCommentMovie: ({movieId, currentPage}) => {
+        const url = `api/comments/${movieId}?page=${currentPage}&pageSize=30`;
         return axiosClient.get(url);
     },
     addComments: (data) => {

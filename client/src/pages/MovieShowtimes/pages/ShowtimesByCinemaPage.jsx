@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import globalText from 'src/contants/titleCinema';
 import { fetchCinemaLocation, fetchSystemCinema } from 'src/reducers/systemCinemaSlice';
 import CinemaView from '../components/ShowtimesByCinema/CinemaView';
@@ -10,7 +10,9 @@ import { CinemaFilterContextProvider } from '../contexts/CinemaFilterContext';
 
 const ShowtimesByCinemaPage = () => {
     const dispatch = useDispatch(); 
+    const { systemCinema, cinemaLocation } = useSelector(state => state.systemCinemaState);
 
+    console.log(systemCinema, cinemaLocation);
     useEffect(() => {
         const waitDispatch = (ms) => {
             return new Promise((resolve) => {
@@ -18,11 +20,14 @@ const ShowtimesByCinemaPage = () => {
             })
         }
 
-        dispatch(fetchCinemaLocation());
+        if(cinemaLocation.length === 0)
+            dispatch(fetchCinemaLocation());
         
         waitDispatch(300)
         .then(() => {
-            dispatch(fetchSystemCinema());
+            if(systemCinema.length === 0)
+                dispatch(fetchSystemCinema());
+                
             return waitDispatch(300);
         });
 
