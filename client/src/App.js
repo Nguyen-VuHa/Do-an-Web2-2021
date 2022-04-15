@@ -10,6 +10,7 @@ import { TrailerContextProvider } from './contexts/trailerContenxt';
 import GlobalStyle from './GlobalStyle';
 
 const TheLayout = React.lazy(() => import('./layout/TheLayout'));
+const BookTicketMain = React.lazy(() => import('./pages/BookTickets'));
 const PageNotFound = React.lazy(() => import('./components/PageNotFound'));
 
 const loading = (
@@ -20,6 +21,7 @@ const loading = (
 
 function App() {
 
+    const [scrollHeight, setScrollHeight] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -29,7 +31,21 @@ function App() {
 
         return () => clearTimeout(timeOut);
     }, []);
+
+    useEffect(() => {
+        const getScrollHeight = () => {
+            setScrollHeight(window.pageYOffset)
+        } 
+
+        window.addEventListener('scroll', getScrollHeight);
+
+        return () => window.removeEventListener('scroll', getScrollHeight)
+    }, []);
     
+    const handleToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth'});
+    }
+
     return (
         <AuthContextProvider>
             <TrailerContextProvider>
@@ -40,62 +56,16 @@ function App() {
                 <React.Suspense fallback={loading}>
                     <BrowserRouter>
                         <Switch>
+                            <Route path="/book-ticket" component={BookTicketMain} />
+
                             <Route path="/" component={TheLayout} />
                         </Switch>
                     </BrowserRouter>
                 </React.Suspense>
             </TrailerContextProvider>
-            {/* <Suspense fallback={<LoadingPage />} >
-                <LoadingPage />
-                <TraillerMovie />
-                <ToastContainer theme="colored" style={{zIndex: 999999999}}/>
-                <BrowserRouter>
-                    <Switch>
-                        {
-                            isLogin ? 
-                                role === '0' && <Redirect exact from="/" to="/admin"/>
-                            :   <Route path="/auth">
-                                    <Auth isLogin={isLogin}/>
-                                </Route> 
-                        }
-                        <Route exact path="/">
-                            <Header />
-                            <HomePage />
-                            <Footer />
-                        </Route>
-                        <Route path="/my-profile">
-                            <Header />
-                            <UserProfile />
-                            <Footer />
-                        </Route>
-                        <Route path="/cinema-system">
-                            <Header />
-                            <CinemaSystem />
-                            <Footer />
-                        </Route>
-                        <Route path="/movie-current">
-                            <Header />
-                            <MovieDetail />
-                            <Footer />
-                        </Route>
-                        <Route path="/comming-soon">
-                            <Header />
-                            <MovieDetail />
-                            <Footer />
-                        </Route>
-
-                        <Route path="/admin">
-                            <AdminPage />
-                        </Route>
-                        
-                        <Route path="*" component={PageNotFound} />
-                    </Switch>
-                </BrowserRouter>
-                
-                <div className={scrollHeight >= 1000 ? "btn-on-top show" : "btn-on-top"} onClick={() => handleToTop()}>
-                    <i className="fad fa-angle-up"></i>
-                </div>
-            </Suspense> */}
+            <div className={scrollHeight >= 1000 ? "btn-on-top show" : "btn-on-top"} onClick={() => handleToTop()}>
+                <i className="fad fa-angle-up"></i>
+            </div>
         </AuthContextProvider>
 
     );

@@ -7,6 +7,7 @@ import { EmptyDataTable, ImageDefault } from 'src/style-common/Table.Style';
 import { Text } from 'src/style-common/Text.Style';
 import styled from 'styled-components';
 import { CinemaFilterContext } from '../../contexts/CinemaFilterContext';
+import LoadingTable from 'src/components/LoadingTable';
 
 const LayoutCinemaView = styled.ul`
     display: flex;
@@ -132,7 +133,7 @@ const CinemaView = () => {
                             </InfoAddress>
                         </CinemaViewInfo>
                     </CinemaViewItem>
-                }) : loading === false &&
+                }) : loading ? <LoadingTable /> : 
                 <EmptyDataTable>
                     <ImageDefault url={Images.MOVIE_DEFAULT} />
                     <Text className="mt-4 fw-600 font-params fml-baloo-tammudu-2" fontSize={20}>Không có rạp chiếu film nào!</Text>

@@ -35,6 +35,9 @@ class CommentController {
                 where: {
                     Comment_movieId: params.movieId,
                 },
+                order: [
+                    ["createdAt", "DESC"],
+                ],
                 limit: queryUrl.pageSize,
                 offset: (queryUrl.pageSize * queryUrl.page) - queryUrl.pageSize,
             });

@@ -31,13 +31,15 @@ const showtimeSlice = createSlice({
         showtimesByMovie: [],
         showtimesByCinema: [],
         movieNameShowTimes: '',
+        movieId: null,
         statusSubmit: 0,
     },
     reducers: {
         setNameMovie(state, action) { 
             return {
                 ...state,
-                movieNameShowTimes: action.payload,
+                movieNameShowTimes: action.payload.movieName,
+                movieId: action.payload.movieId
             };
         },
         setDefaultStatus(state) { 

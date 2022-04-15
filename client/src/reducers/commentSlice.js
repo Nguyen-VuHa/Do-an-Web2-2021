@@ -23,11 +23,14 @@ const commentSlice = createSlice({
         error: '',
         createStatus: 0,
         comments: [],
-        totalPage: 0
+        totalPage: 0,
     },
     reducers: {
         defautlCreateStatus(state) {
             state.createStatus = 0;
+        },
+        clearComments(state) {
+            state.comments = [];
         }
     },
     extraReducers: {
@@ -73,5 +76,5 @@ const commentSlice = createSlice({
 
 
 const  { actions, reducer } = commentSlice;
-export const { defautlCreateStatus } = actions;
+export const { defautlCreateStatus, clearComments } = actions;
 export default reducer;

@@ -9,8 +9,6 @@ import store from 'src/app/store';
 import 'simplebar';
 import 'simplebar/dist/simplebar.css';
 import 'moment/locale/vi';
-import 'simplebar';
-import 'simplebar/dist/simplebar.css';
 
 ReactDOM.render(
     <React.StrictMode>

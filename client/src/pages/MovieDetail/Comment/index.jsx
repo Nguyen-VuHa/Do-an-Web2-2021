@@ -10,7 +10,7 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import { AuthContext } from 'src/contexts/authContext';
 import { useParams } from 'react-router-dom';
-import { addComments, defautlCreateStatus, getAllComments } from 'src/reducers/commentSlice';
+import { addComments, clearComments, defautlCreateStatus, getAllComments } from 'src/reducers/commentSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import socketIO from 'socket.io-client';
 import { ClipLoader } from 'react-spinners';
@@ -72,6 +72,15 @@ const Comment = () => {
         else
             setCommentActive(idComment);
     }
+
+    useEffect(() => {
+        dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
+        setIsFetchComment(isFetchComment + 1);
+
+        return () => {
+            dispatch(clearComments());
+        }
+    }, []);
 
     useEffect(() => {
         if(visibleComment) {
@@ -194,7 +203,7 @@ const Comment = () => {
                         }
                     </ul>
                     {
-                        isFetchComment === totalPage ? "" : <LayoutFetchData ref={!commentLoading ? commentRef : null}>
+                        isFetchComment === totalPage || totalPage === 0 ? "" : <LayoutFetchData ref={!commentLoading ? commentRef : null}>
                             <ClipLoader size={30} color={Green}/>
                         </LayoutFetchData>
                     }

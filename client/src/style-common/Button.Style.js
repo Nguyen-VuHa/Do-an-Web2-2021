@@ -117,7 +117,7 @@ export const Button = styled.button`
         pointer-events: none;
     }
 
-    &:hover {
+    &:hover, &.active {
         opacity: 0.8;
         box-shadow: 0 0 5px #27df2d, 0 0 30px #27df2d, 0 0 80px #27df2d, 0 0 250px #27df2d;
         filter: brightness(1.2);
