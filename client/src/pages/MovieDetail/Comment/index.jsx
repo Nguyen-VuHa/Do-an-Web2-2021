@@ -75,7 +75,6 @@ const Comment = () => {
 
     useEffect(() => {
         dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
-        setIsFetchComment(isFetchComment + 1);
 
         return () => {
             dispatch(clearComments());
