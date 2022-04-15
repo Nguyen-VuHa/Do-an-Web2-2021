@@ -270,4 +270,6 @@ export const LayoutFetchData = styled.div`
     align-items: start;
 
     padding-top: 40px;
+    user-select: none;
+    pointer-event: none;
 `;
