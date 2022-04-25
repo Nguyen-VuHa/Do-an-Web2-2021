@@ -4,7 +4,7 @@ import InputComment from './InputComment';
 import { toast } from 'react-toastify';
 import { AuthContext } from 'src/contexts/authContext';
 import { useDispatch } from 'react-redux';
-import { addFeedbackComments, defautlCreateStatus, getAllComments } from 'src/reducers/commentSlice';
+import { addFeedbackComments, clearComments, defautlCreateStatus, getAllComments } from 'src/reducers/commentSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useParams } from 'react-router-dom';
 import socketIO from 'socket.io-client';
@@ -12,7 +12,7 @@ import socketIO from 'socket.io-client';
 const ENDPOINT='/';
 let socket =  socketIO(ENDPOINT, { transports:['websocket']});
 
-const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  onActive, active }) => {
+const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  onActive, active, isFetchComment, setListComment }) => {
     const { state } = useContext(AuthContext);
     const { id, isLogin } = state;
     
@@ -29,6 +29,7 @@ const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  on
                     idComment: commentParentId,
                     idChidrenUser: idRecipients,
                 }
+
                 const res = await dispatch(addFeedbackComments(data));
                 const result = unwrapResult(res);
                 socket.emit('joinRoom', {idComments: params.movieId});
@@ -37,7 +38,8 @@ const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  on
                 {
                     onActive && onActive();
                     setTimeout(() => {
-                        dispatch(getAllComments(params.movieId));
+                        setListComment();
+                        dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
                         dispatch(defautlCreateStatus());
                     }, 800);
                 }

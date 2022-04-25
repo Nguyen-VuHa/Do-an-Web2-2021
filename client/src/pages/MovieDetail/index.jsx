@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getMovieDetailById } from 'src/reducers/movieSlice';
 import Comment from './Comment';
-import { getAllComments } from 'src/reducers/commentSlice';
+import { clearComments, getAllComments } from 'src/reducers/commentSlice';
 import socketIO from 'socket.io-client';
 
 // const ENDPOINT='ws://localhost:8900';
@@ -50,7 +50,8 @@ const MovieDetail = () => {
 
         return () => {
             socket.on('disconnect', () => {});
-            socket.emit('leaveRoom', {id: params.movieId})
+            socket.emit('leaveRoom', {id: params.movieId});
+            dispatch(clearComments());
         }
     }, []);
 

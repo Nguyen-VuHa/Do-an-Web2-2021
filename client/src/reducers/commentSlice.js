@@ -44,7 +44,7 @@ const commentSlice = createSlice({
         [getAllComments.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.error = '';
-            state.comments = state.comments.concat(payload.data);
+            state.comments = payload.data;
             state.totalPage = payload.totalPage;
         },
         [addComments.pending]: (state) => {

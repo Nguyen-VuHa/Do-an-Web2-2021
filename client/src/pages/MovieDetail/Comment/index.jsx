@@ -17,7 +17,6 @@ import { ClipLoader } from 'react-spinners';
 import { Green } from 'src/contants/cssContants';
 import { useOnScreen } from 'src/hooks/IntersectionImage';
 
-
 // const ENDPOINT='ws://localhost:8900';
 const ENDPOINT='/';
 let socket =  socketIO(ENDPOINT, { transports:['websocket']});
@@ -31,6 +30,8 @@ const Comment = () => {
     const [raitingStar, setRaitingStar] = useState(0);
     const [commentActive, setCommentActive] = useState(-1);
 
+    const [listComment, setListComment] = useState([]);
+
     const { state } = useContext(AuthContext);
     const { id } = state;
 
@@ -43,6 +44,7 @@ const Comment = () => {
 
     const handleSubmitComment = async (textCmt) => {
         if(params && params.movieId && createStatus === 0) {
+            setListComment([]);
             const data = {
                 comments: textCmt,
                 pointRating: raitingStar,
@@ -57,7 +59,9 @@ const Comment = () => {
             {
                 setRaitingStar(0);
                 setTimeout(() => {
-                    dispatch(getAllComments(params.movieId));
+                    dispatch(clearComments());
+                    setIsFetchComment(1);
+                    dispatch(getAllComments({movieId: params.movieId, currentPage: 1}));
                     dispatch(defautlCreateStatus());
                 }, 800);
             }
@@ -75,11 +79,14 @@ const Comment = () => {
 
     useEffect(() => {
         dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
-
-        return () => {
-            dispatch(clearComments());
-        }
     }, []);
+
+    useEffect(() => {
+        if(comments && comments.length > 0)
+            setListComment(listComment.concat(comments));
+        else
+            setListComment([]);
+    }, [comments]);
 
     useEffect(() => {
         if(visibleComment) {
@@ -122,11 +129,11 @@ const Comment = () => {
                 <div className="w-100 h-auto mt-3">
                     <ul className="p-0">
                         {
-                            comments && comments.length > 0
-                            && comments.map((item) => {
+                            listComment && listComment.length > 0
+                            && listComment.map((item, idx) => {
                                 const { Account, FeedbackComments } = item;
                                 const momentTime =  moment(item.createdAt).fromNow();
-                                return <li key={item.id}>
+                                return <li key={idx}>
                                             <MainComment>
                                                 <ImageUser>
                                                     <img src={ Account && Account.avartar ? Account.avartar :  Images.DefaultAvatar } alt="Not User"/>
@@ -152,6 +159,8 @@ const Comment = () => {
                                                         active={item.id === commentActive ? true : false}
                                                         commentParentId={item.id}
                                                         idRecipients={item.Comment_idUser}
+                                                        isFetchComment={isFetchComment}
+                                                        setListComment={() => setListComment([])}
                                                     />
                                                 </CommentBox>
                                             </MainComment>
@@ -202,7 +211,7 @@ const Comment = () => {
                         }
                     </ul>
                     {
-                        isFetchComment === totalPage || totalPage === 0 ? "" : <LayoutFetchData ref={!commentLoading ? commentRef : null}>
+                        isFetchComment !== totalPage && totalPage !== 0 && <LayoutFetchData ref={!commentLoading ? commentRef : null}>
                             <ClipLoader size={30} color={Green}/>
                         </LayoutFetchData>
                     }
