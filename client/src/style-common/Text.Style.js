@@ -35,6 +35,10 @@ export const Text = styled.div`
         color: ${Green} !important;
     }
 
+    &.txt-red-error {
+        color: ${RedError} !important;
+    }
+
     &.txt-gray-blue {
         color: ${BlueGray} !important;
     }

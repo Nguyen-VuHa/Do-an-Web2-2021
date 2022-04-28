@@ -4,6 +4,7 @@ const cinemaRoute = require('./routeCinema');
 const userRoute = require('./routeUser');
 const commentRoute = require('./routeComment');
 const showTimesRoute = require('./routeShowtimes');
+const historyBookingRoute = require('./routeHistoryBooking');
 
 function route(app) {
     app.use('/auth', authRoute);
@@ -13,6 +14,7 @@ function route(app) {
     app.use('/api', commentRoute);
     app.use('/api', commentRoute);
     app.use('/api', showTimesRoute);
+    app.use('/api', historyBookingRoute);
 }
 
 module.exports = route;

@@ -77,7 +77,8 @@ const MovieInfo = () => {
                 <Button 
                     className='w-100 mt-2' bgcolor={YellowGray}
                     onClick={() => {
-                        history.push('/book-ticket/payment')
+                        if(mySeat && mySeat.length > 0)
+                            history.push('/book-ticket/payment');
                     }}
                 >
                     Tiếp tục

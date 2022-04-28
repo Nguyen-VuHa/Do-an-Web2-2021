@@ -8,9 +8,10 @@ var charList = (a,z,d=1)=>(a=a.charCodeAt(),z=z.charCodeAt(),[...Array(Math.floo
 
 const Seats = () => {
     const { cinemaDetail } = useSelector(state => state.systemCinemaState);
+    const { historyBooking } = useSelector(state => state.showtimeState);
     
     const { stateBookTicket, dispatchBookTicket } = useContext(BookTicketContext);
-    const { mySeat } = stateBookTicket;
+    const { mySeat, seatSelected } = stateBookTicket;
 
     const [listChar, setListChar] = useState([]);
 
@@ -18,15 +19,27 @@ const Seats = () => {
         setListChar(charList('A', 'Z'));
     }, []);
 
+    useEffect(() => {
+        if(historyBooking) {
+            historyBooking.forEach(hb => {
+                dispatchBookTicket({
+                    type: 'SET_SEATS_SELECTED',
+                    payload: hb.HistoryTickets,
+                })
+            });
+        }
+    }, [historyBooking]);
+
     const handleChooseSeats = (seatCode) => {
         let checkSeat = mySeat.filter(s => s === seatCode);
+        let checkSeatSelect = seatSelected.filter(s => s.seatsCode === seatCode)
         if(checkSeat.length > 0) {
             dispatchBookTicket({
                 type: 'REMOVE_MY_SEATS',
                 payload: seatCode,
             })
         }
-        else
+        else if(checkSeatSelect.length === 0)
         {
             dispatchBookTicket({
                 type: 'SET_MY_SEATS',
@@ -40,9 +53,10 @@ const Seats = () => {
         if(cinemaDetail && cinemaDetail.horizontalSize) {
             for(let i = 0; i < cinemaDetail.horizontalSize; i++) {
                 let checkSeat = mySeat.filter(s => s === `${charCode}${i + 1}`);
+                let checkSeatSelect = seatSelected.filter(s => s.seatsCode === `${charCode}${i + 1}`)
                 horizontalElm.push(<Seat 
                     key={i} onClick={() => handleChooseSeats(`${charCode}${i + 1}`)}
-                    className={checkSeat.length > 0 ? "choose" : ""}
+                    className={checkSeatSelect.length > 0 ? "choosed hover-none" : checkSeat.length > 0 ? "choose" : ""}
                 >
                     {`${charCode}${i + 1}`}
                 </Seat>)

@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useSelector } from 'react-redux';
 import { YellowLight } from 'src/contants/cssContants';
 import { Col } from 'src/style-common/Layout.Style';
 import { Text } from 'src/style-common/Text.Style';
 import { BookTicketContext } from '../../contexts/BookTicketContext';
 import ModalConfirmHoldTime from '../ModalConfirmHoldTime';
-import { GroupBoxMovie } from './ChooseSeats.Style';
+import { LayoutBasicInfo } from './Payment.Style';
 
 
 const HoldingTime = ({ fare }) => {
+    
     const { stateBookTicket, dispatchBookTicket } = useContext(BookTicketContext);
     const { holdingTime } = stateBookTicket;
 
@@ -27,9 +27,9 @@ const HoldingTime = ({ fare }) => {
     }, [holdingTime]);
 
     useEffect(() => {
-        if (!timeLeft) {
+        if (!timeLeft){
             return;
-        } 
+        }
     
         const intervalId = setInterval(() => {
             setTimeLeft(timeLeft - 1);
@@ -55,7 +55,7 @@ const HoldingTime = ({ fare }) => {
     return (
         <>
             <ModalConfirmHoldTime isShow={isShow} setIsShow={setIsShow}/>
-            <GroupBoxMovie className="text-center mt-2">
+            <LayoutBasicInfo className="text-center mt-2">
                 <Col className='column-2'>
                     <div>
                         <Text className='txt-gray-blue span-bold' >Tổng tiền thanh toán</Text>
@@ -70,11 +70,9 @@ const HoldingTime = ({ fare }) => {
                         </Text>
                     </div>
                 </Col>
-            </GroupBoxMovie>
+            </LayoutBasicInfo>
         </>
-       
-           
-       
+
     );
 };
 

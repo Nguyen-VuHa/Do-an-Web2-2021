@@ -39,6 +39,7 @@ const showtimeSlice = createSlice({
         movieNameShowTimes: '',
         movieId: null,
         statusSubmit: 0,
+        historyBooking: null,
     },
     reducers: {
         setNameMovie(state, action) { 
@@ -121,6 +122,7 @@ const showtimeSlice = createSlice({
             state.loading = false;
             state.error = '';
             state.showtimeById = payload.data;
+            state.historyBooking = payload.data.HistoryBookings;
         },
     }
 });

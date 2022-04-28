@@ -7,10 +7,21 @@ export const BookTicketContextProvider = (props) => {
         mySeat: [],
         seatSelected: [],
         holdingTime: 300,
+        paymentType: null,
     };
 
     const [stateBookTicket, dispatchBookTicket] = useReducer((state, action) => { 
         switch (action.type) { 
+            case "SET_SEATS_SELECTED":
+                return {
+                    ...state,
+                    seatSelected: state.seatSelected.concat(action.payload),
+                };
+            case "SET_PAYMENT_TYPE":
+                return {
+                    ...state,
+                    paymentType: action.payload,
+                };
             case "SET_HOLDING_TIME":
                 return {
                     ...state,

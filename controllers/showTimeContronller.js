@@ -1,6 +1,8 @@
 const Cinemas = require("../models/dataCinema");
 const Films = require("../models/dataMovie");
 const MovieShowTimes = require("../models/dataShowtimes");
+const HistoryBooking = require("../models/dataHistoryBooking");
+const HistoryTicket = require("../models/dataHistoryTicket");
 const { Op } = require('sequelize');
 
 class ShowTimesController {  
@@ -131,7 +133,15 @@ class ShowTimesController {
             await MovieShowTimes.findOne({
                 where: {
                     idShowtime: params
-                }
+                },
+                include:  {
+                    model: HistoryBooking,
+                    attributes: ['id'],
+                    include: {
+                        model: HistoryTicket,
+                        attributes: ['seatsCode']
+                    }
+                },
             })
             .then(data => {
                 res.json({ status: 200, data: data})

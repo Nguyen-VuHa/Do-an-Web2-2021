@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import authApi from 'src/api/authApi';
+import userApi from 'src/api/userApi';
 import globalText from 'src/contants/titleCinema';
+import { AuthContext } from 'src/contexts/authContext';
 import HeaderLine from './components/HeaderLine';
 import { BookTicketContextProvider } from './contexts/BookTicketContext';
 import ChooseSeatsPage from './pages/ChooseSeatsPage';
@@ -9,6 +12,38 @@ import PaymentPage from './pages/PaymentPage';
 
 const BookTicketMain = () => {
     const match = useRouteMatch();
+    const { state, dispatchAuth } = useContext(AuthContext);
+    const { isLogin } = state;
+
+    const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        const fecthDataUser = async (refreshToken) => {
+            const dataUser = await authApi.getInfoUser(refreshToken);
+        
+            if(dataUser.status === 200)
+            {
+                dispatchAuth({
+                    type: 'SET_USER_INFO',
+                    payload: dataUser.data,
+                })
+                
+                const numOfNotify = await userApi.getCountNotify(accessToken);
+
+                if(numOfNotify.status === 200) {
+                    dispatchAuth({
+                        type: 'SET_NUMBER_OF_NOTIFY',
+                        payload: numOfNotify.count,
+                    })
+                }
+            }
+        }
+
+        if(refreshToken && isLogin === true) {
+            fecthDataUser(refreshToken);
+        }
+    }, [isLogin]);
     return (
         <>
             <HelmetProvider>

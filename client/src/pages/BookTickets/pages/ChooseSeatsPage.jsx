@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Seats from '../components/ChooseSeats/Seats';
 import MovieInfo from '../components/ChooseSeats/MovieInfo';
 import { useLocation } from 'react-router-dom';
