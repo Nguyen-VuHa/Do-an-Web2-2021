@@ -6,6 +6,7 @@ export const GrayWhite = '#a6b2c9';
 export const YellowGray = '#d4dd29';
 export const Gray = '#1c262f';
 export const RedError = '#ff0000';
+export const YellowLight = '#f8ff6a';
 // font family
 export const FontRoboto = `'Roboto', sans-serif`;
 export const FontEncodeSans = `'Encode Sans SC', sans-serif`;

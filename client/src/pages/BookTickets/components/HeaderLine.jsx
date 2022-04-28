@@ -3,6 +3,7 @@ import { ButtonHeader, Header, LayoutButton } from './HeaderLine.Style';
 
 
 const HeaderLine = () => {
+    
     return (
         <Header>
             <LayoutButton className='container'>
@@ -10,13 +11,10 @@ const HeaderLine = () => {
                     Chọn ghế
                     <i className="fas fa-th"></i>
                 </ButtonHeader>
-                {/* <i className="far fa-chevron-right"></i>
-                <ButtonHeader>
-                    Bắp nước
-                    <i className="far fa-shopping-bag"></i>
-                </ButtonHeader> */}
                 <i className="far fa-chevron-right"></i>
-                <ButtonHeader>
+                <ButtonHeader
+                    className={window.location.pathname.includes('/payment') ? 'active' : ''}
+                >
                     Thanh toán
                     <i className="fad fa-credit-card"></i>
                 </ButtonHeader>

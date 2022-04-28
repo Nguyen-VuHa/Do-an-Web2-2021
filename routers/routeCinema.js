@@ -8,6 +8,7 @@ router.post('/new-cinema', cinemaController.newCinema);
 router.get('/all-area', cinemaController.getAllDistrict);
 router.get('/all-cinemas', cinemaController.getAllCinema);
 router.get('/all-district', cinemaController.getAllArea);
+router.get('/cinema/:cinemaId', cinemaController.getCinemaById);
 
 
 module.exports = router;

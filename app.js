@@ -18,17 +18,17 @@ app.use(cors());
 route(app);
 
 
-if(process.env.NODE_ENV === "appstore") {
-    app.use(express.static(path.join(__dirname, '/client/build')));
+// if(process.env.NODE_ENV === "appstore") {
+//     app.use(express.static(path.join(__dirname, '/client/build')));
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-    })
-} else {
-    app.get('/', (req, res) => {
-        res.send('Api Running!');
-    })
-}
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+//     })
+// } else {
+//     app.get('/', (req, res) => {
+//         res.send('Api Running!');
+//     })
+// }
 
 const Uuid = require('uuid');
 

@@ -21,6 +21,10 @@ const cinemaApi = {
         const url = `api/all-cinemas`;
         return axiosClient.get(url);
     },
+    getCinemaById: (cinemaId) => {
+        const url = `api/cinema/${cinemaId}`;
+        return axiosClient.get(url);
+    },
 }
 
 export default cinemaApi;

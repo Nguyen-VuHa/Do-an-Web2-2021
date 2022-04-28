@@ -64,9 +64,31 @@ class CinemaController {
     }
 
     async getAllCinema (req, res) {
-        const data = await Cinemas.findAll();
+        try {
+            const data = await Cinemas.findAll();
         
-        res.json({ status: 200, data})
+            res.json({ status: 200, data})
+        }
+        catch(err)
+        {
+            console.log(err);
+            res.status(400).json(err);
+        }
+        
+    }
+
+    async getCinemaById (req, res) {
+        try {
+            const params = req.params.cinemaId;
+        
+            const data = await Cinemas.findByPk(params);
+
+            res.status(200).json({data: data, status: 200});
+        }
+        catch(err) {
+            console.log(err);
+            res.status(400).json(err);
+        }
     }
 }
 

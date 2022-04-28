@@ -3,7 +3,9 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import globalText from 'src/contants/titleCinema';
 import HeaderLine from './components/HeaderLine';
+import { BookTicketContextProvider } from './contexts/BookTicketContext';
 import ChooseSeatsPage from './pages/ChooseSeatsPage';
+import PaymentPage from './pages/PaymentPage';
 
 const BookTicketMain = () => {
     const match = useRouteMatch();
@@ -21,10 +23,18 @@ const BookTicketMain = () => {
                     <Switch>
                         <Redirect exact={true} from={match.url} to={`${match.url}/choose-seats`} />
 
-                        <Route 
-                            path={`${match.url}/choose-seats`}
-                            component={ChooseSeatsPage}
-                        />
+                        <BookTicketContextProvider>
+                            <Route 
+                                path={`${match.url}/choose-seats`}
+                                component={ChooseSeatsPage}
+                            />
+
+                            <Route 
+                                path={`${match.url}/payment`}
+                                component={PaymentPage}
+                            />
+                        </BookTicketContextProvider>
+                        
                     </Switch>
                 </React.Suspense>
             </div>

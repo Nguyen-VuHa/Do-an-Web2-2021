@@ -17,6 +17,10 @@ const showtimeApi = {
         const url = `api/showtimes-by-cinema/${payload}`;
         return axiosClient.get(url);
     },
+    fetchShowtimesById: (payload) => {
+        const url = `api/showtimes/${payload}`;
+        return axiosClient.get(url);
+    },
 }
 
 export default showtimeApi;

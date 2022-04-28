@@ -1,53 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { Divider } from 'src/style-common/Layout.Style';
+import { BookTicketContext } from '../../contexts/BookTicketContext';
 import { LayoutSeat, LayoutSeatInfo, RowSeats, Screen, Seat, SeatInfo, SeatName } from './ChooseSeats.Style';
 
+var charList = (a,z,d=1)=>(a=a.charCodeAt(),z=z.charCodeAt(),[...Array(Math.floor((z-a)/d)+1)].map((_,i)=>String.fromCharCode(a+i*d)));
+
 const Seats = () => {
+    const { cinemaDetail } = useSelector(state => state.systemCinemaState);
+    
+    const { stateBookTicket, dispatchBookTicket } = useContext(BookTicketContext);
+    const { mySeat } = stateBookTicket;
+
+    const [listChar, setListChar] = useState([]);
+
+    useEffect(() => {
+        setListChar(charList('A', 'Z'));
+    }, []);
+
+    const handleChooseSeats = (seatCode) => {
+        let checkSeat = mySeat.filter(s => s === seatCode);
+        if(checkSeat.length > 0) {
+            dispatchBookTicket({
+                type: 'REMOVE_MY_SEATS',
+                payload: seatCode,
+            })
+        }
+        else
+        {
+            dispatchBookTicket({
+                type: 'SET_MY_SEATS',
+                payload: seatCode,
+            })
+        }
+    }
+
+    const horizontalSeats = (charCode) => {
+        let horizontalElm = [];
+        if(cinemaDetail && cinemaDetail.horizontalSize) {
+            for(let i = 0; i < cinemaDetail.horizontalSize; i++) {
+                let checkSeat = mySeat.filter(s => s === `${charCode}${i + 1}`);
+                horizontalElm.push(<Seat 
+                    key={i} onClick={() => handleChooseSeats(`${charCode}${i + 1}`)}
+                    className={checkSeat.length > 0 ? "choose" : ""}
+                >
+                    {`${charCode}${i + 1}`}
+                </Seat>)
+            }
+        }
+
+        return horizontalElm;
+    }
+
+    const elmSeats = () => {
+        let bodySeats = [];
+
+        if(cinemaDetail && cinemaDetail.verticalSize && listChar.length > 0) {
+            for(let i = 0; i < cinemaDetail.verticalSize; i++) {
+                bodySeats.push(<RowSeats key={i}>
+                    <SeatName>{listChar[i]}</SeatName>
+                    { horizontalSeats(listChar[i]) }
+                </RowSeats>)
+            }
+        }
+
+        return bodySeats;
+    }
+
     return (
         <LayoutSeat>
             <Screen>
                 Màng Hình
             </Screen>
             <div className='mt-4'>
-                <RowSeats>
-                    <SeatName>A</SeatName>
-                    <Seat className='choose'>
-                        A1
-                    </Seat>
-                    <Seat className='choosed hover-none'>
-                        A2
-                    </Seat>
-                    <Seat>
-                        A3
-                    </Seat>
-                    <Seat>
-                        A4
-                    </Seat>
-                    <Seat>
-                        A4
-                    </Seat>
-                    <Seat>
-                        A12
-                    </Seat>
-                    <Seat>
-                        A4
-                    </Seat>
-                    <Seat>
-                        A4
-                    </Seat>
-                    <Seat>
-                        A4
-                    </Seat>
-                    <Seat>
-                        A4
-                    </Seat>
-                      <Seat>
-                        A4
-                    </Seat>
-                      <Seat>
-                        A4
-                    </Seat>
-                </RowSeats>
+                { elmSeats() }
             </div>
             <Divider className='mt-5'/>
             <LayoutSeatInfo>

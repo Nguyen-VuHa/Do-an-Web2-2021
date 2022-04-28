@@ -78,8 +78,8 @@ export const Button = styled.button`
     justify-content: center;
     align-items: center;
 
-    background: ${Green};
-    color: ${White};
+    background: ${props => props.bgcolor ? props.bgcolor : Green};
+    color: ${props => props.color ? props.color : White};
 
     width: ${props => props.width ? `${props.width}px` : 'auto'};
     padding: 8px 24px;

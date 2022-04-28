@@ -1,10 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Seats from '../components/ChooseSeats/Seats';
-import { Divider } from 'src/style-common/Layout.Style';
+import MovieInfo from '../components/ChooseSeats/MovieInfo';
+import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getMovieDetailById } from 'src/reducers/movieSlice';
+import { fetchCinemaDetailById } from 'src/reducers/systemCinemaSlice';
+import { fetchShowtimesById } from 'src/reducers/showtimeSlice';
+
 const ChooseSeatsPage = () => {
+    const search = useLocation().search;
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        const movieId = new URLSearchParams(search).get("movieId");
+        const cinemaId = new URLSearchParams(search).get("cinemaId");
+        const showtimeId = new URLSearchParams(search).get("showtimeId");
+
+        const waitDispatch = (ms) => {
+            return new Promise((resolve) => {
+                setTimeout(resolve, ms);
+            })
+        }
+
+        if(movieId) {
+            dispatch(getMovieDetailById(movieId))
+        }
+
+        if(cinemaId && showtimeId) {
+            waitDispatch(300)
+            .then(() => {
+                dispatch(fetchCinemaDetailById(cinemaId));
+                return waitDispatch(300);
+            })
+            .then(() => {
+                dispatch(fetchShowtimesById(showtimeId));
+                return waitDispatch(300);
+            })
+        }
+
+    }, []);
+
     return (
-        <div className='container' style={{marginTop: '10vh'}}>
+        <div className='px-4 d-flex' style={{marginTop: '10vh'}}>
             <Seats />
+            <MovieInfo />
         </div>
     );
 };

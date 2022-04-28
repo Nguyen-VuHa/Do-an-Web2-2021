@@ -5,25 +5,30 @@ const { Op } = require('sequelize');
 
 class ShowTimesController {  
     async getAllShowtimes (req, res) {
-
-        const data = await MovieShowTimes.findAll({
-            include: [
-                {
-                    model: Films,
-                    attributes: ['movieName'],
-                },
-                {
-                    model: Cinemas,
-                    attributes: ['nameCinema'],
-                }
-            ],
-            attributes: ['premiereDate', 'showTime', 'fare'],
-            order: [
-                ['createdAt', 'DESC'],
-            ],
-        });
+        try {
+            const data = await MovieShowTimes.findAll({
+                include: [
+                    {
+                        model: Films,
+                        attributes: ['movieName'],
+                    },
+                    {
+                        model: Cinemas,
+                        attributes: ['nameCinema'],
+                    }
+                ],
+                attributes: ['premiereDate', 'showTime', 'fare'],
+                order: [
+                    ['createdAt', 'DESC'],
+                ],
+            });
+            
+            res.json({ status: 200, data: data });
+        }
+        catch(err) {
+            res.status(400).json({ status: 'ERROR', message: err });
+        }
         
-        res.json({ status: 200, data: data });
     }
 
     async createNewShowTimes (req, res) {
@@ -41,8 +46,7 @@ class ShowTimesController {
             res.json({ status: 200 });
         }
         catch(err) {
-            console.log(err);
-            res.json({ status: 400, message: 'Create Movie Showtime Failed!' });
+            res.status(400).json({ status: 400, message: 'Create Movie Showtime Failed!' });
         }
     }
 
@@ -77,7 +81,7 @@ class ShowTimesController {
             res.json({ status: 200, data: data})
         }
         catch (err) {
-            res.json({ status: 400, error: err});
+            res.status(400).json({ status: 400, error: err});
         }
         
     }
@@ -109,12 +113,37 @@ class ShowTimesController {
                 ],
                 attributes: [ "movieName", "poster1" ]
             })
-    
+            
+            if(!data) res.json({ status: 200, message: 'ID CINEMA INVALED!'})
+
             res.json({ status: 200, data: data})
         }
         catch (err) {
-            res.json({ status: 400, message: 'ID_CINEMA_INVALED!'});
+            res.status(400).json({ status: 400, message: 'ID CINEMA INVALED!'});
         }
+    }
+
+    async getShowtimeById(req, res) {   
+        const params = req.params.showtimeId;
+
+        try {
+            console.log(params);
+            await MovieShowTimes.findOne({
+                where: {
+                    idShowtime: params
+                }
+            })
+            .then(data => {
+                res.json({ status: 200, data: data})
+            })
+            .catch(() => {
+                res.json({ status: 200, message: 'SHOWTIME ID INVALED!'})
+            })
+        }
+        catch(err) {
+
+        }
+       
     }
 }
 

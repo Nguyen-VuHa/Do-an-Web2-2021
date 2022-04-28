@@ -1,4 +1,4 @@
-import { BlueGray, GrayWhite, Green, YellowGray, RedError } from "src/contants/cssContants";
+import { BlueGray, GrayWhite, Green, YellowGray, RedError, YellowLight } from "src/contants/cssContants";
 import styled from "styled-components";
 
 export const Text = styled.div`
@@ -43,6 +43,10 @@ export const Text = styled.div`
         color: ${YellowGray} !important;
     }
 
+    &.txt-yellow-light {
+        color: ${YellowLight} !important;
+    }
+
     ${'' /* Font Size Text Custome */}
     &.font-params {
         font-size: ${props => props.fontSize}px !important; 
@@ -50,6 +54,10 @@ export const Text = styled.div`
         @media screen and (max-width: 600px) {  
             font-size: 25px !important;
         }
+    }
+
+    &.flex-shrink-0 {
+        flex-shrink: 0 !important;
     }
 
     ${'' /* Custome Front Family */}
@@ -68,6 +76,10 @@ export const Text = styled.div`
     }
 
     & span {
-        color: ${RedError};
+        color: ${props => props.spanColor ? props.spanColor : RedError};
+    }
+
+    &.span-bold span { 
+        font-weight: bold;
     }
 `;
