@@ -2,9 +2,7 @@ const HistoryBooking = require('../models/dataHistoryBooking');
 const HistoryTicket = require('../models/dataHistoryTicket');
 const Accounts = require('../models/dataAccount');
 const NewNotification = require('../models/dataNotification');
-
 const nodemailer = require('../sendmail');
-
 
 class HistoryBookingController { 
     async sendMail (req, res) {
@@ -102,4 +100,4 @@ class HistoryBookingController {
     }
 }
 
-module.exports = new HistoryBookingController
+module.exports = new HistoryBookingController;
