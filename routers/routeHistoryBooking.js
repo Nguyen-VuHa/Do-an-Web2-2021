@@ -6,4 +6,6 @@ const HistoryBookingController = require('../controllers/HistoryBookingControlle
 router.post('/history-booking/create', HistoryBookingController.createNewHistoryBooking);
 router.post('/history-ticket/create', HistoryBookingController.createNewHistoryTicket);
 
+router.post('/send-mail-booking', HistoryBookingController.sendMail);
+
 module.exports = router;

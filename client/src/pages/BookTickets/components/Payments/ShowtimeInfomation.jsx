@@ -15,15 +15,16 @@ import { ClipLoader } from 'react-spinners';
 const ShowtimeInfomation = () => {
     const { cinemaDetail } = useSelector(state => state.systemCinemaState);
     const { showtimeById } = useSelector(state => state.showtimeState);
+    const { movieDetail } = useSelector(state => state.movieState);
 
     const { state } = useContext(AuthContext);
-    const { surplus, id } = state;
+    const { surplus, id, email, fullname } = state;
 
     const { stateBookTicket } = useContext(BookTicketContext);
     const { mySeat, paymentType } = stateBookTicket;
 
     const [isSubmit, setIsSubmit] = useState(false);
-    
+
     const handlePayment = async () => {
         if(paymentType === 2) {
             if(surplus >= mySeat.length * showtimeById.fare) {
@@ -40,16 +41,38 @@ const ShowtimeInfomation = () => {
                 await bookingApi.createNewHistoryBookingApi(dataHistoryBooking)
                 .then(async (res) => {
                     if(res && res.id) {
+                        let idBooking = res.id;
                         await bookingApi.createNewHistoryTicketApi({
                             listSeat: mySeat,
                             idBooking: res.id,
                         })
-                        .then(res => {
+                        .then(async (res) => {
                             if(res.status === 200)
                             {
                                 setIsSubmit(false);
                                 document.body.style.pointerEvents = "";
-                                // rideriect to Info ticket
+                                let dataSendMail = {
+                                    email: email,
+                                    fullName: fullname,
+                                    movieName: movieDetail.movieName,
+                                    idBooking: idBooking,
+                                    cinema: cinemaDetail.nameCinema,
+                                    address: `${cinemaDetail.wards} - ${cinemaDetail.district} - ${cinemaDetail.city}`,
+                                    bookingTime: moment(new Date()).format('hh:mm DD/MM/YYYY'),
+                                    paymentAmount: mySeat.length * showtimeById.fare,
+                                    showtime:  `${showtimeById.showTime} - ${moment(showtimeById.premiereDate).format('DD/MM/YYYY')}`,
+                                    listSeats: mySeat,
+                                };
+
+                                await bookingApi.sendMailBookingSuccess(dataSendMail)
+                                .then(res => {
+                                    if(res) {
+                                        console.log('send mail success!');
+                                    }
+                                })
+                                .catch(() => {
+                                    toast.error('Send Mail Failed!');
+                                });
                             }
                             else {
                                 document.body.style.pointerEvents = "";
