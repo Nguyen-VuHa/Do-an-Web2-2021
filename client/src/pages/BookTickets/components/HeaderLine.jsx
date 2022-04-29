@@ -13,14 +13,14 @@ const HeaderLine = () => {
                 </ButtonHeader>
                 <i className="far fa-chevron-right"></i>
                 <ButtonHeader
-                    className={window.location.pathname.includes('/payment') ? 'active' : ''}
+                    className={window.location.pathname.includes('/payment') || window.location.pathname.includes('/succeed') ? 'active' : ''}
                 >
                     Thanh toán
                     <i className="fad fa-credit-card"></i>
                 </ButtonHeader>
                 <i className="far fa-chevron-right"></i>
-                <ButtonHeader>
-                    Thông tin vé
+                <ButtonHeader className={window.location.pathname.includes('/succeed') ? 'active' : ''}>    
+                    Hoàn thành đặt vé
                     <i className="fad fa-ticket"></i>
                 </ButtonHeader>
             </LayoutButton>

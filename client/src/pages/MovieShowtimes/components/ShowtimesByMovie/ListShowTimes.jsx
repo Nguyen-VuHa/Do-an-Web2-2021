@@ -2,6 +2,7 @@ import React from 'react';
 import { Green, YellowGray } from 'src/contants/cssContants';
 import styled from 'styled-components';
 import moment from 'moment';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 const TitleCinema = styled.div`
     position: relative;
@@ -77,7 +78,8 @@ const ButtonShowTime = styled.div`
 `;
 
 const ListShowTimes = ({ data }) => {
-    
+    const history = useHistory();
+
     return (
         <>
             <TitleCinema>
@@ -87,7 +89,15 @@ const ListShowTimes = ({ data }) => {
                 {
                     data && data?.MovieShowTimes.length > 0
                     && data.MovieShowTimes.map((mv, idx) => {
-                        return <ButtonShowTime key={idx}>
+                        return <ButtonShowTime 
+                            key={idx}
+                            onClick={() => {
+                                const { MovieShowTimes, id } = data;
+                                const { R_Movie, idShowtime } = MovieShowTimes[0];
+                                const { movieId } = R_Movie
+                                history.push(`/book-ticket/choose-seats?movieId=${movieId}&cinemaId=${id}&showtimeId=${idShowtime}`);
+                            }}
+                        >
                             {`${mv.showTime} - ${moment(mv.premiereDate).format('DD/MM/YYYY')}`}
                         </ButtonShowTime>
                     })

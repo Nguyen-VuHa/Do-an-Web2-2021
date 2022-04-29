@@ -11,8 +11,11 @@ import { AuthContext } from 'src/contexts/authContext';
 import { toast } from 'react-toastify';
 import bookingApi from 'src/api/bookingApi';
 import { ClipLoader } from 'react-spinners';
+import { useHistory } from 'react-router-dom';
 
 const ShowtimeInfomation = () => {
+    const history = useHistory();
+
     const { cinemaDetail } = useSelector(state => state.systemCinemaState);
     const { showtimeById } = useSelector(state => state.showtimeState);
     const { movieDetail } = useSelector(state => state.movieState);
@@ -64,6 +67,7 @@ const ShowtimeInfomation = () => {
                                     listSeats: mySeat,
                                 };
 
+                                history.replace('/book-ticket/succeed');
                                 await bookingApi.sendMailBookingSuccess(dataSendMail)
                                 .then(res => {
                                     if(res) {

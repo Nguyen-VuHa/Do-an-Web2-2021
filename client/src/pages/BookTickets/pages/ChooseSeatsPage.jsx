@@ -6,15 +6,23 @@ import { useDispatch } from 'react-redux';
 import { getMovieDetailById } from 'src/reducers/movieSlice';
 import { fetchCinemaDetailById } from 'src/reducers/systemCinemaSlice';
 import { fetchShowtimesById } from 'src/reducers/showtimeSlice';
+import { BookTicketContext } from '../contexts/BookTicketContext';
 
 const ChooseSeatsPage = () => {
     const search = useLocation().search;
     const dispatch = useDispatch();
+    const { dispatchBookTicket } = useContext(BookTicketContext);
+
     
     useEffect(() => {
         const movieId = new URLSearchParams(search).get("movieId");
         const cinemaId = new URLSearchParams(search).get("cinemaId");
         const showtimeId = new URLSearchParams(search).get("showtimeId");
+
+        dispatchBookTicket({
+            type: 'SET_UNVALED_SEATS_SELECTED',
+            payload: null,
+        })
 
         const waitDispatch = (ms) => {
             return new Promise((resolve) => {

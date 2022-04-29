@@ -56,14 +56,14 @@ class HistoryBookingController {
                         }
                     });
 
-                    // NewNotification.create({
-                    //     message: `Đặt vé xem phim thành công! Bạn có thể vào lịch sử giao dịch để kiểm tra Xin cảm ơn <3!`,
-                    //     messageType: 'Wellcome',
-                    //     image: user.avartar,
-                    //     time: new Date(),
-                    //     status: 0,
-                    //     noti_idUser: reqData.idUser,
-                    // })
+                    NewNotification.create({
+                        message: `Đặt vé xem phim thành công! Bạn kiểm tra email hoặc thông báo để xem chi tiết vé đã đặt <3!`,
+                        messageType: 'Wellcome',
+                        image: user.avartar,
+                        time: new Date(),
+                        status: 0,
+                        noti_idUser: reqData.idUser,
+                    })
                 })
                 .catch(() => {
                     res.status(400).json({message: 'FIND BY USER IS NOT DEFENIED!'});

@@ -8,6 +8,7 @@ import { AuthContext } from 'src/contexts/authContext';
 import HeaderLine from './components/HeaderLine';
 import { BookTicketContextProvider } from './contexts/BookTicketContext';
 import ChooseSeatsPage from './pages/ChooseSeatsPage';
+import CompletedBookingPage from './pages/CompletedBookingPage';
 import PaymentPage from './pages/PaymentPage';
 
 const BookTicketMain = () => {
@@ -67,6 +68,11 @@ const BookTicketMain = () => {
                             <Route 
                                 path={`${match.url}/payment`}
                                 component={PaymentPage}
+                            />
+
+                            <Route 
+                                path={`${match.url}/succeed`}
+                                component={CompletedBookingPage}
                             />
                         </BookTicketContextProvider>
                         

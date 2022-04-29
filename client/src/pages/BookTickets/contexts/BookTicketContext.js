@@ -12,6 +12,11 @@ export const BookTicketContextProvider = (props) => {
 
     const [stateBookTicket, dispatchBookTicket] = useReducer((state, action) => { 
         switch (action.type) { 
+            case "SET_UNVALED_SEATS_SELECTED":
+                return {
+                    ...state,
+                    seatSelected: [],
+                };
             case "SET_SEATS_SELECTED":
                 return {
                     ...state,
