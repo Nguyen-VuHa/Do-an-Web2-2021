@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import socketIO from 'socket.io-client';
 import { Divider } from 'src/style-common/Layout.Style';
 import { BookTicketContext } from '../../contexts/BookTicketContext';
 import { LayoutSeat, LayoutSeatInfo, RowSeats, Screen, Seat, SeatInfo, SeatName } from './ChooseSeats.Style';
-import socketIO from 'socket.io-client';
-import { useLocation } from 'react-router-dom';
-import { AuthContext } from 'src/contexts/authContext';
 
-const ENDPOINT='ws://localhost:5000';
-// const ENDPOINT='/';
+// const ENDPOINT='ws://localhost:5000';
+const ENDPOINT='/';
 let socket =  socketIO(ENDPOINT, { transports:['websocket']});
 
 var charList = (a,z,d=1)=>(a=a.charCodeAt(),z=z.charCodeAt(),[...Array(Math.floor((z-a)/d)+1)].map((_,i)=>String.fromCharCode(a+i*d)));

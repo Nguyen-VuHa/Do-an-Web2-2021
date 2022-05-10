@@ -12,8 +12,8 @@ import ChooseSeatsPage from './pages/ChooseSeatsPage';
 import CompletedBookingPage from './pages/CompletedBookingPage';
 import PaymentPage from './pages/PaymentPage';
 
-const ENDPOINT='ws://localhost:5000';
-// const ENDPOINT='/';
+// const ENDPOINT='ws://localhost:5000';
+const ENDPOINT='/';
 let socket;
 
 const BookTicketMain = () => {

@@ -8,8 +8,8 @@ import { LayoutBasicInfo } from './Payment.Style';
 
 import socketIO from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-const ENDPOINT='ws://localhost:5000';
-// const ENDPOINT='/';
+// const ENDPOINT='ws://localhost:5000';
+const ENDPOINT='/';
 let socket = socketIO(ENDPOINT, { transports:['websocket']});
 
 const HoldingTime = ({ fare }) => {

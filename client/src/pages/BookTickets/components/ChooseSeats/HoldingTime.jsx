@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import socketIO from 'socket.io-client';
 import { YellowLight } from 'src/contants/cssContants';
 import { Col } from 'src/style-common/Layout.Style';
 import { Text } from 'src/style-common/Text.Style';
@@ -7,10 +8,8 @@ import { BookTicketContext } from '../../contexts/BookTicketContext';
 import ModalConfirmHoldTime from '../ModalConfirmHoldTime';
 import { GroupBoxMovie } from './ChooseSeats.Style';
 
-import socketIO from 'socket.io-client';
-import { useLocation } from 'react-router-dom';
-const ENDPOINT='ws://localhost:5000';
-// const ENDPOINT='/';
+// const ENDPOINT='ws://localhost:5000';
+const ENDPOINT='/';
 let socket = socketIO(ENDPOINT, { transports:['websocket']});
 
 const HoldingTime = ({ fare }) => {

@@ -19,7 +19,7 @@ import { useOnScreen } from 'src/hooks/IntersectionImage';
 
 // const ENDPOINT='ws://localhost:8900';
 const ENDPOINT='/';
-let socket =  socketIO(ENDPOINT, { transports:['websocket']});
+let socket = socketIO(ENDPOINT, { transports:['websocket']});
 
 const Comment = () => {
 

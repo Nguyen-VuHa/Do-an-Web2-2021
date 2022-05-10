@@ -13,8 +13,8 @@ import { Text } from 'src/style-common/Text.Style';
 import { BookTicketContext } from '../../contexts/BookTicketContext';
 import HoldingTime from './HoldingTime';
 import { LayoutBasicInfo } from './Payment.Style';
-const ENDPOINT='ws://localhost:5000';
-// const ENDPOINT='/';
+// const ENDPOINT='ws://localhost:5000';
+const ENDPOINT='/';
 let socket =  socketIO(ENDPOINT, { transports:['websocket']});
 
 
