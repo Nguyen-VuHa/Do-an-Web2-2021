@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Green, YellowGray } from 'src/contants/cssContants';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AuthContext } from 'src/contexts/authContext';
 
 const TitleCinema = styled.div`
     position: relative;
@@ -80,6 +82,8 @@ const ButtonShowTime = styled.div`
 const ListShowTimes = ({ data }) => {
     const history = useHistory();
 
+    const { state } = useContext(AuthContext);
+    
     return (
         <>
             <TitleCinema>
@@ -92,10 +96,15 @@ const ListShowTimes = ({ data }) => {
                         return <ButtonShowTime 
                             key={idx}
                             onClick={() => {
-                                const { MovieShowTimes, id } = data;
-                                const { R_Movie, idShowtime } = MovieShowTimes[0];
-                                const { movieId } = R_Movie
-                                history.push(`/book-ticket/choose-seats?movieId=${movieId}&cinemaId=${id}&showtimeId=${idShowtime}`);
+                                if(localStorage.getItem('accessToken') && state.id) {
+                                    const { MovieShowTimes, id } = data;
+                                    const { R_Movie, idShowtime } = MovieShowTimes[0];
+                                    const { movieId } = R_Movie;
+                                    history.push(`/book-ticket/choose-seats?movieId=${movieId}&cinemaId=${id}&showtimeId=${idShowtime}&userId=${state.id}`);
+                                }
+                                else {
+                                    toast.warn('Bạn chưa đăng nhập!');
+                                }
                             }}
                         >
                             {`${mv.showTime} - ${moment(mv.premiereDate).format('DD/MM/YYYY')}`}

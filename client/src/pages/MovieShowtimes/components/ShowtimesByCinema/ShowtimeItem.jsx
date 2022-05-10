@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Green, YellowGray } from 'src/contants/cssContants';
 import styled from 'styled-components';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AuthContext } from 'src/contexts/authContext';
 
 const MovieInfo = styled.div`
     position: relative;
@@ -110,7 +113,10 @@ const Line = styled.div`
 `;
 
 const ShowTimeItem = ({ data }) => {
-    
+    const history = useHistory();
+    const { state } = useContext(AuthContext);
+    const { id } = state; 
+
     return (
         <>
             <div className='d-flex'>
@@ -122,9 +128,21 @@ const ShowTimeItem = ({ data }) => {
                 </MovieInfo>   
                 <LayoutShowTimes> 
                     {
+          
                         data && data?.MovieShowTimes.length > 0
                         && data.MovieShowTimes.map((mv, idx) => {
-                            return <ButtonShowTime key={idx}>
+                            return <ButtonShowTime 
+                                key={idx}
+                                onClick={() => {
+                                    if(localStorage.getItem('accessToken') && id) { 
+                                        history.push(`/book-ticket/choose-seats?movieId=${mv.showTime_idMovie}&cinemaId=${mv.showTime_idCinema}&showtimeId=${mv.idShowtime}&userId=${id}`);
+                                    }
+                                    else {
+                                        toast.warn('Bạn chưa đăng nhập!');
+                                    }
+                                   
+                                }}
+                            >
                                 {`${mv.showTime} - ${moment(mv.premiereDate).format('DD/MM/YYYY')}`}
                             </ButtonShowTime>
                         })

@@ -7,8 +7,17 @@ import { BookTicketContext } from '../../contexts/BookTicketContext';
 import ModalConfirmHoldTime from '../ModalConfirmHoldTime';
 import { GroupBoxMovie } from './ChooseSeats.Style';
 
+import socketIO from 'socket.io-client';
+import { useLocation } from 'react-router-dom';
+const ENDPOINT='ws://localhost:5000';
+// const ENDPOINT='/';
+let socket = socketIO(ENDPOINT, { transports:['websocket']});
 
 const HoldingTime = ({ fare }) => {
+    const search = useLocation().search;
+    const userId = new URLSearchParams(search).get("userId");
+    const showtimeId = new URLSearchParams(search).get("showtimeId");
+    
     const { stateBookTicket, dispatchBookTicket } = useContext(BookTicketContext);
     const { holdingTime } = stateBookTicket;
 
@@ -23,7 +32,13 @@ const HoldingTime = ({ fare }) => {
 
     useEffect(() => {
         if(!holdingTime) 
+        {
+            socket.emit('joinRoom_Booking', {showtimeId, objSeats: {
+                userId: userId,
+                arrSeats: [],
+            }});
             setIsShow(true);
+        }
     }, [holdingTime]);
 
     useEffect(() => {

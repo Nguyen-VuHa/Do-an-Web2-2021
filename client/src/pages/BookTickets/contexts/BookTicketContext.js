@@ -17,6 +17,16 @@ export const BookTicketContextProvider = (props) => {
                     ...state,
                     seatSelected: [],
                 };
+            case "SET_MY_SEATS_SOCKET":
+                return {
+                    ...state,
+                    mySeat: action.payload,
+                };
+            case "SET_SEATS_SELECTED_SOCKET":
+                return {
+                    ...state,
+                    seatSelected: action.payload,
+                };
             case "SET_SEATS_SELECTED":
                 return {
                     ...state,

@@ -1,17 +1,22 @@
-import React, { useContext, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { White, YellowGray, YellowLight } from 'src/contants/cssContants';
-import { Text } from 'src/style-common/Text.Style';
-import { LayoutBasicInfo } from './Payment.Style';
 import moment from 'moment';
+import React, { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import socketIO from 'socket.io-client';
+import bookingApi from 'src/api/bookingApi';
+import { White, YellowGray, YellowLight } from 'src/contants/cssContants';
+import { AuthContext } from 'src/contexts/authContext';
+import { Button } from 'src/style-common/Button.Style';
+import { Text } from 'src/style-common/Text.Style';
 import { BookTicketContext } from '../../contexts/BookTicketContext';
 import HoldingTime from './HoldingTime';
-import { Button } from 'src/style-common/Button.Style';
-import { AuthContext } from 'src/contexts/authContext';
-import { toast } from 'react-toastify';
-import bookingApi from 'src/api/bookingApi';
-import { ClipLoader } from 'react-spinners';
-import { useHistory } from 'react-router-dom';
+import { LayoutBasicInfo } from './Payment.Style';
+const ENDPOINT='ws://localhost:5000';
+// const ENDPOINT='/';
+let socket =  socketIO(ENDPOINT, { transports:['websocket']});
+
 
 const ShowtimeInfomation = () => {
     const history = useHistory();
@@ -24,7 +29,7 @@ const ShowtimeInfomation = () => {
     const { surplus, id, email, fullname } = state;
 
     const { stateBookTicket } = useContext(BookTicketContext);
-    const { mySeat, paymentType } = stateBookTicket;
+    const { mySeat, paymentType, seatSelected } = stateBookTicket;
 
     const [isSubmit, setIsSubmit] = useState(false);
 
@@ -68,6 +73,8 @@ const ShowtimeInfomation = () => {
                                 };
 
                                 history.replace('/book-ticket/succeed');
+                                socket.emit('add_data_booking', {arrSeats: mySeat});
+                                
                                 await bookingApi.sendMailBookingSuccess(dataSendMail)
                                 .then(res => {
                                     if(res) {

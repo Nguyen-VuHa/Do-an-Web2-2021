@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
+import socketIO from 'socket.io-client';
 import authApi from 'src/api/authApi';
 import userApi from 'src/api/userApi';
 import globalText from 'src/contants/titleCinema';
@@ -11,13 +12,42 @@ import ChooseSeatsPage from './pages/ChooseSeatsPage';
 import CompletedBookingPage from './pages/CompletedBookingPage';
 import PaymentPage from './pages/PaymentPage';
 
+const ENDPOINT='ws://localhost:5000';
+// const ENDPOINT='/';
+let socket;
+
 const BookTicketMain = () => {
+    const search = useLocation().search;
+    const showtimeId = new URLSearchParams(search).get("showtimeId");
+    const userId = new URLSearchParams(search).get("userId");
+    
     const match = useRouteMatch();
     const { state, dispatchAuth } = useContext(AuthContext);
     const { isLogin } = state;
 
     const refreshToken = localStorage.getItem('refreshToken');
     const accessToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        socket =  socketIO(ENDPOINT, { transports:['websocket']});
+
+        socket.on('connect', () => {});
+
+        socket.emit('joinRoom_Booking', {showtimeId: showtimeId});
+        
+        return () => {
+            socket.on('disconnect', () => {
+                console.log('disconected');
+            });
+            socket.emit('leaveRoom', {id: showtimeId});
+
+            socket.emit('joinRoom_Booking', {showtimeId, objSeats: {
+                userId: userId,
+                arrSeats: [],
+            }});
+        }
+    }, []);
+
 
     useEffect(() => {
         const fecthDataUser = async (refreshToken) => {
@@ -45,6 +75,9 @@ const BookTicketMain = () => {
             fecthDataUser(refreshToken);
         }
     }, [isLogin]);
+
+
+
     return (
         <>
             <HelmetProvider>

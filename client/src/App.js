@@ -56,7 +56,9 @@ function App() {
                 <React.Suspense fallback={loading}>
                     <BrowserRouter>
                         <Switch>
-                            <Route path="/book-ticket" component={BookTicketMain} />
+                            {
+                                localStorage.getItem('accessToken') ? <Route path="/book-ticket" component={BookTicketMain} /> : ''
+                            }
 
                             <Route path="/" component={TheLayout} />
                         </Switch>

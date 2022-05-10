@@ -12,7 +12,6 @@ const ShowtimesByCinemaPage = () => {
     const dispatch = useDispatch(); 
     const { systemCinema, cinemaLocation } = useSelector(state => state.systemCinemaState);
 
-    console.log(systemCinema, cinemaLocation);
     useEffect(() => {
         const waitDispatch = (ms) => {
             return new Promise((resolve) => {

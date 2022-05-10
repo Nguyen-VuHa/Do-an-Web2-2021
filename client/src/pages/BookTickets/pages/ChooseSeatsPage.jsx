@@ -10,10 +10,10 @@ import { BookTicketContext } from '../contexts/BookTicketContext';
 
 const ChooseSeatsPage = () => {
     const search = useLocation().search;
+
     const dispatch = useDispatch();
     const { dispatchBookTicket } = useContext(BookTicketContext);
 
-    
     useEffect(() => {
         const movieId = new URLSearchParams(search).get("movieId");
         const cinemaId = new URLSearchParams(search).get("cinemaId");
