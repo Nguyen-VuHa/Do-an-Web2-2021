@@ -131,6 +131,5 @@ const { reducer, actions } = showtimeSlice;
 export const { 
     setDefaultStatus,
     setNameMovie,
-    setStatusOrderBooking,
 } = actions;
 export default reducer;
