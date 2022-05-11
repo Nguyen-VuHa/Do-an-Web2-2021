@@ -11,9 +11,8 @@ import { BookTicketContextProvider } from './contexts/BookTicketContext';
 import ChooseSeatsPage from './pages/ChooseSeatsPage';
 import CompletedBookingPage from './pages/CompletedBookingPage';
 import PaymentPage from './pages/PaymentPage';
+import variables from 'src/contants/variablesContants';
 
-// const ENDPOINT='ws://localhost:5000';
-const ENDPOINT='/';
 let socket;
 
 const BookTicketMain = () => {
@@ -29,11 +28,9 @@ const BookTicketMain = () => {
     const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
-        socket =  socketIO(ENDPOINT, { transports:['websocket']});
+        socket =  socketIO(variables.ENDPOINT, { transports:['websocket']});
 
         socket.on('connect', () => {});
-
-        socket.emit('joinRoom_Booking', {showtimeId: showtimeId});
         
         return () => {
             socket.on('disconnect', () => {
@@ -44,7 +41,7 @@ const BookTicketMain = () => {
             socket.emit('joinRoom_Booking', {showtimeId, objSeats: {
                 userId: userId,
                 arrSeats: [],
-            }});
+            }, statusRemove: true});
         }
     }, []);
 

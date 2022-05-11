@@ -13,10 +13,9 @@ import { Text } from 'src/style-common/Text.Style';
 import { BookTicketContext } from '../../contexts/BookTicketContext';
 import HoldingTime from './HoldingTime';
 import { LayoutBasicInfo } from './Payment.Style';
-// const ENDPOINT='ws://localhost:5000';
-const ENDPOINT='/';
-let socket =  socketIO(ENDPOINT, { transports:['websocket']});
+import variables from 'src/contants/variablesContants';
 
+let socket =  socketIO(variables.ENDPOINT, { transports:['websocket']});
 
 const ShowtimeInfomation = () => {
     const history = useHistory();
@@ -69,11 +68,11 @@ const ShowtimeInfomation = () => {
                                     bookingTime: moment(new Date()).format('hh:mm DD/MM/YYYY'),
                                     paymentAmount: mySeat.length * showtimeById.fare,
                                     showtime:  `${showtimeById.showTime} - ${moment(showtimeById.premiereDate).format('DD/MM/YYYY')}`,
-                                    listSeats: mySeat,
+                                    listSeats: [...new Set(mySeat)],
                                 };
 
                                 history.replace('/book-ticket/succeed');
-                                socket.emit('add_data_booking', {arrSeats: mySeat});
+                                socket.emit('add_data_booking', {arrSeats: mySeat, showtimeId: showtimeById.idShowtime});
                                 
                                 await bookingApi.sendMailBookingSuccess(dataSendMail)
                                 .then(res => {

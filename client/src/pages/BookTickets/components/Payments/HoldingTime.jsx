@@ -8,9 +8,9 @@ import { LayoutBasicInfo } from './Payment.Style';
 
 import socketIO from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-// const ENDPOINT='ws://localhost:5000';
-const ENDPOINT='/';
-let socket = socketIO(ENDPOINT, { transports:['websocket']});
+import variables from 'src/contants/variablesContants';
+
+let socket = socketIO(variables.ENDPOINT, { transports:['websocket']});
 
 const HoldingTime = ({ fare }) => {
     const search = useLocation().search;

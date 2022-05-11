@@ -7,10 +7,9 @@ import { Text } from 'src/style-common/Text.Style';
 import { BookTicketContext } from '../../contexts/BookTicketContext';
 import ModalConfirmHoldTime from '../ModalConfirmHoldTime';
 import { GroupBoxMovie } from './ChooseSeats.Style';
+import variables from 'src/contants/variablesContants';
 
-// const ENDPOINT='ws://localhost:5000';
-const ENDPOINT='/';
-let socket = socketIO(ENDPOINT, { transports:['websocket']});
+let socket = socketIO(variables.ENDPOINT, { transports:['websocket']});
 
 const HoldingTime = ({ fare }) => {
     const search = useLocation().search;

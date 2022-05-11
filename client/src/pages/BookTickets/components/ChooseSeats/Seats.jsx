@@ -5,10 +5,9 @@ import socketIO from 'socket.io-client';
 import { Divider } from 'src/style-common/Layout.Style';
 import { BookTicketContext } from '../../contexts/BookTicketContext';
 import { LayoutSeat, LayoutSeatInfo, RowSeats, Screen, Seat, SeatInfo, SeatName } from './ChooseSeats.Style';
+import variables from 'src/contants/variablesContants';
 
-// const ENDPOINT='ws://localhost:5000';
-const ENDPOINT='/';
-let socket =  socketIO(ENDPOINT, { transports:['websocket']});
+let socket =  socketIO(variables.ENDPOINT, { transports:['websocket']});
 
 var charList = (a,z,d=1)=>(a=a.charCodeAt(),z=z.charCodeAt(),[...Array(Math.floor((z-a)/d)+1)].map((_,i)=>String.fromCharCode(a+i*d)));
 
@@ -52,7 +51,9 @@ const Seats = () => {
 
     const handleSetSelectedSeats = () => {
         socket.on('get_seats_selected', (objSeats) => {
-            let checkUser = objSeats.filter(item => item.userId === userId);
+            let objByShowTime = objSeats.filter(item => item.showtimeId === showtimeId);
+
+            let checkUser = objByShowTime.filter(item => item.userId === userId);
             if(checkUser && checkUser.length > 0) {
                 dispatchBookTicket({
                     type: 'SET_MY_SEATS',
@@ -60,7 +61,7 @@ const Seats = () => {
                 });
             }
             let arrSelected = [];
-            objSeats.forEach(obj => {
+            objByShowTime.forEach(obj => {
                 if(obj.userId !== userId)
                     arrSelected = arrSelected.concat(obj.arrSeats)
             })
@@ -73,11 +74,13 @@ const Seats = () => {
 
     useEffect(() => {
         handleSetSelectedSeats();
-    }, []);
+    }, [socket]);
 
     useEffect(() => {
         socket.on('get_seats_booking', (objSeats) => {
-            let checkUser = objSeats.filter(item => item.userId === userId);
+            let objByShowTime = objSeats.filter(item => item.showtimeId === showtimeId);
+            
+            let checkUser = objByShowTime.filter(item => item.userId === userId);
             if(checkUser && checkUser.length > 0) {
                 dispatchBookTicket({
                     type: 'SET_MY_SEATS_SOCKET',
@@ -85,7 +88,7 @@ const Seats = () => {
                 });
             }
             let arrSelected = [];
-            objSeats.forEach(obj => {
+            objByShowTime.forEach(obj => {
                 if(obj.userId !== userId)
                     arrSelected = arrSelected.concat(obj.arrSeats)
             })
@@ -95,11 +98,11 @@ const Seats = () => {
             });
         });
 
-    }, [socket]);
+    }, []);
 
 
     const handleChooseSeats = (seatCode) => {
-        let checkSeat = mySeat.filter(s => s === seatCode);
+        let checkSeat = [...new Set(mySeat)].filter(s => s === seatCode);
         let checkSeatSelect = seatSelected.filter(s => s === seatCode);
        
         if(checkSeatSelect.length <= 0) {
@@ -116,7 +119,7 @@ const Seats = () => {
 
                 data = {
                     ...data,
-                    arrSeats: mySeat.filter(m => m !== seatCode)
+                    arrSeats: [...new Set(mySeat)].filter(m => m !== seatCode)
                 }
             }
             else if(checkSeatSelect.length === 0)
@@ -128,7 +131,7 @@ const Seats = () => {
 
                 data = {
                     ...data,
-                    arrSeats: mySeat.concat(seatCode)
+                    arrSeats: [...new Set(mySeat)].concat(seatCode)
                 }
             }
 

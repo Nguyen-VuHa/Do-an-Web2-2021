@@ -17,17 +17,17 @@ app.use(cors());
 
 route(app);
 
-if(process.env.NODE_ENV === "appstore") {
-    app.use(express.static(path.join(__dirname, '/client/build')));
+// if(process.env.NODE_ENV === "appstore") {
+//     app.use(express.static(path.join(__dirname, '/client/build')));
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-    })
-} else {
-    app.get('/', (req, res) => {
-        res.send('Api Running!');
-    })
-}
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+//     })
+// } else {
+//     app.get('/', (req, res) => {
+//         res.send('Api Running!');
+//     })
+// }
 
 const Uuid = require('uuid');
 
@@ -36,12 +36,12 @@ let comments = [];
 let selectedSeats = [];
 const io = require('socket.io')(server);
 
-const addSelectedSeats = (arrSeats, socketId, userId) => {
+const addSelectedSeats = (arrSeats, socketId, userId, showtimeId) => {
     if(selectedSeats.length > 0) {
-        let checkUser = selectedSeats.filter(sl => sl.userId === userId);
+        let checkUser = selectedSeats.filter(sl => sl.userId === userId && sl.showtimeId === showtimeId);
         if(checkUser.length > 0) {
             selectedSeats = selectedSeats.map(sl => {
-                if(sl?.userId === userId) {
+                if(sl?.userId === userId && sl?.showtimeId === showtimeId) {
                     return {
                         ...sl, 
                         arrSeats: arrSeats,
@@ -53,16 +53,16 @@ const addSelectedSeats = (arrSeats, socketId, userId) => {
             })
         }
         else
-            selectedSeats.push({arrSeats, socketId, userId}) 
+            selectedSeats.push({arrSeats, socketId, userId, showtimeId}) 
     }
     else
-        selectedSeats.push({arrSeats, socketId, userId}) 
+        selectedSeats.push({arrSeats, socketId, userId, showtimeId}) 
 }
 
-const addSelectedSeatsDataApi = (arrSeats, userId) => { 
+const addSelectedSeatsDataApi = (arrSeats, userId, showtimeId) => { 
     if(selectedSeats.length > 0) { 
         selectedSeats = selectedSeats.map(sl => {
-            if(sl?.userId === userId) {
+            if(sl?.userId === userId && sl?.showtimeId === showtimeId) {
                 return {
                     ...sl, 
                     arrSeats: sl.arrSeats.concat(arrSeats),
@@ -76,8 +76,8 @@ const addSelectedSeatsDataApi = (arrSeats, userId) => {
 }
 
 
-const removeSelectedByUserId = (userId) => {
-    selectedSeats = selectedSeats.filter(sl => sl?.userId !== userId);
+const removeSelectedByUserId = (userId, showtimeId) => {
+    selectedSeats = selectedSeats.filter(sl => sl?.userId !== userId || sl?.showtimeId !== showtimeId);
 }
 
 const removeSelectedSeats = (socketId) => {
@@ -97,18 +97,25 @@ const removeComments = (socketId) => {
 io.on('connection', (socket) => {
     console.log('User connected.');
 
-    socket.emit('get_seats_selected', selectedSeats.filter(sl => sl?.userId !== ''));
+    
 
-    socket.on("add_data_booking", ({arrSeats}) => { 
-        addSelectedSeatsDataApi(arrSeats, `data-api`);
+    socket.on("add_data_booking", ({arrSeats, showtimeId}) => { 
+        addSelectedSeatsDataApi(arrSeats, `data-api`, showtimeId);
     });
 
-    socket.on("joinRoom_Booking", ({showtimeId, objSeats}) => {
+    socket.on("joinRoom_Booking", ({showtimeId, objSeats, statusRemove = false}) => {
         socket.join(showtimeId);
+       
+        if(statusRemove) {
+            removeSelectedByUserId(objSeats?.userId, showtimeId)
+        }
+        else {
+            addSelectedSeats(objSeats ? objSeats?.arrSeats : [], socket.id, objSeats ? objSeats?.userId : '', showtimeId);
+        }
 
-        addSelectedSeats(objSeats ? objSeats?.arrSeats : [], socket.id, objSeats ? objSeats?.userId : '');
-
-        socket.broadcast.emit("get_seats_booking", selectedSeats.filter(sl => sl?.userId !== ''));
+        io.to(showtimeId).emit('get_seats_selected', selectedSeats);
+        
+        socket.to(showtimeId).emit("get_seats_booking", selectedSeats);
     });
 
     socket.on("addComments", comments => {
@@ -119,10 +126,6 @@ io.on('connection', (socket) => {
         socket.join(idComments);
 
         io.to(idComments).emit("getComments", idComments, Uuid.v4());
-    });
-
-    socket.on("leave_room_booking", ({userId}) => {
-        removeSelectedByUserId(userId);
     });
 
     socket.on("leaveRoom", ({id}) => {
