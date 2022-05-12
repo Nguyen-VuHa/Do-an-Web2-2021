@@ -16,9 +16,8 @@ import { getMovieDetailById } from 'src/reducers/movieSlice';
 import Comment from './Comment';
 import { clearComments, getAllComments } from 'src/reducers/commentSlice';
 import socketIO from 'socket.io-client';
+import variables from 'src/contants/variablesContants';
 
-// const ENDPOINT='ws://localhost:8900';
-const ENDPOINT='/';
 let socket;
 
 const MovieDetail = () => {
@@ -36,7 +35,7 @@ const MovieDetail = () => {
     }, []);
 
     useEffect(() => {
-        socket =  socketIO(ENDPOINT, { transports:['websocket']});
+        socket =  socketIO(variables.ENDPOINT, { transports:['websocket']});
 
         socket.on('connect', () => {});
 

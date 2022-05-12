@@ -8,9 +8,9 @@ import { addFeedbackComments, clearComments, defautlCreateStatus, getAllComments
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useParams } from 'react-router-dom';
 import socketIO from 'socket.io-client';
-// const ENDPOINT='ws://localhost:8900';
-const ENDPOINT='/';
-let socket =  socketIO(ENDPOINT, { transports:['websocket']});
+import variables from 'src/contants/variablesContants';
+
+let socket =  socketIO(variables.ENDPOINT, { transports:['websocket']});
 
 const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  onActive, active, isFetchComment, setListComment }) => {
     const { state } = useContext(AuthContext);

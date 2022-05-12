@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { LayoutComment, MainComment, ImageUser, CommentBox,  ContentBox, CommentContent, CommentContentText, DependentComment, LayoutFetchData } from './Comment.Style';
 import InputComment from './InputComment';
 import RaitingStar from './RaitingStar';
@@ -15,16 +15,15 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import socketIO from 'socket.io-client';
 import { ClipLoader } from 'react-spinners';
 import { Green } from 'src/contants/cssContants';
-import { useOnScreen } from 'src/hooks/IntersectionImage';
+import variables from 'src/contants/variablesContants';
 
-// const ENDPOINT='ws://localhost:8900';
-const ENDPOINT='/';
-let socket = socketIO(ENDPOINT, { transports:['websocket']});
+let socket = socketIO(variables.ENDPOINT, { transports:['websocket']});
 
 const Comment = () => {
 
-    const [commentRef, visibleComment] = useOnScreen({ threshold: 0.2 });
+    const commentRef = useRef();
     const [commentLoading, setCommentLoading] = useState(false);
+    const [dataLoadMore, setDataLoadMore] = useState(false);
 
     const [isFetchComment, setIsFetchComment] = useState(1);
     const [raitingStar, setRaitingStar] = useState(0);
@@ -83,24 +82,34 @@ const Comment = () => {
 
     useEffect(() => {
         if(comments && comments.length > 0)
+        {
+            setDataLoadMore(true);
             setListComment(listComment.concat(comments));
+        }
         else
             setListComment([]);
     }, [comments]);
 
     useEffect(() => {
-        if(visibleComment) {
-            setCommentLoading(true);
-        }
-    }, [visibleComment]);
-
-    useEffect(() => {
-        if(commentLoading) {
-            setCommentLoading(false);
+        if(commentLoading && dataLoadMore && isFetchComment <= totalPage && totalPage !== 1) {
             dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
             setIsFetchComment(isFetchComment + 1);
+            setDataLoadMore(false);
         }
     }, [commentLoading]);
+
+    useEffect(() => {
+        window.addEventListener('scroll', () => {
+            const commentView = document.getElementById('list-comment');
+            if (commentView && Math.ceil(parseInt(window.scrollY + window.innerHeight)) >= commentView.clientHeight + commentView.offsetTop) {
+                setCommentLoading(true);
+            }
+            else
+                setCommentLoading(false);
+        });
+
+        return () => window.removeEventListener('scroll', () => {});
+    }, []);
 
     return (
         <>
@@ -126,7 +135,7 @@ const Comment = () => {
                     }}
                 />
                 <Divider />
-                <div className="w-100 h-auto mt-3">
+                <div className="w-100 h-auto mt-3" id="list-comment">
                     <ul className="p-0">
                         {
                             listComment && listComment.length > 0
@@ -211,9 +220,9 @@ const Comment = () => {
                         }
                     </ul>
                     {
-                        isFetchComment !== totalPage && totalPage !== 0 && <LayoutFetchData ref={!commentLoading ? commentRef : null}>
+                        isFetchComment < totalPage && totalPage !== 0 && totalPage !== 1 ? <LayoutFetchData ref={isFetchComment < totalPage && totalPage !== 0 && totalPage !== 1 ? commentRef : null}>
                             <ClipLoader size={30} color={Green}/>
-                        </LayoutFetchData>
+                        </LayoutFetchData> : ''
                     }
                 </div>
             </LayoutComment> 
@@ -222,4 +231,4 @@ const Comment = () => {
     );
 };
 
-export default Comment;
+export default React.memo(Comment);

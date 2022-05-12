@@ -113,7 +113,7 @@ const ShowtimeInfomation = () => {
                     <Text className='txt-yellow-light flex-shrink-0'>Ghế đã chọn:  </Text>
                         {
                             mySeat && mySeat.length > 0
-                            ? mySeat.map((ms, idx) => {
+                            ? [...new Set(mySeat)].map((ms, idx) => {
                                 return <span key={idx} className="mr-2" style={{fontWeight: 'bold'}}>
                                     {ms},
                                 </span>;
@@ -122,7 +122,7 @@ const ShowtimeInfomation = () => {
                         }
                 </div>
             </LayoutBasicInfo>
-            <HoldingTime fare={showtimeById ? mySeat.length * showtimeById.fare : 0}/>
+            <HoldingTime fare={showtimeById ? [...new Set(mySeat)].length * showtimeById.fare : 0}/>
 
             <Button 
                 className='w-100 mt-2' bgcolor={YellowGray}
