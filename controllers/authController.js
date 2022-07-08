@@ -125,6 +125,51 @@ class AuthController {
      
     }
 
+    async adminLoginAccount(req, res) {
+        const data = req.body;
+
+        try {
+            const found = await Accounts.findOne({
+                where: {
+                    email: data.email,
+                }
+            });
+    
+            if(!found) {
+                res.json({ status: 400, message: 'Email không tồn tại hoặc chưa được đăng ký!'});
+            } else if(found.role !== '0') {
+                res.json({ status: 400, message: 'Tài khoản Admin không hợp lệ!'});
+            }
+            else if (found && bcrypt.compareSync(data.password, found.password)) {
+                if(found.active === '') {
+                    const user = {
+                        id: found.idUser,
+                        email: found.email,
+                        fullname: found.fullname,
+                        role: found.role,
+                    }
+    
+                    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '40s' });
+                    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y' });
+    
+                    found.refreshToken = refreshToken;    
+                    await found.save();
+    
+                    res.json({ status: 200, accessToken: accessToken, refreshToken: refreshToken, user});
+                }
+                else {
+                    res.json({ status: 400, message: 'Email chưa được kích hoạt vui lòng kiểm tra email!'});
+                }
+            }
+            else {
+                res.json({ status: 400, message: 'Mật khẩu bị sai!'});
+            }
+        }
+        catch(err) {
+            res.status(400).json({ message: err });
+        }
+    }
+
     async refreshToken (req, res) {
         const { refreshToken } = req.body;
 
