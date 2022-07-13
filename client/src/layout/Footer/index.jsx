@@ -7,7 +7,7 @@ import Images from 'src/contants/image';
 
 const Footer = () => {
     return (
-        <FooterLayout>
+        <FooterLayout id='footer-app'>
             <div className="footer-bg">
                 <div className="container">
                     <div className="row">

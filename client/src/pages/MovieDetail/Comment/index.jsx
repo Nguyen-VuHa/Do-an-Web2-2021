@@ -100,8 +100,10 @@ const Comment = () => {
 
     useEffect(() => {
         window.addEventListener('scroll', () => {
-            const commentView = document.getElementById('list-comment');
-            if (commentView && Math.ceil(parseInt(window.scrollY + window.innerHeight)) >= commentView.clientHeight + commentView.offsetTop) {
+            let commentView = document.getElementById('list-comment');
+            let footerElement = document.querySelector('#footer-app');
+            
+            if (commentView && Math.ceil(parseInt(window.scrollY + window.innerHeight) - footerElement.offsetHeight) >= commentView.clientHeight + commentView.offsetTop - footerElement.offsetHeight) {
                 setCommentLoading(true);
             }
             else
