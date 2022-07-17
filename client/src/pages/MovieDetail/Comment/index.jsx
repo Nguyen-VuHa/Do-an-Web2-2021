@@ -90,28 +90,28 @@ const Comment = () => {
             setListComment([]);
     }, [comments]);
 
-    useEffect(() => {
-        if(commentLoading && dataLoadMore && isFetchComment <= totalPage && totalPage !== 1) {
-            dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
-            setIsFetchComment(isFetchComment + 1);
-            setDataLoadMore(false);
-        }
-    }, [commentLoading]);
+    // useEffect(() => {
+    //     if(commentLoading && dataLoadMore && isFetchComment <= totalPage && totalPage !== 1) {
+    //         dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
+    //         setIsFetchComment(isFetchComment + 1);
+    //         setDataLoadMore(false);
+    //     }
+    // }, [commentLoading]);
 
-    useEffect(() => {
-        window.addEventListener('scroll', () => {
-            let commentView = document.getElementById('list-comment');
-            let footerElement = document.querySelector('#footer-app');
+    // useEffect(() => {
+    //     window.addEventListener('scroll', () => {
+    //         let commentView = document.getElementById('list-comment');
+    //         let footerElement = document.querySelector('#footer-app');
             
-            if (commentView && Math.ceil(parseInt(window.scrollY + window.innerHeight) - footerElement.offsetHeight) >= commentView.clientHeight + commentView.offsetTop - footerElement.offsetHeight) {
-                setCommentLoading(true);
-            }
-            else
-                setCommentLoading(false);
-        });
+    //         if (commentView && Math.ceil(parseInt(window.scrollY + window.innerHeight) - footerElement.offsetHeight) >= commentView.clientHeight + commentView.offsetTop - footerElement.offsetHeight) {
+    //             setCommentLoading(true);
+    //         }
+    //         else
+    //             setCommentLoading(false);
+    //     });
 
-        return () => window.removeEventListener('scroll', () => {});
-    }, []);
+    //     return () => window.removeEventListener('scroll', () => {});
+    // }, []);
 
     return (
         <>
