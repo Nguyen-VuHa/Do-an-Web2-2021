@@ -28,7 +28,6 @@ const MovieDetail = () => {
     const { loading, movieDetail, error } = useSelector(state => state.movieState);
     const [isLoading, setIsLoading] = useState(true);
     const [isCurrent, setIsCurrent] = useState(false);
-    const [idFecthComments, setIdFecthComments] = useState('');
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -44,7 +43,11 @@ const MovieDetail = () => {
         socket.emit('joinRoom', {idComments: params.movieId});
 
         socket.on('getComments', (idComments, Uuid) => {
-            setIdFecthComments(Uuid);
+            const timeOutFetc = setTimeout(() => {
+                dispatch(getAllComments(params.movieId));
+            }, 1000);
+
+            return () => clearTimeout(timeOutFetc);
         });
 
         return () => {
@@ -53,16 +56,6 @@ const MovieDetail = () => {
             dispatch(clearComments());
         }
     }, []);
-
-    useEffect(() => {
-        if(idFecthComments) {
-            const timeOutFetc = setTimeout(() => {
-                dispatch(getAllComments(params.movieId));
-            }, 1000);
-    
-            return () => clearTimeout(timeOutFetc);
-        }
-    }, [idFecthComments]);
 
     useEffect(() => {
         if(params && params.movieId) {

@@ -77,7 +77,7 @@ const Comment = () => {
     }
 
     useEffect(() => {
-        dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
+        dispatch(getAllComments({movieId: params.movieId, currentPage: 1}));
     }, []);
 
     useEffect(() => {

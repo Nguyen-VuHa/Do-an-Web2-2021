@@ -21,7 +21,6 @@ function useQuery() {
 
 const MovieCurrent = () => {
     const backgoundRef = useRef(null);
-    const [idFecthComments, setIdFecthComments] = useState('');
     const [dataRender, setDataRender] = useState([]);
     const [imageRender, setimageRender] = useState({});
     const history = useHistory();
@@ -41,7 +40,11 @@ const MovieCurrent = () => {
         socket.emit('joinRoom', {idComments: params.movieId});
 
         socket.on('getComments', (idComments, Uuid) => {
-            setIdFecthComments(Uuid);
+            const timeOutFetc = setTimeout(() => {
+                dispatch(getAllComments(params.movieId));
+            }, 1500);
+
+            return () =>  clearTimeout(timeOutFetc);
         });
 
         return () => {
@@ -49,14 +52,6 @@ const MovieCurrent = () => {
             socket.emit('leaveRoom', {id: params.movieId})
         }
     }, []);
-
-    useEffect(() => {
-        const timeOutFetc = setTimeout(() => {
-            dispatch(getAllComments(params.movieId));
-        }, 1500);
-
-        return () => clearTimeout(timeOutFetc);
-    }, [idFecthComments]);
 
     useEffect(() => {
         window.scrollTo({
