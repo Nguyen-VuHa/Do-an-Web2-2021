@@ -205,6 +205,45 @@ class AuthController {
             return res.sendStatus(401);
         }
     }
+
+    async refreshTokenAdmin (req, res) {
+        const { refreshToken } = req.body;
+
+        if(!refreshToken) return res.sendStatus(401);
+
+        const isuser = await Accounts.findOne({
+            where: {
+                refreshToken: refreshToken,
+            }
+        });
+        
+        if(!isuser) res.sendStatus(403); 
+        try {
+            if(isuser.role === '0') {
+                jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+           
+                const user = {
+                    id: isuser.idUser,
+                    email: isuser.email,
+                    fullname: isuser.fullname,
+                    role: isuser.role,
+                }
+                
+                const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '40s' });
+                const _refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y' });
+    
+                isuser.refreshToken = _refreshToken;
+                await isuser.save();
+                
+                res.json({status: 200, accessToken: accessToken, refreshToken: _refreshToken});
+            }
+            else {
+                res.sendStatus(403);
+            }
+        } catch (error) {
+            return res.sendStatus(401);
+        }
+    }
 }
 
 module.exports = new AuthController

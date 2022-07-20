@@ -9,5 +9,6 @@ router.post('/new-account', authController.newAccount);
 router.post('/refresh-token', authController.refreshToken);
 router.post('/login-account', authController.loginAccount);
 router.post('/admin-login', authController.adminLoginAccount);
+router.post('/refresh-token-admin', authController.refreshTokenAdmin);
 
 module.exports = router;
