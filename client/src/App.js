@@ -46,6 +46,7 @@ function App() {
         window.scrollTo({ top: 0, behavior: 'smooth'});
     }
 
+    //console.log(213);
     return (
         <AuthContextProvider>
             <TrailerContextProvider>
