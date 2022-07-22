@@ -227,6 +227,8 @@ class AuthController {
                     email: isuser.email,
                     fullname: isuser.fullname,
                     role: isuser.role,
+                    avartar: isuser.avartar,
+                    surplus: isuser.surplus,
                 }
                 
                 const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '40s' });
@@ -235,7 +237,7 @@ class AuthController {
                 isuser.refreshToken = _refreshToken;
                 await isuser.save();
                 
-                res.json({status: 200, accessToken: accessToken, refreshToken: _refreshToken});
+                res.json({status: 200, accessToken: accessToken, refreshToken: _refreshToken, user});
             }
             else {
                 res.sendStatus(403);
