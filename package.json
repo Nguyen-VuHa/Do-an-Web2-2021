@@ -28,6 +28,7 @@
     "express-async-handler": "^1.1.4",
     "express-ejs-layouts": "^2.5.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
     "nodemailer": "^6.6.0",
     "paypal-rest-sdk": "^1.8.1",
     "pg": "^8.6.0",

@@ -46,8 +46,10 @@ const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngS
                             const res = await dispatch(addFeedbackComments(data));
                             const result = unwrapResult(res);
                             socket.emit('joinRoom', {idComments: params.movieId});
-                            if(result.status === 200)
+                            if(result.status === 200 && movieId)
+                            {
                                 dispatch(getAllComments(movieId));
+                            }
                             else
                                 toast.error('Comment Error!!!');
                         }
@@ -65,7 +67,7 @@ const Usercomment = ({ textPlaceholder, maxWidth, movieId, ratingStar, setRatngS
                             const res = await dispatch(addComments(data));
                             const result = unwrapResult(res);
                             socket.emit('joinRoom', {idComments: params.movieId});
-                            if(result.status === 200)
+                            if(result.status === 200 && movieId)
                                 dispatch(getAllComments(movieId));
                             else
                                 toast.error('Comment Error!!!');

@@ -60,7 +60,9 @@ const Comment = () => {
                 setTimeout(() => {
                     dispatch(clearComments());
                     setIsFetchComment(1);
-                    dispatch(getAllComments({movieId: params.movieId, currentPage: 1}));
+                    if(params.movieId)
+                        dispatch(getAllComments({movieId: params.movieId, currentPage: 1}));
+                    
                     dispatch(defautlCreateStatus());
                 }, 800);
             }
@@ -77,7 +79,8 @@ const Comment = () => {
     }
 
     useEffect(() => {
-        dispatch(getAllComments({movieId: params.movieId, currentPage: 1}));
+        if(params.movieId)
+            dispatch(getAllComments({movieId: params.movieId, currentPage: 1}));
     }, []);
 
     useEffect(() => {

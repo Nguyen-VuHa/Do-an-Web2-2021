@@ -39,7 +39,9 @@ const ActionComment = ({ createdAt, fullname, commentParentId, idRecipients,  on
                     onActive && onActive();
                     setTimeout(() => {
                         setListComment();
-                        dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
+                        if(params.movieId)
+                            dispatch(getAllComments({movieId: params.movieId, currentPage: isFetchComment}));
+                        
                         dispatch(defautlCreateStatus());
                     }, 800);
                 }

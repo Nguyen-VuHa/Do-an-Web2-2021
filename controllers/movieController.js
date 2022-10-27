@@ -1,7 +1,11 @@
 const Films = require('../models/dataMovie');
+const Accounts = require('../models/dataAccount');
+const HistoryBooking = require('../models/dataHistoryBooking');
+
 const { Op } = require('sequelize');
 const db = require('../models/database');
 const { cloudinary } = require('../untils/cloudinary');
+const moment = require('moment');
 
 class MovieController { 
     async newMovie (req, res) { 
@@ -310,6 +314,57 @@ class MovieController {
 
     }       
 
+
+    // Get Overview Dashboard Admin
+    async getOverviewDashBoard (req, res) {
+        try {
+            let memberShip = 0;
+            let countCommentAndRate = 0;
+
+            let account = await Accounts.findAndCountAll({
+                where: {
+                    createdAt: {
+                        [Op.between] : [moment(new Date()).add(-30, 'd'), moment(new Date())]
+                    }
+                }
+            });
+
+            memberShip = account.count;
+
+            let totlaNetAmount = await HistoryBooking.findOne({
+                where: {
+                    bookingTime: {
+                        [Op.between] : [moment(new Date()).add(-30, 'd'), moment(new Date())]
+                    }
+                },
+                attributes: [
+                    [db.fn('sum', db.col('totalPrice')), 'totalAmount'],
+                ]
+            })
+
+            let countNewMovie = await Films.findAndCountAll({
+                where: {
+                    createdAt: {
+                        [Op.between] : [moment(new Date()).add(-30, 'd'), moment(new Date())]
+                    }
+                }
+            });
+
+            res.status(200).json({
+                data: {
+                    memberShip,
+                    turnOver: totlaNetAmount,
+                    countNewMovie: countNewMovie.count,
+                    countCommentAndRate
+                }
+            })
+        } catch(err) {
+            console.log(err);
+            res.status(500).json({
+                message: 'GET DETAIL OVERVIEW ERROR'
+            })
+        }
+    }       
 
 }
 

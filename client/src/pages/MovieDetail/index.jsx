@@ -44,7 +44,8 @@ const MovieDetail = () => {
 
         socket.on('getComments', (idComments, Uuid) => {
             const timeOutFetc = setTimeout(() => {
-                dispatch(getAllComments(params.movieId));
+                if(params.movieId)
+                    dispatch(getAllComments(params.movieId));
             }, 1000);
 
             return () => clearTimeout(timeOutFetc);

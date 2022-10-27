@@ -147,7 +147,10 @@ class AuthController {
                         email: found.email,
                         fullname: found.fullname,
                         role: found.role,
+                        avartar: found.avartar,
+                        surplus: found.surplus,
                     }
+                    
     
                     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '40s' });
                     const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y' });
