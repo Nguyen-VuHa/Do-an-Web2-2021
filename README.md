@@ -6,7 +6,7 @@ Online movie ticket booking site.
 Make sure you have Node.js and PostgreSQL Installed on your local system.
 Start MongoDB server and follow below given installation procedure on the Command Line / Terminal.
 
-- Link Heroku Webapp : bhd-star.vercel.app (or) bhd-star-nguyen-vuha.vercel.app
+- Link Heroku Webapp : https://bhd-star.vercel.app/ (or) https://bhd-star-nguyen-vuha.vercel.app/
 - Project made in groups of 4 members according to the group registration link
 ## Thư Viện - Packages - API
 + NodeJS Express - Backend
