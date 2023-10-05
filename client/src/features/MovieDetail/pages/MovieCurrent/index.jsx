@@ -11,8 +11,8 @@ import SlideImage from '../../components/SlideImage';
 import socketIO from 'socket.io-client';
 
 // const ENDPOINT='ws://localhost:8900';
-const ENDPOINT='/';
-let socket;
+
+let socket;const ENDPOINT='/';
 
 
 function useQuery() {
@@ -41,7 +41,8 @@ const MovieCurrent = () => {
 
         socket.on('getComments', (idComments, Uuid) => {
             const timeOutFetc = setTimeout(() => {
-                dispatch(getAllComments(params.movieId));
+                if(params.movieId)
+                    dispatch(getAllComments(params.movieId));
             }, 1500);
 
             return () =>  clearTimeout(timeOutFetc);
@@ -61,7 +62,8 @@ const MovieCurrent = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(getAllComments(params.movieId));
+        if(params.movieId)
+            dispatch(getAllComments(params.movieId));
      }, [dispatch]);
 
     useEffect(() => {
