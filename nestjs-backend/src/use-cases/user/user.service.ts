@@ -27,7 +27,7 @@ export class UserService {
         [userQuery._sort]: userQuery._sort_type || 'ASC',
       };
     }
-    
+
     const [data, total] = await this.userRepository.findAndCount({
       skip: (userQuery._page - 1) * userQuery._page_size,
       take: userQuery._page_size,

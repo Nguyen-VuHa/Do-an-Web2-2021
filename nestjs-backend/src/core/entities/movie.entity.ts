@@ -5,13 +5,18 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
-import { Showtime } from './showtime.entity';
+import { MoviePoster } from './movie-poster.entity';
+import { Actor } from './actor.entity';
+import { Category } from './category.entity';
+import { Director } from './director.entity';
 
 @Entity('movies')
 export class Movie {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  movie_id: string;
 
   @Column({ type: 'varchar', length: 255 })
   title: string;
@@ -23,7 +28,13 @@ export class Movie {
   duration: number;
 
   @Column({ type: 'date' })
-  release_date: Date;
+  start_date: Date;
+
+  @Column({ type: 'date' })
+  end_date: Date;
+
+  @Column({ type: 'varchar', length: 30 })
+  trailer_id: string; // id youtube trailer
 
   @CreateDateColumn()
   created_at: Date;
@@ -31,6 +42,37 @@ export class Movie {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Showtime, (showtime) => showtime.movie)
-  showtimes: Showtime[];
+  @OneToMany(() => MoviePoster, (poster) => poster.movie)
+  posters: MoviePoster[];
+
+  @OneToMany(() => Director, (director) => director.movie)
+  director: Director;
+
+  @ManyToMany(() => Actor, (actor) => actor.movies)
+  @JoinTable({
+    name: 'movie_actors',
+    joinColumn: {
+      name: 'movie_id',
+      referencedColumnName: 'movie_id',
+    },
+    inverseJoinColumn: {
+      name: 'actor_id',
+      referencedColumnName: 'actor_id',
+    },
+  }) // Tạo bảng trung gian tự động
+  actors: Actor[];
+
+  @ManyToMany(() => Category, (category) => category.movies)
+  @JoinTable({
+    name: 'movie_categories',
+    joinColumn: {
+      name: 'movie_id',
+      referencedColumnName: 'movie_id',
+    },
+    inverseJoinColumn: {
+      name: 'category_id',
+      referencedColumnName: 'category_id',
+    },
+  }) // Tạo bảng trung gian tự động
+  categories: Category[];
 }

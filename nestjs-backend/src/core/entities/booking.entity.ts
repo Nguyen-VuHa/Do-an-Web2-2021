@@ -6,7 +6,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from './user.entity';
 import { Showtime } from './showtime.entity';
 import { Seat } from './seat.entity';
 
@@ -14,9 +13,6 @@ import { Seat } from './seat.entity';
 export class Booking {
   @PrimaryGeneratedColumn('increment')
   id: number;
-
-  @ManyToOne(() => User, (user) => user.bookings)
-  user: User;
 
   @ManyToOne(() => Showtime, (showtime) => showtime.bookings)
   showtime: Showtime;

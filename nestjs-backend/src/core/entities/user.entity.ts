@@ -4,23 +4,52 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Booking } from './booking.entity';
+import { UserPhoto } from './user-photo.entity';
+import { Notification } from './notification.entity';
+
+enum UserGender {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  user_id: number;
 
-  @Column({ type: 'varchar', length: 255 })
-  name: string;
-
-  @Column({ type: 'varchar', length: 255, unique: true })
+  @Column({ type: 'varchar', length: 100, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 100 })
   password: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  fullname: string;
+
+  @Column({ type: 'varchar', length: 20 })
+  phone_number: string;
+
+  @Column({ type: 'date' })
+  birth_day: Date;
+
+  @Column({ type: 'enum', enum: UserGender })
+  gender: UserGender;
+
+  @Column({ type: 'varchar', length: 255 })
+  address: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  image_url: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  cover_image_url: string;
+
+  @Column({ type: 'bigint', nullable: true, default: 0 })
+  balance: number;
 
   @CreateDateColumn()
   created_at: Date;
@@ -28,6 +57,12 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Booking, (booking) => booking.user)
-  bookings: Booking[];
+  @DeleteDateColumn({ nullable: true, default: null })
+  deleted_at: Date | null; // Null nếu chưa bị xóa
+
+  @OneToMany(() => Notification, (notify) => notify.user)
+  notifications: Notification[];
+
+  @OneToMany(() => UserPhoto, (photo) => photo.user)
+  photos: UserPhoto[];
 }

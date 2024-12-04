@@ -1,11 +1,12 @@
-import { Booking } from './booking.entity';
-import { Cinema } from './cinema.entity';
-import { Movie } from './movie.entity';
-import { Payment } from './payment.entity';
-import { Seat } from './seat.entity';
-import { Showtime } from './showtime.entity';
 import { User } from './user.entity';
+import { Notification } from './notification.entity';
+import { UserPhoto } from './user-photo.entity';
+import { Movie } from './movie.entity';
+import { Category } from './category.entity';
+import { Actor } from './actor.entity';
+import { Director } from './director.entity';
+import { MoviePoster } from './movie-poster.entity';
 
-const ENTITIES = [User, Movie, Cinema, Showtime, Seat, Booking, Payment];
+const ENTITIES = [User, Notification, UserPhoto, Movie, MoviePoster, Category, Actor, Director];
 
 export default ENTITIES;
