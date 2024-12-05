@@ -54,3 +54,15 @@ export class CreateUserSystemResponseDto {
   @Expose()
   created_at: string;
 }
+
+export class SignInSystemAccountDTO {
+  @IsEmail() // Kiểm tra email hợp lệ
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  email: string;
+
+  @IsString() // Đảm bảo password là một chuỗi
+  @MinLength(6, { message: 'Password phải có ít nhất 6 ký tự' }) // Đảm bảo mật khẩu có ít nhất 8 ký tự
+  @MaxLength(20, { message: 'Password không được dài quá 20 ký tự' }) // Đảm bảo mật khẩu không quá 20 ký tự
+  @IsNotEmpty() // Yêu cầu trường password không được để trống
+  password: string;
+}
