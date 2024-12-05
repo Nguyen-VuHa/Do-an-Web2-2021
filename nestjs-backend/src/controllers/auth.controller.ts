@@ -13,7 +13,7 @@ import { AuthUseCases } from 'src/use-cases/auth/auth.usecase';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authUseCase: AuthUseCases) {}
+  constructor(private readonly authUseCase: AuthUseCases) {}
 
   @Post('/sign-up')
   @UsePipes(

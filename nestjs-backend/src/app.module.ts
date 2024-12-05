@@ -5,10 +5,13 @@ import ENTITIES from './core/entities/entities';
 import { databaseConfig } from './config/database';
 import { AuthController } from './controllers/auth.controller';
 import { AuthUseCaseModule } from './use-cases/auth/authUseCase.module';
+import { AdminAuthUseCaseModule } from './use-cases/(admin)/auth/adminAuthUseCase.module';
+import { AdminAuthController } from './controllers/admin-auth.controller';
 
 @Module({
   imports: [
     AuthUseCaseModule,
+    AdminAuthUseCaseModule,
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
     }),
@@ -19,6 +22,6 @@ import { AuthUseCaseModule } from './use-cases/auth/authUseCase.module';
     }),
     TypeOrmModule.forFeature(ENTITIES),
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, AdminAuthController],
 })
 export class AppModule {}
