@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 // Giả sử useAuth kiểm tra xem người dùng đã đăng nhập chưa
 const useAuth = () => {
-  return Boolean(localStorage.getItem('accessToken'));  // Hoặc từ Context/Redux
+  return Boolean(localStorage.getItem('accessToken')); // Hoặc từ Context/Redux
 };
 
 // Component để ngăn người dùng đã đăng nhập vào trang đăng nhập
@@ -14,7 +14,7 @@ const RedirectToHome = () => {
     return <Navigate to="/" />;
   }
 
-  return <Outlet /> // Nếu chưa đăng nhập, cho phép truy cập trang login
+  return <Outlet />; // Nếu chưa đăng nhập, cho phép truy cập trang login
 };
 
 export default RedirectToHome;
