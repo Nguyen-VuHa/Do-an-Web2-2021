@@ -18,8 +18,8 @@ enum UserGender {
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn('increment')
-  user_id: number;
+  @PrimaryGeneratedColumn('uuid') // Sử dụng UUID
+  user_id: string;
 
   @Column({ type: 'varchar', length: 100, unique: true })
   email: string;

@@ -5,7 +5,7 @@ function stringToDate(dateStr: string): Date {
     return new Date();
   } else {
     const date = dayjs(dateStr).toDate();
-    console.log(date);
+    return date;
   }
 }
 

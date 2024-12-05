@@ -57,3 +57,18 @@ export class CreateUserResponseDto {
   @Expose()
   created_at: string;
 }
+
+export class SignInAccountDTO {
+  @IsEmail() // Kiểm tra email hợp lệ
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  email: string;
+
+  @IsString() // Đảm bảo password là một chuỗi
+  @MinLength(6, { message: 'Password phải có ít nhất 6 ký tự' }) // Đảm bảo mật khẩu có ít nhất 8 ký tự
+  @MaxLength(20, { message: 'Password không được dài quá 20 ký tự' }) // Đảm bảo mật khẩu không quá 20 ký tự
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,20}$/, {
+    message: 'Password phải bao gồm ít nhất một chữ cái và một số',
+  }) // Kiểm tra mật khẩu có ít nhất một chữ cái và một chữ số
+  @IsNotEmpty() // Yêu cầu trường password không được để trống
+  password: string;
+}

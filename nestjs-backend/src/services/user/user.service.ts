@@ -14,7 +14,25 @@ export class UserService {
     return await this.userRepository.save(userData);
   }
 
-  async updateUser(userID: number, userData: User): Promise<User> {
+  async getUserByID(userID: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: {
+        user_id: userID,
+        deleted_at: null,
+      },
+    });
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: {
+        email: email,
+        deleted_at: null,
+      },
+    });
+  }
+
+  async updateUser(userID: string, userData: User): Promise<User> {
     // Tìm user theo ID
     const user = await this.userRepository.findOne({ where: { user_id: userID } });
     if (!user) {

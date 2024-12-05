@@ -6,7 +6,8 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { SignUpAccountDTO } from 'src/core/dtos/auth.dto';
+import { SignInAccountDTO, SignUpAccountDTO } from 'src/core/dtos/auth.dto';
+import { ISignInResponse } from 'src/core/types/auth.type';
 import { IResponse } from 'src/core/types/common';
 import { AuthUseCases } from 'src/use-cases/auth/auth.usecase';
 
@@ -34,5 +35,27 @@ export class AuthController {
   )
   async signUpAccount(@Body() data: SignUpAccountDTO): Promise<IResponse<any>> {
     return this.authUseCase.signUpAccount(data);
+  }
+
+  @Post('/sign-in')
+  @UsePipes(
+    new ValidationPipe({
+      transform: true, // Chuyển đổi dữ liệu (nếu cần)
+      exceptionFactory: (errors) => {
+        // Tùy chỉnh lỗi trả về
+        const validationErrors = errors.map((error) => ({
+          field: error.property,
+          constraints: error.constraints,
+        }));
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Dữ liệu không hợp lệ',
+          errors: validationErrors,
+        });
+      },
+    })
+  )
+  async signInAccount(@Body() data: SignInAccountDTO): Promise<IResponse<ISignInResponse>> {
+    return this.authUseCase.signInAccount(data);
   }
 }
