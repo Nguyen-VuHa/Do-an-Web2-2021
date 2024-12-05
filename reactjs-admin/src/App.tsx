@@ -8,9 +8,9 @@ import ECommerce from './pages/Dashboard/ECommerce';
 import routes from './routes';
 import PrivateRoute from './routes/PrivateRoute';
 import RedirectToHome from './routes/RedirectRoute';
+import PageNotFound from './pages/NotFound';
 
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
-const PageNotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);

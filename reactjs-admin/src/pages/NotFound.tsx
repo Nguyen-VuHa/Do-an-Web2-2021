@@ -2,7 +2,7 @@ import './notfound.scss';
 
 const NotFound = () => {
   return (
-    <>
+    <div className='container-notfound'>
       <div className="noise"></div>
       <div className="overlay"></div>
       <div className="terminal">
@@ -19,7 +19,7 @@ const NotFound = () => {
         </p>
         <p className="output">Good luck.</p>
       </div>
-    </>
+    </div>
   );
 };
 
