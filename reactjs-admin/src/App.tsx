@@ -7,6 +7,8 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
 import routes from './routes';
+import PrivateRoute from './routes/PrivateRoute';
+import RedirectToHome from './routes/RedirectRoute';
 
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 
@@ -26,27 +28,35 @@ function App() {
         reverseOrder={false}
         containerClassName="overflow-auto"
       />
-      <Routes>
-        <Route path="/auth/signin" element={<SignIn />} />
-        <Route path="/auth/signup" element={<SignUp />} />
-        <Route element={<DefaultLayout />}>
-          <Route index element={<ECommerce />} />
-          {routes.map((routes, index) => {
-            const { path, component: Component } = routes;
-            return (
-              <Route
-                key={index}
-                path={path}
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <Component />
-                  </Suspense>
-                }
-              />
-            );
-          })}
-        </Route>
-      </Routes>
+      
+        <Routes>
+          <Route element={<RedirectToHome />}>
+            <Route path="/auth/signin" element={<SignIn />} />
+            <Route path="/auth/signup" element={<SignUp />} />
+          </Route>
+           {/* Bọc Route DefaultLayout bằng PrivateRoute */}
+          <Route element={<PrivateRoute />}>
+            <Route element={<DefaultLayout />}>
+              <Route index element={<ECommerce />} />
+              
+              {/* Các route bảo vệ với PrivateRoute */}
+              {routes.map((route, index) => {
+                const { path, component: Component } = route;
+                return (
+                  <Route
+                    key={index}
+                    path={path}
+                    element={
+                      <Suspense fallback={<Loader />}>
+                        <Component />
+                      </Suspense>
+                    }
+                  />
+                );
+              })}
+            </Route>
+          </Route>
+        </Routes>
     </>
   );
 }
