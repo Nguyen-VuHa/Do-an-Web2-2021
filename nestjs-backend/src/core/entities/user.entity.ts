@@ -24,7 +24,7 @@ export class User {
   @Column({ type: 'varchar', length: 100, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'text' })
   password: string;
 
   @Column({ type: 'varchar', length: 100 })
@@ -33,13 +33,13 @@ export class User {
   @Column({ type: 'varchar', length: 20 })
   phone_number: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: true })
   birth_day: Date;
 
-  @Column({ type: 'enum', enum: UserGender })
+  @Column({ type: 'enum', enum: UserGender, nullable: true })
   gender: UserGender;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   address: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })

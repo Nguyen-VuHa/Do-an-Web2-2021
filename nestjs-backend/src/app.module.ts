@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ENTITIES from './core/entities/entities';
-import { UserUseCaseModule } from './use-cases/user/userUseCase.module';
-import { UserController } from './controllers/user.controller';
 import { databaseConfig } from './config/database';
+import { AuthController } from './controllers/auth.controller';
+import { AuthUseCaseModule } from './use-cases/auth/authUseCase.module';
 
 @Module({
   imports: [
-    UserUseCaseModule,
+    AuthUseCaseModule,
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
     }),
@@ -19,6 +19,6 @@ import { databaseConfig } from './config/database';
     }),
     TypeOrmModule.forFeature(ENTITIES),
   ],
-  controllers: [UserController],
+  controllers: [AuthController],
 })
 export class AppModule {}
