@@ -1,10 +1,9 @@
 import { useCallback } from "react";
+import * as Yup from 'yup';
+import Button from "~/components/Button";
 import signInSchema from "~/schemas/auth.schema";
 import useAuthStore from "~/stores/auth.store";
-import * as Yup from 'yup';
 import { IPayloadSignIn } from "~/types/auth.type";
-import { Link } from "react-router-dom";
-import fireToast from "~/hooks/fireToast";
 
 const SignIn = () => {
   const { 
@@ -46,7 +45,7 @@ const SignIn = () => {
           email,
           password,
         }
-        
+
         await reqSignIn(payload)
       }
     }
@@ -150,15 +149,17 @@ const SignIn = () => {
                 </div>
 
                 <div className="mb-5">
-                  <input
+                  {/* <input
                     type="submit"
                     value="Đăng Nhập"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
-
-                  <Link to={"/auth/signup"}>
-                  trest
-                  </Link>
+                  /> */}
+                  <Button
+                    type='submit'
+                    loading={isSignIn}
+                  >
+                    Đăng nhập
+                  </Button>
                 </div>
               </form>
             </div>

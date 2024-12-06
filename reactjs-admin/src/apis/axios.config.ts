@@ -29,15 +29,16 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     // Xử lý response thành công
-    return response;
+    return response.data;
   },
   (error) => {
     // Xử lý lỗi từ server hoặc lỗi khác
     if (error.response) {
-      console.error('API Error:', error.response.data);
+      return Promise.resolve(error.response.data);
     } else {
       console.error('Network Error:', error.message);
     }
+    
     return Promise.reject(error);
   },
 );
