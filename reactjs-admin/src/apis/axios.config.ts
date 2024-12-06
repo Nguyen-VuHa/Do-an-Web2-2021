@@ -1,4 +1,9 @@
-import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios';
+import { getDataToLocalStore } from '~/utils/localStorage';
 
 // Tạo một instance của Axios
 const axiosInstance: AxiosInstance = axios.create({
@@ -13,7 +18,7 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // Bạn có thể thêm token vào headers nếu cần
-    const token = localStorage.getItem('token');
+    const token = getDataToLocalStore('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -38,7 +43,7 @@ axiosInstance.interceptors.response.use(
     } else {
       console.error('Network Error:', error.message);
     }
-    
+
     return Promise.reject(error);
   },
 );

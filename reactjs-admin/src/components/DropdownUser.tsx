@@ -6,12 +6,12 @@ import useSystemStore from '~/stores/system.store';
 import { removeDataToLocalStore } from '~/utils/localStorage';
 
 const DropdownUser = () => {
-  const { userInfo } = useSystemStore()
+  const { userInfo } = useSystemStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
-  
+
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
@@ -40,9 +40,9 @@ const DropdownUser = () => {
 
   // logout account
   const handleLogoutAccount = () => {
-    removeDataToLocalStore('accessToken,refreshToken')
-    window.location.replace('/')
-  } 
+    removeDataToLocalStore('accessToken,refreshToken');
+    window.location.replace('/');
+  };
 
   return (
     <div className="relative">
@@ -54,7 +54,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            { userInfo && userInfo.fullname || '' }
+            {(userInfo && userInfo.fullname) || ''}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>
@@ -164,7 +164,7 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button 
+        <button
           className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
           onClick={handleLogoutAccount}
         >

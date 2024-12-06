@@ -1,10 +1,10 @@
 export interface IResponse<T> {
   statusCode: number;
-  errors: any;
+  error: any;
   message: string;
   data?: T;
 }
 
 export interface IOject<T> {
-  [key: string]: T
+  [key: string]: T;
 }

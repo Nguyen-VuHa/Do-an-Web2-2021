@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import { Outlet } from 'react-router-dom';
+import useSystemStore from '~/stores/system.store';
 
 const DefaultLayout = () => {
+  const { reqFetchUserInfo } = useSystemStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    reqFetchUserInfo();
+  }, []);
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">

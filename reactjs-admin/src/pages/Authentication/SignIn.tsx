@@ -1,24 +1,26 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
 import * as Yup from 'yup';
-import Button from "~/components/Button";
-import signInSchema from "~/schemas/auth.schema";
-import useAuthStore from "~/stores/auth.store";
-import { IPayloadSignIn } from "~/types/auth.type";
+import Button from '~/components/Button';
+import signInSchema from '~/schemas/auth.schema';
+import useAuthStore from '~/stores/auth.store';
+import { IPayloadSignIn } from '~/types/auth.type';
 
 const SignIn = () => {
-  const { 
-    email, password, errors, 
-    isSignIn, 
-    setInputChange, setErrors,
+  const {
+    email,
+    password,
+    errors,
+    isSignIn,
+    setInputChange,
+    setErrors,
     reqSignIn,
   } = useAuthStore();
-  
 
   const handleValidateForm = async () => {
     try {
       await signInSchema.validate({ email, password }, { abortEarly: false });
-      setErrors({})
-      return true
+      setErrors({});
+      return true;
       // Tiến hành login hoặc xử lý sau khi validate thành công
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -28,37 +30,38 @@ const SignIn = () => {
             newErrors[error.path] = error.message;
           }
         });
-        
-        setErrors(newErrors)
-        return false
+
+        setErrors(newErrors);
+        return false;
       }
     }
-  }
+  };
 
   const handleSignInAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(!isSignIn) {
-      const isValidate = await handleValidateForm()
+    if (!isSignIn) {
+      const isValidate = await handleValidateForm();
 
-      if(isValidate) {
+      if (isValidate) {
         const payload: IPayloadSignIn = {
           email,
           password,
-        }
+        };
 
-        await reqSignIn(payload)
+        await reqSignIn(payload);
       }
     }
-    
   };
 
   // handle change input form
-  const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    
-    setInputChange({[name]: value})
-  }, [])
-  
+  const handleChangeInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, name } = e.target;
+
+      setInputChange({ [name]: value });
+    },
+    [],
+  );
 
   return (
     <>
@@ -106,7 +109,11 @@ const SignIn = () => {
                       </svg>
                     </span>
                   </div>
-                  { errors && errors['email'] && <span className="text-xs italic text-danger">{ errors['email'] }</span>}
+                  {errors && errors['email'] && (
+                    <span className="text-xs italic text-danger">
+                      {errors['email']}
+                    </span>
+                  )}
                 </div>
 
                 <div className="mb-6">
@@ -145,7 +152,11 @@ const SignIn = () => {
                       </svg>
                     </span>
                   </div>
-                  { errors && errors['password'] && <span className="text-xs italic text-danger">{ errors['password'] }</span>}
+                  {errors && errors['password'] && (
+                    <span className="text-xs italic text-danger">
+                      {errors['password']}
+                    </span>
+                  )}
                 </div>
 
                 <div className="mb-5">
@@ -154,10 +165,7 @@ const SignIn = () => {
                     value="Đăng Nhập"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   /> */}
-                  <Button
-                    type='submit'
-                    loading={isSignIn}
-                  >
+                  <Button type="submit" loading={isSignIn}>
                     Đăng nhập
                   </Button>
                 </div>
@@ -172,6 +180,5 @@ const SignIn = () => {
 
 export default SignIn;
 function createToast() {
-  throw new Error("Function not implemented.");
+  throw new Error('Function not implemented.');
 }
-
