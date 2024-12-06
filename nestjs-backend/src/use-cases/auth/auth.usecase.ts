@@ -52,7 +52,7 @@ export class AuthUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Tạo người dùng không thành công.',
-        errors: errorResponse,
+        error: errorResponse,
       });
     }
   }
@@ -108,7 +108,7 @@ export class AuthUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Đăng nhập không thành công.',
-        errors: error.message,
+        error: error.message,
       });
     }
   }

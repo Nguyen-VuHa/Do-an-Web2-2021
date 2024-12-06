@@ -9,6 +9,7 @@ import {
 import { SystemUser } from 'src/core/entities/system-user.entity';
 import { ISignInResponse } from 'src/core/types/auth.type';
 import { IResponse } from 'src/core/types/common';
+import { IJWTUserInfo } from 'src/core/types/user.type';
 import { SystemUserService } from 'src/services/system-user/system-user.service';
 import { comparePasswords, hashPassword } from 'src/utils/bcrypt';
 import { stringToDate } from 'src/utils/convert';
@@ -56,7 +57,7 @@ export class AdminAuthUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Tạo người dùng không thành công.',
-        errors: errorResponse,
+        error: errorResponse,
       });
     }
   }
@@ -75,7 +76,7 @@ export class AdminAuthUseCases {
         throw new Error('Email hoặc mật khẩu không hợp lệ.');
       }
 
-      const payloadToken = {
+      const payloadToken: IJWTUserInfo = {
         user_id: user.user_id,
         email: user.email,
         fullname: user.fullname,
@@ -112,7 +113,7 @@ export class AdminAuthUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Đăng nhập không thành công.',
-        errors: error.message,
+        error: error.message,
       });
     }
   }

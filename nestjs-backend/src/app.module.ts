@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ENTITIES from './core/entities/entities';
@@ -7,11 +7,15 @@ import { AuthController } from './controllers/auth.controller';
 import { AuthUseCaseModule } from './use-cases/auth/authUseCase.module';
 import { AdminAuthUseCaseModule } from './use-cases/(admin)/auth/adminAuthUseCase.module';
 import { AdminAuthController } from './controllers/admin-auth.controller';
+import { AdminUserController } from './controllers/admin-user.controller';
+import { AdminUserUseCaseModule } from './use-cases/(admin)/user/adminUserUseCase.module';
+import { VerifyUserSystemMiddleware } from './middlewares/admin-jwt.middleware';
 
 @Module({
   imports: [
     AuthUseCaseModule,
     AdminAuthUseCaseModule,
+    AdminUserUseCaseModule,
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
     }),
@@ -22,6 +26,13 @@ import { AdminAuthController } from './controllers/admin-auth.controller';
     }),
     TypeOrmModule.forFeature(ENTITIES),
   ],
-  controllers: [AuthController, AdminAuthController],
+  controllers: [AuthController, AdminAuthController, AdminUserController],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Áp dụng `MyCustomMiddleware` cho `GET` request trên 'api/users'
+    consumer
+      .apply(VerifyUserSystemMiddleware)
+      .forRoutes({ path: 'admin/user/info', method: RequestMethod.GET });
+  }
+}

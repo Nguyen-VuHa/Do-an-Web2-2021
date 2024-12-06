@@ -28,7 +28,7 @@ export class AuthController {
         return new BadRequestException({
           statusCode: 400,
           message: 'Dữ liệu không hợp lệ',
-          errors: validationErrors,
+          error: validationErrors,
         });
       },
     })
@@ -50,7 +50,7 @@ export class AuthController {
         return new BadRequestException({
           statusCode: 400,
           message: 'Dữ liệu không hợp lệ',
-          errors: validationErrors,
+          error: validationErrors,
         });
       },
     })
