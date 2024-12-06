@@ -1,9 +1,65 @@
+import { useCallback } from "react";
+import signInSchema from "~/schemas/auth.schema";
+import useAuthStore from "~/stores/auth.store";
+import * as Yup from 'yup';
+import { IPayloadSignIn } from "~/types/auth.type";
+import { Link } from "react-router-dom";
+import fireToast from "~/hooks/fireToast";
 
 const SignIn = () => {
+  const { 
+    email, password, errors, 
+    isSignIn, 
+    setInputChange, setErrors,
+    reqSignIn,
+  } = useAuthStore();
+  
+
+  const handleValidateForm = async () => {
+    try {
+      await signInSchema.validate({ email, password }, { abortEarly: false });
+      setErrors({})
+      return true
+      // Tiến hành login hoặc xử lý sau khi validate thành công
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const newErrors: { [key: string]: string } = {};
+        err.inner.forEach((error) => {
+          if (error.path) {
+            newErrors[error.path] = error.message;
+          }
+        });
+        
+        setErrors(newErrors)
+        return false
+      }
+    }
+  }
 
   const handleSignInAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  }
+    if(!isSignIn) {
+      const isValidate = await handleValidateForm()
+
+      if(isValidate) {
+        const payload: IPayloadSignIn = {
+          email,
+          password,
+        }
+        
+        await reqSignIn(payload)
+      }
+    }
+    
+  };
+
+  // handle change input form
+  const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    
+    setInputChange({[name]: value})
+  }, [])
+  
 
   return (
     <>
@@ -11,7 +67,9 @@ const SignIn = () => {
         <div className="flex justify-center items-center min-h-[100vh]">
           <div className="w-[600px] border-stroke dark:border-strokedark">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              <span className="mb-1.5 block font-medium">BHD Star Cineplex</span>
+              <span className="mb-1.5 block font-medium">
+                BHD Star Cineplex
+              </span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign In to Admin Dashboard
               </h2>
@@ -23,8 +81,11 @@ const SignIn = () => {
                   </label>
                   <div className="relative">
                     <input
+                      name="email"
                       type="email"
                       placeholder="Nhập email của bạn"
+                      value={email}
+                      onChange={handleChangeInput}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
 
@@ -46,6 +107,7 @@ const SignIn = () => {
                       </svg>
                     </span>
                   </div>
+                  { errors && errors['email'] && <span className="text-xs italic text-danger">{ errors['email'] }</span>}
                 </div>
 
                 <div className="mb-6">
@@ -54,7 +116,10 @@ const SignIn = () => {
                   </label>
                   <div className="relative">
                     <input
+                      name="password"
                       type="password"
+                      value={password}
+                      onChange={handleChangeInput}
                       placeholder="6+ ký tự, 1 ký tự đặt biệt"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -81,6 +146,7 @@ const SignIn = () => {
                       </svg>
                     </span>
                   </div>
+                  { errors && errors['password'] && <span className="text-xs italic text-danger">{ errors['password'] }</span>}
                 </div>
 
                 <div className="mb-5">
@@ -89,6 +155,10 @@ const SignIn = () => {
                     value="Đăng Nhập"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
+
+                  <Link to={"/auth/signup"}>
+                  trest
+                  </Link>
                 </div>
               </form>
             </div>
@@ -100,3 +170,7 @@ const SignIn = () => {
 };
 
 export default SignIn;
+function createToast() {
+  throw new Error("Function not implemented.");
+}
+

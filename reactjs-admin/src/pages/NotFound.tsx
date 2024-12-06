@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import './notfound.scss';
 
 const NotFound = () => {
+  const navigate = useNavigate()
   return (
-    <div className='container-notfound'>
+    <div className="container-notfound">
       <div className="noise"></div>
       <div className="overlay"></div>
       <div className="terminal">
@@ -14,7 +16,7 @@ const NotFound = () => {
           changed or is temporarily unavailable.
         </p>
         <p className="output">
-          Please try to <a href="/">go back</a> or{' '}
+          Please try to <a href="#" onClick={() => navigate(-1)}>go back</a> or{' '}
           <a href="/">return to the homepage</a>.
         </p>
         <p className="output">Good luck.</p>

@@ -17,7 +17,12 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".", // Đặt thư mục gốc dự án là thư mục cơ sở
+    "paths": {
+      "~/*": ["src/*"] // Cấu hình đường dẫn tương đối từ thư mục `src`
+    }
   },
   "include": ["src", "src/lib.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
