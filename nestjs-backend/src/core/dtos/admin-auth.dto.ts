@@ -66,3 +66,8 @@ export class SignInSystemAccountDTO {
   @IsNotEmpty() // Yêu cầu trường password không được để trống
   password: string;
 }
+
+export class RefreshTokenSystemAccountDTO {
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  token: string;
+}

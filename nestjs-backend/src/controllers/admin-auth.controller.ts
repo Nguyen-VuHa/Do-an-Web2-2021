@@ -3,10 +3,16 @@ import {
   Body,
   Controller,
   Post,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { SignInSystemAccountDTO, SignUpSystemAccountDTO } from 'src/core/dtos/admin-auth.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  RefreshTokenSystemAccountDTO,
+  SignInSystemAccountDTO,
+  SignUpSystemAccountDTO,
+} from 'src/core/dtos/admin-auth.dto';
 import { IResponse } from 'src/core/types/common';
 import { AdminAuthUseCases } from 'src/use-cases/(admin)/auth/admin-auth.usecase';
 
@@ -56,5 +62,11 @@ export class AdminAuthController {
   )
   async signInAccount(@Body() data: SignInSystemAccountDTO): Promise<IResponse<any>> {
     return this.adminAuthUseCase.signInAccount(data);
+  }
+
+  @Post('refresh-token')
+  @UseInterceptors(FileInterceptor('file'))
+  refreshToken(@Body() data: RefreshTokenSystemAccountDTO): Promise<IResponse<any>> {
+    return this.adminAuthUseCase.refreshToken(data.token);
   }
 }

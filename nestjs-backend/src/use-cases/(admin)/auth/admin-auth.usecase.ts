@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { ERROR_CODE_DUPLICATE_UNIQUE } from 'src/constants/errors';
 import {
@@ -14,6 +14,7 @@ import { SystemUserService } from 'src/services/system-user/system-user.service'
 import { comparePasswords, hashPassword } from 'src/utils/bcrypt';
 import { stringToDate } from 'src/utils/convert';
 import { generateTokens } from 'src/utils/jwt';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AdminAuthUseCases {
@@ -88,7 +89,9 @@ export class AdminAuthUseCases {
       const { accessToken, refreshToken } = generateTokens(
         payloadToken,
         accessSecret,
-        refreshSecret
+        refreshSecret,
+        '30m',
+        '7d'
       );
 
       const userResponse = plainToClass(CreateUserSystemResponseDto, user, {
@@ -115,6 +118,38 @@ export class AdminAuthUseCases {
         message: 'Đăng nhập không thành công.',
         error: error.message,
       });
+    }
+  }
+
+  async refreshToken(token: string): Promise<IResponse<string>> {
+    try {
+      // Kiểm tra refresh token
+      const payload = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+
+      const userInfo: IJWTUserInfo = {
+        user_id: payload.payload_id,
+        email: payload.email,
+        fullname: payload.fullname,
+      };
+
+      const accessSecret = process.env.JWT_ACCESS_SECRET;
+      const refreshSecret = process.env.JWT_REFRESH_SECRET;
+
+      const { accessToken } = generateTokens(userInfo, accessSecret, refreshSecret);
+
+      const response: IResponse<string> = {
+        statusCode: 200,
+        error: null,
+        message: 'Cập nhật token thành công.',
+        data: accessToken,
+      };
+
+      return response;
+    } catch (error) {
+      console.log(error);
+
+      // Nếu refresh token hết hạn hoặc không hợp lệ, trả về 403
+      throw new ForbiddenException('Token invalid');
     }
   }
 }
