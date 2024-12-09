@@ -10,12 +10,15 @@ import { AdminAuthController } from './controllers/admin-auth.controller';
 import { AdminUserController } from './controllers/admin-user.controller';
 import { AdminUserUseCaseModule } from './use-cases/(admin)/user/adminUserUseCase.module';
 import { VerifyUserSystemMiddleware } from './middlewares/admin-jwt.middleware';
+import { AdminCategoryController } from './controllers/admin-category.controller';
+import { AdminCategoryUseCaseModule } from './use-cases/(admin)/category/adminCategoryUseCase.module';
 
 @Module({
   imports: [
     AuthUseCaseModule,
     AdminAuthUseCaseModule,
     AdminUserUseCaseModule,
+    AdminCategoryUseCaseModule,
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
     }),
@@ -26,7 +29,7 @@ import { VerifyUserSystemMiddleware } from './middlewares/admin-jwt.middleware';
     }),
     TypeOrmModule.forFeature(ENTITIES),
   ],
-  controllers: [AuthController, AdminAuthController, AdminUserController],
+  controllers: [AuthController, AdminAuthController, AdminUserController, AdminCategoryController],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
