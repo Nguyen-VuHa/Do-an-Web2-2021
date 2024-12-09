@@ -3,6 +3,8 @@ import { lazy } from 'react';
 const MovieManagement = lazy(
   () => import('src/pages/MovieManagement/MovieManagement.tsx'),
 );
+const MovieEditer = lazy(() => import('src/pages/MovieEditer/MovieEditer'));
+
 const Calendar = lazy(() => import('../pages/Calendar'));
 const Chart = lazy(() => import('../pages/Chart'));
 const FormElements = lazy(() => import('../pages/Form/FormElements'));
@@ -18,6 +20,11 @@ const coreRoutes = [
     path: '/movies',
     title: 'Movie Management',
     component: MovieManagement,
+  },
+  {
+    path: '/movies/create',
+    title: 'Movie Create',
+    component: MovieEditer,
   },
   {
     path: '/calendar',

@@ -125,7 +125,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   }`}
                 >
                   <SiThemoviedatabase size={18} />
-                  Movie Management
+                  Quản lý phim
                 </NavLink>
               </li>
               {/* <!-- Menu Item Calendar --> */}

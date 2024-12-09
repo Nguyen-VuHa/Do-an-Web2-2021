@@ -14,7 +14,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`w-full flex justify-center items-center cursor-pointer rounded-lg border border-primary bg-primary px-3 py-2 text-white transition hover:bg-opacity-90 ${
+      className={`w-full flex justify-center items-center cursor-pointer rounded-sm border border-primary bg-primary space-x-1 px-3 py-1.5 text-white transition hover:bg-opacity-90 ${
         className || ''
       }`}
       onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

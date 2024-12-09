@@ -250,5 +250,4 @@ module.exports = {
       },
     },
   },
-  plugins: [],
 };

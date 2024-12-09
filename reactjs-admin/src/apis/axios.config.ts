@@ -5,7 +5,11 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { getDataToLocalStore, removeDataToLocalStore, setDataToLocalStore } from '~/utils/localStorage';
+import {
+  getDataToLocalStore,
+  removeDataToLocalStore,
+  setDataToLocalStore,
+} from '~/utils/localStorage';
 import { apiRefreshToken } from './auth.api';
 
 // Tạo một interface mở rộng từ AxiosRequestConfig để thêm thuộc tính _retry
@@ -46,14 +50,18 @@ axiosInstance.interceptors.response.use(
   },
   async (error: AxiosError) => {
     const originalRequest = error.config as ExtendedAxiosRequestConfig;
-    
-     // Nếu mã lỗi là 401 và request chưa được thử lại
-     if (originalRequest && error.response?.status === 401 && !originalRequest._retry) {
+
+    // Nếu mã lỗi là 401 và request chưa được thử lại
+    if (
+      originalRequest &&
+      error.response?.status === 401 &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true; // Đánh dấu request đã thử lại
 
       try {
         const newAccessToken = await handleRefreshToken(); // Lấy access token mới
-        
+
         if (originalRequest.headers) {
           originalRequest.headers['authorization'] = `Bearer ${newAccessToken}`; // Cập nhật header với access token mới
         }
@@ -68,11 +76,11 @@ axiosInstance.interceptors.response.use(
     }
     // Xử lý lỗi từ server hoặc lỗi khác
     if (error.response) {
-       // Kiểm tra nếu mã lỗi là 403
-      if (error.response.status === 403) { 
+      // Kiểm tra nếu mã lỗi là 403
+      if (error.response.status === 403) {
         handleForbidden();
         return;
-      } 
+      }
 
       return Promise.resolve(error.response.data);
     } else {
@@ -84,30 +92,30 @@ axiosInstance.interceptors.response.use(
 );
 
 const handleForbidden = () => {
-  removeDataToLocalStore('accessToken,refreshToken')
-  window.location.replace('/')
-}
+  removeDataToLocalStore('accessToken,refreshToken');
+  window.location.replace('/');
+};
 
 const handleRefreshToken = async (): Promise<string> => {
- try {
-  const currentRefreshToken = getDataToLocalStore('refreshToken') // Lấy refresh token từ localStorage
-  if (!currentRefreshToken) {
-    throw new Error('No refresh token found');
-  }
+  try {
+    const currentRefreshToken = getDataToLocalStore('refreshToken'); // Lấy refresh token từ localStorage
+    if (!currentRefreshToken) {
+      throw new Error('No refresh token found');
+    }
 
-  let accessToken = ''
-  // Gửi request để refresh token
-  const response = await apiRefreshToken(currentRefreshToken)
-  
-  if(response.statusCode === 200) {
-    accessToken = response.data as string
-    setDataToLocalStore('accessToken', accessToken)
-  }
+    let accessToken = '';
+    // Gửi request để refresh token
+    const response = await apiRefreshToken(currentRefreshToken);
 
-  return accessToken;
- } catch (error: any) {
-  throw new Error(error);
- }
-}
+    if (response.statusCode === 200) {
+      accessToken = response.data as string;
+      setDataToLocalStore('accessToken', accessToken);
+    }
+
+    return accessToken;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
 
 export default axiosInstance;
