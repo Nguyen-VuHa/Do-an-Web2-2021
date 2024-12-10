@@ -42,3 +42,24 @@ export class DirectorResponseDTO {
   @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
   status: string;
 }
+
+export class CreateActorDTO {
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @MaxLength(80, { message: 'Tên thể loại không được dài quá 80 ký tự' }) // Đảm bảo mật khẩu không quá 20 ký tự
+  actor_name: string;
+}
+
+export class ActorResponseDTO {
+  @Expose()
+  actor_id: number;
+
+  @Expose()
+  actor_name: string;
+
+  @Expose()
+  created_at: string;
+
+  @Expose()
+  @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
+  status: string;
+}

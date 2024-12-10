@@ -14,7 +14,7 @@ export class Actor {
   @PrimaryGeneratedColumn('increment')
   actor_id: number;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, unique: true })
   actor_name: string;
 
   @CreateDateColumn()

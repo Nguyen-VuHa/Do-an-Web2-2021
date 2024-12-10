@@ -2,14 +2,18 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { ERROR_CODE_DUPLICATE_UNIQUE } from 'src/constants/errors';
 import {
+  ActorResponseDTO,
   CategoryResponseDTO,
+  CreateActorDTO,
   CreateCategoryDTO,
   CreateDirectorDTO,
   DirectorResponseDTO,
 } from 'src/core/dtos/admin-movie-detail';
+import { Actor } from 'src/core/entities/actor.entity';
 import { Category } from 'src/core/entities/category.entity';
 import { Director } from 'src/core/entities/director.entity';
 import { IResponse } from 'src/core/types/common';
+import { ActorService } from 'src/services/actor/actor.service';
 import { CategoryService } from 'src/services/category/category.service';
 import { DirectorService } from 'src/services/director/director.service';
 import { stringToInt } from 'src/utils/convert';
@@ -19,7 +23,8 @@ import { IsNull, Not } from 'typeorm';
 export class AdminMovieMetaUseCases {
   constructor(
     private readonly categoryService: CategoryService,
-    private readonly directorService: DirectorService
+    private readonly directorService: DirectorService,
+    private readonly actorService: ActorService
   ) {}
 
   async getAllCategories(): Promise<IResponse<CategoryResponseDTO[]>> {
@@ -157,7 +162,7 @@ export class AdminMovieMetaUseCases {
     }
   }
 
-  async createDirector(data: CreateDirectorDTO): Promise<IResponse<any>> {
+  async createDirector(data: CreateDirectorDTO): Promise<IResponse<DirectorResponseDTO>> {
     try {
       const existing = await this.directorService.getDirectorByWhere({
         director_name: data.director_name,
@@ -237,6 +242,116 @@ export class AdminMovieMetaUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Xoá đạo diễn không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async getAllActors(): Promise<IResponse<ActorResponseDTO>> {
+    try {
+      const actors = await this.actorService.getAllActors();
+
+      const actorResponse = plainToClass(ActorResponseDTO, actors, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<any> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy danh sách diễn viên thành công.',
+        data: actorResponse,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy danh sách diễn viên không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async createActor(data: CreateActorDTO): Promise<IResponse<ActorResponseDTO>> {
+    try {
+      const existing = await this.actorService.getActorByWhere({
+        actor_name: data.actor_name,
+        deleted_at: Not(IsNull()),
+      });
+
+      if (existing) {
+        await this.actorService.unSoftDeleteActor(existing.actor_id);
+
+        existing.deleted_at = null;
+
+        const actorResponse = plainToClass(ActorResponseDTO, existing, {
+          excludeExtraneousValues: true,
+        });
+
+        const response: IResponse<any> = {
+          statusCode: 200,
+          error: null,
+          message: 'Tạo mới diễn viên thành công.',
+          data: actorResponse,
+        };
+        return response;
+      } else {
+        const actor = new Actor();
+
+        actor.actor_name = data.actor_name;
+
+        const newActor = await this.actorService.createActor(actor);
+
+        const actorResponse = plainToClass(ActorResponseDTO, newActor, {
+          excludeExtraneousValues: true,
+        });
+
+        const response: IResponse<any> = {
+          statusCode: 200,
+          error: null,
+          message: 'Tạo mới diễn viên thành công.',
+          data: actorResponse,
+        };
+        return response;
+      }
+    } catch (error) {
+      let errorResponse: any;
+      if (error.code === ERROR_CODE_DUPLICATE_UNIQUE) {
+        // mã lỗi trùng lặp trong database
+        // PostgreSQL code for unique violation
+        errorResponse = 'Diễn viên đăng ký đã tồn tại';
+      } else {
+        errorResponse = error;
+      }
+
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Tạo mới diễn viên không thành công.',
+        error: errorResponse,
+      });
+    }
+  }
+
+  async deleteActor(actorID: string): Promise<IResponse<ActorResponseDTO>> {
+    try {
+      const deleteActor = await this.actorService.softDeleteActor(stringToInt(actorID));
+
+      const actorResponse = plainToClass(ActorResponseDTO, deleteActor, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<any> = {
+        statusCode: 200,
+        error: null,
+        message: 'Xoá diễn viên thành công.',
+        data: actorResponse,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Xoá diễn viên không thành công.',
         error: error.message,
       });
     }

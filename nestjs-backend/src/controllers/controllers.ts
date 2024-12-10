@@ -1,3 +1,4 @@
+import { AdminActorController } from './admin-actor.controller';
 import { AdminAuthController } from './admin-auth.controller';
 import { AdminCategoryController } from './admin-category.controller';
 import { AdminDirectorController } from './admin-director.controller';
@@ -9,6 +10,7 @@ const ADMIN_CONTROLLERS = [
   AdminUserController,
   AdminCategoryController,
   AdminDirectorController,
+  AdminActorController,
 ];
 
 const CONTROLLERS = [AuthController, ...ADMIN_CONTROLLERS];
