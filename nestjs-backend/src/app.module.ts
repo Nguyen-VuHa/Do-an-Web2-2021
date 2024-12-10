@@ -11,14 +11,14 @@ import { AdminUserController } from './controllers/admin-user.controller';
 import { AdminUserUseCaseModule } from './use-cases/(admin)/user/adminUserUseCase.module';
 import { VerifyUserSystemMiddleware } from './middlewares/admin-jwt.middleware';
 import { AdminCategoryController } from './controllers/admin-category.controller';
-import { AdminCategoryUseCaseModule } from './use-cases/(admin)/category/adminCategoryUseCase.module';
+import { AdminMovieMetaUseCaseModule } from './use-cases/(admin)/movie-meta/adminMovieMetaUseCase.module';
 
 @Module({
   imports: [
     AuthUseCaseModule,
     AdminAuthUseCaseModule,
     AdminUserUseCaseModule,
-    AdminCategoryUseCaseModule,
+    AdminMovieMetaUseCaseModule,
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
     }),
