@@ -27,3 +27,18 @@ export class CreateDirectorDTO {
   @MaxLength(80, { message: 'Tên đạo diễn không được dài quá 80 ký tự' }) // Đảm bảo mật khẩu không quá 20 ký tự
   director_name: string;
 }
+
+export class DirectorResponseDTO {
+  @Expose()
+  director_id: number;
+
+  @Expose()
+  director_name: string;
+
+  @Expose()
+  created_at: string;
+
+  @Expose()
+  @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
+  status: string;
+}

@@ -1,8 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { ERROR_CODE_DUPLICATE_UNIQUE } from 'src/constants/errors';
-import { CategoryResponseDTO, CreateCategoryDTO, CreateDirectorDTO } from 'src/core/dtos/admin-movie-detail';
+import {
+  CategoryResponseDTO,
+  CreateCategoryDTO,
+  CreateDirectorDTO,
+  DirectorResponseDTO,
+} from 'src/core/dtos/admin-movie-detail';
 import { Category } from 'src/core/entities/category.entity';
+import { Director } from 'src/core/entities/director.entity';
 import { IResponse } from 'src/core/types/common';
 import { CategoryService } from 'src/services/category/category.service';
 import { DirectorService } from 'src/services/director/director.service';
@@ -112,31 +118,33 @@ export class AdminMovieMetaUseCases {
       const response: IResponse<any> = {
         statusCode: 200,
         error: null,
-        message: 'Tạo mới thể loại thành công.',
+        message: 'Xoá thể loại thành công.',
         data: categoryResponse,
       };
 
       return response;
     } catch (error) {
-      console.log(error);
-
       throw new BadRequestException({
         statusCode: 400,
-        message: 'Tạo mới thể loại không thành công.',
+        message: 'Xoá thể loại không thành công.',
         error: error.message,
       });
     }
   }
 
-  async getAllDirectors(): Promise<IResponse<any>> {
+  async getAllDirectors(): Promise<IResponse<DirectorResponseDTO>> {
     try {
       const directors = await this.directorService.getAllDirectors();
+
+      const directorResponse = plainToClass(DirectorResponseDTO, directors, {
+        excludeExtraneousValues: true,
+      });
 
       const response: IResponse<any> = {
         statusCode: 200,
         error: null,
         message: 'Lấy danh sách dạo diễn thành công.',
-        data: directors,
+        data: directorResponse,
       };
 
       return response;
@@ -149,7 +157,88 @@ export class AdminMovieMetaUseCases {
     }
   }
 
-  async createDirector(data: CreateDirectorDTO): Promise<string> { 
-    return `Data Create Director ${data}`;
+  async createDirector(data: CreateDirectorDTO): Promise<IResponse<any>> {
+    try {
+      const existing = await this.directorService.getDirectorByWhere({
+        director_name: data.director_name,
+        deleted_at: Not(IsNull()),
+      });
+
+      if (existing) {
+        await this.directorService.unSoftDeleteDirector(existing.director_id);
+
+        existing.deleted_at = null;
+
+        const directorResponse = plainToClass(DirectorResponseDTO, existing, {
+          excludeExtraneousValues: true,
+        });
+
+        const response: IResponse<any> = {
+          statusCode: 200,
+          error: null,
+          message: 'Tạo mới đạo diễn thành công.',
+          data: directorResponse,
+        };
+        return response;
+      } else {
+        const director = new Director();
+
+        director.director_name = data.director_name;
+
+        const newDirector = await this.directorService.createDirectror(director);
+
+        const directorResponse = plainToClass(DirectorResponseDTO, newDirector, {
+          excludeExtraneousValues: true,
+        });
+
+        const response: IResponse<any> = {
+          statusCode: 200,
+          error: null,
+          message: 'Tạo mới đạo diễn thành công.',
+          data: directorResponse,
+        };
+        return response;
+      }
+    } catch (error) {
+      let errorResponse: any;
+      if (error.code === ERROR_CODE_DUPLICATE_UNIQUE) {
+        // mã lỗi trùng lặp trong database
+        // PostgreSQL code for unique violation
+        errorResponse = 'Đạo diễn đăng ký đã tồn tại';
+      } else {
+        errorResponse = error;
+      }
+
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Tạo mới đạo diễn không thành công.',
+        error: errorResponse,
+      });
+    }
+  }
+
+  async deleteDirector(directorID: string): Promise<IResponse<DirectorResponseDTO>> {
+    try {
+      const deleteDirector = await this.directorService.softDeleteDirector(stringToInt(directorID));
+
+      const directorResponse = plainToClass(DirectorResponseDTO, deleteDirector, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<any> = {
+        statusCode: 200,
+        error: null,
+        message: 'Xoá đạo diễn thành công.',
+        data: directorResponse,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Xoá đạo diễn không thành công.',
+        error: error.message,
+      });
+    }
   }
 }

@@ -1,4 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { CreateDirectorDTO, DirectorResponseDTO } from 'src/core/dtos/admin-movie-detail';
 import { IResponse } from 'src/core/types/common';
 import { AdminMovieMetaUseCases } from 'src/use-cases/(admin)/movie-meta/admin-movie-meta.usecase';
 
@@ -9,5 +20,34 @@ export class AdminDirectorController {
   @Get('list')
   async getAllDirector(): Promise<IResponse<any>> {
     return this.adminMovieMetaUseCase.getAllDirectors();
+  }
+
+  @Post('create')
+  @UsePipes(
+    new ValidationPipe({
+      transform: true, // Chuyển đổi dữ liệu (nếu cần)
+      exceptionFactory: (errors) => {
+        // Tùy chỉnh lỗi trả về
+        const validationErrors = errors.map((error) => ({
+          field: error.property,
+          constraints: error.constraints,
+        }));
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Dữ liệu không hợp lệ',
+          error: validationErrors,
+        });
+      },
+    })
+  )
+  async createDirector(@Body() data: CreateDirectorDTO): Promise<any> {
+    return this.adminMovieMetaUseCase.createDirector(data);
+  }
+
+  @Delete('delete')
+  async deleteDirector(
+    @Query('_director_id') director_id: string
+  ): Promise<IResponse<DirectorResponseDTO>> {
+    return this.adminMovieMetaUseCase.deleteDirector(director_id);
   }
 }
