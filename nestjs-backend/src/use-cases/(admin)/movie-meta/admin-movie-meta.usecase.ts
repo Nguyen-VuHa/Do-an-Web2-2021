@@ -1,16 +1,20 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { ERROR_CODE_DUPLICATE_UNIQUE } from 'src/constants/errors';
-import { CategoryResponseDTO, CreateCategoryDTO } from 'src/core/dtos/admin-movie-detail';
+import { CategoryResponseDTO, CreateCategoryDTO, CreateDirectorDTO } from 'src/core/dtos/admin-movie-detail';
 import { Category } from 'src/core/entities/category.entity';
 import { IResponse } from 'src/core/types/common';
 import { CategoryService } from 'src/services/category/category.service';
+import { DirectorService } from 'src/services/director/director.service';
 import { stringToInt } from 'src/utils/convert';
 import { IsNull, Not } from 'typeorm';
 
 @Injectable()
 export class AdminMovieMetaUseCases {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly directorService: DirectorService
+  ) {}
 
   async getAllCategories(): Promise<IResponse<CategoryResponseDTO[]>> {
     try {
@@ -122,5 +126,30 @@ export class AdminMovieMetaUseCases {
         error: error.message,
       });
     }
+  }
+
+  async getAllDirectors(): Promise<IResponse<any>> {
+    try {
+      const directors = await this.directorService.getAllDirectors();
+
+      const response: IResponse<any> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy danh sách dạo diễn thành công.',
+        data: directors,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy danh sách đạo diễn không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async createDirector(data: CreateDirectorDTO): Promise<string> { 
+    return `Data Create Director ${data}`;
   }
 }

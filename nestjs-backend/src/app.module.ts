@@ -1,24 +1,14 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import ENTITIES from './core/entities/entities';
+import APPMODULES from './config/appModule';
 import { databaseConfig } from './config/database';
-import { AuthController } from './controllers/auth.controller';
-import { AuthUseCaseModule } from './use-cases/auth/authUseCase.module';
-import { AdminAuthUseCaseModule } from './use-cases/(admin)/auth/adminAuthUseCase.module';
-import { AdminAuthController } from './controllers/admin-auth.controller';
-import { AdminUserController } from './controllers/admin-user.controller';
-import { AdminUserUseCaseModule } from './use-cases/(admin)/user/adminUserUseCase.module';
+import CONTROLLERS from './controllers/controllers';
+import ENTITIES from './core/entities/entities';
 import { VerifyUserSystemMiddleware } from './middlewares/admin-jwt.middleware';
-import { AdminCategoryController } from './controllers/admin-category.controller';
-import { AdminMovieMetaUseCaseModule } from './use-cases/(admin)/movie-meta/adminMovieMetaUseCase.module';
 
 @Module({
   imports: [
-    AuthUseCaseModule,
-    AdminAuthUseCaseModule,
-    AdminUserUseCaseModule,
-    AdminMovieMetaUseCaseModule,
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
     }),
@@ -28,8 +18,9 @@ import { AdminMovieMetaUseCaseModule } from './use-cases/(admin)/movie-meta/admi
       useFactory: databaseConfig,
     }),
     TypeOrmModule.forFeature(ENTITIES),
+    ...APPMODULES,
   ],
-  controllers: [AuthController, AdminAuthController, AdminUserController, AdminCategoryController],
+  controllers: CONTROLLERS,
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
