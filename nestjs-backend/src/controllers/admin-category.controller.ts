@@ -2,13 +2,14 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateCategoryDTO } from 'src/core/dtos/admin-movie-detail';
-import { Category } from 'src/core/entities/category.entity';
+import { CategoryResponseDTO, CreateCategoryDTO } from 'src/core/dtos/admin-movie-detail';
 import { IResponse } from 'src/core/types/common';
 import { AdminMovieMetaUseCases } from 'src/use-cases/(admin)/movie-meta/admin-movie-meta.usecase';
 
@@ -17,7 +18,7 @@ export class AdminCategoryController {
   constructor(private readonly adminMovieMetaUseCase: AdminMovieMetaUseCases) {}
 
   @Get('list')
-  async getAllCategory(): Promise<IResponse<any>> {
+  async getAllCategory(): Promise<IResponse<CategoryResponseDTO[]>> {
     return this.adminMovieMetaUseCase.getAllCategories();
   }
 
@@ -39,7 +40,14 @@ export class AdminCategoryController {
       },
     })
   )
-  async createCategory(@Body() data: CreateCategoryDTO): Promise<IResponse<Category>> {
+  async createCategory(@Body() data: CreateCategoryDTO): Promise<IResponse<CategoryResponseDTO>> {
     return this.adminMovieMetaUseCase.createCategory(data);
+  }
+
+  @Delete('delete')
+  async deleteCategory(
+    @Query('_category_id') category_id: string
+  ): Promise<IResponse<CategoryResponseDTO>> {
+    return this.adminMovieMetaUseCase.deleteCategory(category_id);
   }
 }
