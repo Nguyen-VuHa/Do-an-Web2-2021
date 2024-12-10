@@ -16,6 +16,9 @@ export class DirectorService {
       where: {
         deleted_at: null,
       },
+      order: {
+        created_at: 'DESC',
+      },
     });
   }
 

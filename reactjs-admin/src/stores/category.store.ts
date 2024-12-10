@@ -8,8 +8,8 @@ interface CategoryState {
   isFetchCategory: boolean;
   isCreateCategory: boolean;
   categories: Category[];
-  categoryForm: string,
-  setCategoryForm: (val: string) => void,
+  categoryForm: string;
+  setCategoryForm: (val: string) => void;
   reqFetchAllCategories: () => Promise<void>;
   reqCreateCategory: () => Promise<void>;
 }
@@ -22,27 +22,27 @@ const useCategoryStore = create<CategoryState>((set, get) => ({
 
   setCategoryForm: (val) => {
     set({
-      categoryForm: val
-    })
+      categoryForm: val,
+    });
   },
   reqCreateCategory: async () => {
     set({
-      isCreateCategory: true
-    })
+      isCreateCategory: true,
+    });
     try {
       const payload: BodyCreateCategory = {
-        category_name: get().categoryForm
-      }
+        category_name: get().categoryForm,
+      };
 
       const res = await apiCreateCategory(payload);
 
-      if(res && res.statusCode === STATUS_SUCCESS && res.data) {
+      if (res && res.statusCode === STATUS_SUCCESS && res.data) {
         let categoryList = [res.data].concat(get().categories);
 
         set({
           categories: categoryList,
           categoryForm: '',
-        })
+        });
       } else {
         toast.error(res.error);
       }
@@ -50,8 +50,8 @@ const useCategoryStore = create<CategoryState>((set, get) => ({
       toast.error(error?.toString() as string);
     } finally {
       set({
-        isCreateCategory: false
-      })
+        isCreateCategory: false,
+      });
     }
   },
   reqFetchAllCategories: async () => {

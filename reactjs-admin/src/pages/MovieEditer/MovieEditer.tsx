@@ -7,16 +7,19 @@ import DirectorForm from './DirectorForm';
 import ActorForm from './ActorForm';
 import useCategoryStore from '~/stores/category.store';
 import { useEffect } from 'react';
+import useDirectorStore from '~/stores/director.store';
 
 const MovieEditer = () => {
   const navigate = useNavigate();
   const { movie_id } = useParams();
 
   const { reqFetchAllCategories } = useCategoryStore();
+  const { reqFetchAllDirectors } = useDirectorStore();
 
   // component mounting -> fetch data
   useEffect(() => {
     reqFetchAllCategories();
+    reqFetchAllDirectors();
   }, []);
 
   return (

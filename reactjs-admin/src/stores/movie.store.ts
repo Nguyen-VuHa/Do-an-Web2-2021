@@ -4,9 +4,14 @@ interface MovieState {
   categoriesSelected: any[];
   setCategorySelect: (val: any) => void;
   removeCategorySelect: (val: any) => void;
+
+  directorSelected: any[];
+  setDirectorSelect: (val: any) => void;
+  removeDirectorSelect: (val: any) => void;
 }
 
 const useMovieStore = create<MovieState>((set) => ({
+  // Category edit movie
   categoriesSelected: [],
 
   setCategorySelect: (val) => {
@@ -22,6 +27,19 @@ const useMovieStore = create<MovieState>((set) => ({
         (category) => category !== val,
       ),
     }));
+  },
+
+  // director edit movie
+  directorSelected: [],
+  setDirectorSelect: (val) => {
+    set({
+      directorSelected: [val],
+    });
+  },
+  removeDirectorSelect: (_) => {
+    set({
+      directorSelected: [],
+    });
   },
 }));
 

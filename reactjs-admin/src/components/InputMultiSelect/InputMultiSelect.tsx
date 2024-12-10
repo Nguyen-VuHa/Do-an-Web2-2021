@@ -6,6 +6,7 @@ import SearchSelect from './SearchSelect';
 import ValueSelected from './ValueSelected';
 
 interface InputMultiSelectProps {
+  isSingleValue?: boolean;
   isCustomize?: boolean;
   componentCustomize?: ReactNode;
   options?: ISelectOption[];
@@ -21,6 +22,7 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
   values,
   onSelect,
   onRemove,
+  isSingleValue,
 }) => {
   const dropBoxRef = useRef<HTMLDivElement>(null);
   const btnSelectRef = useRef<HTMLDivElement>(null);
@@ -55,19 +57,23 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
   }, [searchText]);
 
   useEffect(() => {
-    if(isDropdown) {
-      document.addEventListener("mousedown", (e) => {
-        if(btnSelectRef.current && !btnSelectRef.current.contains(e.target as Node) && dropBoxRef.current && !dropBoxRef.current.contains(e.target as Node)) {
-          setIsDropdown(false)
+    if (isDropdown) {
+      document.addEventListener('mousedown', (e) => {
+        if (
+          btnSelectRef.current &&
+          !btnSelectRef.current.contains(e.target as Node) &&
+          dropBoxRef.current &&
+          !dropBoxRef.current.contains(e.target as Node)
+        ) {
+          setIsDropdown(false);
         }
       });
 
       return () => {
-        document.removeEventListener("mousedown", () => {});
-      }
+        document.removeEventListener('mousedown', () => {});
+      };
     }
-  }, [isDropdown])
-  
+  }, [isDropdown]);
 
   return (
     <div
@@ -134,7 +140,7 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
           ref={dropBoxRef}
         >
           <div className="p-3 pt-0 space-y-1 w-full h-fit max-h-[400px] overflow-scroll bg-white border-stroke dark:bg-form-input z-100 rounded-sm dark:border-form-strokedark border-[1.5px]">
-            <div className='flex pt-3 flex-col space-y-2 sticky top-0 bg-white dark:bg-form-input'>
+            <div className="flex pt-3 flex-col space-y-2 sticky top-0 bg-white dark:bg-form-input">
               {isCustomize && componentCustomize}
               {isCustomize && <hr />}
             </div>
@@ -148,8 +154,13 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
                     onClick={() => {
                       if (!isActive) {
                         onSelect && onSelect(option.value, option);
-                        const valSelect: ISelectOption[] =
+                        let valSelect: ISelectOption[] =
                           valueSelected.concat(option);
+
+                        if (isSingleValue) {
+                          valSelect = [option];
+                        }
+
                         setValueSelected(valSelect);
                       }
                     }}

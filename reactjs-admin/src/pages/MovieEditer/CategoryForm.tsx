@@ -54,7 +54,8 @@ const CategoryForm = () => {
 };
 
 const CreateCategory = () => {
-  const { isCreateCategory, categoryForm, setCategoryForm, reqCreateCategory } = useCategoryStore()
+  const { isCreateCategory, categoryForm, setCategoryForm, reqCreateCategory } =
+    useCategoryStore();
 
   return (
     <div className="flex items-center space-x-2">
@@ -65,16 +66,16 @@ const CreateCategory = () => {
           setCategoryForm(e.target.value);
         }}
       />
-      <Button 
-        className="w-fit !py-1" 
+      <Button
+        className="w-fit !py-1"
         disabled={!categoryForm}
         onClick={() => {
-          if(!isCreateCategory && categoryForm) {
-            reqCreateCategory()
+          if (!isCreateCategory && categoryForm) {
+            reqCreateCategory();
           }
         }}
         loading={isCreateCategory}
-        type='button'
+        type="button"
       >
         <span className="whitespace-nowrap">Tạo mới</span>
       </Button>

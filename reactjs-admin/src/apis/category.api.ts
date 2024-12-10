@@ -9,9 +9,10 @@ export const fetchAllCategories = async (): Promise<IResponse<Category[]>> => {
   return axiosInstance.get(path);
 };
 
-export const apiCreateCategory = async (payload: BodyCreateCategory): Promise<IResponse<Category>> => {
+export const apiCreateCategory = async (
+  payload: BodyCreateCategory,
+): Promise<IResponse<Category>> => {
   const path = MAIN_PATH + '/create';
 
   return axiosInstance.post(path, payload);
 };
-
