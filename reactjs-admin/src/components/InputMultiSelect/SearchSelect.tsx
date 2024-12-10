@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 type SearchSelectProps = {
   value?: string;
@@ -7,12 +7,17 @@ type SearchSelectProps = {
 
 const SearchSelect: React.FC<SearchSelectProps> = ({ value, onChange }) => {
   const textEditorRef = useRef<HTMLDivElement | null>(null);
+  const [isEdited, setIsEdited] = useState<boolean>(false);
 
   useEffect(() => {
     if (textEditorRef.current) {
-      textEditorRef.current.textContent = value || 'Nhập tìm kiếm...';
+      if (value) {
+        textEditorRef.current.textContent = value;
+      } else {
+        if (!isEdited) textEditorRef.current.textContent = 'Nhập tìm kiếm...';
+      }
     }
-  }, [value]);
+  }, [value, isEdited]);
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     // Nếu nhấn phím Enter, ngăn chặn hành vi mặc định (tạo dòng mới)
@@ -35,6 +40,7 @@ const SearchSelect: React.FC<SearchSelectProps> = ({ value, onChange }) => {
         }
       }}
       onInput={() => {
+        setIsEdited(true);
         if (textEditorRef.current)
           onChange && onChange(textEditorRef.current.textContent as string);
       }}

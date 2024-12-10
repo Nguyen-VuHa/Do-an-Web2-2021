@@ -21,6 +21,7 @@ const Input: React.FC<InputProps> = ({
               className || ''
             }`}
       type={type || 'text'}
+      value={value}
       placeholder={placeholder || 'Nhập gì đó ...'}
       {...props}
     />

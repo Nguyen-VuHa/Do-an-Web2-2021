@@ -8,3 +8,8 @@ export interface IResponse<T> {
 export interface IOject<T> {
   [key: string]: T;
 }
+
+export interface ISelectOption {
+  value: any;
+  label: string;
+}

@@ -2,10 +2,10 @@ import toast from 'react-hot-toast';
 import { create } from 'zustand';
 import { signInAccount } from '~/apis/auth.api';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
-import { IPayloadSignIn, IResponseSignIn } from '~/types/auth.type';
-import { IOject, IResponse } from '~/types/common.type';
-import useSystemStore from './system.store';
+import { IPayloadSignIn } from '~/types/auth.type';
+import { IOject } from '~/types/common.type';
 import { setDataToLocalStore } from '~/utils/localStorage';
+import useSystemStore from './system.store';
 
 interface AuthState {
   email: string;

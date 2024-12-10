@@ -5,10 +5,19 @@ import MovieForm from './MovieForm';
 import CategoryForm from './CategoryForm';
 import DirectorForm from './DirectorForm';
 import ActorForm from './ActorForm';
+import useCategoryStore from '~/stores/category.store';
+import { useEffect } from 'react';
 
 const MovieEditer = () => {
   const navigate = useNavigate();
   const { movie_id } = useParams();
+
+  const { reqFetchAllCategories } = useCategoryStore();
+
+  // component mounting -> fetch data
+  useEffect(() => {
+    reqFetchAllCategories();
+  }, []);
 
   return (
     <>

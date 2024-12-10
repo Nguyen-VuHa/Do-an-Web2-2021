@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
@@ -14,9 +14,12 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`w-full flex justify-center items-center cursor-pointer rounded-sm border border-primary bg-primary space-x-1 px-3 py-1.5 text-white transition hover:bg-opacity-90 ${
-        className || ''
-      }`}
+      className={`w-full flex justify-center items-center 
+        cursor-pointer rounded-sm border border-primary 
+        bg-primary space-x-1 px-3 py-1.5 text-white 
+        transition hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed ${
+          className || ''
+        }`}
       onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (!loading) onClick && onClick(e);
       }}

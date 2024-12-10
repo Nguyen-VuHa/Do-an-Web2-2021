@@ -7,7 +7,7 @@ type ValueSelectedProps = {
 
 const ValueSelected: React.FC<ValueSelectedProps> = ({ label, onRemove }) => {
   return (
-    <span className="m-1.5 flex items-center justify-center rounded border-[.5px] border-stroke bg-gray py-1 px-2 text-sm font-medium dark:border-strokedark dark:bg-white/30">
+    <span className="flex items-center justify-center rounded border-[.5px] border-stroke bg-gray py-1 px-2 text-sm font-medium dark:border-strokedark dark:bg-white/30">
       {label}
       <span
         className="cursor-pointer pl-2 hover:text-danger"

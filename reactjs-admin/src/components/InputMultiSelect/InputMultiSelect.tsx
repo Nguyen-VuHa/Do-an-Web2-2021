@@ -1,48 +1,107 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import { IoCheckmarkDoneSharp } from 'react-icons/io5';
+import { ISelectOption } from '~/types/common.type';
+import { fuzzySearch } from '~/utils/search';
 import SearchSelect from './SearchSelect';
+import ValueSelected from './ValueSelected';
 
-interface InputMultiSelectProps {}
+interface InputMultiSelectProps {
+  isCustomize?: boolean;
+  componentCustomize?: ReactNode;
+  options?: ISelectOption[];
+  values?: any[];
+  onSelect?: (val: any, option?: ISelectOption) => void;
+  onRemove?: (val: any) => void;
+}
 
-const InputMultiSelect: React.FC<InputMultiSelectProps> = ({}) => {
+const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
+  options,
+  isCustomize,
+  componentCustomize,
+  values,
+  onSelect,
+  onRemove,
+}) => {
   const dropBoxRef = useRef<HTMLDivElement>(null);
   const btnSelectRef = useRef<HTMLDivElement>(null);
 
   const [searchText, setSearchText] = useState<string>('');
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropBoxRef.current &&
-      !dropBoxRef.current.contains(event.target as Node) &&
-      btnSelectRef.current &&
-      !btnSelectRef.current.contains(event.target as Node)
-    ) {
-      setIsDropdown(false);
-    }
-  };
+  const [valueSelected, setValueSelected] = useState<ISelectOption[]>([]);
+  const [optionData, setOptionData] = useState<ISelectOption[]>(options || []);
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
+    if (options && options.length > 0) {
+      setOptionData(options);
+    }
+  }, [options]);
 
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+  useEffect(() => {
+    if (options) {
+      if (searchText) {
+        const handler = setTimeout(() => {
+          const searchResult = fuzzySearch(options, 'label', searchText);
+          setOptionData(searchResult);
+        }, 500); // Delay 400ms
+
+        // Xóa timeout cũ khi value thay đổi hoặc component unmount
+        return () => {
+          clearTimeout(handler);
+        };
+      } else {
+        setOptionData(options || []);
+      }
+    }
+  }, [searchText]);
+
+  useEffect(() => {
+    if(isDropdown) {
+      document.addEventListener("mousedown", (e) => {
+        if(btnSelectRef.current && !btnSelectRef.current.contains(e.target as Node) && dropBoxRef.current && !dropBoxRef.current.contains(e.target as Node)) {
+          setIsDropdown(false)
+        }
+      });
+
+      return () => {
+        document.removeEventListener("mousedown", () => {});
+      }
+    }
+  }, [isDropdown])
+  
 
   return (
     <div
-      className="relative z-20 w-full rounded border 
-                border-stroke pr-8 font-medium outline-none transition 
-                focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+      className="relative w-full rounded border 
+      border-stroke pr-8 font-medium outline-none transition 
+      focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
     >
       <div
         ref={btnSelectRef}
         className="w-full h-full"
         onClick={() => {
-          if (!isDropdown) setIsDropdown(true);
+          setIsDropdown(true);
         }}
       >
-        <div className="flex flex-wrap items-center">
+        <div className="flex flex-wrap items-center p-1.5">
+          <div className="flex flex-wrap space-x-1">
+            {valueSelected &&
+              valueSelected.map((val) => {
+                return (
+                  <ValueSelected
+                    key={val.label}
+                    label={val.label}
+                    onRemove={() => {
+                      onRemove && onRemove(val.value);
+                      setValueSelected(
+                        valueSelected.filter(
+                          (valS) => valS.value !== val.value,
+                        ),
+                      );
+                    }}
+                  />
+                );
+              })}
+          </div>
           <SearchSelect
             value={searchText}
             onChange={(value) => {
@@ -71,28 +130,57 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({}) => {
       </div>
       {isDropdown && (
         <div
-          className="absolute w-full h-full top-[110%] select-none left-0"
+          className="absolute w-full h-auto top-[110%] select-none left-0 z-999"
           ref={dropBoxRef}
         >
-          <div className="p-3 space-y-1 w-full h-fit bg-white border-stroke dark:bg-form-input z-100 rounded-sm dark:border-form-strokedark border-[1.5px]">
-            <div
-              className="
-                                        flex justify-between items-center
-                                        w-full h-full px-2 py-1.5 
-                                        cursor-pointer hover:bg-primary/60 rounded-sm transition-all hover:text-white
-                                    "
-            >
-              item1
+          <div className="p-3 pt-0 space-y-1 w-full h-fit max-h-[400px] overflow-scroll bg-white border-stroke dark:bg-form-input z-100 rounded-sm dark:border-form-strokedark border-[1.5px]">
+            <div className='flex pt-3 flex-col space-y-2 sticky top-0 bg-white dark:bg-form-input'>
+              {isCustomize && componentCustomize}
+              {isCustomize && <hr />}
             </div>
-            <div
-              className="
-                                        flex justify-between items-center
-                                        w-full h-full px-2 py-1.5 
-                                        cursor-pointer hover:bg-primary/60 rounded-sm transition-all hover:text-white
-                                    "
-            >
-              item2
-            </div>
+            {(optionData &&
+              optionData.length > 0 &&
+              optionData.map((option) => {
+                const isActive = values?.includes(option.value);
+                return (
+                  <div
+                    key={option.value}
+                    onClick={() => {
+                      if (!isActive) {
+                        onSelect && onSelect(option.value, option);
+                        const valSelect: ISelectOption[] =
+                          valueSelected.concat(option);
+                        setValueSelected(valSelect);
+                      }
+                    }}
+                    className={`flex justify-between items-center
+                    w-full h-full px-2 py-1.5 text-white
+                    cursor-pointer hover:bg-primary/60 rounded-sm transition-all hover:text-white ${
+                      isActive ? 'bg-primary/80' : ''
+                    }`}
+                  >
+                    {option.label}
+                    <div className="flex items-center space-x-2">
+                      {isActive && <IoCheckmarkDoneSharp size={20} />}
+                      {/* <Button className="!p-2 !w-8 !h-8 !rounded-lg !bg-danger">
+                        <CgTrash size={20} />
+                      </Button> */}
+                    </div>
+                  </div>
+                );
+              })) || (
+              <div
+                className="
+                    flex justify-center items-center
+                    w-full h-full px-2 py-1.5 
+                    rounded-sm transition-all
+                  "
+              >
+                {searchText
+                  ? 'Không có kết quả tìm kiếm tương thích'
+                  : 'Không có lựa chọn'}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -100,4 +188,4 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({}) => {
   );
 };
 
-export default InputMultiSelect;
+export default React.memo(InputMultiSelect);

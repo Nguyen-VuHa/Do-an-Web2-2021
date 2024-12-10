@@ -40,6 +40,9 @@ export class CategoryService {
       where: {
         deleted_at: null,
       },
+      order: {
+        created_at: 'DESC',
+      },
     });
   }
 
