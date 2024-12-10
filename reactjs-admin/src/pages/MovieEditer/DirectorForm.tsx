@@ -20,7 +20,7 @@ const DirectorForm = () => {
             ĐẠO DIỄN PHIM
           </h3>
         </div>
-        <form action="#">
+        <div>
           <div className="p-6.5">
             <FormGroup
               label="Đạo diễn"
@@ -48,7 +48,7 @@ const DirectorForm = () => {
               }
             />
           </div>
-        </form>
+        </div>
       </div>
     </>
   );
@@ -58,8 +58,19 @@ const CreateDirector = () => {
   const { isCreateDirector, directorForm, setDirectorForm, reqCreateDirector } =
     useDirectorStore();
 
+  const handleSubmitCreate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!isCreateDirector && directorForm) {
+      reqCreateDirector();
+    }
+  };
+
   return (
-    <div className="flex items-center space-x-2">
+    <form
+      onSubmit={handleSubmitCreate}
+      id="form-director"
+      className="flex items-center space-x-2"
+    >
       <Input
         placeholder="Nhập tên đạo diễn..."
         value={directorForm}
@@ -70,17 +81,11 @@ const CreateDirector = () => {
       <Button
         className="w-fit !py-1"
         disabled={!directorForm}
-        onClick={() => {
-          if (!isCreateDirector && directorForm) {
-            reqCreateDirector();
-          }
-        }}
         loading={isCreateDirector}
-        type="button"
       >
         <span className="whitespace-nowrap">Tạo mới</span>
       </Button>
-    </div>
+    </form>
   );
 };
 

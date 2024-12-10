@@ -19,3 +19,14 @@ export interface Director {
 export interface BodyCreateDirector {
   director_name: string;
 }
+
+export interface Actor {
+  actor_id: number;
+  actor_name: string;
+  created_at: string;
+  status: string;
+}
+
+export interface BodyCreateActor {
+  actor_name: string;
+}

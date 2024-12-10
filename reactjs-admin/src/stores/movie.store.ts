@@ -8,6 +8,10 @@ interface MovieState {
   directorSelected: any[];
   setDirectorSelect: (val: any) => void;
   removeDirectorSelect: (val: any) => void;
+
+  actorSelected: any[];
+  setActorSelect: (val: any) => void;
+  removeActorSelect: (val: any) => void;
 }
 
 const useMovieStore = create<MovieState>((set) => ({
@@ -40,6 +44,19 @@ const useMovieStore = create<MovieState>((set) => ({
     set({
       directorSelected: [],
     });
+  },
+
+  // actor edit movie
+  actorSelected: [],
+  setActorSelect: (val) => {
+    set((state) => ({
+      actorSelected: Array.from(new Set([...state.actorSelected, val])),
+    }));
+  },
+  removeActorSelect: (val) => {
+    set((state) => ({
+      actorSelected: state.actorSelected.filter((actor) => actor !== val),
+    }));
   },
 }));
 

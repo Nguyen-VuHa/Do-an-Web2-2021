@@ -16,6 +16,9 @@ export class ActorService {
       where: {
         deleted_at: null,
       },
+      order: {
+        created_at: 'DESC',
+      },
     });
   }
 

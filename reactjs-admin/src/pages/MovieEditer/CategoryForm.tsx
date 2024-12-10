@@ -20,7 +20,7 @@ const CategoryForm = () => {
             THỂ LOẠI PHIM
           </h3>
         </div>
-        <form action="#">
+        <div>
           <div className="p-6.5">
             <FormGroup
               label="Thể loại"
@@ -47,7 +47,7 @@ const CategoryForm = () => {
               }
             />
           </div>
-        </form>
+        </div>
       </div>
     </>
   );
@@ -57,8 +57,19 @@ const CreateCategory = () => {
   const { isCreateCategory, categoryForm, setCategoryForm, reqCreateCategory } =
     useCategoryStore();
 
+  const handleSubmitCreate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!isCreateCategory && categoryForm) {
+      reqCreateCategory();
+    }
+  };
+
   return (
-    <div className="flex items-center space-x-2">
+    <form
+      id="form-category"
+      onSubmit={handleSubmitCreate}
+      className="flex items-center space-x-2"
+    >
       <Input
         placeholder="Nhập thể loại phim..."
         value={categoryForm}
@@ -69,17 +80,11 @@ const CreateCategory = () => {
       <Button
         className="w-fit !py-1"
         disabled={!categoryForm}
-        onClick={() => {
-          if (!isCreateCategory && categoryForm) {
-            reqCreateCategory();
-          }
-        }}
         loading={isCreateCategory}
-        type="button"
       >
         <span className="whitespace-nowrap">Tạo mới</span>
       </Button>
-    </div>
+    </form>
   );
 };
 

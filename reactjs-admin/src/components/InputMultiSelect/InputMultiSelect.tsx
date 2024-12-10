@@ -31,6 +31,7 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
   const [valueSelected, setValueSelected] = useState<ISelectOption[]>([]);
   const [optionData, setOptionData] = useState<ISelectOption[]>(options || []);
+  const [dropdownPosition, setDropdownPosition] = useState<string>('bottom');
 
   useEffect(() => {
     if (options && options.length > 0) {
@@ -44,7 +45,7 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
         const handler = setTimeout(() => {
           const searchResult = fuzzySearch(options, 'label', searchText);
           setOptionData(searchResult);
-        }, 500); // Delay 400ms
+        }, 400); // Delay 400ms
 
         // Xóa timeout cũ khi value thay đổi hoặc component unmount
         return () => {
@@ -72,6 +73,21 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
       return () => {
         document.removeEventListener('mousedown', () => {});
       };
+    }
+  }, [isDropdown]);
+
+  useEffect(() => {
+    if (isDropdown && btnSelectRef.current && dropBoxRef.current) {
+      const buttonRect = btnSelectRef.current.getBoundingClientRect();
+      const dropdownHeight = dropBoxRef.current.offsetHeight;
+      const viewportHeight = window.innerHeight;
+
+      // Kiểm tra nếu không đủ không gian dưới nút thì hiển thị dropdown trên
+      if (buttonRect.bottom + dropdownHeight > viewportHeight) {
+        setDropdownPosition('top');
+      } else {
+        setDropdownPosition('bottom');
+      }
     }
   }, [isDropdown]);
 
@@ -136,7 +152,9 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
       </div>
       {isDropdown && (
         <div
-          className="absolute w-full h-auto top-[110%] select-none left-0 z-999"
+          className={`absolute w-full h-auto ${
+            dropdownPosition === 'bottom' ? 'top-[110%]' : 'bottom-[110%]'
+          } select-none left-0 z-999`}
           ref={dropBoxRef}
         >
           <div className="p-3 pt-0 space-y-1 w-full h-fit max-h-[400px] overflow-scroll bg-white border-stroke dark:bg-form-input z-100 rounded-sm dark:border-form-strokedark border-[1.5px]">
@@ -165,17 +183,14 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
                       }
                     }}
                     className={`flex justify-between items-center
-                    w-full h-full px-2 py-1.5 text-white
+                    w-full h-full px-2 py-1.5
                     cursor-pointer hover:bg-primary/60 rounded-sm transition-all hover:text-white ${
-                      isActive ? 'bg-primary/80' : ''
+                      isActive ? 'bg-primary/80 text-white' : ''
                     }`}
                   >
                     {option.label}
                     <div className="flex items-center space-x-2">
                       {isActive && <IoCheckmarkDoneSharp size={20} />}
-                      {/* <Button className="!p-2 !w-8 !h-8 !rounded-lg !bg-danger">
-                        <CgTrash size={20} />
-                      </Button> */}
                     </div>
                   </div>
                 );
@@ -199,4 +214,4 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
   );
 };
 
-export default React.memo(InputMultiSelect);
+export default InputMultiSelect;
