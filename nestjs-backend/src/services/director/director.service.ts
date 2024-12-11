@@ -22,6 +22,14 @@ export class DirectorService {
     });
   }
 
+  async getDirectorByID(director_id: number): Promise<Director> {
+    return await this.directorRepository.findOne({
+      where: {
+        director_id: director_id,
+      },
+    });
+  }
+
   async getDirectorByWhere(conditions: IObject<any>): Promise<Director> {
     return await this.directorRepository.findOne({
       where: conditions,

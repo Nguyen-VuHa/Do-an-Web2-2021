@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Actor } from 'src/core/entities/actor.entity';
 import { IObject } from 'src/core/types/common';
-import { IsNull, Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 
 @Injectable()
 export class ActorService {
@@ -18,6 +18,14 @@ export class ActorService {
       },
       order: {
         created_at: 'DESC',
+      },
+    });
+  }
+
+  async getActorListByIds(actor_ids: number[]): Promise<Actor[]> {
+    return await this.actorRepository.find({
+      where: {
+        actor_id: In(actor_ids),
       },
     });
   }

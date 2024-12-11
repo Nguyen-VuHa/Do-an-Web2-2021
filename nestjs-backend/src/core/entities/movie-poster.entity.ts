@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -27,5 +28,6 @@ export class MoviePoster {
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
   @ManyToOne(() => Movie, (movie) => movie.posters, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'movie_id' }) // Tên cột khóa ngoại
   movie: Movie;
 }

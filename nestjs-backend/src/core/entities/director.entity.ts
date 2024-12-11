@@ -1,11 +1,11 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
   DeleteDateColumn,
-  ManyToOne,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Movie } from './movie.entity';
 
@@ -26,6 +26,6 @@ export class Director {
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
-  @ManyToOne(() => Movie, (movie) => movie.categories, { onDelete: 'CASCADE' })
-  movie: Movie;
+  @OneToMany(() => Movie, (movie) => movie.director, { onDelete: 'CASCADE' })
+  movie: Movie[];
 }

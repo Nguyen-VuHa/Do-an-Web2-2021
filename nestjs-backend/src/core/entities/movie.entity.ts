@@ -7,6 +7,9 @@ import {
   OneToMany,
   JoinTable,
   ManyToMany,
+  DeleteDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { MoviePoster } from './movie-poster.entity';
 import { Actor } from './actor.entity';
@@ -42,10 +45,14 @@ export class Movie {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @DeleteDateColumn({ nullable: true, default: null })
+  deleted_at: Date | null; // Null nếu chưa bị xóa
+
   @OneToMany(() => MoviePoster, (poster) => poster.movie)
   posters: MoviePoster[];
 
-  @OneToMany(() => Director, (director) => director.movie)
+  @ManyToOne(() => Director, (director) => director.movie)
+  @JoinColumn({ name: 'director_id' }) // Tên cột khóa ngoại
   director: Director;
 
   @ManyToMany(() => Actor, (actor) => actor.movies)

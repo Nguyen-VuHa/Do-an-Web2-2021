@@ -1,6 +1,6 @@
 // pagination.interface.ts
 export interface IPagination<T> {
-  data: T[]; // Dữ liệu trả về
+  list: T[]; // Dữ liệu trả về
   total: number; // Tổng số bản ghi
   page: number; // Trang hiện tại
   limit: number; // Số bản ghi mỗi trang

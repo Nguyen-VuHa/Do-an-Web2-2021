@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/core/entities/category.entity';
 import { IObject } from 'src/core/types/common';
-import { IsNull, Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
@@ -50,6 +50,14 @@ export class CategoryService {
     return await this.categoryRepository.findOne({
       where: conditions,
       withDeleted: true,
+    });
+  }
+
+  async getCategoriesListByIds(category_ids: number[]): Promise<Category[]> {
+    return await this.categoryRepository.find({
+      where: {
+        category_id: In(category_ids),
+      },
     });
   }
 }
