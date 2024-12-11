@@ -5,6 +5,13 @@ export interface IResponse<T> {
   data?: T;
 }
 
+export interface IResponsePagintaion<T> {
+  page: number;
+  limit: number;
+  total: number;
+  list: T;
+}
+
 export interface IOject<T> {
   [key: string]: T;
 }
@@ -13,3 +20,5 @@ export interface ISelectOption {
   value: any;
   label: string;
 }
+
+export type ColorVariant = 'primary' | 'success' | 'danger' | 'warning';

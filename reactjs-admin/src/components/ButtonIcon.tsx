@@ -1,28 +1,35 @@
 import React from 'react';
+import { ColorVariant } from '~/types/common.type';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   loading?: boolean;
+  color?: ColorVariant;
   onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const ButtonIcon: React.FC<ButtonProps> = ({
   className,
+  color,
   loading,
   onClick,
   ...props
 }) => {
+  let classNameColor = 'bg-gray text-gray';
+
+  if (color) {
+    classNameColor = `bg-${color} text-${color}`;
+  }
+
   return (
     <button
-      className={`w-full h-fit flex justify-center items-center 
-        cursor-pointer rounded-sm border border-primary 
-        bg-primary space-x-1 px-3 py-1.5 text-white 
-        transition hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed ${
-          className || ''
-        }`}
+      className={`w-full flex justify-center items-center !w-10 !h-10
+        cursor-pointer rounded-md hover:bg-opacity-10 transition-all
+        space-x-1 bg-opacity-20 ${className || ''} ${classNameColor}`}
       onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (!loading) onClick && onClick(e);
       }}
+      type={'button'}
       {...props}
     >
       {loading ? (
@@ -34,4 +41,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button;
+export default ButtonIcon;

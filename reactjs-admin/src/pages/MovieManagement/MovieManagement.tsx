@@ -1,14 +1,33 @@
-import React from 'react';
+import { IoMdAdd } from 'react-icons/io';
+import { IoSearchOutline } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '~/components/Breadcrumb';
 import Button from '~/components/Button';
-import { IoMdAdd } from 'react-icons/io';
 import DatePicker from '~/components/DatePicker';
-import { IoSearchOutline } from 'react-icons/io5';
 import MovieList from './MovieList';
-import { useNavigate } from 'react-router-dom';
+import useMovieStore from '~/stores/movie.store';
+import { useEffect } from 'react';
 
 const MovieManagement = () => {
   const navigate = useNavigate();
+  const {
+    isFetchMovieList,
+    movieCondition,
+    startDate,
+    endDate,
+    setStartDate,
+    setEndDate,
+    reqFetchMovieList,
+  } = useMovieStore();
+
+  useEffect(() => {
+    reqFetchMovieList({
+      ...movieCondition,
+      _start_date: startDate,
+      _end_date: endDate,
+    });
+  }, []);
+
   return (
     <>
       <Breadcrumb pageName="Quản lý phim" />
@@ -21,7 +40,12 @@ const MovieManagement = () => {
                 Từ ngày
               </label>
               <div className="relative">
-                <DatePicker />
+                <DatePicker
+                  value={startDate}
+                  onChange={(e) => {
+                    setStartDate(e.target.value);
+                  }}
+                />
               </div>
             </div>
             <div className="w-auto flex items-center space-x-2">
@@ -29,12 +53,26 @@ const MovieManagement = () => {
                 Đến ngày
               </label>
               <div className="relative">
-                <DatePicker />
+                <DatePicker
+                  value={endDate}
+                  onChange={(e) => {
+                    setEndDate(e.target.value);
+                  }}
+                />
               </div>
             </div>
           </div>
           <div className="flex space-x-2 w-auto">
-            <Button>
+            <Button
+              loading={isFetchMovieList}
+              onClick={() => {
+                reqFetchMovieList({
+                  ...movieCondition,
+                  _start_date: startDate,
+                  _end_date: endDate,
+                });
+              }}
+            >
               <span className="whitespace-nowrap">Lọc dữ liệu</span>
               <IoSearchOutline size={20} />
             </Button>
@@ -43,7 +81,7 @@ const MovieManagement = () => {
                 navigate('/movies/create');
               }}
             >
-              <span>Thêm mới</span>
+              <span className="whitespace-nowrap">Thêm mới</span>
               <IoMdAdd size={20} />
             </Button>
           </div>

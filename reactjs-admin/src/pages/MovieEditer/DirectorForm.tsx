@@ -8,8 +8,12 @@ import { ISelectOption } from '~/types/common.type';
 
 const DirectorForm = () => {
   const { directors } = useDirectorStore();
-  const { directorSelected, errMovieForm, setDirectorSelect, removeDirectorSelect } =
-    useMovieStore();
+  const {
+    directorSelected,
+    errMovieForm,
+    setDirectorSelect,
+    removeDirectorSelect,
+  } = useMovieStore();
 
   return (
     <>

@@ -8,8 +8,12 @@ import { ISelectOption } from '~/types/common.type';
 
 const CategoryForm = () => {
   const { categories } = useCategoryStore();
-  const { categoriesSelected, errMovieForm, setCategorySelect, removeCategorySelect } =
-    useMovieStore();
+  const {
+    categoriesSelected,
+    errMovieForm,
+    setCategorySelect,
+    removeCategorySelect,
+  } = useMovieStore();
 
   return (
     <>

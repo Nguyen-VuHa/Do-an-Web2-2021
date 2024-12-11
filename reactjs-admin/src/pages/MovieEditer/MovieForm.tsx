@@ -4,12 +4,12 @@ import FormGroup from '~/components/FormGroup';
 import Input from '~/components/Input';
 import TextArea from '~/components/TextArea';
 import useMovieStore from '~/stores/movie.store';
+import { stringToInt } from '~/utils/convert';
 
 const MovieForm = () => {
   const { movieForm, errMovieForm, setMovieFormValue } = useMovieStore();
   const { title, duration, start_date, end_date, trailer_id, description } =
     movieForm;
-    
 
   const keysNumber = ['duration'];
   const handleChangeInput = useCallback(
@@ -20,7 +20,7 @@ const MovieForm = () => {
         const numberClean = value.replace(/\D/g, '');
 
         setMovieFormValue({
-          [name]: numberClean,
+          [name]: stringToInt(numberClean),
         });
         return;
       }

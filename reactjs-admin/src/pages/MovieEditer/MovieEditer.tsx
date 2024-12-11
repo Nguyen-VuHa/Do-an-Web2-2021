@@ -22,7 +22,15 @@ const MovieEditer = () => {
   const { reqFetchAllCategories } = useCategoryStore();
   const { reqFetchAllDirectors } = useDirectorStore();
   const { reqFetchAllActor } = useActorStore();
-  const { movieForm, directorSelected, categoriesSelected, actorSelected, setErrorMovieForm } = useMovieStore();
+  const {
+    movieForm,
+    directorSelected,
+    categoriesSelected,
+    actorSelected,
+    setErrorMovieForm,
+    reqCreateMovie,
+    isEditMovie,
+  } = useMovieStore();
 
   // component mounting -> fetch data
   useEffect(() => {
@@ -34,35 +42,41 @@ const MovieEditer = () => {
   const handleValidateMovieForm = async () => {
     try {
       // Chờ kết quả validate với Yup
-      await movieSchema.validate({
-        ...movieForm,
-        director: directorSelected,
-        actors: actorSelected,
-        categories: categoriesSelected,
-      }, { abortEarly: false });
+      await movieSchema.validate(
+        {
+          ...movieForm,
+          director: directorSelected,
+          actors: actorSelected,
+          categories: categoriesSelected,
+        },
+        { abortEarly: false },
+      );
       return true;
     } catch (err: any) {
       const errors: IOject<string> = {};
 
       err.inner.map((error: Yup.ValidationError) => {
-        errors[error.path as string] = error.message
+        errors[error.path as string] = error.message;
       });
-      
-      setErrorMovieForm(errors)
+
+      setErrorMovieForm(errors);
       return false;
     }
-  }
+  };
 
   const handleSubmitEditMovie = async () => {
     const isValidData = await handleValidateMovieForm();
 
-    if(isValidData) {
-      console.log('gửi yêu cầu lên server');
-      
+    if (isValidData) {
+      const statusCreate = await reqCreateMovie();
+
+      if (statusCreate) {
+        navigate(-1);
+      }
     } else {
-      toast.error('Một số trường chưa nhập dữ liệu, vui lòng kiểm tra lại')
+      toast.error('Một số trường chưa nhập dữ liệu, vui lòng kiểm tra lại');
     }
-  }
+  };
 
   return (
     <>
@@ -70,7 +84,7 @@ const MovieEditer = () => {
         <div className="flex items-center space-x-2">
           <Button
             onClick={() => {
-              navigate(-1);
+              if (!isEditMovie) navigate(-1);
             }}
           >
             <FaArrowLeft size={22} />
@@ -80,9 +94,7 @@ const MovieEditer = () => {
           </h2>
         </div>
         <div className="flex items-center space-x-2">
-          <Button
-            onClick={() => handleSubmitEditMovie()}
-          >
+          <Button loading={isEditMovie} onClick={() => handleSubmitEditMovie()}>
             Lưu thay đổi
           </Button>
         </div>
@@ -101,3 +113,6 @@ const MovieEditer = () => {
 };
 
 export default MovieEditer;
+function stringToInt() {
+  throw new Error('Function not implemented.');
+}

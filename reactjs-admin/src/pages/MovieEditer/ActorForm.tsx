@@ -8,7 +8,8 @@ import { ISelectOption } from '~/types/common.type';
 
 const ActorForm = () => {
   const { actors } = useActorStore();
-  const { actorSelected, errMovieForm, setActorSelect, removeActorSelect } = useMovieStore();
+  const { actorSelected, errMovieForm, setActorSelect, removeActorSelect } =
+    useMovieStore();
 
   return (
     <>
