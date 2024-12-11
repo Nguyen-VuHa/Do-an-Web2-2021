@@ -8,7 +8,7 @@ import { ISelectOption } from '~/types/common.type';
 
 const CategoryForm = () => {
   const { categories } = useCategoryStore();
-  const { categoriesSelected, setCategorySelect, removeCategorySelect } =
+  const { categoriesSelected, errMovieForm, setCategorySelect, removeCategorySelect } =
     useMovieStore();
 
   return (
@@ -45,6 +45,7 @@ const CategoryForm = () => {
                   })}
                 />
               }
+              messageError={errMovieForm.categories}
             />
           </div>
         </div>
@@ -78,7 +79,7 @@ const CreateCategory = () => {
         }}
       />
       <Button
-        className="w-fit !py-1"
+        className="!w-fit !py-1"
         disabled={!categoryForm}
         loading={isCreateCategory}
       >

@@ -9,6 +9,11 @@ import useCategoryStore from '~/stores/category.store';
 import { useEffect } from 'react';
 import useDirectorStore from '~/stores/director.store';
 import useActorStore from '~/stores/actor.store';
+import movieSchema from '~/schemas/movie.schema';
+import useMovieStore from '~/stores/movie.store';
+import * as Yup from 'yup';
+import { IOject } from '~/types/common.type';
+import toast from 'react-hot-toast';
 
 const MovieEditer = () => {
   const navigate = useNavigate();
@@ -17,6 +22,7 @@ const MovieEditer = () => {
   const { reqFetchAllCategories } = useCategoryStore();
   const { reqFetchAllDirectors } = useDirectorStore();
   const { reqFetchAllActor } = useActorStore();
+  const { movieForm, directorSelected, categoriesSelected, actorSelected, setErrorMovieForm } = useMovieStore();
 
   // component mounting -> fetch data
   useEffect(() => {
@@ -24,6 +30,39 @@ const MovieEditer = () => {
     reqFetchAllDirectors();
     reqFetchAllActor();
   }, []);
+
+  const handleValidateMovieForm = async () => {
+    try {
+      // Chờ kết quả validate với Yup
+      await movieSchema.validate({
+        ...movieForm,
+        director: directorSelected,
+        actors: actorSelected,
+        categories: categoriesSelected,
+      }, { abortEarly: false });
+      return true;
+    } catch (err: any) {
+      const errors: IOject<string> = {};
+
+      err.inner.map((error: Yup.ValidationError) => {
+        errors[error.path as string] = error.message
+      });
+      
+      setErrorMovieForm(errors)
+      return false;
+    }
+  }
+
+  const handleSubmitEditMovie = async () => {
+    const isValidData = await handleValidateMovieForm();
+
+    if(isValidData) {
+      console.log('gửi yêu cầu lên server');
+      
+    } else {
+      toast.error('Một số trường chưa nhập dữ liệu, vui lòng kiểm tra lại')
+    }
+  }
 
   return (
     <>
@@ -41,7 +80,11 @@ const MovieEditer = () => {
           </h2>
         </div>
         <div className="flex items-center space-x-2">
-          <Button>Lưu thay đổi</Button>
+          <Button
+            onClick={() => handleSubmitEditMovie()}
+          >
+            Lưu thay đổi
+          </Button>
         </div>
       </div>
 

@@ -1,4 +1,6 @@
 import { create } from 'zustand';
+import { IOject } from '~/types/common.type';
+import { IMovieForm } from '~/types/movie.type';
 
 interface MovieState {
   categoriesSelected: any[];
@@ -12,9 +14,38 @@ interface MovieState {
   actorSelected: any[];
   setActorSelect: (val: any) => void;
   removeActorSelect: (val: any) => void;
+
+  movieForm: IMovieForm;
+  errMovieForm: IOject<string>;
+  setMovieFormValue: (form: IOject<any>) => void;
+  setErrorMovieForm: (errorForm: IOject<any>) => void;
 }
 
 const useMovieStore = create<MovieState>((set) => ({
+  // Movie form
+  movieForm: {
+    title: '',
+    duration: null,
+    start_date: '',
+    end_date: '',
+    trailer_id: '',
+    description: '',
+  },
+  errMovieForm: {},
+  setErrorMovieForm: (errorForm) => {
+    set({
+      errMovieForm: errorForm,
+    });
+  },
+
+  setMovieFormValue: (formData) => {
+    set((prev) => ({
+      movieForm: {
+        ...prev.movieForm,
+        ...formData,
+      },
+    }));
+  },
   // Category edit movie
   categoriesSelected: [],
 

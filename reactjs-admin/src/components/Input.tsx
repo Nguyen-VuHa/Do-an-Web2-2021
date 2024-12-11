@@ -15,7 +15,7 @@ const Input: React.FC<InputProps> = ({
   return (
     <input
       className={`w-full rounded border-[1.5px] border-stroke bg-transparent 
-            py-1.5 px-3 font-medium outline-none transition focus:border-primary text-white
+            py-1.5 px-3 font-medium outline-none transition focus:border-primary dark:text-white
             active:border-primary disabled:cursor-default 
             disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
               className || ''

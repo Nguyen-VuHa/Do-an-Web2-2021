@@ -8,7 +8,7 @@ import { ISelectOption } from '~/types/common.type';
 
 const ActorForm = () => {
   const { actors } = useActorStore();
-  const { actorSelected, setActorSelect, removeActorSelect } = useMovieStore();
+  const { actorSelected, errMovieForm, setActorSelect, removeActorSelect } = useMovieStore();
 
   return (
     <>
@@ -44,6 +44,7 @@ const ActorForm = () => {
                   })}
                 />
               }
+              messageError={errMovieForm.actors}
             />
           </div>
         </div>
@@ -77,7 +78,7 @@ const CreateActor = () => {
         }}
       />
       <Button
-        className="w-fit !py-1"
+        className="!w-fit !py-1"
         disabled={!actorForm}
         loading={isCreateActor}
       >

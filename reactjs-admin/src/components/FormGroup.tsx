@@ -22,7 +22,7 @@ const FormGroup: React.FC<FormGroupProps> = ({
         {label} {isRequire && <span className="text-meta-1">*</span>}
       </label>
       {element}
-      {messageError && (
+      {messageError && messageError != '' && (
         <span className="text-xs text-danger italic">{messageError}</span>
       )}
     </div>

@@ -8,7 +8,7 @@ import { ISelectOption } from '~/types/common.type';
 
 const DirectorForm = () => {
   const { directors } = useDirectorStore();
-  const { directorSelected, setDirectorSelect, removeDirectorSelect } =
+  const { directorSelected, errMovieForm, setDirectorSelect, removeDirectorSelect } =
     useMovieStore();
 
   return (
@@ -46,6 +46,7 @@ const DirectorForm = () => {
                   })}
                 />
               }
+              messageError={errMovieForm.director}
             />
           </div>
         </div>
@@ -79,7 +80,7 @@ const CreateDirector = () => {
         }}
       />
       <Button
-        className="w-fit !py-1"
+        className="!w-fit !py-1"
         disabled={!directorForm}
         loading={isCreateDirector}
       >

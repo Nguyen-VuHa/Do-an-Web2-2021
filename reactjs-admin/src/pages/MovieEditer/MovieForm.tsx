@@ -1,9 +1,37 @@
+import { useCallback } from 'react';
 import DatePicker from '~/components/DatePicker';
 import FormGroup from '~/components/FormGroup';
 import Input from '~/components/Input';
 import TextArea from '~/components/TextArea';
+import useMovieStore from '~/stores/movie.store';
 
 const MovieForm = () => {
+  const { movieForm, errMovieForm, setMovieFormValue } = useMovieStore();
+  const { title, duration, start_date, end_date, trailer_id, description } =
+    movieForm;
+    
+
+  const keysNumber = ['duration'];
+  const handleChangeInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { value, name } = e.target;
+
+      if (keysNumber.includes(name)) {
+        const numberClean = value.replace(/\D/g, '');
+
+        setMovieFormValue({
+          [name]: numberClean,
+        });
+        return;
+      }
+
+      setMovieFormValue({
+        [name]: value,
+      });
+    },
+    [],
+  );
+
   return (
     <div className="flex flex-col gap-5">
       {/* <!-- Contact Form --> */}
@@ -19,7 +47,15 @@ const MovieForm = () => {
               <FormGroup
                 label="Tên Phim"
                 isRequire
-                element={<Input placeholder="Ví dụ: Titanic . . ." />}
+                element={
+                  <Input
+                    placeholder="Ví dụ: Titanic . . ."
+                    name="title"
+                    value={title}
+                    onChange={handleChangeInput}
+                  />
+                }
+                messageError={errMovieForm.title}
               />
             </div>
 
@@ -27,7 +63,16 @@ const MovieForm = () => {
               <FormGroup
                 label="Thời lượng phim (phút)"
                 isRequire
-                element={<Input placeholder="Ví dụ: 180 ..." type="number" />}
+                element={
+                  <Input
+                    placeholder="Ví dụ: 180 ..."
+                    type="number"
+                    name="duration"
+                    value={(duration && duration.toString()) || ''}
+                    onChange={handleChangeInput}
+                  />
+                }
+                messageError={errMovieForm.duration}
               />
             </div>
 
@@ -36,7 +81,14 @@ const MovieForm = () => {
                 <FormGroup
                   label="Ngày khởi chiếu"
                   isRequire
-                  element={<DatePicker />}
+                  element={
+                    <DatePicker
+                      name="start_date"
+                      value={start_date}
+                      onChange={handleChangeInput}
+                    />
+                  }
+                  messageError={errMovieForm.start_date}
                 />
               </div>
 
@@ -44,7 +96,14 @@ const MovieForm = () => {
                 <FormGroup
                   label="Ngày kết thúc"
                   isRequire
-                  element={<DatePicker />}
+                  element={
+                    <DatePicker
+                      name="end_date"
+                      value={end_date}
+                      onChange={handleChangeInput}
+                    />
+                  }
+                  messageError={errMovieForm.end_date}
                 />
               </div>
             </div>
@@ -53,14 +112,30 @@ const MovieForm = () => {
               <FormGroup
                 label="Trailer ID (Video Youtube ID)"
                 isRequire
-                element={<Input placeholder="Ví dụ: M1pBg9m2lTx ..." />}
+                element={
+                  <Input
+                    placeholder="Ví dụ: M1pBg9m2lTx ..."
+                    name="trailer_id"
+                    value={trailer_id}
+                    onChange={handleChangeInput}
+                  />
+                }
+                messageError={errMovieForm.trailer_id}
               />
             </div>
 
             <div className="mb-4.5">
               <FormGroup
                 label="Mô tả (nếu có)"
-                element={<TextArea rows={6} />}
+                element={
+                  <TextArea
+                    rows={6}
+                    value={description}
+                    name="description"
+                    onChange={handleChangeInput}
+                  />
+                }
+                messageError={errMovieForm.description}
               />
             </div>
           </div>
