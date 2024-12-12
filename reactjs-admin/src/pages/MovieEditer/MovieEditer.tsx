@@ -37,7 +37,17 @@ const MovieEditer = () => {
 
   useEffect(() => {
     if (movie_id) {
-      reqFetchMovieDetail(movie_id);
+      const fetchMovieDetail = async () => {
+        if (movie_id) {
+          const isFetchDetail = await reqFetchMovieDetail(movie_id);
+
+          if (!isFetchDetail) {
+            window.location.replace('/404');
+          }
+        }
+      };
+
+      fetchMovieDetail();
     }
   }, []);
 

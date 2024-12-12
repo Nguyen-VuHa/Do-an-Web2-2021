@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 import { ColorVariant } from '~/types/common.type';
 
@@ -7,17 +8,23 @@ interface TagProps {
 }
 
 const Tag: React.FC<TagProps> = ({ label, color }) => {
-  let className = 'bg-gray text-gray';
-  if (color) {
-    className = `bg-${color} text-${color}`;
-  }
+  let className = clsx(
+    'inline-flex rounded-full py-1 px-3 text-sm font-medium bg-opacity-20',
+    {
+      [`bg-${color}`]: color,
+      [`text-${color}`]: color,
+      'bg-gray text-gray': !color, // fallback khi không có color
+    },
+  );
 
   return (
-    <p
-      className={`inline-flex rounded-full py-1 px-3 text-sm font-medium bg-opacity-20 ${className}`}
-    >
-      {label}
-    </p>
+    <>
+      <p
+        className={`inline-flex rounded-full py-1 px-3 text-sm font-medium bg-opacity-20 ${className}`}
+      >
+        {label}
+      </p>
+    </> 
   );
 };
 

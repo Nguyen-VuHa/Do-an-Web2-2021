@@ -21,4 +21,14 @@ export interface ISelectOption {
   label: string;
 }
 
-export type ColorVariant = 'primary' | 'success' | 'danger' | 'warning';
+export type ColorVariant =
+  | 'primary'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'violet'
+  | 'purple'
+  | 'pink'
+  | 'rose'
+  | 'cyan'
+  | 'sky';

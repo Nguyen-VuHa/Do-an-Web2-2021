@@ -16,7 +16,12 @@ const EditControl: React.FC<EditControlProps> = ({ data }) => {
   const { setMovieUpdateStatus } = useMovieStore();
   return (
     <div className="flex items-center space-x-1">
-      <ButtonIcon color="primary">
+      <ButtonIcon
+        color="primary"
+        onClick={() => {
+          navigate(`detail/${data.movie_id}`);
+        }}
+      >
         <IoEye size={20} />
       </ButtonIcon>
       <ButtonIcon

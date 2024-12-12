@@ -4,6 +4,9 @@ const MovieManagement = lazy(
   () => import('src/pages/MovieManagement/MovieManagement.tsx'),
 );
 const MovieEditer = lazy(() => import('src/pages/MovieEditer/MovieEditer'));
+const MovieDetail = lazy(
+  () => import('src/pages/MovieDetail/MovieDetail.Main'),
+);
 
 const Calendar = lazy(() => import('../pages/Calendar'));
 const Chart = lazy(() => import('../pages/Chart'));
@@ -30,6 +33,11 @@ const coreRoutes = [
     path: '/movies/update/:movie_id',
     title: 'Movie Update',
     component: MovieEditer,
+  },
+  {
+    path: '/movies/detail/:movie_id',
+    title: 'Movie Detail',
+    component: MovieDetail,
   },
   {
     path: '/calendar',

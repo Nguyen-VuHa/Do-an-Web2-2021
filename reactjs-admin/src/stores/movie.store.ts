@@ -11,8 +11,9 @@ import {
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { IOject } from '~/types/common.type';
-import { IMovie, IMovieForm } from '~/types/movie.type';
+import { IDetailMovie, IMovie, IMovieForm } from '~/types/movie.type';
 import useGlobalStore from './global.store';
+import MovieDetail from '~/pages/MovieDetail/MovieDetail.Main';
 
 interface MovieState {
   categoriesSelected: any[];
@@ -51,13 +52,16 @@ interface MovieState {
   reqUpdateStatusMovie: (payload: IOject<any>) => Promise<void>;
 
   isFetchDetailMovie: boolean;
-  reqFetchMovieDetail: (movieID: string) => Promise<void>;
+  movieDetail: IDetailMovie | null;
+  reqFetchMovieDetail: (movieID: string) => Promise<boolean>;
 }
 
 const useMovieStore = create<MovieState>((set, get) => ({
   // movie detail
   isFetchDetailMovie: false,
+  movieDetail: null,
   reqFetchMovieDetail: async (movieID) => {
+    let statusFetchDetail: boolean = false;
     useGlobalStore.getState().setFormGroupLoading(true);
     set({
       isFetchDetailMovie: true,
@@ -71,6 +75,7 @@ const useMovieStore = create<MovieState>((set, get) => ({
         const movieDetail = res.data;
 
         set({
+          movieDetail: movieDetail,
           movieForm: {
             title: movieDetail.title,
             duration: movieDetail.duration,
@@ -79,23 +84,16 @@ const useMovieStore = create<MovieState>((set, get) => ({
             trailer_id: movieDetail.trailer_id,
             description: movieDetail.description,
           },
-        });
-
-        set({
           directorSelected: [movieDetail.director.director_id],
-        });
-
-        set({
           actorSelected: movieDetail.actors.map((actor) => {
             return actor.actor_id;
           }),
-        });
-
-        set({
           categoriesSelected: movieDetail.categories.map((category) => {
             return category.category_id;
           }),
         });
+
+        statusFetchDetail = true;
       } else {
         toast.error(res.error);
       }
@@ -107,6 +105,8 @@ const useMovieStore = create<MovieState>((set, get) => ({
       });
       useGlobalStore.getState().setFormGroupLoading(false);
     }
+
+    return statusFetchDetail;
   },
   // movie modal
   movieUpdateStatus: null,

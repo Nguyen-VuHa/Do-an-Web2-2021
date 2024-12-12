@@ -14,6 +14,15 @@ const DefaultLayout = () => {
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
+      <div className='hidden 
+        bg-sky text-sky 
+        bg-violet text-violet 
+        bg-purple text-purple
+        bg-cyan text-cyan
+        bg-rose text-rose
+        bg-pink text-pink
+        ' 
+        />
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}
