@@ -1,19 +1,19 @@
-import Button from '~/components/Button';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { FaArrowLeft } from 'react-icons/fa6';
 import { useNavigate, useParams } from 'react-router-dom';
-import MovieForm from './MovieForm';
+import * as Yup from 'yup';
+import Button from '~/components/Button';
+import movieSchema from '~/schemas/movie.schema';
+import useActorStore from '~/stores/actor.store';
+import useCategoryStore from '~/stores/category.store';
+import useDirectorStore from '~/stores/director.store';
+import useMovieStore from '~/stores/movie.store';
+import { IOject } from '~/types/common.type';
+import ActorForm from './ActorForm';
 import CategoryForm from './CategoryForm';
 import DirectorForm from './DirectorForm';
-import ActorForm from './ActorForm';
-import useCategoryStore from '~/stores/category.store';
-import { useEffect } from 'react';
-import useDirectorStore from '~/stores/director.store';
-import useActorStore from '~/stores/actor.store';
-import movieSchema from '~/schemas/movie.schema';
-import useMovieStore from '~/stores/movie.store';
-import * as Yup from 'yup';
-import { IOject } from '~/types/common.type';
-import toast from 'react-hot-toast';
+import MovieForm from './MovieForm';
 
 const MovieEditer = () => {
   const navigate = useNavigate();
@@ -27,16 +27,29 @@ const MovieEditer = () => {
     directorSelected,
     categoriesSelected,
     actorSelected,
+    isEditMovie,
     setErrorMovieForm,
     reqCreateMovie,
-    isEditMovie,
+    reqUpdateMovie,
+    resetFormMovie,
+    reqFetchMovieDetail,
   } = useMovieStore();
+
+  useEffect(() => {
+    if (movie_id) {
+      reqFetchMovieDetail(movie_id);
+    }
+  }, []);
 
   // component mounting -> fetch data
   useEffect(() => {
     reqFetchAllCategories();
     reqFetchAllDirectors();
     reqFetchAllActor();
+
+    return () => {
+      resetFormMovie();
+    };
   }, []);
 
   const handleValidateMovieForm = async () => {
@@ -68,10 +81,18 @@ const MovieEditer = () => {
     const isValidData = await handleValidateMovieForm();
 
     if (isValidData) {
-      const statusCreate = await reqCreateMovie();
+      if (movie_id) {
+        const statusUpdate = await reqUpdateMovie(movie_id);
 
-      if (statusCreate) {
-        navigate(-1);
+        if (statusUpdate) {
+          navigate(-1);
+        }
+      } else {
+        const statusCreate = await reqCreateMovie();
+
+        if (statusCreate) {
+          navigate(-1);
+        }
       }
     } else {
       toast.error('Một số trường chưa nhập dữ liệu, vui lòng kiểm tra lại');
@@ -113,6 +134,3 @@ const MovieEditer = () => {
 };
 
 export default MovieEditer;
-function stringToInt() {
-  throw new Error('Function not implemented.');
-}

@@ -27,6 +27,11 @@ const coreRoutes = [
     component: MovieEditer,
   },
   {
+    path: '/movies/update/:movie_id',
+    title: 'Movie Update',
+    component: MovieEditer,
+  },
+  {
     path: '/calendar',
     title: 'Calender',
     component: Calendar,

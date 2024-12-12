@@ -4,12 +4,15 @@ import { create } from 'zustand';
 import {
   apiChangeStatusMovie,
   apiCreateMovie,
+  apiFetchMovieDetail,
   apiFetchMovieList,
+  apiUpdateMovie,
 } from '~/apis/movie.api';
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { IOject } from '~/types/common.type';
 import { IMovie, IMovieForm } from '~/types/movie.type';
+import useGlobalStore from './global.store';
 
 interface MovieState {
   categoriesSelected: any[];
@@ -37,6 +40,7 @@ interface MovieState {
   endDate: string;
   reqFetchMovieList: (params: IOject<any>) => Promise<void>;
   reqCreateMovie: () => Promise<boolean>;
+  reqUpdateMovie: (movieID: string) => Promise<boolean>;
   resetFormMovie: () => void;
   setStartDate: (val: any) => void;
   setEndDate: (val: any) => void;
@@ -45,9 +49,65 @@ interface MovieState {
   isUpdateStatus: boolean;
   setMovieUpdateStatus: (form: IMovie | null) => void;
   reqUpdateStatusMovie: (payload: IOject<any>) => Promise<void>;
+
+  isFetchDetailMovie: boolean;
+  reqFetchMovieDetail: (movieID: string) => Promise<void>;
 }
 
 const useMovieStore = create<MovieState>((set, get) => ({
+  // movie detail
+  isFetchDetailMovie: false,
+  reqFetchMovieDetail: async (movieID) => {
+    useGlobalStore.getState().setFormGroupLoading(true);
+    set({
+      isFetchDetailMovie: true,
+    });
+    try {
+      const res = await apiFetchMovieDetail({
+        _movie_id: movieID,
+      });
+
+      if (res.statusCode === 200 && res.data) {
+        const movieDetail = res.data;
+
+        set({
+          movieForm: {
+            title: movieDetail.title,
+            duration: movieDetail.duration,
+            start_date: movieDetail.start_date,
+            end_date: movieDetail.end_date,
+            trailer_id: movieDetail.trailer_id,
+            description: movieDetail.description,
+          },
+        });
+
+        set({
+          directorSelected: [movieDetail.director.director_id],
+        });
+
+        set({
+          actorSelected: movieDetail.actors.map((actor) => {
+            return actor.actor_id;
+          }),
+        });
+
+        set({
+          categoriesSelected: movieDetail.categories.map((category) => {
+            return category.category_id;
+          }),
+        });
+      } else {
+        toast.error(res.error);
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({
+        isFetchDetailMovie: false,
+      });
+      useGlobalStore.getState().setFormGroupLoading(false);
+    }
+  },
   // movie modal
   movieUpdateStatus: null,
   isUpdateStatus: false,
@@ -139,12 +199,12 @@ const useMovieStore = create<MovieState>((set, get) => ({
     try {
       const res = await apiFetchMovieList(params);
 
-      if (res.statusCode === 200) {
+      if (res.statusCode === 200 && res.data) {
         set({ movies: res.data.list });
         set((state) => ({
           movieCondition: {
             ...state.movieCondition,
-            totalRows: res.data.total,
+            totalRows: res.data?.total,
           },
         }));
       }
@@ -183,6 +243,38 @@ const useMovieStore = create<MovieState>((set, get) => ({
       });
 
       return statusCreate;
+    }
+  },
+  reqUpdateMovie: async (movieID) => {
+    let statusUpdate: boolean = false;
+    set({
+      isEditMovie: true,
+    });
+    try {
+      const payload: IOject<any> = {
+        ...get().movieForm,
+        director: get().directorSelected[0],
+        actors: get().actorSelected,
+        categories: get().categoriesSelected,
+        movie_id: movieID,
+      };
+
+      const res = await apiUpdateMovie(payload);
+
+      if (res && res.statusCode === STATUS_SUCCESS && res.data) {
+        statusUpdate = true;
+        get().resetFormMovie();
+      } else {
+        toast.error(res.error);
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({
+        isEditMovie: false,
+      });
+
+      return statusUpdate;
     }
   },
   // Movie form

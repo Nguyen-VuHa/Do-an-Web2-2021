@@ -1,3 +1,5 @@
+import { Actor, Category, Director } from './movie-meta.type';
+
 export interface IMovieForm {
   title: string;
   duration: number | null;
@@ -15,4 +17,12 @@ export interface IMovie {
   end_date: string;
   movie_type: string;
   status: string;
+}
+
+export interface IDetailMovie extends IMovie {
+  trailer_id: string;
+  description: string;
+  director: Director;
+  actors: Actor[];
+  categories: Category[];
 }

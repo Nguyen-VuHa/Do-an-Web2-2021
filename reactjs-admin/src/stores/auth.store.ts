@@ -20,7 +20,7 @@ interface AuthState {
 
 const useAuthStore = create<AuthState>((set) => ({
   email: 'admin@gmail.com',
-  password: '123123123123',
+  password: '123123123',
   setInputChange: (newValues: IOject<string>) =>
     set((state) => ({
       ...state, // Giữ lại tất cả các giá trị cũ

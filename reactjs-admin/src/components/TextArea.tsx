@@ -21,6 +21,7 @@ const TextArea: React.FC<TextAreaProps> = ({
           disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
             className || ''
           }`}
+      value={value}
       {...props}
     ></textarea>
   );

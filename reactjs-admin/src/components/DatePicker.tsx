@@ -20,7 +20,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       font-medium outline-none transition focus:border-primary
       active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
         className || ''
-      } ${(value && 'text-white') || ''}`}
+      } ${(value && 'dark:text-white') || ''}`}
       onChange={onChange}
       value={value}
       {...props}

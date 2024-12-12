@@ -33,9 +33,16 @@ export class AdminMovieUseCases {
       let whereCondition: IObject<any> = {};
 
       if (objQuery._start_date && objQuery._end_date) {
+        // Chuyển đổi từ string sang Date
+        const startDate = new Date(objQuery._start_date);
+        startDate.setHours(0, 0, 0, 0); // Đặt thời gian là 00:00:00
+
+        const endDate = new Date(objQuery._end_date);
+        endDate.setHours(23, 59, 59, 999); // Đặt thời gian là 23:59:59
+
         whereCondition = {
           ...whereCondition,
-          created_at: Between(objQuery._start_date, objQuery._end_date),
+          created_at: Between(startDate, endDate),
         };
       }
 

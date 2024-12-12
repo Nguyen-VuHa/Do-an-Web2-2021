@@ -169,6 +169,12 @@ export class UpdateStatusMovieDTO {
 
 export class DetailMovieResponseDTO extends MovieResponseDTO {
   @Expose()
+  trailer_id: string;
+
+  @Expose()
+  description: string;
+
+  @Expose()
   @Type(() => DirectorResponseDTO)
   director: DirectorResponseDTO;
 

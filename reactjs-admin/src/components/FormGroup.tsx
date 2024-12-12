@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import useGlobalStore from '~/stores/global.store';
 
 type FormGroupProps = {
   label: string;
@@ -16,12 +17,33 @@ const FormGroup: React.FC<FormGroupProps> = ({
   className,
   ...props
 }) => {
+  const { isFormGroupLoading } = useGlobalStore();
+
   return (
-    <div className={`w-full ${className || ''}`} {...props}>
-      <label className="mb-2.5 block text-black dark:text-white">
+    <div
+      className={`form-group w-full ${className || ''} ${
+        (isFormGroupLoading && 'animate-pulse') || ''
+      }`}
+      {...props}
+    >
+      <label
+        className={`mb-2.5 block bg-gray-200 rounded-full ${
+          (isFormGroupLoading &&
+            'text-transparent bg-gray dark:bg-graydark w-fit') ||
+          ''
+        }`}
+      >
         {label} {isRequire && <span className="text-meta-1">*</span>}
       </label>
-      {element}
+      <div
+        className={`w-full ${
+          (isFormGroupLoading &&
+            'text-black bg-gray dark:bg-graydark h-[30px]') ||
+          ''
+        }`}
+      >
+        {!isFormGroupLoading && element}
+      </div>
       {messageError && messageError != '' && (
         <span className="text-xs text-danger italic">{messageError}</span>
       )}

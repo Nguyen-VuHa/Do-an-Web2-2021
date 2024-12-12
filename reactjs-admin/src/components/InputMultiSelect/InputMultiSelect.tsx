@@ -91,6 +91,20 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
     }
   }, [isDropdown]);
 
+  useEffect(() => {
+    if (values && options && options.length > 0) {
+      let valueProps: ISelectOption[] = [];
+
+      options.map((option) => {
+        if (values.includes(option.value)) {
+          valueProps.push(option);
+        }
+      });
+
+      setValueSelected(valueProps);
+    }
+  }, [values, options]);
+
   return (
     <div
       className="relative w-full rounded border 
@@ -114,11 +128,6 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
                     label={val.label}
                     onRemove={() => {
                       onRemove && onRemove(val.value);
-                      setValueSelected(
-                        valueSelected.filter(
-                          (valS) => valS.value !== val.value,
-                        ),
-                      );
                     }}
                   />
                 );
@@ -178,8 +187,6 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
                         if (isSingleValue) {
                           valSelect = [option];
                         }
-
-                        setValueSelected(valSelect);
                       }
                     }}
                     className={`flex justify-between items-center

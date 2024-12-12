@@ -5,19 +5,26 @@ import { BsPencilSquare } from 'react-icons/bs';
 import { CiLock } from 'react-icons/ci';
 import { CiUnlock } from 'react-icons/ci';
 import useMovieStore from '~/stores/movie.store';
+import { useNavigate } from 'react-router-dom';
 
 type EditControlProps = {
   data: any;
 };
 
 const EditControl: React.FC<EditControlProps> = ({ data }) => {
+  const navigate = useNavigate();
   const { setMovieUpdateStatus } = useMovieStore();
   return (
     <div className="flex items-center space-x-1">
       <ButtonIcon color="primary">
         <IoEye size={20} />
       </ButtonIcon>
-      <ButtonIcon color="warning">
+      <ButtonIcon
+        color="warning"
+        onClick={() => {
+          navigate(`update/${data.movie_id}`);
+        }}
+      >
         <BsPencilSquare size={20} />
       </ButtonIcon>
       <ButtonIcon
