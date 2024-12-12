@@ -33,9 +33,9 @@ const Table: React.FC<TableProps> = ({
         </thead>
         <tbody>
           {loading && (
-            <tr>
+            <tr className="h-[50vh]">
               <td className="p-10">
-                <div className="absolute w-full p-5 flex flex-col justify-center items-center space-y-2">
+                <div className="absolute left-0 top-[30%] w-full p-5 flex flex-col justify-center items-center space-y-2">
                   <div className="h-10 w-10 animate-spin rounded-full border-2 border-solid border-primary border-t-transparent"></div>
                 </div>
               </td>

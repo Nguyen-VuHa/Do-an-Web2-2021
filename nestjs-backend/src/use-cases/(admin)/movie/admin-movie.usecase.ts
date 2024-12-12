@@ -13,6 +13,7 @@ import { ActorService } from 'src/services/actor/actor.service';
 import { CategoryService } from 'src/services/category/category.service';
 import { DirectorService } from 'src/services/director/director.service';
 import { MovieService } from 'src/services/movie/movie.service';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class AdminMovieUseCases {
@@ -27,7 +28,17 @@ export class AdminMovieUseCases {
     objQuery: GetMoviesQueryDto
   ): Promise<IResponse<IPagination<MovieResponseDTO>>> {
     try {
+      let whereCondition: IObject<any> = {};
+
+      if (objQuery._start_date && objQuery._end_date) {
+        whereCondition = {
+          ...whereCondition,
+          created_at: Between(objQuery._start_date, objQuery._end_date),
+        };
+      }
+
       const movieQuery: IObject<any> = {
+        where: whereCondition,
         take: objQuery._page_size,
         skip: (objQuery._page - 1) * objQuery._page_size,
         order: {
@@ -140,7 +151,7 @@ export class AdminMovieUseCases {
         statusCode: 200,
         error: null,
         message: 'Cập nhật thành công trạng thái phim.',
-        data: `ID '${data._movie_id}' đã cập nhật thành trạng thái ${data._status} thành công.`,
+        data: `Đã cập nhật thành trạng thái '${data._status === ACTIVE ? 'Kích hoạt' : 'Ẩn'}' thành công.`,
       };
 
       return response;

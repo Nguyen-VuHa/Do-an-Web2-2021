@@ -4,12 +4,14 @@ import { IoEye } from 'react-icons/io5';
 import { BsPencilSquare } from 'react-icons/bs';
 import { CiLock } from 'react-icons/ci';
 import { CiUnlock } from 'react-icons/ci';
+import useMovieStore from '~/stores/movie.store';
 
 type EditControlProps = {
   data: any;
 };
 
 const EditControl: React.FC<EditControlProps> = ({ data }) => {
+  const { setMovieUpdateStatus } = useMovieStore();
   return (
     <div className="flex items-center space-x-1">
       <ButtonIcon color="primary">
@@ -18,7 +20,12 @@ const EditControl: React.FC<EditControlProps> = ({ data }) => {
       <ButtonIcon color="warning">
         <BsPencilSquare size={20} />
       </ButtonIcon>
-      <ButtonIcon color={data.status === 'active' ? 'success' : 'danger'}>
+      <ButtonIcon
+        color={data.status === 'active' ? 'success' : 'danger'}
+        onClick={() => {
+          setMovieUpdateStatus(data);
+        }}
+      >
         {data.status === 'active' ? (
           <CiLock size={20} />
         ) : (

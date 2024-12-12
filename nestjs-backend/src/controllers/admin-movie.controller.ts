@@ -24,6 +24,23 @@ export class AdminMovieController {
   constructor(private readonly adminMovieUseCase: AdminMovieUseCases) {}
 
   @Get('list')
+  @UsePipes(
+    new ValidationPipe({
+      transform: true, // Chuyển đổi dữ liệu (nếu cần)
+      exceptionFactory: (errors) => {
+        // Tùy chỉnh lỗi trả về
+        const validationErrors = errors.map((error) => ({
+          field: error.property,
+          constraints: error.constraints,
+        }));
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Dữ liệu không hợp lệ',
+          error: validationErrors,
+        });
+      },
+    })
+  )
   async getMovies(
     @Query() query: GetMoviesQueryDto
   ): Promise<IResponse<IPagination<MovieResponseDTO>>> {
@@ -36,6 +53,7 @@ export class AdminMovieController {
     }
 
     const queryClean: GetMoviesQueryDto = {
+      ...query,
       _page: _page || PAGE_IDX_DEFAULT,
       _page_size: pageSize,
     };

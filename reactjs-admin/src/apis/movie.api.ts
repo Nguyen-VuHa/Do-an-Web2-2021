@@ -17,3 +17,10 @@ export const apiCreateMovie = async (
   const path = MAIN_PATH + '/create';
   return axiosInstance.post(path, payload);
 };
+
+export const apiChangeStatusMovie = async (
+  params: IOject<any>,
+): Promise<IResponse<string>> => {
+  const path = MAIN_PATH + '/status';
+  return axiosInstance.put(path, {}, { params });
+};

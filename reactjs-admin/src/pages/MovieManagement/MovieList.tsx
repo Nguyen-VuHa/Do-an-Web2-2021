@@ -4,6 +4,7 @@ import Tag from '~/components/Tag';
 import useMovieStore from '~/stores/movie.store';
 import { HeaderTable } from '~/types/table.type';
 import EditControl from './EditControl';
+import { ACTIVE } from '~/constants/status';
 
 const MovieHeader: HeaderTable[] = [
   {
@@ -41,8 +42,8 @@ const MovieHeader: HeaderTable[] = [
     extendsion: (data) => {
       return (
         <Tag
-          label={data.status}
-          color={data.status === 'active' ? 'success' : 'danger'}
+          label={data.status === ACTIVE ? 'Kích hoạt' : 'Ẩn'}
+          color={data.status === ACTIVE ? 'success' : 'danger'}
         />
       );
     },

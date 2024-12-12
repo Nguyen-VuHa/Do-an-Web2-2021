@@ -1,12 +1,13 @@
+import { useEffect } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '~/components/Breadcrumb';
 import Button from '~/components/Button';
 import DatePicker from '~/components/DatePicker';
-import MovieList from './MovieList';
 import useMovieStore from '~/stores/movie.store';
-import { useEffect } from 'react';
+import ComfirmUpdateStatusModal from './ComfirmUpdateStatus.Modal';
+import MovieList from './MovieList';
 
 const MovieManagement = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const MovieManagement = () => {
     <>
       <Breadcrumb pageName="Quản lý phim" />
 
+      <ComfirmUpdateStatusModal />
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-5 space-y-5">
         <div className="flex justify-between items-center">
           <div className="grid grid-cols-2 gap-2">

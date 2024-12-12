@@ -1,7 +1,11 @@
 import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
-import { apiCreateMovie, apiFetchMovieList } from '~/apis/movie.api';
+import {
+  apiChangeStatusMovie,
+  apiCreateMovie,
+  apiFetchMovieList,
+} from '~/apis/movie.api';
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { IOject } from '~/types/common.type';
@@ -36,9 +40,62 @@ interface MovieState {
   resetFormMovie: () => void;
   setStartDate: (val: any) => void;
   setEndDate: (val: any) => void;
+
+  movieUpdateStatus: IMovie | null;
+  isUpdateStatus: boolean;
+  setMovieUpdateStatus: (form: IMovie | null) => void;
+  reqUpdateStatusMovie: (payload: IOject<any>) => Promise<void>;
 }
 
 const useMovieStore = create<MovieState>((set, get) => ({
+  // movie modal
+  movieUpdateStatus: null,
+  isUpdateStatus: false,
+  setMovieUpdateStatus: (data) => {
+    set({
+      movieUpdateStatus: data,
+    });
+  },
+  reqUpdateStatusMovie: async (payload: IOject<any>) => {
+    set({
+      isUpdateStatus: true,
+    });
+
+    try {
+      const res = await apiChangeStatusMovie(payload);
+
+      if (res && res.statusCode === STATUS_SUCCESS) {
+        toast.success(res.data || 'Cập nhật trạng thái phim thành công.');
+        let movieData = get().movies;
+
+        movieData = movieData.map((movie) => {
+          if (movie.movie_id === payload._movie_id) {
+            return {
+              ...movie,
+              status: payload._status,
+            };
+          } else {
+            return movie;
+          }
+        });
+
+        set({
+          movies: movieData,
+        });
+        set({
+          movieUpdateStatus: null,
+        });
+      } else {
+        toast.error(res.error);
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({
+        isUpdateStatus: false,
+      });
+    }
+  },
   // movie state
   isFetchMovieList: false,
   isEditMovie: false,

@@ -26,6 +26,17 @@ export class GetMoviesQueryDto {
   @Type(() => Number)
   @IsNumber()
   _page_size?: number;
+
+  @IsOptional()
+  @IsDateString()
+  _start_date?: Date;
+
+  @IsOptional()
+  @IsDateString()
+  @IsStartDateBeforeEndDate('_start_date', {
+    message: 'Ngày khởi chiếu phải nhỏ hơn ngày kết thúc',
+  })
+  _end_date?: Date;
 }
 
 export class CreateMovieDTO {
