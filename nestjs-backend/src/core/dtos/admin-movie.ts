@@ -15,6 +15,7 @@ import {
   ValidationOptions,
 } from 'class-validator';
 import { MovieStatus } from '../types/movie.type';
+import { ActorResponseDTO, CategoryResponseDTO, DirectorResponseDTO } from './admin-movie-detail';
 
 export class GetMoviesQueryDto {
   @IsOptional()
@@ -115,6 +116,11 @@ function IsStartDateBeforeEndDate(
   };
 }
 
+export class UpdateMovieDTO extends CreateMovieDTO {
+  @IsOptional() // Yêu cầu trường này không được để trống
+  movie_id: string;
+}
+
 export class MovieResponseDTO {
   @Expose()
   movie_id: string;
@@ -159,4 +165,18 @@ export class UpdateStatusMovieDTO {
   @IsNotEmpty()
   @IsEnum(MovieStatus, { message: 'Movie status must be one of active, inactive' })
   _status: string;
+}
+
+export class DetailMovieResponseDTO extends MovieResponseDTO {
+  @Expose()
+  @Type(() => DirectorResponseDTO)
+  director: DirectorResponseDTO;
+
+  @Expose()
+  @Type(() => ActorResponseDTO)
+  actors: ActorResponseDTO[];
+
+  @Expose()
+  @Type(() => CategoryResponseDTO)
+  categories: CategoryResponseDTO[];
 }

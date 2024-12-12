@@ -3,8 +3,10 @@ import { plainToClass } from 'class-transformer';
 import { ACTIVE, INACTIVE } from 'src/constants/status';
 import {
   CreateMovieDTO,
+  DetailMovieResponseDTO,
   GetMoviesQueryDto,
   MovieResponseDTO,
+  UpdateMovieDTO,
   UpdateStatusMovieDTO,
 } from 'src/core/dtos/admin-movie';
 import { Movie } from 'src/core/entities/movie.entity';
@@ -78,6 +80,43 @@ export class AdminMovieUseCases {
     }
   }
 
+  async getDetailMovie(_movie_id: string): Promise<IResponse<DetailMovieResponseDTO>> {
+    try {
+      const conditionDetail: IObject<any> = {
+        relations: {
+          categories: true,
+          actors: true,
+          director: true,
+        },
+        where: {
+          movie_id: _movie_id,
+        },
+        withDeleted: true,
+      };
+
+      const movieDetail = await this.movieService.getDetailMovieByCondition(conditionDetail);
+
+      const movieDetailDTO = plainToClass(DetailMovieResponseDTO, movieDetail, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<DetailMovieResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy chi tiết phim thành công.',
+        data: movieDetailDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy chi tiết phim không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
   async createMovie(data: CreateMovieDTO): Promise<IResponse<MovieResponseDTO>> {
     try {
       const director = await this.directorService.getDirectorByID(data.director);
@@ -129,6 +168,66 @@ export class AdminMovieUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Tạo mới phim không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async updateMovie(data: UpdateMovieDTO): Promise<IResponse<MovieResponseDTO>> {
+    try {
+      const director = await this.directorService.getDirectorByID(data.director);
+
+      if (!director) {
+        throw new NotFoundException('Director not found');
+      }
+
+      const actors = await this.actorService.getActorListByIds(data.actors);
+
+      if (actors.length !== data.actors.length) {
+        throw new NotFoundException('Actors một hoặc nhiều ID không tồn tại');
+      }
+
+      const categories = await this.categoryService.getCategoriesListByIds(data.categories);
+
+      if (categories.length !== data.categories.length) {
+        throw new NotFoundException('Categories một hoặc nhiều ID không tồn tại');
+      }
+
+      const movieUpdate = await this.movieService.getMovieDetailForUpdate(data.movie_id);
+
+      if (!movieUpdate) {
+        throw new NotFoundException('Movie not found');
+      }
+
+      movieUpdate.title = data.title;
+      movieUpdate.description = data.description;
+      movieUpdate.duration = data.duration;
+      movieUpdate.start_date = data.start_date;
+      movieUpdate.end_date = data.end_date;
+      movieUpdate.trailer_id = data.trailer_id;
+      movieUpdate.director = director;
+      movieUpdate.actors = actors;
+      movieUpdate.categories = categories;
+      movieUpdate.posters = [];
+
+      const movieResonse = await this.movieService.updateMovie(movieUpdate);
+
+      const movieDTO = plainToClass(MovieResponseDTO, movieResonse, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<MovieResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: `Cập nhật phim thành công.`,
+        data: movieDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Cập nhật phim không thành công.',
         error: error.message,
       });
     }

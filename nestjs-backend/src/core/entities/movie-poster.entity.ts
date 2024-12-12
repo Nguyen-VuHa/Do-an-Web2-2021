@@ -27,7 +27,7 @@ export class MoviePoster {
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
-  @ManyToOne(() => Movie, (movie) => movie.posters, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Movie, (movie) => movie.posters, { cascade: true })
   @JoinColumn({ name: 'movie_id' }) // Tên cột khóa ngoại
   movie: Movie;
 }

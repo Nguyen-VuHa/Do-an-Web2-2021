@@ -15,7 +15,25 @@ export class MovieService {
     return await this.movieRepository.findAndCount(conditions);
   }
 
+  async getDetailMovieByCondition(conditions: IObject<any>): Promise<Movie> {
+    return await this.movieRepository.findOne(conditions);
+  }
+
+  async getMovieDetailForUpdate(movie_id: string): Promise<Movie> {
+    return await this.movieRepository.findOne({
+      where: {
+        movie_id: movie_id,
+      },
+      relations: ['categories', 'actors', 'director'],
+      withDeleted: true,
+    });
+  }
+
   async createMovie(movieData: Movie): Promise<Movie> {
+    return await this.movieRepository.save(movieData);
+  }
+
+  async updateMovie(movieData: Movie): Promise<Movie> {
     return await this.movieRepository.save(movieData);
   }
 

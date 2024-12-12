@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Put,
   Query,
@@ -12,8 +13,10 @@ import {
 import { MAX_PAGE_SIZE, PAGE_IDX_DEFAULT, PAGE_SIZE_DEFAULT } from 'src/constants/default';
 import {
   CreateMovieDTO,
+  DetailMovieResponseDTO,
   GetMoviesQueryDto,
   MovieResponseDTO,
+  UpdateMovieDTO,
   UpdateStatusMovieDTO,
 } from 'src/core/dtos/admin-movie';
 import { IPagination, IResponse } from 'src/core/types/common';
@@ -61,6 +64,13 @@ export class AdminMovieController {
     return this.adminMovieUseCase.getMovieList(queryClean);
   }
 
+  @Get('detail')
+  async getDetailMovie(
+    @Query('_movie_id') movie_id: string
+  ): Promise<IResponse<DetailMovieResponseDTO>> {
+    return this.adminMovieUseCase.getDetailMovie(movie_id);
+  }
+
   @Post('create')
   @UsePipes(
     new ValidationPipe({
@@ -81,6 +91,32 @@ export class AdminMovieController {
   )
   async createMovie(@Body() data: CreateMovieDTO): Promise<IResponse<MovieResponseDTO>> {
     return this.adminMovieUseCase.createMovie(data);
+  }
+
+  @Put('update/:id')
+  @UsePipes(
+    new ValidationPipe({
+      transform: true, // Chuyển đổi dữ liệu (nếu cần)
+      exceptionFactory: (errors) => {
+        // Tùy chỉnh lỗi trả về
+        const validationErrors = errors.map((error) => ({
+          field: error.property,
+          constraints: error.constraints,
+        }));
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Dữ liệu không hợp lệ',
+          error: validationErrors,
+        });
+      },
+    })
+  )
+  async updateMovie(
+    @Param('id') id: string,
+    @Body() data: UpdateMovieDTO
+  ): Promise<IResponse<MovieResponseDTO>> {
+    data.movie_id = id;
+    return this.adminMovieUseCase.updateMovie(data);
   }
 
   @Put('status')

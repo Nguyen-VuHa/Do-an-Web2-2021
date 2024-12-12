@@ -26,6 +26,6 @@ export class Director {
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
-  @OneToMany(() => Movie, (movie) => movie.director, { onDelete: 'CASCADE' })
+  @OneToMany(() => Movie, (movie) => movie.director, { cascade: true })
   movie: Movie[];
 }
