@@ -2,9 +2,14 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CloudinaryService } from 'src/services/cloudinary/cloudinary.service';
 import { FileSystemService } from 'src/services/file-system/file-system.service';
 import { Multer } from 'multer';
-import { UploadFileSystemDTO } from 'src/core/dtos/admin-file-system.dto';
+import {
+  FileSystemResponseDTO,
+  GetFileSystemQueryDto,
+  UploadFileSystemDTO,
+} from 'src/core/dtos/admin-file-system.dto';
 import { FileSystem } from 'src/core/entities/file-system.entity';
 import { IResponse } from 'src/core/types/common';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class AdminFileSystemUseCases {
@@ -13,7 +18,44 @@ export class AdminFileSystemUseCases {
     private readonly cloudinaryService: CloudinaryService
   ) {}
 
-  async saveFileSystem(file: Multer.File, data: UploadFileSystemDTO): Promise<IResponse<any>> {
+  async getFileSystemByParentID(
+    query: GetFileSystemQueryDto
+  ): Promise<IResponse<FileSystemResponseDTO[]>> {
+    try {
+      let parent_id = query._p_id;
+
+      if (!parent_id) {
+        const rootData = await this.fileSystemService.getFileSystemByRoot();
+
+        parent_id = rootData.file_system_id;
+      }
+
+      const fileListData = await this.fileSystemService.getFileSystemListByParentID(parent_id);
+
+      const fileListDTO = plainToClass(FileSystemResponseDTO, fileListData, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<any> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy danh sách file system thành công.',
+        data: fileListDTO,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Xử lý tệp không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async saveFileSystem(
+    file: Multer.File,
+    data: UploadFileSystemDTO
+  ): Promise<IResponse<FileSystemResponseDTO>> {
     try {
       const parentFileSystem = await this.fileSystemService.getFileSystemByID(
         data.parent_file_system_id
@@ -53,11 +95,15 @@ export class AdminFileSystemUseCases {
         newFileSystem = await this.fileSystemService.saveFileSystem(fileSystemData);
       }
 
+      const fileDataDTO = plainToClass(FileSystemResponseDTO, newFileSystem, {
+        excludeExtraneousValues: true,
+      });
+
       const response: IResponse<any> = {
         statusCode: 200,
         error: null,
         message: 'Xử lý lưu tệp tin hoặc thư mục thành công',
-        data: newFileSystem,
+        data: fileDataDTO,
       };
 
       return response;

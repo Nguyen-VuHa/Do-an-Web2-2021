@@ -1,5 +1,4 @@
 import {
-  BeforeInsert,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -46,12 +45,4 @@ export class FileSystem {
 
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
-
-  @BeforeInsert()
-  setAsRoot() {
-    // Đảm bảo rằng chỉ có một record gốc
-    if (!this.name) {
-      this.name = 'Root'; // Nếu không có tên, đặt tên là "Root Folder"
-    }
-  }
 }

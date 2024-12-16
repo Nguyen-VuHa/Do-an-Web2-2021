@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FileSystem } from 'src/core/entities/file-system.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 
 @Injectable()
 export class FileSystemService {
@@ -14,6 +14,26 @@ export class FileSystemService {
     return await this.fileSystemRepository.findOne({
       where: {
         file_system_id: file_system_id,
+      },
+    });
+  }
+
+  async getFileSystemByRoot(): Promise<FileSystem> {
+    return await this.fileSystemRepository.findOne({
+      where: {
+        parent: {
+          file_system_id: IsNull(),
+        },
+      },
+    });
+  }
+
+  async getFileSystemListByParentID(parent_id: string): Promise<FileSystem[]> {
+    return await this.fileSystemRepository.find({
+      where: {
+        parent: {
+          file_system_id: parent_id,
+        },
       },
     });
   }
