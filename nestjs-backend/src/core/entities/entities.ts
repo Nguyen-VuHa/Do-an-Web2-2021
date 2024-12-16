@@ -7,6 +7,7 @@ import { Actor } from './actor.entity';
 import { Director } from './director.entity';
 import { MoviePoster } from './movie-poster.entity';
 import { SystemUser } from './system-user.entity';
+import { FileSystem } from './file-system.entity';
 
 const ENTITIES_SYSTEM = [SystemUser];
 const ENTITIES = [
@@ -18,6 +19,7 @@ const ENTITIES = [
   Category,
   Actor,
   Director,
+  FileSystem,
   ...ENTITIES_SYSTEM,
 ];
 

@@ -1,4 +1,5 @@
 import { AdminAuthUseCaseModule } from 'src/use-cases/(admin)/auth/adminAuthUseCase.module';
+import { AdminFileSystemUseCaseModule } from 'src/use-cases/(admin)/file-system/fileSystemUseCase.module';
 import { AdminMovieMetaUseCaseModule } from 'src/use-cases/(admin)/movie-meta/adminMovieMetaUseCase.module';
 import { AdminMovieUseCaseModule } from 'src/use-cases/(admin)/movie/adminMovieUseCase.module';
 import { AdminUserUseCaseModule } from 'src/use-cases/(admin)/user/adminUserUseCase.module';
@@ -9,6 +10,7 @@ const ADMIN_APPMODULES = [
   AdminUserUseCaseModule,
   AdminMovieMetaUseCaseModule,
   AdminMovieUseCaseModule,
+  AdminFileSystemUseCaseModule,
 ];
 
 const APPMODULES = [AuthUseCaseModule, ...ADMIN_APPMODULES];
