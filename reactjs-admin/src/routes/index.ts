@@ -7,6 +7,7 @@ const MovieEditer = lazy(() => import('src/pages/MovieEditer/MovieEditer'));
 const MovieDetail = lazy(
   () => import('src/pages/MovieDetail/MovieDetail.Main'),
 );
+const FileSystem = lazy(() => import('src/pages/FileSystem/FileSystem.Main'));
 
 const Calendar = lazy(() => import('../pages/Calendar'));
 const Chart = lazy(() => import('../pages/Chart'));
@@ -38,6 +39,11 @@ const coreRoutes = [
     path: '/movies/detail/:movie_id',
     title: 'Movie Detail',
     component: MovieDetail,
+  },
+  {
+    path: '/file-system',
+    title: 'File System',
+    component: FileSystem,
   },
   {
     path: '/calendar',

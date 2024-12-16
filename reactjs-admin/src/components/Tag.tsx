@@ -24,7 +24,7 @@ const Tag: React.FC<TagProps> = ({ label, color }) => {
       >
         {label}
       </p>
-    </> 
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import Logo from '../images/logo/logo.svg';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import { BiSolidDashboard } from 'react-icons/bi';
 import { SiThemoviedatabase } from 'react-icons/si';
+import { FaFileMedicalAlt } from 'react-icons/fa';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -126,6 +127,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                   <SiThemoviedatabase size={18} />
                   Quản lý phim
+                </NavLink>
+              </li>
+              {/* <!-- Menu File System --> */}
+              <li>
+                <NavLink
+                  to="/file-system"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('file-system') &&
+                    'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <FaFileMedicalAlt size={18} />
+                  Tệp tin hệ thống
                 </NavLink>
               </li>
               {/* <!-- Menu Item Calendar --> */}

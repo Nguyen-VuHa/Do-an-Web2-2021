@@ -28,8 +28,8 @@ const MovieDetail = () => {
     }
 
     return () => {
-        resetFormMovie()
-    }
+      resetFormMovie();
+    };
   }, []);
 
   return (
@@ -53,20 +53,17 @@ const MovieDetail = () => {
           <h3 className="font-medium text-black dark:text-white">
             THÔNG TIN PHIM
           </h3>
-          <div className='flex text-sm space-x-3'>
-            <div className='flex items-center space-x-2'>
-                <span>Hình thức:</span>
-                <Tag
-                    label={movieDetail?.movie_type || ''}
-                    color="warning"
-                ></Tag>
+          <div className="flex text-sm space-x-3">
+            <div className="flex items-center space-x-2">
+              <span>Hình thức:</span>
+              <Tag label={movieDetail?.movie_type || ''} color="warning"></Tag>
             </div>
-            <div className='flex  items-center space-x-2'>
-                <span>Trạng thái:</span>
-                <Tag
-                    label={movieDetail?.status === ACTIVE ? 'Kích hoạt' : 'Ẩn'}
-                    color={movieDetail?.status === ACTIVE ? 'success' : 'danger'}
-                />
+            <div className="flex  items-center space-x-2">
+              <span>Trạng thái:</span>
+              <Tag
+                label={movieDetail?.status === ACTIVE ? 'Kích hoạt' : 'Ẩn'}
+                color={movieDetail?.status === ACTIVE ? 'success' : 'danger'}
+              />
             </div>
           </div>
         </div>
