@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getDataToLocalStore } from '~/utils/localStorage';
 import FileItem from './FileItem';
+import useFileSystemStore from '~/stores/file-system.store';
 
 const FileList = () => {
+  const { fileSystems } = useFileSystemStore();
   const [className, setClassName] = useState<string>('');
 
   useEffect(() => {
@@ -19,7 +21,9 @@ const FileList = () => {
 
   return (
     <div className={className}>
-      <FileItem />
+      {fileSystems.map((file) => {
+        return <FileItem key={file.file_system_id} data={file} />;
+      })}
     </div>
   );
 };

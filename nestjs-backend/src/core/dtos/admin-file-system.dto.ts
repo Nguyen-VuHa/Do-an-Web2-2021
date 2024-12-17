@@ -3,7 +3,7 @@ import { FileSystemType } from '../types/file-system.type';
 import { Expose } from 'class-transformer';
 
 export class UploadFileSystemDTO {
-  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsOptional() // Yêu cầu trường này không được để trống
   @IsUUID()
   parent_file_system_id: string;
 

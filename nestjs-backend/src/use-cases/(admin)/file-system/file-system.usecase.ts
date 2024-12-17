@@ -58,9 +58,15 @@ export class AdminFileSystemUseCases {
     data: UploadFileSystemDTO
   ): Promise<IResponse<FileSystemResponseDTO>> {
     try {
-      const parentFileSystem = await this.fileSystemService.getFileSystemByID(
-        data.parent_file_system_id
-      );
+      let parent_id = data.parent_file_system_id;
+
+      if (!parent_id) {
+        const rootData = await this.fileSystemService.getFileSystemByRoot();
+
+        parent_id = rootData.file_system_id;
+      }
+
+      const parentFileSystem = await this.fileSystemService.getFileSystemByID(parent_id);
 
       if (!parentFileSystem) {
         throw new NotFoundException('Không tồn tại tệp tin hoặc thư mục.');

@@ -1,8 +1,16 @@
 import Breadcrumb from '~/components/Breadcrumb';
 import FileControl from './FileControl';
 import WrapperFile from './WrapperFile';
+import useFileSystemStore from '~/stores/file-system.store';
+import { useEffect } from 'react';
 
 const FileSystem = () => {
+  const { reqFetchFileSystems } = useFileSystemStore();
+
+  useEffect(() => {
+    reqFetchFileSystems(null);
+  }, []);
+
   return (
     <>
       <Breadcrumb pageName="Tệp tin hệ thống" />
