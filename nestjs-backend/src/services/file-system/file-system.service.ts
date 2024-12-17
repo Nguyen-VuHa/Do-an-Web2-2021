@@ -35,10 +35,17 @@ export class FileSystemService {
           file_system_id: parent_id,
         },
       },
+      order: {
+        created_at: 'DESC',
+      },
     });
   }
 
   async saveFileSystem(fileSystemData: FileSystem): Promise<FileSystem> {
+    return await this.fileSystemRepository.save(fileSystemData);
+  }
+
+  async updateFileSystem(fileSystemData: FileSystem): Promise<FileSystem> {
     return await this.fileSystemRepository.save(fileSystemData);
   }
 

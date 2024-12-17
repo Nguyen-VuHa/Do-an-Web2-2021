@@ -5,6 +5,7 @@ import { Multer } from 'multer';
 import {
   FileSystemResponseDTO,
   GetFileSystemQueryDto,
+  RenameFileSystemDTO,
   UploadFileSystemDTO,
 } from 'src/core/dtos/admin-file-system.dto';
 import { FileSystem } from 'src/core/entities/file-system.entity';
@@ -103,6 +104,41 @@ export class AdminFileSystemUseCases {
         statusCode: 200,
         error: null,
         message: 'Xử lý lưu tệp tin hoặc thư mục thành công',
+        data: fileDataDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Xử lý tệp không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async renameFileSystem(data: RenameFileSystemDTO): Promise<IResponse<FileSystemResponseDTO>> {
+    try {
+      const fileData = await this.fileSystemService.getFileSystemByID(data.file_id);
+
+      if (!fileData) {
+        throw new NotFoundException('Không tồn tại tệp tin hoặc thư mục.');
+      }
+
+      const uniqueName = await this.fileSystemService.generateUniqueName(data.file_name);
+
+      fileData.name = uniqueName;
+
+      const fileDataRes = await this.fileSystemService.updateFileSystem(fileData);
+
+      const fileDataDTO = plainToClass(FileSystemResponseDTO, fileDataRes, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<FileSystemResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Thay đổi tên tệp hoặc thư mục thành công.',
         data: fileDataDTO,
       };
 

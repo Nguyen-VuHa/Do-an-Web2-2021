@@ -45,3 +45,12 @@ export class FileSystemResponseDTO {
   @Expose()
   updated_at: string;
 }
+
+export class RenameFileSystemDTO {
+  @IsOptional()
+  file_id: string;
+
+  @IsNotEmpty()
+  @MaxLength(250, { message: 'Tên File không được dài quá 250 ký tự' })
+  file_name: string;
+}
