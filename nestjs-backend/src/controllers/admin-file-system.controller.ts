@@ -21,6 +21,7 @@ import {
   UploadFileSystemDTO,
 } from 'src/core/dtos/admin-file-system.dto';
 import { IResponse } from 'src/core/types/common';
+import { IFileSystemReponse } from 'src/core/types/file-system.type';
 import { AdminFileSystemUseCases } from 'src/use-cases/(admin)/file-system/file-system.usecase';
 
 @Controller('admin/file-system')
@@ -47,7 +48,7 @@ export class AdminFileSystemController {
   )
   async getFileSystem(
     @Query() query: GetFileSystemQueryDto
-  ): Promise<IResponse<FileSystemResponseDTO[]>> {
+  ): Promise<IResponse<IFileSystemReponse>> {
     return this.adminFileSystemUseCase.getFileSystemByParentID(query);
   }
 
@@ -74,6 +75,7 @@ export class AdminFileSystemController {
     @UploadedFile() file: Multer.File,
     @Body() data: UploadFileSystemDTO
   ): Promise<IResponse<FileSystemResponseDTO>> {
+    console.log(file);
     return this.adminFileSystemUseCase.saveFileSystem(file, data);
   }
 

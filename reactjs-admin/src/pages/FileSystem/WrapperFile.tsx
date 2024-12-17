@@ -5,6 +5,7 @@ import { getDataToLocalStore, setDataToLocalStore } from '~/utils/localStorage';
 import FileList from './FileList';
 import useFileSystemStore from '~/stores/file-system.store';
 import EmptyFolder from 'src/images/icon/empty-folder.png';
+import BreadCrumb from './BreadCrumb';
 
 const KEY_SORT_TYPE = 'sort_type';
 
@@ -17,7 +18,7 @@ const WrapperFile = () => {
   }
 
   const [sortType, setsortType] = useState<string>(sortTypeValue);
-  const { fileSystems, isFetchFileSystem } = useFileSystemStore();
+  const { fileSystems, breadcrumb, isFetchFileSystem } = useFileSystemStore();
 
   return (
     <div className="space-y-5">
@@ -55,6 +56,7 @@ const WrapperFile = () => {
           </div>
         </div>
       </div>
+      <BreadCrumb breadcrumb={breadcrumb} />
       {isFetchFileSystem && (
         <div className="w-full p-10 flex flex-col items-center text-rose text-lg space-y-5">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-solid border-rose border-t-transparent"></div>

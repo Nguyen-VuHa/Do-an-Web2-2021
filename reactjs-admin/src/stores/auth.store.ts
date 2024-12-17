@@ -3,16 +3,16 @@ import { create } from 'zustand';
 import { signInAccount } from '~/apis/auth.api';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { IPayloadSignIn } from '~/types/auth.type';
-import { IOject } from '~/types/common.type';
+import { IObject } from '~/types/common.type';
 import { setDataToLocalStore } from '~/utils/localStorage';
 import useSystemStore from './system.store';
 
 interface AuthState {
   email: string;
   password: string;
-  setInputChange: (newValue: IOject<string>) => void;
-  setErrors: (newValue: IOject<string>) => void;
-  errors: IOject<string> | null;
+  setInputChange: (newValue: IObject<string>) => void;
+  setErrors: (newValue: IObject<string>) => void;
+  errors: IObject<string> | null;
 
   isSignIn: boolean;
   reqSignIn: (payload: IPayloadSignIn) => Promise<void>;
@@ -21,12 +21,12 @@ interface AuthState {
 const useAuthStore = create<AuthState>((set) => ({
   email: 'admin@gmail.com',
   password: '123123123',
-  setInputChange: (newValues: IOject<string>) =>
+  setInputChange: (newValues: IObject<string>) =>
     set((state) => ({
       ...state, // Giữ lại tất cả các giá trị cũ
       ...newValues, // Cập nhật các giá trị mới nếu có
     })),
-  setErrors: (newValues: IOject<string>) => set({ errors: newValues }),
+  setErrors: (newValues: IObject<string>) => set({ errors: newValues }),
   errors: null,
 
   isSignIn: false,

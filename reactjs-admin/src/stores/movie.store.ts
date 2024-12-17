@@ -10,7 +10,7 @@ import {
 } from '~/apis/movie.api';
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
-import { IOject } from '~/types/common.type';
+import { IObject } from '~/types/common.type';
 import { IDetailMovie, IMovie, IMovieForm } from '~/types/movie.type';
 import useGlobalStore from './global.store';
 import MovieDetail from '~/pages/MovieDetail/MovieDetail.Main';
@@ -29,17 +29,17 @@ interface MovieState {
   removeActorSelect: (val: any) => void;
 
   movieForm: IMovieForm;
-  errMovieForm: IOject<string>;
-  setMovieFormValue: (form: IOject<any>) => void;
-  setErrorMovieForm: (errorForm: IOject<any>) => void;
+  errMovieForm: IObject<string>;
+  setMovieFormValue: (form: IObject<any>) => void;
+  setErrorMovieForm: (errorForm: IObject<any>) => void;
 
   isEditMovie: boolean;
   isFetchMovieList: boolean;
   movies: IMovie[];
-  movieCondition: IOject<any>;
+  movieCondition: IObject<any>;
   startDate: string;
   endDate: string;
-  reqFetchMovieList: (params: IOject<any>) => Promise<void>;
+  reqFetchMovieList: (params: IObject<any>) => Promise<void>;
   reqCreateMovie: () => Promise<boolean>;
   reqUpdateMovie: (movieID: string) => Promise<boolean>;
   resetFormMovie: () => void;
@@ -49,7 +49,7 @@ interface MovieState {
   movieUpdateStatus: IMovie | null;
   isUpdateStatus: boolean;
   setMovieUpdateStatus: (form: IMovie | null) => void;
-  reqUpdateStatusMovie: (payload: IOject<any>) => Promise<void>;
+  reqUpdateStatusMovie: (payload: IObject<any>) => Promise<void>;
 
   isFetchDetailMovie: boolean;
   movieDetail: IDetailMovie | null;
@@ -116,7 +116,7 @@ const useMovieStore = create<MovieState>((set, get) => ({
       movieUpdateStatus: data,
     });
   },
-  reqUpdateStatusMovie: async (payload: IOject<any>) => {
+  reqUpdateStatusMovie: async (payload: IObject<any>) => {
     set({
       isUpdateStatus: true,
     });
@@ -220,7 +220,7 @@ const useMovieStore = create<MovieState>((set, get) => ({
       isEditMovie: true,
     });
     try {
-      const payload: IOject<any> = {
+      const payload: IObject<any> = {
         ...get().movieForm,
         director: get().directorSelected[0],
         actors: get().actorSelected,
@@ -251,7 +251,7 @@ const useMovieStore = create<MovieState>((set, get) => ({
       isEditMovie: true,
     });
     try {
-      const payload: IOject<any> = {
+      const payload: IObject<any> = {
         ...get().movieForm,
         director: get().directorSelected[0],
         actors: get().actorSelected,

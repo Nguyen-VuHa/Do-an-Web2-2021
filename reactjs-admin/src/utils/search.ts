@@ -1,6 +1,6 @@
-import { IOject } from '~/types/common.type';
+import { IObject } from '~/types/common.type';
 
-export function fuzzySearch<T extends IOject<any>>(
+export function fuzzySearch<T extends IObject<any>>(
   data: T[],
   searchKey: keyof T,
   searchValue: string,

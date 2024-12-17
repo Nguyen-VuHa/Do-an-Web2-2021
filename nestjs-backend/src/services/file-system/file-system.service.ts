@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FileSystem } from 'src/core/entities/file-system.entity';
+import { IObject } from 'src/core/types/common';
 import { IsNull, Repository } from 'typeorm';
 
 @Injectable()
@@ -39,6 +40,35 @@ export class FileSystemService {
         created_at: 'DESC',
       },
     });
+  }
+
+  async getBreadcrumb(fileSystemId: string): Promise<IObject<any>[]> {
+    const breadcrumb: { id: string; name: string }[] = [];
+    let currentNode = await this.fileSystemRepository.findOne({
+      where: { file_system_id: fileSystemId },
+      relations: ['parent'], // Lấy parent để truy ngược
+    });
+
+    // Lặp qua các cấp cha cho đến khi gặp root (parent === null)
+    while (currentNode) {
+      breadcrumb.push({
+        id: currentNode.file_system_id,
+        name: currentNode.name,
+      });
+
+      // Lấy thông tin của parent trong mỗi vòng lặp
+      if (currentNode.parent) {
+        currentNode = await this.fileSystemRepository.findOne({
+          where: { file_system_id: currentNode.parent.file_system_id },
+          relations: ['parent'], // Lấy parent của parent
+        });
+      } else {
+        break; // Nếu không có parent (đến root), thoát khỏi vòng lặp
+      }
+    }
+
+    // Đảm bảo breadcrumb được sắp xếp từ root đến node cuối cùng
+    return breadcrumb.reverse();
   }
 
   async saveFileSystem(fileSystemData: FileSystem): Promise<FileSystem> {

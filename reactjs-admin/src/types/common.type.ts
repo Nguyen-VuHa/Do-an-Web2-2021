@@ -12,7 +12,7 @@ export interface IResponsePagintaion<T> {
   list: T;
 }
 
-export interface IOject<T> {
+export interface IObject<T> {
   [key: string]: T;
 }
 

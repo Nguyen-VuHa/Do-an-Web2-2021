@@ -9,7 +9,7 @@ import useActorStore from '~/stores/actor.store';
 import useCategoryStore from '~/stores/category.store';
 import useDirectorStore from '~/stores/director.store';
 import useMovieStore from '~/stores/movie.store';
-import { IOject } from '~/types/common.type';
+import { IObject } from '~/types/common.type';
 import ActorForm from './ActorForm';
 import CategoryForm from './CategoryForm';
 import DirectorForm from './DirectorForm';
@@ -76,7 +76,7 @@ const MovieEditer = () => {
       );
       return true;
     } catch (err: any) {
-      const errors: IOject<string> = {};
+      const errors: IObject<string> = {};
 
       err.inner.map((error: Yup.ValidationError) => {
         errors[error.path as string] = error.message;

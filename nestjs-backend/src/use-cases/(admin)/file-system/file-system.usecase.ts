@@ -11,6 +11,7 @@ import {
 import { FileSystem } from 'src/core/entities/file-system.entity';
 import { IResponse } from 'src/core/types/common';
 import { plainToClass } from 'class-transformer';
+import { IFileSystemReponse } from 'src/core/types/file-system.type';
 
 @Injectable()
 export class AdminFileSystemUseCases {
@@ -21,7 +22,7 @@ export class AdminFileSystemUseCases {
 
   async getFileSystemByParentID(
     query: GetFileSystemQueryDto
-  ): Promise<IResponse<FileSystemResponseDTO[]>> {
+  ): Promise<IResponse<IFileSystemReponse>> {
     try {
       let parent_id = query._p_id;
 
@@ -31,17 +32,23 @@ export class AdminFileSystemUseCases {
         parent_id = rootData.file_system_id;
       }
 
+      const breadCrumb = await this.fileSystemService.getBreadcrumb(parent_id);
       const fileListData = await this.fileSystemService.getFileSystemListByParentID(parent_id);
 
       const fileListDTO = plainToClass(FileSystemResponseDTO, fileListData, {
         excludeExtraneousValues: true,
       });
 
+      const fileSystemRes: IFileSystemReponse = {
+        breadcrumb: breadCrumb,
+        list: fileListDTO,
+      };
+
       const response: IResponse<any> = {
         statusCode: 200,
         error: null,
         message: 'Lấy danh sách file system thành công.',
-        data: fileListDTO,
+        data: fileSystemRes,
       };
       return response;
     } catch (error) {

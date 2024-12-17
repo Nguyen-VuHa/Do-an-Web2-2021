@@ -3,6 +3,7 @@ import { BsFileEarmarkPlusFill } from 'react-icons/bs';
 import { FaFileUpload } from 'react-icons/fa';
 import { RiFolderUploadFill } from 'react-icons/ri';
 import { AiFillFolderAdd } from 'react-icons/ai';
+import useFileSystemStore from '~/stores/file-system.store';
 
 const ButtonControlData = [
   {
@@ -28,6 +29,25 @@ const ButtonControlData = [
 ];
 
 const FileControl = () => {
+  const { setValueFileSystem } = useFileSystemStore();
+
+  const handleClickBtnControl = (id: number) => {
+    switch (id) {
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        setValueFileSystem('isUploadFolderModal', true);
+        break;
+      case 4:
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
       {ButtonControlData.map((buttonData) => {
@@ -36,6 +56,7 @@ const FileControl = () => {
             key={buttonData.id}
             icon={buttonData.icon}
             label={buttonData.label}
+            onClick={() => handleClickBtnControl(buttonData.id)}
           />
         );
       })}
