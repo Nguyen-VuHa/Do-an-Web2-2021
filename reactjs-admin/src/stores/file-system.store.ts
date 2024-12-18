@@ -2,6 +2,7 @@ import toast from 'react-hot-toast';
 import { create } from 'zustand';
 import {
   apiFetchFileSystem,
+  apiRenameFileSystem,
   apiUploadFileSystem,
 } from '~/apis/file-system.api';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
@@ -35,6 +36,8 @@ interface FileSystemState {
   posterUpload: File | null;
   posterPreview: string | null;
   posterFileName: string;
+
+  reqRenameFile: (data: IFolderForm, parent_id: string) => Promise<void>;
 }
 
 const useFileSystemStore = create<FileSystemState>((set, get) => ({
@@ -50,6 +53,7 @@ const useFileSystemStore = create<FileSystemState>((set, get) => ({
   folderForm: {
     file_system_id: '',
     folder_name: '',
+    type: '',
   },
   errFolderForm: {},
   fileUpload: null,
@@ -104,6 +108,42 @@ const useFileSystemStore = create<FileSystemState>((set, get) => ({
           folderForm: {
             file_system_id: '',
             folder_name: '',
+            type: '',
+          },
+          errFolderForm: {},
+          isEditFolderModal: false,
+        });
+      } else {
+        toast.error(res.error);
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({
+        isEditFolder: false,
+      });
+    }
+  },
+  reqRenameFile: async (data, parent_id) => {
+    set({
+      isEditFolder: true,
+    });
+    try {
+      const res = await apiRenameFileSystem(
+        {
+          file_name: data.folder_name,
+        },
+        data.file_system_id || '',
+      );
+
+      if (res.statusCode === STATUS_SUCCESS) {
+        toast.success(res.message);
+        get().reqFetchFileSystems(parent_id);
+        set({
+          folderForm: {
+            file_system_id: '',
+            folder_name: '',
+            type: '',
           },
           errFolderForm: {},
           isEditFolderModal: false,

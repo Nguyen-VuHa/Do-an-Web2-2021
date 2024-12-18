@@ -21,3 +21,11 @@ export const apiUploadFileSystem = async (
     },
   });
 };
+
+export const apiRenameFileSystem = async (
+  payload: IObject<string>,
+  id: string,
+): Promise<IResponse<IFileSystemResponse>> => {
+  const path = MAIN_PATH + `/rename/${id}`;
+  return axiosInstance.put(path, payload);
+};

@@ -21,6 +21,7 @@ const EditFolderModal = () => {
     errFolderForm,
     setValueFileSystem,
     reqCreateNewFolder,
+    reqRenameFile,
   } = useFileSystemStore();
 
   const handleValidateForm = async () => {
@@ -45,6 +46,15 @@ const EditFolderModal = () => {
     let isValid = await handleValidateForm();
 
     if (isValid) {
+      if (folderForm.type === 'file') {
+        reqRenameFile(folderForm, parent_id || '');
+        return;
+      }
+
+      if (folderForm.file_system_id) {
+        reqRenameFile(folderForm, parent_id || '');
+        return;
+      }
       const payloadFormData = new FormData();
 
       payloadFormData.append('type', 'folder');
@@ -65,7 +75,11 @@ const EditFolderModal = () => {
 
   return (
     <Modal
-      title="Tạo mới thư mục"
+      title={
+        folderForm.file_system_id
+          ? `Cập nhật ${folderForm.type === 'file' ? 'tệp tin' : 'thư mục'}`
+          : 'Tạo mới thư mục'
+      }
       isOpen={isEditFolderModal}
       onClose={() => {
         if (!isEditFolder) handleCloseModal();
@@ -83,12 +97,14 @@ const EditFolderModal = () => {
         }}
       >
         <FormGroup
-          label="Tên thư mục"
+          label={`Tên ${folderForm.type === 'file' ? 'tệp tin' : 'thư mục'}`}
           isRequire
           element={
             <Input
               name="folder_name"
-              placeholder="Nhập tên thư mục ..."
+              placeholder={`Nhập tên ${
+                folderForm.type === 'file' ? 'tệp tin' : 'thư mục'
+              } ...`}
               value={folderForm.folder_name}
               onChange={(e) => {
                 setValueFileSystem('folderForm', {

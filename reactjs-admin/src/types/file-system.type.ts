@@ -18,4 +18,5 @@ export interface IFileSystemResponse {
 export interface IFolderForm {
   file_system_id?: string;
   folder_name: string;
+  type: string;
 }
