@@ -75,7 +75,6 @@ export class AdminFileSystemController {
     @UploadedFile() file: Multer.File,
     @Body() data: UploadFileSystemDTO
   ): Promise<IResponse<FileSystemResponseDTO>> {
-    console.log(file);
     return this.adminFileSystemUseCase.saveFileSystem(file, data);
   }
 

@@ -1,12 +1,18 @@
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
-import { apiFetchFileSystem } from '~/apis/file-system.api';
+import {
+  apiFetchFileSystem,
+  apiUploadFileSystem,
+} from '~/apis/file-system.api';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { IObject } from '~/types/common.type';
-import { IFileSystem } from '~/types/file-system.type';
+import { IFileSystem, IFolderForm } from '~/types/file-system.type';
 
 interface FileSystemState {
   isUploadFolderModal: boolean;
+  isUploadFileModal: boolean;
+  isEditFolderModal: boolean;
+  isEditFolder: boolean;
   isFetchFileSystem: boolean;
   fileSystems: IFileSystem[];
   breadcrumb: IObject<any>[];
@@ -15,14 +21,32 @@ interface FileSystemState {
 
   // handle multiple folder update
   folderUpload: IObject<any>;
+  folderForm: IFolderForm;
+  errFolderForm: IObject<any>;
+
+  reqCreateNewFolder: (
+    formData: FormData,
+    parent_id: string | null,
+  ) => Promise<void>;
+
+  fileUpload: FileList | null;
 }
 
 const useFileSystemStore = create<FileSystemState>((set, get) => ({
   isUploadFolderModal: false,
+  isUploadFileModal: false,
+  isEditFolderModal: false,
+  isEditFolder: false,
   isFetchFileSystem: false,
   fileSystems: [],
   breadcrumb: [],
   folderUpload: {},
+  folderForm: {
+    file_system_id: '',
+    folder_name: '',
+  },
+  errFolderForm: {},
+  fileUpload: null,
   setValueFileSystem: (key, value) => {
     set({
       [key]: value,
@@ -54,6 +78,35 @@ const useFileSystemStore = create<FileSystemState>((set, get) => ({
     } finally {
       set({
         isFetchFileSystem: false,
+      });
+    }
+  },
+  reqCreateNewFolder: async (formData, parent_id) => {
+    set({
+      isEditFolder: true,
+    });
+    try {
+      const res = await apiUploadFileSystem(formData);
+
+      if (res.statusCode === STATUS_SUCCESS) {
+        toast.success(res.message);
+        get().reqFetchFileSystems(parent_id);
+        set({
+          folderForm: {
+            file_system_id: '',
+            folder_name: '',
+          },
+          errFolderForm: {},
+          isEditFolderModal: false,
+        });
+      } else {
+        toast.error(res.error);
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({
+        isEditFolder: false,
       });
     }
   },

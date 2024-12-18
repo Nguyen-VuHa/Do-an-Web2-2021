@@ -65,7 +65,7 @@ const WrapperFile = () => {
       )}
 
       {(!isFetchFileSystem && fileSystems.length > 0 && <FileList />) || (
-        <div className="w-full p-10 flex flex-col items-center text-rose text-lg space-y-5">
+        <div className="w-full p-10 flex flex-col items-center text-lg space-y-5">
           <img src={EmptyFolder} width={120} />
           <span>THƯ MỤC RỖNG</span>
         </div>

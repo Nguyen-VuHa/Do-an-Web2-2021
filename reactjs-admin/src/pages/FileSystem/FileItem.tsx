@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Folder from 'src/images/icon/computer-folder.png';
@@ -6,6 +5,7 @@ import { IFileSystem } from '~/types/file-system.type';
 import { formatFileSize } from '~/utils/common';
 import { getDataToLocalStore } from '~/utils/localStorage';
 import FileType from './FileType';
+import dayjs from 'dayjs';
 
 type FileItemProps = {
   data: IFileSystem;

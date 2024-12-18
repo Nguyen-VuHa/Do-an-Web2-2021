@@ -36,11 +36,13 @@ const FileControl = () => {
       case 1:
         break;
       case 2:
+        setValueFileSystem('isUploadFileModal', true);
         break;
       case 3:
         setValueFileSystem('isUploadFolderModal', true);
         break;
       case 4:
+        setValueFileSystem('isEditFolderModal', true);
         break;
 
       default:

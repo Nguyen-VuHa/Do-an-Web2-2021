@@ -12,4 +12,7 @@ export const databaseConfig = (configService: ConfigService): TypeOrmModuleOptio
   entities: ENTITIES, // Cập nhật entities của bạn tại đây
   synchronize: true,
   logging: true,
+  extra: {
+    options: '-c timezone=UTC', // Thiết lập múi giờ ở cấp độ kết nối
+  },
 });

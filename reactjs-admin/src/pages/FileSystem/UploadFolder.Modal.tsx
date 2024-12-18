@@ -216,7 +216,7 @@ const UploadFolder = () => {
       onSubmit={() => {
         if (!isProcessSaveFile) handleUploadFile();
       }}
-      widthClass="w-[50%]"
+      widthClass="w-[40%]"
       isLoading={isProcessSaveFile}
     >
       {isProcessSaveFile && (
@@ -230,7 +230,7 @@ const UploadFolder = () => {
       {!isProcessSaveFile && (
         <div
           id="FileUpload"
-          className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
+          className="relative block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
         >
           <input
             type="file"

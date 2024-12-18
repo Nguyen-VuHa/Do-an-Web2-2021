@@ -5,6 +5,8 @@ import useFileSystemStore from '~/stores/file-system.store';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import UploadFolder from './UploadFolder.Modal';
+import EditFolderModal from './EditFolder.Modal';
+import UploadFileModal from './UploadFile.Modal';
 
 const FileSystem = () => {
   const location = useLocation();
@@ -24,6 +26,8 @@ const FileSystem = () => {
       <Breadcrumb pageName="Tệp tin hệ thống" />
 
       {isUploadFolderModal && <UploadFolder />}
+      <EditFolderModal />
+      <UploadFileModal />
 
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-5 space-y-10">
         <FileControl />

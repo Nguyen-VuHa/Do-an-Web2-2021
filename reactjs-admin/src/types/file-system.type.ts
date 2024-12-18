@@ -14,3 +14,8 @@ export interface IFileSystemResponse {
   list: IFileSystem[];
   breadcrumb: IObject<any>[];
 }
+
+export interface IFolderForm {
+  file_system_id?: string;
+  folder_name: string;
+}

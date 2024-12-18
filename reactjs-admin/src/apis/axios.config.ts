@@ -34,6 +34,10 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Lấy múi giờ của client
+    config.headers['x-timezone'] = userTimeZone; // Gắn header `x-timezone`
+
     return config;
   },
   (error) => {
