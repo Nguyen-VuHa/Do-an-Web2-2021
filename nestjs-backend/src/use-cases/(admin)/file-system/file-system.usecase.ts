@@ -12,6 +12,7 @@ import { FileSystem } from 'src/core/entities/file-system.entity';
 import { IResponse } from 'src/core/types/common';
 import { plainToClass } from 'class-transformer';
 import { IFileSystemReponse } from 'src/core/types/file-system.type';
+import { IsNull } from 'typeorm';
 
 @Injectable()
 export class AdminFileSystemUseCases {
@@ -162,6 +163,85 @@ export class AdminFileSystemUseCases {
         message: 'Xử lý tệp không thành công.',
         error: error.message,
       });
+    }
+  }
+
+  async deleteFileSystem(file_system_id: string): Promise<IResponse<string>> {
+    try {
+      const fileData = await this.fileSystemService.getFileSystemByID(file_system_id);
+
+      if (!fileData) {
+        throw new NotFoundException('Không tồn tại tệp tin hoặc thư mục.');
+      }
+
+      if (fileData.type === 'folder' && fileData.name === 'Root') {
+        throw new NotFoundException('Thư mục root không phải để bạn xoá, nhớ nhé bớt vọc.');
+      }
+
+      const timestamp = Math.floor(Date.now() / 1000);
+      const fileNameDelete = `${file_system_id}-${timestamp}`;
+
+      // xử lý xoá folder
+      if (fileData.type === 'folder') {
+        await this.deleteFolderAndChildren(file_system_id);
+
+        fileData.name = fileNameDelete;
+        fileData.deleted_at = new Date();
+        await this.fileSystemService.updateFileSystem(fileData);
+      }
+
+      if (fileData.type === 'file') {
+        const uniqueName = await this.fileSystemService.generateUniqueName(fileNameDelete);
+
+        fileData.name = uniqueName;
+        fileData.deleted_at = new Date();
+        await this.fileSystemService.updateFileSystem(fileData);
+      }
+      // xử lý xoá file
+
+      const response: IResponse<string> = {
+        statusCode: 200,
+        error: null,
+        message: 'Xoá tệp hoặc thư mục thành công.',
+        data: 'success',
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Xoá tệp hoặc thư mục không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  private async deleteFolderAndChildren(parentId: string) {
+    // Tìm tất cả các file/folder con của folder này
+    const children = await this.fileSystemService.getListFileSystemByCondition({
+      where: {
+        parent: {
+          file_system_id: parentId,
+        },
+        deleted_at: IsNull(),
+      },
+    });
+
+    for (const child of children) {
+      const timestamp = Math.floor(Date.now() / 1000);
+      const fileNameDelete = `${child.file_system_id}-${timestamp}`;
+
+      // Đổi tên và đánh dấu là đã xóa
+      child.name = fileNameDelete;
+      child.deleted_at = new Date();
+
+      // Lưu lại thông tin đã thay đổi
+      await this.fileSystemService.updateFileSystem(child);
+
+      // Nếu item là folder, gọi đệ quy để xóa tất cả con của nó
+      if (child.type === 'folder') {
+        await this.deleteFolderAndChildren(child.file_system_id); // Đệ quy
+      }
     }
   }
 }

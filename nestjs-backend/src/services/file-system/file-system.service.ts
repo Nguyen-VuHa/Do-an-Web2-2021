@@ -42,6 +42,13 @@ export class FileSystemService {
     });
   }
 
+  async getListFileSystemByCondition(condition: IObject<any>): Promise<FileSystem[]> {
+    return await this.fileSystemRepository.find({
+      ...condition,
+      withDeleted: true,
+    });
+  }
+
   async getBreadcrumb(fileSystemId: string): Promise<IObject<any>[]> {
     const breadcrumb: { id: string; name: string }[] = [];
     let currentNode = await this.fileSystemRepository.findOne({

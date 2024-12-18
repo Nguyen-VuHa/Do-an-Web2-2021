@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -96,11 +97,16 @@ export class AdminFileSystemController {
       },
     })
   )
-  async updateMovie(
+  async renamneFileSystem(
     @Param('id') id: string,
     @Body() data: RenameFileSystemDTO
   ): Promise<IResponse<FileSystemResponseDTO>> {
     data.file_id = id;
     return this.adminFileSystemUseCase.renameFileSystem(data);
+  }
+
+  @Delete('delete/:id')
+  async deleteFileSystem(@Param('id') id: string): Promise<IResponse<string>> {
+    return this.adminFileSystemUseCase.deleteFileSystem(id);
   }
 }

@@ -60,6 +60,10 @@ const EditFolderModal = () => {
       payloadFormData.append('type', 'folder');
       payloadFormData.append('folder_name', folderForm.folder_name);
 
+      if(parent_id) {
+        payloadFormData.append('parent_file_system_id', parent_id);
+      }
+
       reqCreateNewFolder(payloadFormData, parent_id);
     }
   };
