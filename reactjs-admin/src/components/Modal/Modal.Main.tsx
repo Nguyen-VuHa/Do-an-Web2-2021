@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({
       }`}
     >
       <div
-        className={`modal w-[30%] max-sm:w-[90%] rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark overflow-auto ${widthClass}`}
+        className={`modal w-[30%] max-sm:w-[90%] max-h-[95%] rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark overflow-auto ${widthClass}`}
       >
         <div className="space-y-5 border-b border-stroke p-2 dark:border-strokedark">
           <div className="w-full space-x-10 flex justify-between items-end">
@@ -51,13 +51,13 @@ const Modal: React.FC<ModalProps> = ({
         </div>
         <div className="p-4 flex justify-end items-center space-x-2 w-full">
           <Button
-            className="w-fit dark:!bg-graydark dark:text-white text-[#6c7b90] !bg-gray border-none"
+            className="!w-fit dark:!bg-graydark dark:text-white text-[#6c7b90] !bg-gray border-none"
             onClick={() => !isLoading && onClose()}
           >
             <span>Thoát</span>
           </Button>
           <Button
-            className="w-fit border-none"
+            className="!w-fit border-none"
             loading={isLoading}
             onClick={() => {
               if (!isLoading) {

@@ -87,9 +87,6 @@ const UploadFileModal = () => {
       if (res.error) {
         toast.error(res.error);
         setKeys([]);
-        toast.error(
-          'Tiến trình tải thư mục lên đã thất bại! vui lòng thử lại sau.',
-        );
         return;
       }
 

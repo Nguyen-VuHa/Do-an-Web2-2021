@@ -42,7 +42,7 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
     >
       {(data.type === 'folder' && (
         <>
-          <div className={className}>
+          <div className={`${className}`}>
             <img src={Folder} width={iconSize} />
             <span className={`text-sm ${fileNameClass}`}>{data.name}</span>
           </div>
@@ -52,7 +52,7 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
         </>
       )) || (
         <>
-          <div className={className}>
+          <div className={`${className}`}>
             <FileType size={iconSize} mimeType={data.mime_type || ''}>
               <img
                 src={data.path || ''}

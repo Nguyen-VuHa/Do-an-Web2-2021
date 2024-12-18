@@ -34,6 +34,7 @@ const FileControl = () => {
   const handleClickBtnControl = (id: number) => {
     switch (id) {
       case 1:
+        setValueFileSystem('isUploadPosterModal', true);
         break;
       case 2:
         setValueFileSystem('isUploadFileModal', true);

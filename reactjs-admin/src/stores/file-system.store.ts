@@ -11,6 +11,7 @@ import { IFileSystem, IFolderForm } from '~/types/file-system.type';
 interface FileSystemState {
   isUploadFolderModal: boolean;
   isUploadFileModal: boolean;
+  isUploadPosterModal: boolean;
   isEditFolderModal: boolean;
   isEditFolder: boolean;
   isFetchFileSystem: boolean;
@@ -30,11 +31,16 @@ interface FileSystemState {
   ) => Promise<void>;
 
   fileUpload: FileList | null;
+
+  posterUpload: File | null;
+  posterPreview: string | null;
+  posterFileName: string;
 }
 
 const useFileSystemStore = create<FileSystemState>((set, get) => ({
   isUploadFolderModal: false,
   isUploadFileModal: false,
+  isUploadPosterModal: false,
   isEditFolderModal: false,
   isEditFolder: false,
   isFetchFileSystem: false,
@@ -47,6 +53,9 @@ const useFileSystemStore = create<FileSystemState>((set, get) => ({
   },
   errFolderForm: {},
   fileUpload: null,
+  posterUpload: null,
+  posterPreview: null,
+  posterFileName: '',
   setValueFileSystem: (key, value) => {
     set({
       [key]: value,
