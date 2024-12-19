@@ -29,3 +29,10 @@ export const apiRenameFileSystem = async (
   const path = MAIN_PATH + `/rename/${id}`;
   return axiosInstance.put(path, payload);
 };
+
+export const apiDeleteFileSystem = async (
+  id: string,
+): Promise<IResponse<IFileSystemResponse>> => {
+  const path = MAIN_PATH + `/delete/${id}`;
+  return axiosInstance.delete(path);
+};

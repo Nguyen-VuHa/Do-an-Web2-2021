@@ -27,6 +27,7 @@
     "react-easy-crop": "^5.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
+    "react-photo-view": "^1.2.6",
     "react-router-dom": "^6.14.2",
     "sass": "^1.82.0",
     "sort-by": "^0.0.2",

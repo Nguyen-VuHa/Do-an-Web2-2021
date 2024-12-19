@@ -8,6 +8,8 @@ import UploadFolder from './UploadFolder.Modal';
 import EditFolderModal from './EditFolder.Modal';
 import UploadFileModal from './UploadFile.Modal';
 import UploadPosterModal from './UploadPoster.Modal';
+import ConfirmDeleteModal from './ConfirmDelete.Modal';
+import { PhotoView } from 'react-photo-view';
 
 const FileSystem = () => {
   const location = useLocation();
@@ -28,9 +30,15 @@ const FileSystem = () => {
       <Breadcrumb pageName="Tệp tin hệ thống" />
 
       {isUploadFolderModal && <UploadFolder />}
+      {isUploadPosterModal && <UploadPosterModal />}
       <EditFolderModal />
       <UploadFileModal />
-      {isUploadPosterModal && <UploadPosterModal />}
+      <ConfirmDeleteModal />
+
+
+     {/* <PhotoView src={'https://res.cloudinary.com/cgv-vi-t-nam/image/upload/v1734491523/file-system/sfc3z0frfgdjiyzkzbru.jpg'}>
+        <img src={'https://res.cloudinary.com/cgv-vi-t-nam/image/upload/v1734491523/file-system/sfc3z0frfgdjiyzkzbru.jpg'} style={{ objectFit: 'cover' }} alt="" />
+      </PhotoView> */}
 
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-5 space-y-10">
         <FileControl />

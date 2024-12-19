@@ -177,3 +177,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
   cursor: pointer;
   filter: invert(1); /* Thay đổi màu biểu tượng */
 }
+
+.PhotoView-Portal {
+  z-index: 10000; /* Tùy chỉnh giá trị */
+}

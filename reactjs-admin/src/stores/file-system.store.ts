@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
 import {
+  apiDeleteFileSystem,
   apiFetchFileSystem,
   apiRenameFileSystem,
   apiUploadFileSystem,
@@ -13,8 +14,10 @@ interface FileSystemState {
   isUploadFolderModal: boolean;
   isUploadFileModal: boolean;
   isUploadPosterModal: boolean;
+  isDeleteFolderModal: boolean;
   isEditFolderModal: boolean;
   isEditFolder: boolean;
+  isDeleteFolder: boolean;
   isFetchFileSystem: boolean;
   fileSystems: IFileSystem[];
   breadcrumb: IObject<any>[];
@@ -38,19 +41,29 @@ interface FileSystemState {
   posterFileName: string;
 
   reqRenameFile: (data: IFolderForm, parent_id: string) => Promise<void>;
+  reqDeleteFile: (file_system_id: string, parent_id: string) => Promise<void>;
+
+  folderDelete: IFolderForm;
 }
 
 const useFileSystemStore = create<FileSystemState>((set, get) => ({
   isUploadFolderModal: false,
   isUploadFileModal: false,
   isUploadPosterModal: false,
+  isDeleteFolderModal: false,
   isEditFolderModal: false,
   isEditFolder: false,
+  isDeleteFolder: false,
   isFetchFileSystem: false,
   fileSystems: [],
   breadcrumb: [],
   folderUpload: {},
   folderForm: {
+    file_system_id: '',
+    folder_name: '',
+    type: '',
+  },
+  folderDelete: {
     file_system_id: '',
     folder_name: '',
     type: '',
@@ -157,6 +170,35 @@ const useFileSystemStore = create<FileSystemState>((set, get) => ({
       set({
         isEditFolder: false,
       });
+    }
+  },
+  reqDeleteFile: async (file_system_id, parent_id) => {
+    set({
+      isDeleteFolder: true
+    })
+    try {
+      const res = await apiDeleteFileSystem(file_system_id);
+
+      if(res.statusCode === STATUS_SUCCESS) {
+        toast.success(res.message);
+        get().reqFetchFileSystems(parent_id);
+        set({
+          folderDelete: {
+            file_system_id: '',
+            folder_name: '',
+            type: '',
+          },
+          isDeleteFolderModal: false,
+        });
+      } else {
+        toast.error(res.error);
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({
+        isDeleteFolder: false
+      })
     }
   },
 }));

@@ -8,6 +8,8 @@ import FileType from './FileType';
 import dayjs from 'dayjs';
 import ExpandableMenu from './ExpandableMenu';
 import useFileSystemStore from '~/stores/file-system.store';
+import { PhotoView } from 'react-photo-view';
+import { getFileType } from '~/utils/detect';
 
 type FileItemProps = {
   data: IFileSystem;
@@ -21,6 +23,7 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
   const [iconSize, setIconSize] = useState<number>();
   const [expandableMenuClass, setExpandableMenuClass] = useState<string>('');
 
+  const buttonViewImage = useRef<HTMLButtonElement>(null);
   const expandableMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -53,6 +56,15 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
         if (data.type === 'folder') {
           navigate(`?_p_id=${data.file_system_id}`);
         }
+
+        if (data.type === 'file') { 
+          const fileType = getFileType(data.mime_type || '');
+
+          if(fileType === 'image') 
+            buttonViewImage.current && buttonViewImage.current.click();
+          else  
+            window.open(data.path || '', "_blank");
+        }
       }}
     >
       {(data.type === 'folder' && (
@@ -78,6 +90,14 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
                     type: 'folder',
                   });
                 }}
+                onRemove={() => {
+                  setValueFileSystem('isDeleteFolderModal', true);
+                  setValueFileSystem('folderDelete', {
+                    file_system_id: data.file_system_id,
+                    folder_name: data.name,
+                    type: 'folder',
+                  });
+                }}
               />
             </div>
           </div>
@@ -94,6 +114,11 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
                 height={iconSize}
                 style={{ height: iconSize }}
               />
+              <PhotoView 
+                src={data.path || ''} 
+              >
+                <button ref={buttonViewImage} className='hidden'></button>
+              </PhotoView>
             </FileType>
             <span className={`text-sm ${fileNameClass}`}>{data.name}</span>
           </div>
@@ -104,9 +129,25 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
             </span>
             <div className={expandableMenuClass} ref={expandableMenuRef}>
               <ExpandableMenu
+                onView={() => {
+                  const fileType = getFileType(data.mime_type || '');
+
+                  if(fileType === 'image') 
+                    buttonViewImage.current && buttonViewImage.current.click();
+                  else  
+                    window.open(data.path || '', "_blank");
+                }}
                 onEdit={() => {
                   setValueFileSystem('isEditFolderModal', true);
                   setValueFileSystem('folderForm', {
+                    file_system_id: data.file_system_id,
+                    folder_name: data.name,
+                    type: 'file',
+                  });
+                }}
+                onRemove={() => {
+                  setValueFileSystem('isDeleteFolderModal', true);
+                  setValueFileSystem('folderDelete', {
                     file_system_id: data.file_system_id,
                     folder_name: data.name,
                     type: 'file',
