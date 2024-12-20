@@ -16,6 +16,7 @@ import {
   DetailMovieResponseDTO,
   GetMoviesQueryDto,
   MovieResponseDTO,
+  SmartCreateMovieDTO,
   UpdateMovieDTO,
   UpdateStatusMovieDTO,
 } from 'src/core/dtos/admin-movie';
@@ -139,5 +140,28 @@ export class AdminMovieController {
   )
   async updateStatusMovie(@Query() data: UpdateStatusMovieDTO): Promise<IResponse<string>> {
     return this.adminMovieUseCase.updateStatusMovie(data);
+  }
+
+  @Post('extension/smart-create')
+  @UsePipes(
+    new ValidationPipe({
+      transform: true, // Chuyển đổi dữ liệu (nếu cần)
+      exceptionFactory: (errors) => {
+        // Tùy chỉnh lỗi trả về
+        const validationErrors = errors.map((error) => ({
+          field: error.property,
+          constraints: error.constraints,
+        }));
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Dữ liệu không hợp lệ',
+          error: validationErrors,
+        });
+      },
+    })
+  )
+  async smartCreateMovie(@Body() data: SmartCreateMovieDTO): Promise<string> {
+    console.log(data);
+    return 'API smart created';
   }
 }

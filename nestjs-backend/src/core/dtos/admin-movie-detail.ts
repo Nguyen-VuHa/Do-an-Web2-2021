@@ -63,3 +63,11 @@ export class ActorResponseDTO {
   @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
   status: string;
 }
+
+export class PosterResponseDTO {
+  @Expose()
+  movie_poster_id: number;
+
+  @Expose()
+  poster_url: string;
+}

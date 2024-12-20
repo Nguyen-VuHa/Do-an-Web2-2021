@@ -16,3 +16,8 @@ export interface ICrawlMovieResponse {
   error: any;
   data?: ICrawlMovieDetail[];
 }
+
+export interface IURLToBase64Response {
+  error: any;
+  data?: string;
+}

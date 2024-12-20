@@ -9,12 +9,14 @@ import {
   UpdateMovieDTO,
   UpdateStatusMovieDTO,
 } from 'src/core/dtos/admin-movie';
+import { MoviePoster } from 'src/core/entities/movie-poster.entity';
 import { Movie } from 'src/core/entities/movie.entity';
 import { IObject, IPagination, IResponse } from 'src/core/types/common';
 import { ActorService } from 'src/services/actor/actor.service';
 import { CategoryService } from 'src/services/category/category.service';
 import { DirectorService } from 'src/services/director/director.service';
 import { MovieService } from 'src/services/movie/movie.service';
+import { PosterService } from 'src/services/poster/poster.service';
 import { Between } from 'typeorm';
 
 @Injectable()
@@ -23,7 +25,8 @@ export class AdminMovieUseCases {
     private readonly movieService: MovieService,
     private readonly directorService: DirectorService,
     private readonly actorService: ActorService,
-    private readonly categoryService: CategoryService
+    private readonly categoryService: CategoryService,
+    private readonly posterService: PosterService
   ) {}
 
   async getMovieList(
@@ -94,6 +97,7 @@ export class AdminMovieUseCases {
           categories: true,
           actors: true,
           director: true,
+          posters: true,
         },
         where: {
           movie_id: _movie_id,
@@ -144,6 +148,19 @@ export class AdminMovieUseCases {
         throw new NotFoundException('Categories một hoặc nhiều ID không tồn tại');
       }
 
+      const posters: MoviePoster[] = [];
+
+      if (data.posters && data.posters.length > 0) {
+        for (const poster of data.posters) {
+          const newMoviePoster = new MoviePoster();
+
+          newMoviePoster.poster_url = poster;
+          const newPoster = await this.posterService.createPoster(newMoviePoster);
+
+          posters.push(newPoster);
+        }
+      }
+
       const movieCreate = new Movie();
 
       movieCreate.title = data.title;
@@ -155,7 +172,7 @@ export class AdminMovieUseCases {
       movieCreate.director = director;
       movieCreate.actors = actors;
       movieCreate.categories = categories;
-      movieCreate.posters = [];
+      movieCreate.posters = posters;
 
       const movieResponse = await this.movieService.createMovie(movieCreate);
 

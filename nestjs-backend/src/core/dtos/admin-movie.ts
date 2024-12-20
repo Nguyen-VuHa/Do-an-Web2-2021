@@ -8,6 +8,8 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
+  IsUrl,
   Max,
   MaxLength,
   registerDecorator,
@@ -15,7 +17,12 @@ import {
   ValidationOptions,
 } from 'class-validator';
 import { MovieStatus } from '../types/movie.type';
-import { ActorResponseDTO, CategoryResponseDTO, DirectorResponseDTO } from './admin-movie-detail';
+import {
+  ActorResponseDTO,
+  CategoryResponseDTO,
+  DirectorResponseDTO,
+  PosterResponseDTO,
+} from './admin-movie-detail';
 
 export class GetMoviesQueryDto {
   @IsOptional()
@@ -84,6 +91,12 @@ export class CreateMovieDTO {
   @ArrayNotEmpty({ message: 'Danh sách categories không được để trống' })
   @IsInt({ each: true, message: 'Mỗi ID trong categories phải là một số nguyên' })
   categories: number[];
+
+  @IsOptional()
+  @IsArray() // Kiểm tra xem có phải là mảng không
+  @ArrayNotEmpty() // Kiểm tra mảng không được rỗng
+  @IsUrl({}, { each: true }) // Kiểm tra từng phần tử trong mảng là URL hợp lệ
+  posters?: string[];
 }
 
 function IsStartDateBeforeEndDate(
@@ -185,4 +198,60 @@ export class DetailMovieResponseDTO extends MovieResponseDTO {
   @Expose()
   @Type(() => CategoryResponseDTO)
   categories: CategoryResponseDTO[];
+
+  @Expose()
+  @Type(() => PosterResponseDTO)
+  posters: PosterResponseDTO[];
+}
+
+export class SmartCreateMovieDTO {
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @MaxLength(240, { message: 'Tên phim không được dài quá 240 ký tự' })
+  title: string;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsNumber()
+  @Max(240, { message: 'Thời gian bộ phim không vượt quá 240 phút' })
+  duration: number;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsDateString({}, { message: 'Phải là một ngày hợp lệ' })
+  start_date: Date;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsDateString({}, { message: 'Phải là một ngày hợp lệ' })
+  @IsStartDateBeforeEndDate('start_date', {
+    message: 'Ngày khởi chiếu phải nhỏ hơn ngày kết thúc',
+  })
+  end_date: Date;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @MaxLength(30, { message: 'Trailer ID không được dài quá 30 ký tự' })
+  trailer_id: string;
+
+  @IsOptional()
+  @MaxLength(1000, { message: 'Mô tả không được dài quá 1000 ký tự' })
+  description: string;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @MaxLength(80, { message: 'Đạo diễn không được dài quá 80 ký tự' })
+  director: string;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsArray({ message: 'actors phải là một mảng string' })
+  @ArrayNotEmpty({ message: 'Danh sách actors không được để trống' })
+  @IsString({ each: true, message: 'Mỗi tên diễn viên trong actors phải là một chuỗi' })
+  actors: string[];
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsArray({ message: 'categories phải là một mảng string' })
+  @ArrayNotEmpty({ message: 'Danh sách categories không được để trống' })
+  @IsString({ each: true, message: 'Mỗi tên thể loại trong categories phải là một chuỗi' })
+  categories: string[];
+
+  @IsOptional()
+  @IsArray() // Kiểm tra xem có phải là mảng không
+  @ArrayNotEmpty() // Kiểm tra mảng không được rỗng
+  @IsUrl({}, { each: true }) // Kiểm tra từng phần tử trong mảng là URL hợp lệ
+  posters?: string[];
 }

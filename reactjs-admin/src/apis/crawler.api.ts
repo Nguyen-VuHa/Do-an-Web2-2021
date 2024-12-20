@@ -1,6 +1,6 @@
 import { IObject } from '~/types/common.type';
 import axiosInstanceCrawler from './axiosCrawler.config';
-import { ICrawlMovieResponse } from '~/types/crawler.type';
+import { ICrawlMovieResponse, IURLToBase64Response } from '~/types/crawler.type';
 
 const MOVIE_CRAWL_PATH = '/crawl-data';
 
@@ -20,4 +20,11 @@ export const apiCrawlMovieDetailByFile = async (
       'Content-Type': 'multipart/form-data',
     },
   });
+};
+
+export const apiURLtoBase64 = async (
+  params: IObject<string>,
+): Promise<IURLToBase64Response> => {
+  const path = '/image-to-base64';
+  return axiosInstanceCrawler.get(path, { params });
 };
