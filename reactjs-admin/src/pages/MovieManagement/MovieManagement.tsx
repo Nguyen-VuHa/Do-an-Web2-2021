@@ -8,6 +8,7 @@ import DatePicker from '~/components/DatePicker';
 import useMovieStore from '~/stores/movie.store';
 import ComfirmUpdateStatusModal from './ComfirmUpdateStatus.Modal';
 import MovieList from './MovieList';
+import { TbDatabaseImport } from 'react-icons/tb';
 
 const MovieManagement = () => {
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ const MovieManagement = () => {
           </div>
           <div className="flex space-x-2 w-auto">
             <Button
+              className="dark:bg-opacity-50 dark:hover:bg-opacity-20"
               loading={isFetchMovieList}
               onClick={() => {
                 reqFetchMovieList({
@@ -79,6 +81,16 @@ const MovieManagement = () => {
               <IoSearchOutline size={20} />
             </Button>
             <Button
+              className="bg-warning border-warning dark:bg-opacity-50 dark:hover:bg-opacity-20"
+              onClick={() => {
+                navigate('/movies/extension');
+              }}
+            >
+              <span className="whitespace-nowrap">Extension</span>
+              <TbDatabaseImport size={20} />
+            </Button>
+            <Button
+              className="bg-success border-success dark:bg-opacity-50 dark:hover:bg-opacity-20"
               onClick={() => {
                 navigate('/movies/create');
               }}

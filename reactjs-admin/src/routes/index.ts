@@ -4,6 +4,9 @@ const MovieManagement = lazy(
   () => import('src/pages/MovieManagement/MovieManagement.tsx'),
 );
 const MovieEditer = lazy(() => import('src/pages/MovieEditer/MovieEditer'));
+const MovieExtension = lazy(
+  () => import('src/pages/MovieExtension/MovieExtension.Main'),
+);
 const MovieDetail = lazy(
   () => import('src/pages/MovieDetail/MovieDetail.Main'),
 );
@@ -39,6 +42,11 @@ const coreRoutes = [
     path: '/movies/detail/:movie_id',
     title: 'Movie Detail',
     component: MovieDetail,
+  },
+  {
+    path: '/movies/extension',
+    title: 'Movie Extension',
+    component: MovieExtension,
   },
   {
     path: '/file-system',

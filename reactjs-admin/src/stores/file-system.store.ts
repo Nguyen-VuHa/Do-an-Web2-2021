@@ -174,12 +174,12 @@ const useFileSystemStore = create<FileSystemState>((set, get) => ({
   },
   reqDeleteFile: async (file_system_id, parent_id) => {
     set({
-      isDeleteFolder: true
-    })
+      isDeleteFolder: true,
+    });
     try {
       const res = await apiDeleteFileSystem(file_system_id);
 
-      if(res.statusCode === STATUS_SUCCESS) {
+      if (res.statusCode === STATUS_SUCCESS) {
         toast.success(res.message);
         get().reqFetchFileSystems(parent_id);
         set({
@@ -197,8 +197,8 @@ const useFileSystemStore = create<FileSystemState>((set, get) => ({
       toast.error(error?.toString() as string);
     } finally {
       set({
-        isDeleteFolder: false
-      })
+        isDeleteFolder: false,
+      });
     }
   },
 }));

@@ -13,7 +13,6 @@ import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { IObject } from '~/types/common.type';
 import { IDetailMovie, IMovie, IMovieForm } from '~/types/movie.type';
 import useGlobalStore from './global.store';
-import MovieDetail from '~/pages/MovieDetail/MovieDetail.Main';
 
 interface MovieState {
   categoriesSelected: any[];

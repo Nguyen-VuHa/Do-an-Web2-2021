@@ -57,13 +57,12 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
           navigate(`?_p_id=${data.file_system_id}`);
         }
 
-        if (data.type === 'file') { 
+        if (data.type === 'file') {
           const fileType = getFileType(data.mime_type || '');
 
-          if(fileType === 'image') 
+          if (fileType === 'image')
             buttonViewImage.current && buttonViewImage.current.click();
-          else  
-            window.open(data.path || '', "_blank");
+          else window.open(data.path || '', '_blank');
         }
       }}
     >
@@ -114,10 +113,8 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
                 height={iconSize}
                 style={{ height: iconSize }}
               />
-              <PhotoView 
-                src={data.path || ''} 
-              >
-                <button ref={buttonViewImage} className='hidden'></button>
+              <PhotoView src={data.path || ''}>
+                <button ref={buttonViewImage} className="hidden"></button>
               </PhotoView>
             </FileType>
             <span className={`text-sm ${fileNameClass}`}>{data.name}</span>
@@ -132,10 +129,9 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
                 onView={() => {
                   const fileType = getFileType(data.mime_type || '');
 
-                  if(fileType === 'image') 
+                  if (fileType === 'image')
                     buttonViewImage.current && buttonViewImage.current.click();
-                  else  
-                    window.open(data.path || '', "_blank");
+                  else window.open(data.path || '', '_blank');
                 }}
                 onEdit={() => {
                   setValueFileSystem('isEditFolderModal', true);

@@ -35,8 +35,7 @@ const FileSystem = () => {
       <UploadFileModal />
       <ConfirmDeleteModal />
 
-
-     {/* <PhotoView src={'https://res.cloudinary.com/cgv-vi-t-nam/image/upload/v1734491523/file-system/sfc3z0frfgdjiyzkzbru.jpg'}>
+      {/* <PhotoView src={'https://res.cloudinary.com/cgv-vi-t-nam/image/upload/v1734491523/file-system/sfc3z0frfgdjiyzkzbru.jpg'}>
         <img src={'https://res.cloudinary.com/cgv-vi-t-nam/image/upload/v1734491523/file-system/sfc3z0frfgdjiyzkzbru.jpg'} style={{ objectFit: 'cover' }} alt="" />
       </PhotoView> */}
 

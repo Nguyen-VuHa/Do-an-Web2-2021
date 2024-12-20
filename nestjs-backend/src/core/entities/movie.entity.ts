@@ -21,7 +21,7 @@ export class Movie {
   @PrimaryGeneratedColumn('uuid')
   movie_id: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, unique: true })
   title: string;
 
   @Column({ type: 'text' })
