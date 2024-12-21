@@ -5,14 +5,21 @@ import Input from '~/components/Input';
 import useMovieExtensionStore from '~/stores/movie-extension.store';
 
 const ExtensionControl = () => {
-  const { urlCrawler, isCrawlData, setDataKeyValue, reqCrawlMovieDetail } =
-    useMovieExtensionStore();
+  const {
+    urlCrawler,
+    isCrawlData,
+    isProcessCreateMovie,
+    setDataKeyValue,
+    reqCrawlMovieDetail,
+  } = useMovieExtensionStore();
 
   const handleCrawlerDataWithURL = () => {
     if (!urlCrawler) {
       toast.error('Vui lòng nhập URL thu thập dữ liệu.');
       return;
     }
+
+    if (isProcessCreateMovie) return;
 
     reqCrawlMovieDetail();
   };
@@ -38,6 +45,7 @@ const ExtensionControl = () => {
               if (!isCrawlData) handleCrawlerDataWithURL();
             }}
             loading={isCrawlData}
+            disabled={isProcessCreateMovie}
           >
             <span>Thu thập dữ liệu</span>
             <GiCloudDownload size={20} />
@@ -48,6 +56,7 @@ const ExtensionControl = () => {
             onClick={() => {
               if (!isCrawlData) setDataKeyValue('isUploadFileCrawler', true);
             }}
+            disabled={isProcessCreateMovie}
           >
             <span>Tải lên tệp tin</span>
             <GiCloudUpload size={20} />

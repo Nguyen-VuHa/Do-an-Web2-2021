@@ -37,6 +37,13 @@ export class ActorService {
     });
   }
 
+  async getActorListByWhere(conditions: IObject<any>): Promise<Actor[]> {
+    return await this.actorRepository.find({
+      where: conditions,
+      withDeleted: true,
+    });
+  }
+
   async createActor(actorData: Actor): Promise<Actor> {
     return await this.actorRepository.save(actorData);
   }

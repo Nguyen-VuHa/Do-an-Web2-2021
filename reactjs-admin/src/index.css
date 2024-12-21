@@ -181,3 +181,32 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .PhotoView-Portal {
   z-index: 10000; /* Tùy chỉnh giá trị */
 }
+
+/* Tùy chỉnh toàn bộ scrollbar */
+::-webkit-scrollbar {
+  width: 10px; /* Chiều rộng của scrollbar */
+  height: 10px; /* Chiều cao của scrollbar (dành cho scrollbar ngang) */
+}
+
+/* Tùy chỉnh phần 'thumb' (phần kéo của scrollbar) */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Màu nền của thumb */
+  border-radius: 10px; /* Độ cong của thumb */
+  border: 1px solid #f1f1f1; /* Đường viền xung quanh thumb */
+}
+
+/* Tùy chỉnh khi hover trên thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Màu của thumb khi hover */
+}
+
+/* Tùy chỉnh track (phần còn lại của scrollbar) */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Màu nền của track */
+  border-radius: 10px;
+}
+
+/* Tùy chỉnh khi hover trên track */
+::-webkit-scrollbar-track:hover {
+  background-color: #f1f1f1;
+}

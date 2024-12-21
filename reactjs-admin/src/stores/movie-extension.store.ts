@@ -4,6 +4,7 @@ import {
   apiCrawlMovieDetail,
   apiCrawlMovieDetailByFile,
 } from '~/apis/crawler.api';
+import { IObject } from '~/types/common.type';
 import { ICrawlMovieDetail } from '~/types/crawler.type';
 
 interface MovieExtensionState {
@@ -14,7 +15,10 @@ interface MovieExtensionState {
   fileCrawler: File | null;
   isUploadFileCrawler: boolean;
   isProcessCrawlFile: boolean;
+  isProcessCreateMovie: boolean;
+  movieDataProcess: IObject<any>[];
 
+  setMovieDataProcess: (data: IObject<any>) => void;
   removeMovie: (title_movie: string) => void;
 
   reqCrawlMovieDetail: () => Promise<void>;
@@ -33,7 +37,20 @@ const useMovieExtensionStore = create<MovieExtensionState>((set, get) => ({
   fileCrawler: null,
   isUploadFileCrawler: false,
   isProcessCrawlFile: false,
+  isProcessCreateMovie: false,
+  movieDataProcess: [],
 
+  setMovieDataProcess: (dataProcess) => {
+    set({
+      movieDataProcess: get().movieDataProcess.some(
+        (item) => item.title === dataProcess['title'],
+      )
+        ? get().movieDataProcess.map((item) =>
+            item.title === dataProcess['title'] ? dataProcess : item,
+          )
+        : [...get().movieDataProcess, dataProcess],
+    });
+  },
   removeMovie: (title_movie) => {
     set({
       movieData: get().movieData.filter((movie) => movie.title !== title_movie),
@@ -49,7 +66,7 @@ const useMovieExtensionStore = create<MovieExtensionState>((set, get) => ({
       });
 
       if (res && !res.error && res.data) {
-        if (res.data.length <= 0) {
+        if (res.data.length <= 0 || !res.data[0].title) {
           toast.error('Không tồn tại dữ liệu phim');
           return;
         }

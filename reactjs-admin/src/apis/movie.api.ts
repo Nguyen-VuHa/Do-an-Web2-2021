@@ -25,6 +25,13 @@ export const apiCreateMovie = async (
   return axiosInstance.post(path, payload);
 };
 
+export const apiSmartCreateMovie = async (
+  payload: IObject<any>,
+): Promise<IResponse<IMovie>> => {
+  const path = '/admin/movie/extension/smart-create';
+  return axiosInstance.post(path, payload);
+};
+
 export const apiUpdateMovie = async (
   payload: IObject<any>,
 ): Promise<IResponse<IMovie>> => {
@@ -37,4 +44,11 @@ export const apiChangeStatusMovie = async (
 ): Promise<IResponse<string>> => {
   const path = MAIN_PATH + '/status';
   return axiosInstance.put(path, {}, { params });
+};
+
+export const apiCheckingMovieName = async (
+  params: IObject<any>,
+): Promise<IResponse<boolean>> => {
+  const path = '/admin/movie/extension/check-movie-name';
+  return axiosInstance.get(path, { params });
 };

@@ -6,9 +6,13 @@ import {
   DetailMovieResponseDTO,
   GetMoviesQueryDto,
   MovieResponseDTO,
+  SmartCreateMovieDTO,
   UpdateMovieDTO,
   UpdateStatusMovieDTO,
 } from 'src/core/dtos/admin-movie';
+import { Actor } from 'src/core/entities/actor.entity';
+import { Category } from 'src/core/entities/category.entity';
+import { Director } from 'src/core/entities/director.entity';
 import { MoviePoster } from 'src/core/entities/movie-poster.entity';
 import { Movie } from 'src/core/entities/movie.entity';
 import { IObject, IPagination, IResponse } from 'src/core/types/common';
@@ -17,7 +21,7 @@ import { CategoryService } from 'src/services/category/category.service';
 import { DirectorService } from 'src/services/director/director.service';
 import { MovieService } from 'src/services/movie/movie.service';
 import { PosterService } from 'src/services/poster/poster.service';
-import { Between } from 'typeorm';
+import { Between, In } from 'typeorm';
 
 @Injectable()
 export class AdminMovieUseCases {
@@ -282,6 +286,135 @@ export class AdminMovieUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Cập nhật trạng thái phim thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async smartCreateMovie(data: SmartCreateMovieDTO): Promise<IResponse<MovieResponseDTO>> {
+    try {
+      const categories = await this.categoryService.getCategoryListByWhere({
+        category_name: In(data.categories),
+      });
+
+      let categoriesMovie: Category[] = [];
+      for (const category of data.categories) {
+        const isExists = categories.some((c) => c.category_name === category);
+
+        if (!isExists) {
+          const categoryEntity = new Category();
+          categoryEntity.category_name = category;
+          const categoryNew = await this.categoryService.createCategory(categoryEntity);
+          categoriesMovie.push(categoryNew);
+        }
+      }
+
+      categoriesMovie = [...categoriesMovie, ...categories];
+
+      let actorsMovie: Actor[] = [];
+      const actors = await this.actorService.getActorListByWhere({
+        actor_name: In(data.actors),
+      });
+
+      for (const actor of data.actors) {
+        const isExists = actors.some((a) => a.actor_name === actor);
+
+        if (!isExists) {
+          const actorEntity = new Actor();
+          actorEntity.actor_name = actor;
+
+          const actorNew = await this.actorService.createActor(actorEntity);
+
+          actorsMovie.push(actorNew);
+        }
+      }
+
+      actorsMovie = [...actorsMovie, ...actors];
+
+      let directorMovie: Director;
+      const director = await this.directorService.getDirectorByWhere({
+        director_name: data.director,
+      });
+
+      if (!director) {
+        const directorEntity = new Director();
+        directorEntity.director_name = data.director;
+
+        const directorNew = await this.directorService.createDirectror(directorEntity);
+
+        directorMovie = directorNew;
+      } else {
+        directorMovie = director;
+      }
+
+      const posters: MoviePoster[] = [];
+
+      if (data.posters && data.posters.length > 0) {
+        for (const poster of data.posters) {
+          const newMoviePoster = new MoviePoster();
+
+          newMoviePoster.poster_url = poster;
+          const newPoster = await this.posterService.createPoster(newMoviePoster);
+
+          posters.push(newPoster);
+        }
+      }
+
+      const movieCreate = new Movie();
+
+      movieCreate.title = data.title;
+      movieCreate.description = data.description;
+      movieCreate.duration = data.duration;
+      movieCreate.start_date = data.start_date;
+      movieCreate.end_date = data.end_date;
+      movieCreate.trailer_id = data.trailer_id;
+      movieCreate.director = directorMovie;
+      movieCreate.actors = actorsMovie;
+      movieCreate.categories = categoriesMovie;
+      movieCreate.posters = posters;
+
+      const movieResponse = await this.movieService.createMovie(movieCreate);
+
+      const movieDTO = plainToClass(MovieResponseDTO, movieResponse, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<MovieResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Tạo mới phim thành công.',
+        data: movieDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Quá trình khởi tạo gặp lỗi.',
+        error: error.message,
+      });
+    }
+  }
+
+  async checkingMovieNameExists(movie_name: string): Promise<IResponse<boolean>> {
+    try {
+      const movieFind = await this.movieService.getDetailMovieByCondition({
+        where: {
+          title: movie_name,
+        },
+      });
+
+      const response: IResponse<boolean> = {
+        statusCode: 200,
+        error: null,
+        message: 'Kiểm tra thành công',
+        data: movieFind ? true : false,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Quá trình kiểm tra gặp lỗi.',
         error: error.message,
       });
     }

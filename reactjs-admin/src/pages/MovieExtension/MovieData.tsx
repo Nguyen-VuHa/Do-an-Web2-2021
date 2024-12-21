@@ -5,13 +5,53 @@ import { apiURLtoBase64 } from '~/apis/crawler.api';
 import { base64ToFileWithMime, stringToInt } from '~/utils/convert';
 import { apiUploadFileSystem } from '~/apis/file-system.api';
 import { IObject } from '~/types/common.type';
+import { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
+import { apiCheckingMovieName, apiSmartCreateMovie } from '~/apis/movie.api';
+import { STATUS_SUCCESS } from '~/constants/statusCode';
 
 const MovieData = () => {
   const { movieData } = useMovieExtensionStore();
-
+  // Tạo ref cho mỗi item trong danh sách
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState<number>(0);
+  const {
+    isProcessCreateMovie,
+    movieDataProcess,
+    setDataKeyValue,
+    setMovieDataProcess,
+  } = useMovieExtensionStore();
 
   const handleProcessSaveMovie = async () => {
+    setDataKeyValue('isProcessCreateMovie', true);
+    let indexProcess = 0;
+
     for (const movie of movieData) {
+      // scroll tới item đang xử lý.
+      setSelectedItemIndex(indexProcess);
+      indexProcess++;
+
+      // push item vào để hiển thị loading cho item đó
+      setMovieDataProcess({
+        title: movie.title,
+        status: 'loading',
+      });
+
+      const resChecking = await apiCheckingMovieName({
+        _movie_name: movie.title,
+      });
+
+      if (
+        (resChecking.statusCode === STATUS_SUCCESS && resChecking.data) ||
+        resChecking.error
+      ) {
+        setMovieDataProcess({
+          title: movie.title,
+          status: 'failed',
+        });
+        continue;
+      }
+      // tạo object movie
       const movieData: IObject<any> = {
         title: movie.title,
         duration: stringToInt(movie.duration),
@@ -20,37 +60,60 @@ const MovieData = () => {
         trailer_id: movie.trailer_id,
         description: movie.description,
         director: movie.director,
-        categories: movie.categories.split(',').map(category => category.trim()),
-        actors: movie.actors.split(',').map(category => category.trim()),
-      }
+        categories: movie.categories && movie.categories
+          .split(',')
+          .map((category) => category.trim()) || [],
+        actors: movie.actors && movie.actors.split(',').map((category) => category.trim()) || [],
+      };
+
       for (const poster of movie.poster_url) {
         // convert từ URL crawl data -> chuyển sang base64 -> convert về File
         const resImage = await apiURLtoBase64({
           _url: poster,
-        })
-
+        });
         const posterList: string[] = [];
-        if(resImage.error === "" && resImage.data) {
+        if (resImage.error === '' && resImage.data) {
           const fileConvert = base64ToFileWithMime(resImage.data, movie.title);
-
-          const payloadFile = new FormData()
-
-          payloadFile.append('file', fileConvert)
-          payloadFile.append('type', 'file')
+          const payloadFile = new FormData();
+          payloadFile.append('file', fileConvert);
+          payloadFile.append('type', 'file');
           // đẩy file lên hệ thống và lấy URL để lưu POSTER
-          const res = await apiUploadFileSystem(payloadFile)
-
-          if(res.statusCode === 200 && res.data) {
-            posterList.push(res.data.path || '')
+          const res = await apiUploadFileSystem(payloadFile);
+          if (res.statusCode === 200 && res.data) {
+            posterList.push(res.data.path || '');
           }
         }
-
-        movieData["posters"] = posterList;
+        movieData['posters'] = posterList;
       }
 
-      console.log(movieData);
+      const res = await apiSmartCreateMovie(movieData);
+
+      if (res.statusCode === STATUS_SUCCESS) {
+        setMovieDataProcess({
+          title: movie.title,
+          status: 'success',
+        });
+      } else {
+        toast.error(res.message);
+        setMovieDataProcess({
+          title: movie.title,
+          status: 'failed',
+        });
+      }
     }
-  }
+
+    setDataKeyValue('isProcessCreateMovie', false);
+  };
+
+  useEffect(() => {
+    const element = itemRefs.current[selectedItemIndex];
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [selectedItemIndex]);
 
   return (
     <div>
@@ -59,16 +122,35 @@ const MovieData = () => {
           <span className="text-warning text-xl font-semibold">
             Tổng {movieData.length} phim đã sẵn sàng
           </span>
-          <Button 
+          <Button
+            disabled={!(movieDataProcess.length <= 0)}
             className="!w-fit"
             onClick={() => handleProcessSaveMovie()}
-          >Tạo hàng loạt</Button>
+            loading={isProcessCreateMovie}
+          >
+            Tạo hàng loạt
+          </Button>
         </div>
       )}
       {(movieData &&
         movieData.length > 0 &&
-        movieData.map((movie) => {
-          return <MovieDataItem key={movie.title} data={movie} />;
+        movieData.map((movie, index) => {
+          const isProcess = movieDataProcess.find(
+            (movieProcess) => movieProcess['title'] === movie.title,
+          );
+          
+          return (
+            <div key={movie.title} ref={(el) => (itemRefs.current[index] = el)}>
+              <MovieDataItem
+                data={movie}
+                isProcessCreate={isProcessCreateMovie}
+                isProcessCompleted={isProcess && isProcess['status']}
+                isProcessLoading={
+                  isProcess && isProcess['status'] === 'loading'
+                }
+              />
+            </div>
+          );
         })) || <div>Không có dữ liệu.</div>}
     </div>
   );

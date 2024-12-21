@@ -4,24 +4,56 @@ import Tag from '~/components/Tag';
 import { ICrawlMovieDetail } from '~/types/crawler.type';
 import { FaTrash } from 'react-icons/fa';
 import useMovieExtensionStore from '~/stores/movie-extension.store';
+import { GiCheckMark } from 'react-icons/gi';
 
 interface MovieDataItemProps {
   data: ICrawlMovieDetail;
+  isProcessCreate?: boolean;
+  isProcessLoading?: boolean;
+  isProcessCompleted?: string;
 }
-const MovieDataItem: React.FC<MovieDataItemProps> = ({ data }) => {
+const MovieDataItem: React.FC<MovieDataItemProps> = ({
+  data,
+  isProcessCreate,
+  isProcessCompleted = '',
+  isProcessLoading,
+}) => {
   const { removeMovie } = useMovieExtensionStore();
-
+  
   return (
     <div className="relative space-y-2 p-4 max-w-full cursor-pointer rounded-md transition-all duration-300 hover:bg-primary hover:bg-opacity-20">
-      <ButtonIcon
-        className="absolute top-3 right-3"
-        color="danger"
-        onClick={() => {
-          removeMovie(data.title);
-        }}
-      >
-        <FaTrash />
-      </ButtonIcon>
+      <div className="absolute flex space-x-2 top-3 right-3">
+        {isProcessCompleted && isProcessCompleted !== '' && (
+          <>
+            {isProcessLoading && (
+              <div className="flex items-center space-x-2 text-success">
+                <span>Đang xử lý...</span>
+                <div className="h-7 w-7 animate-spin rounded-full border-2 border-solid border-t-transparent"></div>
+              </div>
+            )}
+            {isProcessCompleted && isProcessCompleted === 'success' && (
+              <ButtonIcon color="success">
+                <GiCheckMark />
+              </ButtonIcon>
+            )}
+
+            {isProcessCompleted && isProcessCompleted === 'failed' && (
+              <span className="text-rose">Xử lý thất bại</span>
+            )}
+          </>
+        )}
+        {!isProcessCreate && isProcessCompleted === '' && (
+          <ButtonIcon
+            color="danger"
+            onClick={() => {
+              removeMovie(data.title);
+            }}
+          >
+            <FaTrash />
+          </ButtonIcon>
+        )}
+      </div>
+
       <div className="flex flex-col space-y-5">
         <ul className="space-y-1 text-sm">
           <li>

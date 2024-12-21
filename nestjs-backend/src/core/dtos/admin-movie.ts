@@ -1,5 +1,6 @@
 import { Expose, Transform, Type } from 'class-transformer';
 import {
+  ArrayMaxSize,
   ArrayNotEmpty,
   IsArray,
   IsDateString,
@@ -95,6 +96,7 @@ export class CreateMovieDTO {
   @IsOptional()
   @IsArray() // Kiểm tra xem có phải là mảng không
   @ArrayNotEmpty() // Kiểm tra mảng không được rỗng
+  @ArrayMaxSize(5) // tối đa 5 poster cho 1 bộ phim.
   @IsUrl({}, { each: true }) // Kiểm tra từng phần tử trong mảng là URL hợp lệ
   posters?: string[];
 }
@@ -252,6 +254,7 @@ export class SmartCreateMovieDTO {
   @IsOptional()
   @IsArray() // Kiểm tra xem có phải là mảng không
   @ArrayNotEmpty() // Kiểm tra mảng không được rỗng
+  @ArrayMaxSize(5) // tối đa 5 poster cho 1 bộ phim.
   @IsUrl({}, { each: true }) // Kiểm tra từng phần tử trong mảng là URL hợp lệ
   posters?: string[];
 }

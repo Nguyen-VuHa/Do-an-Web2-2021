@@ -53,6 +53,13 @@ export class CategoryService {
     });
   }
 
+  async getCategoryListByWhere(conditions: IObject<any>): Promise<Category[]> {
+    return await this.categoryRepository.find({
+      where: conditions,
+      withDeleted: true,
+    });
+  }
+
   async getCategoriesListByIds(category_ids: number[]): Promise<Category[]> {
     return await this.categoryRepository.find({
       where: {

@@ -1,6 +1,9 @@
 import { IObject } from '~/types/common.type';
 import axiosInstanceCrawler from './axiosCrawler.config';
-import { ICrawlMovieResponse, IURLToBase64Response } from '~/types/crawler.type';
+import {
+  ICrawlMovieResponse,
+  IURLToBase64Response,
+} from '~/types/crawler.type';
 
 const MOVIE_CRAWL_PATH = '/crawl-data';
 

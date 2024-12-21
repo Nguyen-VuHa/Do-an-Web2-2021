@@ -4,11 +4,29 @@ import Button from '~/components/Button';
 import ExtensionControl from './ExtensionControl';
 import MovieData from './MovieData';
 import CrawlFileModal from './CrawlFile.Modal';
+import useMovieExtensionStore from '~/stores/movie-extension.store';
+import { useEffect } from 'react';
 
 const MovieExtension = () => {
   const navigate = useNavigate();
+  const { isProcessCreateMovie, setDataKeyValue } = useMovieExtensionStore();
+
+  useEffect(() => {
+    return () => {
+      setDataKeyValue('movieDataProcess', []);
+      setDataKeyValue('movieData', []);
+      setDataKeyValue('isUploadFileCrawler', false);
+      setDataKeyValue('isProcessCrawlFile', false);
+      setDataKeyValue('isProcessCreateMovie', false);
+    };
+  }, []);
+
   return (
     <>
+      {/* Layout process tạo phim hàng loạt */}
+      {isProcessCreateMovie && (
+        <div className="fixed top-0 left-0 w-full h-full z-[9999999]"></div>
+      )}
       <CrawlFileModal />
 
       <div className="mb-6 w-full flex justify-between items-center">

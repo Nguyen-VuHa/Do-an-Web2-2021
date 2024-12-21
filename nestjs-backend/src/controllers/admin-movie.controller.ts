@@ -160,8 +160,19 @@ export class AdminMovieController {
       },
     })
   )
-  async smartCreateMovie(@Body() data: SmartCreateMovieDTO): Promise<string> {
-    console.log(data);
-    return 'API smart created';
+  async smartCreateMovie(@Body() data: SmartCreateMovieDTO): Promise<IResponse<MovieResponseDTO>> {
+    return this.adminMovieUseCase.smartCreateMovie(data);
+  }
+
+  @Get('extension/check-movie-name')
+  async checkExistMovieName(@Query('_movie_name') movie_name: string): Promise<IResponse<boolean>> {
+    if (!movie_name) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Params is required',
+        error: 'Vui lòng truyền tên phim',
+      });
+    }
+    return this.adminMovieUseCase.checkingMovieNameExists(movie_name);
   }
 }
