@@ -31,12 +31,14 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
 
     if (sortType === 'grid') {
       setClassName('flex flex-col justify-between items-center space-y-2');
-      setFileNameClass('overflow-hidden text-ellipsis line-clamp-2');
+      setFileNameClass(
+        'w-full text-center overflow-hidden text-ellipsis line-clamp-2',
+      );
       setIconSize(100);
       setExpandableMenuClass('absolute top-[0] right-[5px] z-[20]');
     } else {
       setClassName('flex justify-between items-center space-x-2');
-      setFileNameClass('w-fit overflow-hidden text-ellipsis line-clamp-1');
+      setFileNameClass('w-full overflow-hidden text-ellipsis line-clamp-1');
       setIconSize(25);
       setExpandableMenuClass('');
     }
@@ -72,7 +74,7 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
             <img src={Folder} width={iconSize} />
             <span className={`text-sm ${fileNameClass}`}>{data.name}</span>
           </div>
-          <div className={`${className}`}>
+          <div className={`${className} flex-shrink-0`}>
             <span className="text-xs font-semibold italic text-warning">
               {dayjs(data.updated_at).format('HH:mm DD/MM/YYYY')}
             </span>
@@ -103,7 +105,7 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
         </>
       )) || (
         <>
-          <div className={`${className}`}>
+          <div className={`${className} max-w-full overflow-hidden`}>
             <FileType size={iconSize} mimeType={data.mime_type || ''}>
               <img
                 src={data.path || ''}
@@ -117,9 +119,14 @@ const FileItem: React.FC<FileItemProps> = ({ data }) => {
                 <button ref={buttonViewImage} className="hidden"></button>
               </PhotoView>
             </FileType>
-            <span className={`text-sm ${fileNameClass}`}>{data.name}</span>
+            <span
+              className={`text-sm ${fileNameClass}`}
+              style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+            >
+              {data.name}
+            </span>
           </div>
-          <div className={`${className}`}>
+          <div className={`${className} flex-shrink-0`}>
             <span className="text-xs font-semibold italic text-warning">
               {formatFileSize(data.size || 0)} -{' '}
               {dayjs(data.updated_at).format('HH:mm DD/MM/YYYY')}

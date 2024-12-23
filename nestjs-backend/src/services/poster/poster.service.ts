@@ -10,7 +10,19 @@ export class PosterService {
     private posterRepository: Repository<MoviePoster>
   ) {}
 
+  async getPosterByID(poster_id: number): Promise<MoviePoster> {
+    return await this.posterRepository.findOne({
+      where: {
+        movie_poster_id: poster_id,
+      },
+    });
+  }
+
   async createPoster(posterData: MoviePoster): Promise<MoviePoster> {
+    return await this.posterRepository.save(posterData);
+  }
+
+  async updatePoster(posterData: MoviePoster): Promise<MoviePoster> {
     return await this.posterRepository.save(posterData);
   }
 }

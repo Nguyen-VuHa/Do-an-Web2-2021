@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import useFileSystemStore from '~/stores/file-system.store';
 import { IObject } from '~/types/common.type';
 
 type BreadCrumbProps = {
@@ -7,7 +7,7 @@ type BreadCrumbProps = {
 };
 
 const BreadCrumb: React.FC<BreadCrumbProps> = ({ breadcrumb }) => {
-  const navigate = useNavigate();
+  const { reqFetchFileSystems } = useFileSystemStore();
   return (
     <nav className="w-full flex space-x-1 text-sm text-gray-600">
       {breadcrumb.map((item, index) => (
@@ -19,7 +19,7 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({ breadcrumb }) => {
                 className="font-semibold text-warning hover:text-rose max-w-[150px] transition-all cursor-pointer overflow-hidden text-ellipsis line-clamp-1"
                 title={item.name}
                 onClick={() => {
-                  navigate(`?_p_id=${item.id}`);
+                  reqFetchFileSystems(item.id);
                 }}
               >
                 {item.name}

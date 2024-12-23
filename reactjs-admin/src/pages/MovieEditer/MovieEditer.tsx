@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaArrowLeft } from 'react-icons/fa6';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -14,6 +14,8 @@ import ActorForm from './ActorForm';
 import CategoryForm from './CategoryForm';
 import DirectorForm from './DirectorForm';
 import MovieForm from './MovieForm';
+import PosterForm from './PosterForm';
+import MediaSelect from '~/components/MediaSelect/MediaSelect.Main';
 
 const MovieEditer = () => {
   const navigate = useNavigate();
@@ -23,17 +25,22 @@ const MovieEditer = () => {
   const { reqFetchAllDirectors } = useDirectorStore();
   const { reqFetchAllActor } = useActorStore();
   const {
+    posterUpdate,
     movieForm,
     directorSelected,
     categoriesSelected,
     actorSelected,
     isEditMovie,
     setErrorMovieForm,
+    setDataKeyValue,
     reqCreateMovie,
     reqUpdateMovie,
     resetFormMovie,
     reqFetchMovieDetail,
+    posterSelected,
   } = useMovieStore();
+
+  const [isModalMedia, setIsModalMedia] = useState<boolean>(false);
 
   useEffect(() => {
     if (movie_id) {
@@ -111,6 +118,37 @@ const MovieEditer = () => {
 
   return (
     <>
+      <MediaSelect
+        isOpen={isModalMedia}
+        onClose={() => {
+          setIsModalMedia(false);
+        }}
+        onSingleSelect={(data) => {
+          if (posterUpdate) {
+            setDataKeyValue(
+              'posterSelected',
+              posterSelected.map((poster) =>
+                poster.movie_poster_id === posterUpdate.movie_poster_id
+                  ? { ...poster, poster_url: data.path }
+                  : poster,
+              ),
+            );
+            setDataKeyValue('posterUpdate', null);
+          } else {
+            setDataKeyValue('posterSelected', [
+              ...posterSelected,
+              {
+                movie_poster_id:
+                  posterSelected.length + 1 + Math.floor(Date.now() / 1000),
+                poster_url: data.path,
+                type: 'create',
+              },
+            ]);
+          }
+
+          setIsModalMedia(false);
+        }}
+      />
       <div className="mb-6 w-full flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Button
@@ -131,7 +169,12 @@ const MovieEditer = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <PosterForm
+        openMediaSelect={() => {
+          setIsModalMedia(true);
+        }}
+      />
+      <div className="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2">
         <MovieForm />
         <div className="flex flex-col gap-5">
           <CategoryForm />

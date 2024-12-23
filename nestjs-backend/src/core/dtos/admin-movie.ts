@@ -14,6 +14,7 @@ import {
   Max,
   MaxLength,
   registerDecorator,
+  ValidateNested,
   ValidationArguments,
   ValidationOptions,
 } from 'class-validator';
@@ -22,8 +23,10 @@ import {
   ActorResponseDTO,
   CategoryResponseDTO,
   DirectorResponseDTO,
+  PosterCreateDTO,
   PosterResponseDTO,
 } from './admin-movie-detail';
+import { OmitType } from '@nestjs/mapped-types';
 
 export class GetMoviesQueryDto {
   @IsOptional()
@@ -131,9 +134,16 @@ function IsStartDateBeforeEndDate(
   };
 }
 
-export class UpdateMovieDTO extends CreateMovieDTO {
+export class UpdateMovieDTO extends OmitType(CreateMovieDTO, ['posters'] as const) {
   @IsOptional() // Yêu cầu trường này không được để trống
   movie_id: string;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(5)
+  @ValidateNested({ each: true })
+  @Type(() => PosterCreateDTO)
+  posters?: PosterCreateDTO[]; // Ghi đè kiểu dữ liệu
 }
 
 export class MovieResponseDTO {

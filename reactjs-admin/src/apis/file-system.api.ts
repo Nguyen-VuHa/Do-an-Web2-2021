@@ -22,6 +22,17 @@ export const apiUploadFileSystem = async (
   });
 };
 
+export const apiUploadFileToCloud = async (
+  data: FormData,
+): Promise<IResponse<string>> => {
+  const path = MAIN_PATH + '/upload/cloudinary';
+  return axiosInstance.post(path, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
 export const apiRenameFileSystem = async (
   payload: IObject<string>,
   id: string,

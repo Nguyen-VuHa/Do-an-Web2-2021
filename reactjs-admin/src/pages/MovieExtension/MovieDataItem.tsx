@@ -19,7 +19,7 @@ const MovieDataItem: React.FC<MovieDataItemProps> = ({
   isProcessLoading,
 }) => {
   const { removeMovie } = useMovieExtensionStore();
-  
+
   return (
     <div className="relative space-y-2 p-4 max-w-full cursor-pointer rounded-md transition-all duration-300 hover:bg-primary hover:bg-opacity-20">
       <div className="absolute flex space-x-2 top-3 right-3">

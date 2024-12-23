@@ -30,3 +30,8 @@ export interface Actor {
 export interface BodyCreateActor {
   actor_name: string;
 }
+
+export interface Poster {
+  movie_poster_id: number;
+  poster_url: string;
+}

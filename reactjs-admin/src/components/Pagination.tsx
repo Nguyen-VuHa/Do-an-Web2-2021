@@ -6,6 +6,7 @@ type PaginationProps = {
   pageSize: number; // Số hàng trên mỗi trang
   totalRows: number; // Tổng số hàng trong cơ sở dữ liệu
   className?: string;
+  onChange?: (pageIndex: number) => void;
 };
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -13,6 +14,7 @@ const Pagination: React.FC<PaginationProps> = ({
   page,
   pageSize,
   totalRows,
+  onChange,
 }) => {
   // Tổng số trang
   const totalPages = Math.ceil(totalRows / pageSize);
@@ -25,6 +27,11 @@ const Pagination: React.FC<PaginationProps> = ({
             className="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-transparent p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-primary/80"
             href="#"
             aria-label="Previous"
+            onClick={() => {
+              if (page > 1) {
+                onChange && onChange(page - 1);
+              }
+            }}
           >
             <FaAngleLeft size={15} />
           </a>
@@ -41,6 +48,9 @@ const Pagination: React.FC<PaginationProps> = ({
                   ${page === pageNumber ? 'bg-primary' : ''}
                   `}
                 href="#"
+                onClick={() => {
+                  onChange && onChange(pageNumber);
+                }}
               >
                 {pageNumber}
               </a>
@@ -52,6 +62,11 @@ const Pagination: React.FC<PaginationProps> = ({
             className="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-transparent p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-primary/80"
             href="#"
             aria-label="Next"
+            onClick={() => {
+              if (page < totalPages) {
+                onChange && onChange(page + 1);
+              }
+            }}
           >
             <FaAngleRight size={15} />
           </a>

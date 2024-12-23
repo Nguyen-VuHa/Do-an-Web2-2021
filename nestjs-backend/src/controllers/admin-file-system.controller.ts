@@ -79,6 +79,20 @@ export class AdminFileSystemController {
     return this.adminFileSystemUseCase.saveFileSystem(file, data);
   }
 
+  @Post('upload/cloudinary')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFileToCloud(@UploadedFile() file: Multer.File): Promise<IResponse<string>> {
+    if (!file) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Dữ liệu không hợp lệ',
+        error: 'File không tồn tại.',
+      });
+    }
+
+    return this.adminFileSystemUseCase.saveFileToCloud(file);
+  }
+
   @Put('rename/:id')
   @UsePipes(
     new ValidationPipe({

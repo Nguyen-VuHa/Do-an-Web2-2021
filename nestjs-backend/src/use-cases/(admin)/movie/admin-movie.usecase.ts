@@ -227,6 +227,31 @@ export class AdminMovieUseCases {
         throw new NotFoundException('Movie not found');
       }
 
+      const posters: MoviePoster[] = [];
+      if (data.posters && data.posters.length > 0) {
+        for (const poster of data.posters) {
+          if (poster.movie_poster_id) {
+            const posterByID = await this.posterService.getPosterByID(poster.movie_poster_id);
+
+            if (!posterByID) {
+              continue;
+            }
+
+            posterByID.poster_url = poster.poster_url;
+            await this.posterService.createPoster(posterByID);
+
+            posters.push(posterByID);
+          } else {
+            const newMoviePoster = new MoviePoster();
+
+            newMoviePoster.poster_url = poster.poster_url;
+            const newPoster = await this.posterService.createPoster(newMoviePoster);
+
+            posters.push(newPoster);
+          }
+        }
+      }
+
       movieUpdate.title = data.title;
       movieUpdate.description = data.description;
       movieUpdate.duration = data.duration;
@@ -236,7 +261,7 @@ export class AdminMovieUseCases {
       movieUpdate.director = director;
       movieUpdate.actors = actors;
       movieUpdate.categories = categories;
-      movieUpdate.posters = [];
+      movieUpdate.posters = posters;
 
       const movieResonse = await this.movieService.updateMovie(movieUpdate);
 

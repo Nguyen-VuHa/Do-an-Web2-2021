@@ -1,14 +1,14 @@
-import useMovieExtensionStore from '~/stores/movie-extension.store';
-import MovieDataItem from './MovieDataItem';
-import Button from '~/components/Button';
-import { apiURLtoBase64 } from '~/apis/crawler.api';
-import { base64ToFileWithMime, stringToInt } from '~/utils/convert';
-import { apiUploadFileSystem } from '~/apis/file-system.api';
-import { IObject } from '~/types/common.type';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import { apiURLtoBase64 } from '~/apis/crawler.api';
+import { apiUploadFileToCloud } from '~/apis/file-system.api';
 import { apiCheckingMovieName, apiSmartCreateMovie } from '~/apis/movie.api';
+import Button from '~/components/Button';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
+import useMovieExtensionStore from '~/stores/movie-extension.store';
+import { IObject } from '~/types/common.type';
+import { base64ToFileWithMime, stringToInt } from '~/utils/convert';
+import MovieDataItem from './MovieDataItem';
 
 const MovieData = () => {
   const { movieData } = useMovieExtensionStore();
@@ -60,10 +60,14 @@ const MovieData = () => {
         trailer_id: movie.trailer_id,
         description: movie.description,
         director: movie.director,
-        categories: movie.categories && movie.categories
-          .split(',')
-          .map((category) => category.trim()) || [],
-        actors: movie.actors && movie.actors.split(',').map((category) => category.trim()) || [],
+        categories:
+          (movie.categories &&
+            movie.categories.split(',').map((category) => category.trim())) ||
+          [],
+        actors:
+          (movie.actors &&
+            movie.actors.split(',').map((category) => category.trim())) ||
+          [],
       };
 
       for (const poster of movie.poster_url) {
@@ -76,11 +80,10 @@ const MovieData = () => {
           const fileConvert = base64ToFileWithMime(resImage.data, movie.title);
           const payloadFile = new FormData();
           payloadFile.append('file', fileConvert);
-          payloadFile.append('type', 'file');
           // đẩy file lên hệ thống và lấy URL để lưu POSTER
-          const res = await apiUploadFileSystem(payloadFile);
+          const res = await apiUploadFileToCloud(payloadFile);
           if (res.statusCode === 200 && res.data) {
-            posterList.push(res.data.path || '');
+            posterList.push(res.data || '');
           }
         }
         movieData['posters'] = posterList;
@@ -138,7 +141,7 @@ const MovieData = () => {
           const isProcess = movieDataProcess.find(
             (movieProcess) => movieProcess['title'] === movie.title,
           );
-          
+
           return (
             <div key={movie.title} ref={(el) => (itemRefs.current[index] = el)}>
               <MovieDataItem

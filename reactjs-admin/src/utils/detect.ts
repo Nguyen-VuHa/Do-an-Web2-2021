@@ -1,3 +1,5 @@
+import { ColorVariant } from '~/types/common.type';
+
 export function getFileType(mimeType: string) {
   const fileTypes = {
     image: [
@@ -39,4 +41,24 @@ export function getFileType(mimeType: string) {
   }
 
   return 'unknown'; // Không xác định
+}
+
+export function getColorByMovieType(type: string): ColorVariant {
+  let color: ColorVariant = 'primary';
+
+  switch (type) {
+    case 'Đang chiếu':
+      color = 'warning';
+      break;
+    case 'Đã kết thúc':
+      color = 'rose';
+      break;
+    case 'Sắp chiếu':
+      color = 'cyan';
+      break;
+    default:
+      break;
+  }
+
+  return color;
 }

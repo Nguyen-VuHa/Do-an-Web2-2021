@@ -42,16 +42,16 @@ const Table: React.FC<TableProps> = ({
               </td>
             </tr>
           )}
-          {
-           !loading && (!data || data.length <= 0) && <tr className="h-[50vh]">
+          {!loading && (!data || data.length <= 0) && (
+            <tr className="h-[50vh]">
               <td className="p-10">
                 <div className="absolute left-0 top-[10%] w-full p-5 flex flex-col justify-center items-center space-y-2">
-                    <img src={TableEmpty} alt="NO IMG" width={300} />
-                    <span className='text-xl text-danger'>Không có dữ liệu</span>
+                  <img src={TableEmpty} alt="NO IMG" width={300} />
+                  <span className="text-xl text-danger">Không có dữ liệu</span>
                 </div>
               </td>
             </tr>
-          }
+          )}
           {!loading &&
             data &&
             data.length > 0 &&

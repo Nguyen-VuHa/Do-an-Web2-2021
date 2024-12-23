@@ -1,5 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
-import { IsNotEmpty, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsUrl, MaxLength } from 'class-validator';
 
 export class CreateCategoryDTO {
   @IsNotEmpty() // Yêu cầu trường này không được để trống
@@ -69,5 +69,15 @@ export class PosterResponseDTO {
   movie_poster_id: number;
 
   @Expose()
+  poster_url: string;
+}
+
+export class PosterCreateDTO {
+  @IsOptional() // Yêu cầu trường này không được để trống
+  @IsNumber()
+  movie_poster_id: number | null;
+
+  @IsNotEmpty()
+  @IsUrl()
   poster_url: string;
 }

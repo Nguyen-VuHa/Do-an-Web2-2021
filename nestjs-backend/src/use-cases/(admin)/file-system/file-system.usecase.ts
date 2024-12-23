@@ -131,6 +131,26 @@ export class AdminFileSystemUseCases {
     }
   }
 
+  async saveFileToCloud(file: Multer.File): Promise<IResponse<string>> {
+    try {
+      const fileSaveCloud = await this.cloudinaryService.uploadFile(file);
+
+      const response: IResponse<string> = {
+        statusCode: 200,
+        error: null,
+        message: 'Upload to cloud success.',
+        data: fileSaveCloud.secure_url,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Xử lý tệp không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
   async renameFileSystem(data: RenameFileSystemDTO): Promise<IResponse<FileSystemResponseDTO>> {
     try {
       const fileData = await this.fileSystemService.getFileSystemByID(data.file_id);

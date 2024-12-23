@@ -5,6 +5,7 @@ import useMovieStore from '~/stores/movie.store';
 import { HeaderTable } from '~/types/table.type';
 import EditControl from './EditControl';
 import { ACTIVE } from '~/constants/status';
+import { getColorByMovieType } from '~/utils/detect';
 
 const MovieHeader: HeaderTable[] = [
   {
@@ -32,7 +33,12 @@ const MovieHeader: HeaderTable[] = [
     label: 'Hình thức',
     key: 'movie_type',
     extendsion: (data) => {
-      return <Tag label={data.movie_type} color={'warning'} />;
+      return (
+        <Tag
+          label={data.movie_type}
+          color={getColorByMovieType(data.movie_type)}
+        />
+      );
     },
   },
   {
@@ -59,7 +65,8 @@ const MovieHeader: HeaderTable[] = [
 ];
 
 const MovieList = () => {
-  const { movies, isFetchMovieList, movieCondition } = useMovieStore();
+  const { movies, isFetchMovieList, movieCondition, setDataKeyValue } =
+    useMovieStore();
 
   return (
     <>
@@ -74,6 +81,14 @@ const MovieList = () => {
           page={movieCondition._page}
           pageSize={movieCondition._page_size}
           totalRows={movieCondition.totalRows}
+          onChange={(pageIndex) => {
+            if (!isFetchMovieList) {
+              setDataKeyValue('movieCondition', {
+                ...movieCondition,
+                _page: pageIndex,
+              });
+            }
+          }}
         />
       </div>
     </>

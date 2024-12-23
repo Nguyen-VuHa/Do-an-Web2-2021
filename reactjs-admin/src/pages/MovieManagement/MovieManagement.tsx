@@ -28,7 +28,7 @@ const MovieManagement = () => {
       _start_date: startDate,
       _end_date: endDate,
     });
-  }, []);
+  }, [movieCondition._page]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { Actor, Category, Director } from './movie-meta.type';
+import { Actor, Category, Director, Poster } from './movie-meta.type';
 
 export interface IMovieForm {
   title: string;
@@ -25,4 +25,5 @@ export interface IDetailMovie extends IMovie {
   director: Director;
   actors: Actor[];
   categories: Category[];
+  posters: Poster[];
 }

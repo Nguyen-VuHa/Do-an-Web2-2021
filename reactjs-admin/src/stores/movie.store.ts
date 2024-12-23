@@ -15,6 +15,8 @@ import { IDetailMovie, IMovie, IMovieForm } from '~/types/movie.type';
 import useGlobalStore from './global.store';
 
 interface MovieState {
+  setDataKeyValue: (key: string, value: any) => void;
+
   categoriesSelected: any[];
   setCategorySelect: (val: any) => void;
   removeCategorySelect: (val: any) => void;
@@ -26,6 +28,9 @@ interface MovieState {
   actorSelected: any[];
   setActorSelect: (val: any) => void;
   removeActorSelect: (val: any) => void;
+
+  posterSelected: IObject<any>[];
+  posterUpdate: IObject<any> | null;
 
   movieForm: IMovieForm;
   errMovieForm: IObject<string>;
@@ -56,6 +61,11 @@ interface MovieState {
 }
 
 const useMovieStore = create<MovieState>((set, get) => ({
+  setDataKeyValue: (key, value) => {
+    set({
+      [key]: value,
+    });
+  },
   // movie detail
   isFetchDetailMovie: false,
   movieDetail: null,
@@ -89,6 +99,12 @@ const useMovieStore = create<MovieState>((set, get) => ({
           }),
           categoriesSelected: movieDetail.categories.map((category) => {
             return category.category_id;
+          }),
+          posterSelected: movieDetail.posters.map((poster) => {
+            return {
+              ...poster,
+              type: 'update',
+            };
           }),
         });
 
@@ -190,6 +206,8 @@ const useMovieStore = create<MovieState>((set, get) => ({
       actorSelected: [],
       categoriesSelected: [],
       errMovieForm: {},
+      posterSelected: [],
+      posterUpdate: null,
     }));
   },
   reqFetchMovieList: async (params) => {
@@ -219,12 +237,21 @@ const useMovieStore = create<MovieState>((set, get) => ({
       isEditMovie: true,
     });
     try {
-      const payload: IObject<any> = {
+      let payload: IObject<any> = {
         ...get().movieForm,
         director: get().directorSelected[0],
         actors: get().actorSelected,
         categories: get().categoriesSelected,
       };
+
+      if (get().posterSelected.length > 0) {
+        payload = {
+          ...payload,
+          posters: get().posterSelected.map((poster) => {
+            return poster.poster_url;
+          }),
+        };
+      }
 
       const res = await apiCreateMovie(payload);
 
@@ -232,7 +259,7 @@ const useMovieStore = create<MovieState>((set, get) => ({
         statusCreate = true;
         get().resetFormMovie();
       } else {
-        toast.error(res.error);
+        toast.error(res.message);
       }
     } catch (error) {
       toast.error(error?.toString() as string);
@@ -250,7 +277,7 @@ const useMovieStore = create<MovieState>((set, get) => ({
       isEditMovie: true,
     });
     try {
-      const payload: IObject<any> = {
+      let payload: IObject<any> = {
         ...get().movieForm,
         director: get().directorSelected[0],
         actors: get().actorSelected,
@@ -258,13 +285,26 @@ const useMovieStore = create<MovieState>((set, get) => ({
         movie_id: movieID,
       };
 
+      if (get().posterSelected.length > 0) {
+        payload = {
+          ...payload,
+          posters: get().posterSelected.map((poster) => {
+            return {
+              movie_poster_id:
+                poster.type === 'create' ? null : poster.movie_poster_id,
+              poster_url: poster.poster_url,
+            };
+          }),
+        };
+      }
+
       const res = await apiUpdateMovie(payload);
 
       if (res && res.statusCode === STATUS_SUCCESS && res.data) {
         statusUpdate = true;
         get().resetFormMovie();
       } else {
-        toast.error(res.error);
+        toast.error(res.message);
       }
     } catch (error) {
       toast.error(error?.toString() as string);
@@ -277,6 +317,8 @@ const useMovieStore = create<MovieState>((set, get) => ({
     }
   },
   // Movie form
+  posterSelected: [],
+  posterUpdate: null,
   movieForm: {
     title: '',
     duration: null,
