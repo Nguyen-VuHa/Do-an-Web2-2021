@@ -51,11 +51,11 @@ export class Movie {
   @OneToMany(() => MoviePoster, (poster) => poster.movie)
   posters: MoviePoster[];
 
-  @ManyToOne(() => Director, (director) => director.movie)
+  @ManyToOne(() => Director, (director) => director.movie, { nullable: true })
   @JoinColumn({ name: 'director_id' }) // Tên cột khóa ngoại
   director: Director;
 
-  @ManyToMany(() => Actor, (actor) => actor.movies)
+  @ManyToMany(() => Actor, (actor) => actor.movies, { nullable: true })
   @JoinTable({
     name: 'movie_actors',
     joinColumn: {
@@ -69,7 +69,7 @@ export class Movie {
   }) // Tạo bảng trung gian tự động
   actors: Actor[];
 
-  @ManyToMany(() => Category, (category) => category.movies)
+  @ManyToMany(() => Category, (category) => category.movies, { nullable: true })
   @JoinTable({
     name: 'movie_categories',
     joinColumn: {

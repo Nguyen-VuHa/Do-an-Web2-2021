@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { BiSolidDashboard } from 'react-icons/bi';
+import { FaFileMedicalAlt } from 'react-icons/fa';
+import { GiTheater } from "react-icons/gi";
+import { SiThemoviedatabase } from 'react-icons/si';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../images/logo/logo.svg';
 import SidebarLinkGroup from './SidebarLinkGroup';
-import { BiSolidDashboard } from 'react-icons/bi';
-import { SiThemoviedatabase } from 'react-icons/si';
-import { FaFileMedicalAlt } from 'react-icons/fa';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -127,6 +128,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                   <SiThemoviedatabase size={18} />
                   Quản lý phim
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item Movie --> */}
+              <li>
+                <NavLink
+                  to="/cinema"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('cinema') && 'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <GiTheater size={18} />
+                  Quản lý hệ thống rạp
                 </NavLink>
               </li>
               {/* <!-- Menu File System --> */}

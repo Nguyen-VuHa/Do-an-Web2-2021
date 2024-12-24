@@ -1,24 +1,29 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
+  Entity,
   OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Seat } from './seat.entity';
-import { Showtime } from './showtime.entity';
+import { CinemaBanner } from './cinema-banner.entity';
 
 @Entity('cinemas')
 export class Cinema {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  cinema_id: number;
 
   @Column({ type: 'varchar', length: 255 })
-  name: string;
+  cinema_name: string;
 
   @Column({ type: 'varchar', length: 255 })
-  location: string;
+  address: string;
+
+  @Column({ type: 'varchar', length: 50 })
+  area: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  embed_map_url: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -26,9 +31,6 @@ export class Cinema {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Seat, (seat) => seat.cinema)
-  seats: Seat[];
-
-  @OneToMany(() => Showtime, (showtime) => showtime.cinema)
-  showtimes: Showtime[];
+  @OneToMany(() => CinemaBanner, (banner) => banner.cinema)
+  banners: CinemaBanner[];
 }

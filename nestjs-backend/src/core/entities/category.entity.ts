@@ -26,6 +26,6 @@ export class Category {
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
-  @ManyToMany(() => Movie, (movie) => movie.categories, { cascade: true })
+  @ManyToMany(() => Movie, (movie) => movie.categories, { cascade: true, nullable: true })
   movies: Movie[];
 }

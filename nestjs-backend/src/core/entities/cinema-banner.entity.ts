@@ -8,15 +8,15 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Movie } from './movie.entity';
+import { Cinema } from './cinema.entity';
 
-@Entity('movie_posters')
-export class MoviePoster {
+@Entity('cinema_banners')
+export class CinemaBanner {
   @PrimaryGeneratedColumn('increment')
-  movie_poster_id: number;
+  cinema_banner_id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  poster_url: string;
+  banner_url: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -27,7 +27,7 @@ export class MoviePoster {
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
-  @ManyToOne(() => Movie, (movie) => movie.posters, { cascade: true, nullable: true })
-  @JoinColumn({ name: 'movie_id' }) // Tên cột khóa ngoại
-  movie: Movie;
+  @ManyToOne(() => Cinema, (cinema) => cinema.banners, { cascade: true })
+  @JoinColumn({ name: 'cinema_id' }) // Tên cột khóa ngoại
+  cinema: Cinema;
 }
