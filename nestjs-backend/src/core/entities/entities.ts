@@ -8,6 +8,10 @@ import { Director } from './director.entity';
 import { MoviePoster } from './movie-poster.entity';
 import { SystemUser } from './system-user.entity';
 import { FileSystem } from './file-system.entity';
+import { Cinema } from './cinema.entity';
+import { Screen } from './screen.entity';
+import { Seat } from './seat.entity';
+import { CinemaBanner } from './cinema-banner.entity';
 
 const ENTITIES_SYSTEM = [SystemUser];
 const ENTITIES = [
@@ -20,6 +24,10 @@ const ENTITIES = [
   Actor,
   Director,
   FileSystem,
+  Cinema,
+  CinemaBanner,
+  Screen,
+  Seat,
   ...ENTITIES_SYSTEM,
 ];
 

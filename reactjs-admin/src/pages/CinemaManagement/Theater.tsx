@@ -108,23 +108,32 @@ const Theater: React.FC = () => {
         cols={cols}
         rowHeight={seatHeight + margin}
         width={cols * (seatWidth + margin)}
-        // isDraggable
+        compactType={null}
         isResizable
         onDragStop={(layout) => {
-            const newSeats = seats.map(seat => {
-              const newLayout = layout.find(l => l.i === seat.id.toString());
-              if (newLayout) {
-                // Giới hạn phạm vi cột (x) mà không thay đổi dòng (y)
-                const newX = Math.max(0, Math.min(newLayout.x, cols - 1));  // Giới hạn phạm vi cột
-                const newY = Math.max(0, Math.min(newLayout.y, rows - 1));
-                
-                return { ...seat, x: newX, y: newY };  // Chỉ thay đổi x, giữ nguyên y
+          const newSeats = seatLayout.map(seat => {
+            const newLayout = layout.find(l => l.i === seat.id.toString());
+            if (newLayout) {
+              const newX = Math.max(0, Math.min(newLayout.x, cols - 1));  // Giới hạn phạm vi cột
+              const newY = seat.y;  // Giữ nguyên giá trị y ban đầu
+        
+              // Nếu ghế không thay đổi cột (x), giữ nguyên y
+              if (newLayout.x !== seat.x) {
+                // Kiểm tra xem có ghế nào chiếm vị trí trong dòng mới không
+                const seatInRow = seatLayout.find(s => s.y === seat.y && s.x === newX);
+        
+                // Nếu không có ghế chiếm chỗ, thay đổi cột (x) mà không thay đổi dòng (y)
+                if (!seatInRow) {
+                  return { ...seat, x: newX, y: seat.y };  // Giữ nguyên y
+                }
               }
-              return seat;
-            });
-          
-            // Cập nhật danh sách ghế mới
-            setSeats(newSeats);
+        
+              return { ...seat, x: newX, y: newY };  // Giữ nguyên y khi không thay đổi
+            }
+            return seat;
+          });
+        
+          setSeatLayout(newSeats);  // Cập nhật lại layout ghế
           }}
       >
         {seats.map(seat => (

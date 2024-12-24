@@ -1,12 +1,14 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CinemaBanner } from './cinema-banner.entity';
+import { Screen } from './screen.entity';
 
 @Entity('cinemas')
 export class Cinema {
@@ -31,6 +33,12 @@ export class Cinema {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @DeleteDateColumn({ nullable: true, default: null })
+  deleted_at: Date | null; // Null nếu chưa bị xóa
+
   @OneToMany(() => CinemaBanner, (banner) => banner.cinema)
   banners: CinemaBanner[];
+
+  @OneToMany(() => Screen, (screen) => screen.cinema, { cascade: true })
+  screens: Screen[];
 }

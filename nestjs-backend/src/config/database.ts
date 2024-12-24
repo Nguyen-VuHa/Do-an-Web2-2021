@@ -10,7 +10,7 @@ export const databaseConfig = (configService: ConfigService): TypeOrmModuleOptio
   password: configService.get<string>('DATABASE_PASSWORD'),
   database: configService.get<string>('DATABASE_NAME'),
   entities: ENTITIES, // Cập nhật entities của bạn tại đây
-  synchronize: false,
+  synchronize: true,
   logging: true,
   extra: {
     options: '-c timezone=UTC', // Thiết lập múi giờ ở cấp độ kết nối

@@ -4,22 +4,52 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Screen } from './screen.entity';
+
+export enum SeatType {
+  NORMAL = 'Normal',
+  VIP = 'VIP',
+  COUPLE = 'Couple',
+}
 
 @Entity('seats')
 export class Seat {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  seat_id: number;
 
   @Column({ type: 'varchar', length: 10 })
-  seat_number: string;
+  seat_name: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  type: string;
+  @Column()
+  x: number;
+
+  @Column()
+  y: number;
+
+  @Column({
+    type: 'enum',
+    enum: SeatType,
+    default: SeatType.NORMAL, // Loại ghế mặc định là Normal
+  })
+  seat_type: SeatType;
+
+  @Column()
+  price_modifier: number;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn({ nullable: true, default: null })
+  deleted_at: Date | null; // Null nếu chưa bị xóa
+
+  @ManyToOne(() => Screen, (screen) => screen.seats)
+  @JoinColumn({ name: 'screen_id' })
+  screen: Screen;
 }

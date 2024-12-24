@@ -27,7 +27,7 @@ export class CinemaBanner {
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
-  @ManyToOne(() => Cinema, (cinema) => cinema.banners, { cascade: true })
+  @ManyToOne(() => Cinema, (cinema) => cinema.banners, { cascade: true, nullable: true })
   @JoinColumn({ name: 'cinema_id' }) // Tên cột khóa ngoại
   cinema: Cinema;
 }
