@@ -245,7 +245,7 @@ export class AdminMovieUseCases {
             const newMoviePoster = new MoviePoster();
 
             newMoviePoster.poster_url = poster.poster_url;
-            const newPoster = await this.posterService.createPoster(newMoviePoster);
+            const newPoster = await this.posterService.updatePoster(newMoviePoster);
 
             posters.push(newPoster);
           }

@@ -15,7 +15,10 @@ export class Cinema {
   @PrimaryGeneratedColumn('increment')
   cinema_id: number;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 150, unique: true })
+  slug: string;
+
+  @Column({ type: 'varchar', length: 255, unique: true })
   cinema_name: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -24,7 +27,7 @@ export class Cinema {
   @Column({ type: 'varchar', length: 50 })
   area: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'text' })
   embed_map_url: string;
 
   @CreateDateColumn()
