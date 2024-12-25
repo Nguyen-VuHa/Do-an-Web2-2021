@@ -69,6 +69,34 @@ export class AdminCinemaUseCases {
     }
   }
 
+  async getCinemaDetailBySlug(slug: string): Promise<IResponse<CinemaResponseDTO>> {
+    try {
+      const cinemaData = await this.cinemaService.getCinemaBySlug(slug);
+
+      if (!cinemaData) {
+        throw new Error('Rạp chiếu phim không tồn tại');
+      }
+
+      const cinemaDTO = plainToClass(CinemaResponseDTO, cinemaData, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<CinemaResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy thông tin rạp chiếu thành công',
+        data: cinemaDTO,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy thông tin rạp chiếu không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
   async createCinema(data: CreateCinemaDTO): Promise<IResponse<CinemaResponseDTO>> {
     try {
       const cinemaNew = new Cinema();

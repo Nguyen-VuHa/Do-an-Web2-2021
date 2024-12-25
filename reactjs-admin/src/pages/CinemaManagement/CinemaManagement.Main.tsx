@@ -7,6 +7,7 @@ import InputSearch from '~/components/InputSearch/InputSearch.Main';
 import useCinemaStore from '~/stores/cinema.store';
 import CinemaList from './CinemaList';
 import { useNavigate } from 'react-router-dom';
+import ComfirmUpdateStatusModal from './ComfirmUpdateStatus.Modal';
 
 const CinemaManagement = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const CinemaManagement = () => {
     <>
       <Breadcrumb pageName="Quản lý hệ thống rạp" />
 
+      <ComfirmUpdateStatusModal />
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-5 space-y-5">
         <div className="w-full flex justify-between items-center">
           <div className="w-[50%]">

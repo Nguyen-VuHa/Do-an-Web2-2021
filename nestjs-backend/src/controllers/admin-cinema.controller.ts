@@ -63,6 +63,18 @@ export class AdminCinemaController {
     return this.adminCinemaUseCase.getCinemaList(queryClean);
   }
 
+  @Get('detail')
+  async getDetailCinemaBySlug(@Query('_slug') slug: string): Promise<IResponse<CinemaResponseDTO>> {
+    if (!slug) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Dữ liệu không hợp lệ',
+        error: 'Không tồn tại slug',
+      });
+    }
+    return this.adminCinemaUseCase.getCinemaDetailBySlug(slug);
+  }
+
   @Post('create')
   @UsePipes(
     new ValidationPipe({

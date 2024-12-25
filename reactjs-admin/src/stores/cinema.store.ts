@@ -1,10 +1,18 @@
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
-import { apiCreateCinema, fetchCinemaList } from '~/apis/cinema.api';
+import {
+  apiCreateCinema,
+  apiDeleteCinema,
+  apiUndoDeleteCinema,
+  fetchCinemaList,
+  fetchDetailCinemaBySlug,
+} from '~/apis/cinema.api';
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { ICinema, ICinemaForm } from '~/types/cinema.type';
 import { IObject, IPagination } from '~/types/common.type';
+import useGlobalStore from './global.store';
+import { ACTIVE, INACTIVE } from '~/constants/status';
 
 interface ICinemaQueryOptions extends IPagination {
   _search: string;
@@ -18,16 +26,23 @@ interface CinemaState {
   // state cinemas
   isFetchCinemaList: boolean;
   isEditCinema: boolean;
+  isUpdateCinemaStatus: boolean;
   cinemas: ICinema[];
   cinemaForm: ICinemaForm;
   cinemaFormError: IObject<any>;
+  cinemaDetail: ICinema | null;
+  cinemaUpdateStatus: ICinema | null;
+
   setCinemaForm: (formData: IObject<any>) => void;
   resetCinemaForm: () => void;
   // function handle logic
 
   // function request API
   reqFetchCinemaList: () => Promise<void>;
+  reqFetchCinemaDetail: (slug: string) => Promise<boolean>;
   reqCreateCinema: () => Promise<boolean>;
+  reqDeleteCinema: () => Promise<void>;
+  reqUnDoDeleteCinema: () => Promise<void>;
 }
 
 const initCinemaForm: ICinemaForm = {
@@ -53,9 +68,12 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
 
   isFetchCinemaList: false,
   isEditCinema: false,
+  isUpdateCinemaStatus: false,
   cinemas: [],
   cinemaForm: initCinemaForm,
   cinemaFormError: {},
+  cinemaDetail: null,
+  cinemaUpdateStatus: null,
   setCinemaForm: (formData) => {
     set({
       cinemaForm: {
@@ -68,7 +86,7 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
     set({
       cinemaForm: initCinemaForm,
       cinemaFormError: {},
-    })
+    });
   },
 
   reqFetchCinemaList: async () => {
@@ -94,6 +112,29 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
       set({ isFetchCinemaList: false });
     }
   },
+  reqFetchCinemaDetail: async (slug) => {
+    let statusFetchDetail: boolean = false;
+    useGlobalStore.getState().setFormGroupLoading(true);
+    try {
+      const res = await fetchDetailCinemaBySlug({
+        _slug: slug,
+      });
+
+      if (res.statusCode === STATUS_SUCCESS) {
+        set({
+          cinemaDetail: res.data,
+        });
+        statusFetchDetail = true;
+      } else {
+        toast.error(res.error.toString());
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      useGlobalStore.getState().setFormGroupLoading(false);
+      return statusFetchDetail;
+    }
+  },
   reqCreateCinema: async () => {
     let statusCreate: boolean = false;
     set({ isEditCinema: true });
@@ -110,6 +151,64 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
     } finally {
       set({ isEditCinema: false });
       return statusCreate;
+    }
+  },
+  reqDeleteCinema: async () => {
+    set({ isUpdateCinemaStatus: true });
+    try {
+      const res = await apiDeleteCinema(get().cinemaUpdateStatus?.slug || '');
+
+      if (res.statusCode === STATUS_SUCCESS) {
+        toast.success(res.message);
+        set({
+          cinemas: get().cinemas.map(cinema => {
+            if(cinema.cinema_id === get().cinemaUpdateStatus?.cinema_id) {
+              return {
+                ...cinema,
+                status: INACTIVE,
+              }
+            } else 
+              return cinema;
+          }),
+          cinemaUpdateStatus: null,
+        });
+      } else {
+        toast.error(res.error.toString());
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({ isUpdateCinemaStatus: false });
+    }
+  },
+  reqUnDoDeleteCinema: async () => {
+    set({ isUpdateCinemaStatus: true });
+    try {
+      const res = await apiUndoDeleteCinema(
+        get().cinemaUpdateStatus?.slug || '',
+      );
+
+      if (res.statusCode === STATUS_SUCCESS) {
+        toast.success(res.message);
+        set({
+          cinemas: get().cinemas.map(cinema => {
+            if(cinema.cinema_id === get().cinemaUpdateStatus?.cinema_id) {
+              return {
+                ...cinema,
+                status: ACTIVE,
+              }
+            } else 
+              return cinema;
+          }),
+          cinemaUpdateStatus: null,
+        });
+      } else {
+        toast.error(res.error.toString());
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({ isUpdateCinemaStatus: false });
     }
   },
 }));

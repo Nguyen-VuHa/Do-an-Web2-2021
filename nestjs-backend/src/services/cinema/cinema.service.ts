@@ -20,6 +20,7 @@ export class CinemaService {
       where: {
         slug: slug,
       },
+      withDeleted: true,
     });
   }
 

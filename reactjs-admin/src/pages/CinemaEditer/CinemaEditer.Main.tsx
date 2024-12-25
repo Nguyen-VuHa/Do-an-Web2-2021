@@ -12,14 +12,19 @@ import { useEffect } from 'react';
 const CinemaEditer = () => {
   const navigate = useNavigate();
 
-  const { cinemaForm, isEditCinema, setStateCinema, resetCinemaForm,  reqCreateCinema } = useCinemaStore();
+  const {
+    cinemaForm,
+    isEditCinema,
+    setStateCinema,
+    resetCinemaForm,
+    reqCreateCinema,
+  } = useCinemaStore();
 
   useEffect(() => {
     return () => {
-        resetCinemaForm();
-    }
-  }, [])
-  
+      resetCinemaForm();
+    };
+  }, []);
 
   const handleValidateCinemaForm = async () => {
     try {
@@ -43,11 +48,11 @@ const CinemaEditer = () => {
     const isValidData = await handleValidateCinemaForm();
 
     if (isValidData) {
-        const isCreate = await reqCreateCinema();
+      const isCreate = await reqCreateCinema();
 
-        if(isCreate) {
-            navigate(-1);
-        }
+      if (isCreate) {
+        navigate(-1);
+      }
     } else {
       toast.error(
         'Một số trường chưa nhập dữ liệu hoặc nhập sai, vui lòng kiểm tra lại',
