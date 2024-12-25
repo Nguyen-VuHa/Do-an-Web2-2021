@@ -66,7 +66,6 @@ const MovieForm = () => {
                 element={
                   <Input
                     placeholder="Ví dụ: 180 ..."
-                    type="number"
                     name="duration"
                     value={(duration && duration.toString()) || ''}
                     onChange={handleChangeInput}

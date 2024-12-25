@@ -107,8 +107,8 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
 
   return (
     <div
-      className="relative w-full rounded border 
-      border-stroke pr-8 font-medium outline-none transition 
+      className="relative w-full py-[2px] border-[1.5px] rounded border 
+      border-stroke font-medium outline-none transition 
       focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
     >
       <div
@@ -118,8 +118,8 @@ const InputMultiSelect: React.FC<InputMultiSelectProps> = ({
           setIsDropdown(true);
         }}
       >
-        <div className="flex flex-wrap items-center p-1.5">
-          <div className="flex flex-wrap space-x-1">
+        <div className="flex flex-wrap items-center">
+          <div className="flex flex-wrap space-x-1 pl-1">
             {valueSelected &&
               valueSelected.map((val) => {
                 return (

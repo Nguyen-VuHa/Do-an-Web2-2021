@@ -112,7 +112,9 @@ const MovieEditer = () => {
         }
       }
     } else {
-      toast.error('Một số trường chưa nhập dữ liệu, vui lòng kiểm tra lại');
+      toast.error(
+        'Một số trường chưa nhập dữ liệu hoặc nhập sai, vui lòng kiểm tra lại',
+      );
     }
   };
 

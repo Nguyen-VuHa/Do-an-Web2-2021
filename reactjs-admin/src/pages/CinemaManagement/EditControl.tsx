@@ -11,7 +11,7 @@ type EditControlProps = {
 
 const EditControl: React.FC<EditControlProps> = ({ data }) => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="flex items-center space-x-1">
       <ButtonIcon
@@ -32,9 +32,7 @@ const EditControl: React.FC<EditControlProps> = ({ data }) => {
       </ButtonIcon>
       <ButtonIcon
         color={data.status === 'active' ? 'success' : 'danger'}
-        onClick={() => {
-
-        }}
+        onClick={() => {}}
       >
         {data.status === 'active' ? (
           <CiLock size={20} />

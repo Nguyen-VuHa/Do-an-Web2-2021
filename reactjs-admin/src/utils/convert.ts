@@ -67,3 +67,12 @@ function removeDiacriticsAndToLowerCase(str: string): string {
 
   return result;
 }
+
+export function convertToSlug(str: string): string {
+  return str
+    .toLowerCase() // Chuyển tất cả thành chữ thường
+    .replace(/[^a-z0-9\s-]/g, '') // Loại bỏ ký tự đặc biệt, chỉ giữ chữ cái, số và khoảng trắng
+    .replace(/\s+/g, '-') // Thay thế khoảng trắng thành dấu gạch ngang
+    .replace(/-+/g, '-') // Loại bỏ các dấu gạch ngang dư thừa
+    .replace(/^-+/, ''); // Loại bỏ dấu gạch ngang ở đầu chuỗi
+}

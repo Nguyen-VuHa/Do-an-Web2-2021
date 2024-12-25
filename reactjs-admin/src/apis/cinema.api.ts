@@ -10,3 +10,10 @@ export const fetchCinemaList = async (
   const path = MAIN_PATH + '/list';
   return axiosInstance.get(path, { params });
 };
+
+export const apiCreateCinema = async (
+  payload: IObject<any>,
+): Promise<IResponse<ICinema>> => {
+  const path = MAIN_PATH + '/create';
+  return axiosInstance.post(path, payload);
+};

@@ -9,7 +9,7 @@ import {
 import { Cinema } from 'src/core/entities/cinema.entity';
 import { IObject, IPagination, IResponse } from 'src/core/types/common';
 import { CinemaService } from 'src/services/cinema/cinema.service';
-import { Like } from 'typeorm';
+import { ILike } from 'typeorm';
 
 @Injectable()
 export class AdminCinemaUseCases {
@@ -24,7 +24,7 @@ export class AdminCinemaUseCases {
       if (objQuery._search) {
         condition = {
           ...condition,
-          cinema_name: Like(`%${objQuery._search}%`),
+          cinema_name: ILike(`%${objQuery._search}%`),
         };
       }
 
