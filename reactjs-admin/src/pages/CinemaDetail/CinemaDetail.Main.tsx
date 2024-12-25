@@ -9,7 +9,8 @@ import useCinemaStore from '~/stores/cinema.store';
 
 const CinemaDetail = () => {
   const navigate = useNavigate();
-  const { cinemaDetail, reqFetchCinemaDetail } = useCinemaStore();
+  const { cinemaDetail, reqFetchCinemaDetail, resetCinemaForm } =
+    useCinemaStore();
   const { slug } = useParams();
 
   useEffect(() => {
@@ -27,7 +28,9 @@ const CinemaDetail = () => {
       fetchCinemaDetail();
     }
 
-    return () => {};
+    return () => {
+      resetCinemaForm();
+    };
   }, []);
 
   return (

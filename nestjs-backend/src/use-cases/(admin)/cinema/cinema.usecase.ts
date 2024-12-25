@@ -71,7 +71,7 @@ export class AdminCinemaUseCases {
 
   async getCinemaDetailBySlug(slug: string): Promise<IResponse<CinemaResponseDTO>> {
     try {
-      const cinemaData = await this.cinemaService.getCinemaBySlug(slug);
+      const cinemaData = await this.cinemaService.getCinemaBySlugWithDeteled(slug);
 
       if (!cinemaData) {
         throw new Error('Rạp chiếu phim không tồn tại');

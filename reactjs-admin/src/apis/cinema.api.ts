@@ -25,6 +25,14 @@ export const apiCreateCinema = async (
   return axiosInstance.post(path, payload);
 };
 
+export const apiUpdateCinema = async (
+  slug: string,
+  payload: IObject<any>,
+): Promise<IResponse<ICinema>> => {
+  const path = MAIN_PATH + `/update/${slug}`;
+  return axiosInstance.put(path, payload);
+};
+
 export const apiDeleteCinema = async (
   slug: string,
 ): Promise<IResponse<string>> => {

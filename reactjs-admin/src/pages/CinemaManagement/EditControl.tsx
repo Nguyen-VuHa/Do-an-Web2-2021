@@ -27,7 +27,7 @@ const EditControl: React.FC<EditControlProps> = ({ data }) => {
       <ButtonIcon
         color="warning"
         onClick={() => {
-          // navigate(`update/${data.movie_id}`);
+          navigate(`update/${data.slug}`);
         }}
       >
         <BsPencilSquare size={20} />

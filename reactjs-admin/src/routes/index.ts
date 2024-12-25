@@ -73,6 +73,12 @@ const coreRoutes = [
     component: CinemaEditer,
   },
   {
+    path: '/cinema/update/:slug',
+    title: 'Cinema Edit',
+    component: CinemaEditer,
+  },
+
+  {
     path: '/cinema/detail/:slug',
     title: 'Cinema Detail',
     component: CinemaDetail,

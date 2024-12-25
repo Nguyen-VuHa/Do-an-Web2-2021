@@ -1,28 +1,32 @@
 import { FaArrowRightLong } from 'react-icons/fa6';
 import Modal from '~/components/Modal/Modal.Main';
-import { ACTIVE, INACTIVE } from '~/constants/status';
+import { ACTIVE } from '~/constants/status';
 import useCinemaStore from '~/stores/cinema.store';
 
 const ComfirmUpdateStatusModal = () => {
-  const { cinemaUpdateStatus, isUpdateCinemaStatus, reqDeleteCinema, reqUnDoDeleteCinema, setStateCinema } = useCinemaStore();
+  const {
+    cinemaUpdateStatus,
+    isUpdateCinemaStatus,
+    reqDeleteCinema,
+    reqUnDoDeleteCinema,
+    setStateCinema,
+  } = useCinemaStore();
 
   return (
     <Modal
       title="Cập nhật trạng thái"
       isOpen={cinemaUpdateStatus ? true : false}
       onClose={() => {
-        if(!isUpdateCinemaStatus)
-          setStateCinema('cinemaUpdateStatus', null);
+        if (!isUpdateCinemaStatus) setStateCinema('cinemaUpdateStatus', null);
       }}
       onSubmit={() => {
-        if(!isUpdateCinemaStatus) {
-          if(cinemaUpdateStatus?.status === ACTIVE) {
-            reqDeleteCinema()
+        if (!isUpdateCinemaStatus) {
+          if (cinemaUpdateStatus?.status === ACTIVE) {
+            reqDeleteCinema();
           } else {
-            reqUnDoDeleteCinema()
+            reqUnDoDeleteCinema();
           }
         }
-      
       }}
       isLoading={isUpdateCinemaStatus}
     >

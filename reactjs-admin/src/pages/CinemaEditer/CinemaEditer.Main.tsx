@@ -1,5 +1,5 @@
 import { FaArrowLeft } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '~/components/Button';
 import CinemaForm from './CinemaForm';
 import useCinemaStore from '~/stores/cinema.store';
@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 
 const CinemaEditer = () => {
   const navigate = useNavigate();
+  const { slug } = useParams();
 
   const {
     cinemaForm,
@@ -18,7 +19,25 @@ const CinemaEditer = () => {
     setStateCinema,
     resetCinemaForm,
     reqCreateCinema,
+    reqUpdateCinema,
+    reqFetchCinemaDetail,
   } = useCinemaStore();
+
+  useEffect(() => {
+    if (slug) {
+      const fetchMovieDetail = async () => {
+        if (slug) {
+          const isFetchDetail = await reqFetchCinemaDetail(slug);
+
+          if (!isFetchDetail) {
+            window.location.replace('/404');
+          }
+        }
+      };
+
+      fetchMovieDetail();
+    }
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -48,10 +67,20 @@ const CinemaEditer = () => {
     const isValidData = await handleValidateCinemaForm();
 
     if (isValidData) {
-      const isCreate = await reqCreateCinema();
+      if (slug) {
+        const isUpdate = await reqUpdateCinema(slug);
 
-      if (isCreate) {
-        navigate(-1);
+        if (isUpdate) {
+          toast.success('Cập nhật rạp chiếu phim thành công');
+          navigate(-1);
+        }
+      } else {
+        const isCreate = await reqCreateCinema();
+
+        if (isCreate) {
+          toast.success('Tạo mới rạp chiếu phim thành công');
+          navigate(-1);
+        }
       }
     } else {
       toast.error(
@@ -72,7 +101,7 @@ const CinemaEditer = () => {
             <FaArrowLeft size={22} />
           </Button>
           <h2 className="text-title-md2 whitespace-nowrap font-semibold text-black dark:text-white">
-            Tạo mới rạp chiếu phim
+            {slug ? 'Cập nhật' : 'Tạo mới'} rạp chiếu phim
           </h2>
         </div>
         <div className="flex items-center space-x-2">

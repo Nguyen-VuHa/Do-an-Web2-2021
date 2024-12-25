@@ -102,12 +102,14 @@ const MovieEditer = () => {
         const statusUpdate = await reqUpdateMovie(movie_id);
 
         if (statusUpdate) {
+          toast.success('Cập nhật phim thành công');
           navigate(-1);
         }
       } else {
         const statusCreate = await reqCreateMovie();
 
         if (statusCreate) {
+          toast.success('Tạo mới phim thành công');
           navigate(-1);
         }
       }

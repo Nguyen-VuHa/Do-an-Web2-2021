@@ -20,6 +20,14 @@ export class CinemaService {
       where: {
         slug: slug,
       },
+    });
+  }
+
+  async getCinemaBySlugWithDeteled(slug: string): Promise<Cinema> {
+    return await this.cinemaRepository.findOne({
+      where: {
+        slug: slug,
+      },
       withDeleted: true,
     });
   }
