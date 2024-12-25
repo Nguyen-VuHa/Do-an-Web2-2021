@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BiSolidDashboard } from 'react-icons/bi';
 import { FaFileMedicalAlt } from 'react-icons/fa';
-import { GiTheater } from "react-icons/gi";
+import { GiTheater } from 'react-icons/gi';
 import { SiThemoviedatabase } from 'react-icons/si';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../images/logo/logo.svg';

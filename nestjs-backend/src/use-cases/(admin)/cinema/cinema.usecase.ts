@@ -9,6 +9,7 @@ import {
 import { Cinema } from 'src/core/entities/cinema.entity';
 import { IObject, IPagination, IResponse } from 'src/core/types/common';
 import { CinemaService } from 'src/services/cinema/cinema.service';
+import { Like } from 'typeorm';
 
 @Injectable()
 export class AdminCinemaUseCases {
@@ -18,7 +19,17 @@ export class AdminCinemaUseCases {
     objQuery: GetCinemasQueryDto
   ): Promise<IResponse<IPagination<CinemaResponseDTO>>> {
     try {
+      let condition: IObject<any> = {};
+
+      if (objQuery._search) {
+        condition = {
+          ...condition,
+          cinema_name: Like(`%${objQuery._search}%`),
+        };
+      }
+
       const cinemaQuery: IObject<any> = {
+        where: condition,
         take: objQuery._page_size,
         skip: (objQuery._page - 1) * objQuery._page_size,
         order: {

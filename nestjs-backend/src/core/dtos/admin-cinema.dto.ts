@@ -1,5 +1,5 @@
 import { Expose, Transform, Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsOptional, IsUrl, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, MaxLength } from 'class-validator';
 
 export class GetCinemasQueryDto {
   @IsOptional()
@@ -11,6 +11,12 @@ export class GetCinemasQueryDto {
   @Type(() => Number)
   @IsNumber()
   _page_size?: number;
+
+  @IsOptional()
+  @Type(() => String) // Chuyển đổi từ string sang number
+  @IsString()
+  @MaxLength(50, { message: 'Chỉ được nhập tối đa 50 ký tự cho trường tìm kiếm' })
+  _search?: string;
 }
 
 export class CreateCinemaDTO {

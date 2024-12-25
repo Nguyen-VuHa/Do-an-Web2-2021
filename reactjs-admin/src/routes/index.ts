@@ -11,7 +11,9 @@ const MovieDetail = lazy(
   () => import('src/pages/MovieDetail/MovieDetail.Main'),
 );
 const FileSystem = lazy(() => import('src/pages/FileSystem/FileSystem.Main'));
-const CinemaManagement = lazy(() => import('src/pages/CinemaManagement/CinemaManagement.Main'));
+const CinemaManagement = lazy(
+  () => import('src/pages/CinemaManagement/CinemaManagement.Main'),
+);
 
 const Calendar = lazy(() => import('../pages/Calendar'));
 const Chart = lazy(() => import('../pages/Chart'));

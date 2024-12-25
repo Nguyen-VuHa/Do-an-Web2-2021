@@ -12,6 +12,12 @@ export interface IResponsePagintaion<T> {
   list: T;
 }
 
+export interface IPagination {
+  _page: number;
+  _page_size: number;
+  total?: number;
+}
+
 export interface IObject<T> {
   [key: string]: T;
 }
