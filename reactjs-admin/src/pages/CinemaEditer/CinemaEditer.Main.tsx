@@ -8,6 +8,7 @@ import { IObject } from '~/types/common.type';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
+import FindEmbedURLModal from './FindEmbedURL.Modal';
 
 const CinemaEditer = () => {
   const navigate = useNavigate();
@@ -16,11 +17,14 @@ const CinemaEditer = () => {
   const {
     cinemaForm,
     isEditCinema,
+    addressCrawl,
+    isCrawlEmbedURL,
     setStateCinema,
     resetCinemaForm,
     reqCreateCinema,
     reqUpdateCinema,
     reqFetchCinemaDetail,
+    reqCrawlEmbedURL,
   } = useCinemaStore();
 
   useEffect(() => {
@@ -91,6 +95,10 @@ const CinemaEditer = () => {
 
   return (
     <>
+      <FindEmbedURLModal 
+        isOpen={isCrawlEmbedURL}
+        address={addressCrawl}
+      />
       <div className="mb-6 w-full flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Button
@@ -105,6 +113,23 @@ const CinemaEditer = () => {
           </h2>
         </div>
         <div className="flex items-center space-x-2">
+          <Button
+            className='whitespace-nowrap bg-warning border-warning dark:bg-opacity-50 dark:hover:bg-opacity-20'
+            onClick={() => {
+              if(!isCrawlEmbedURL) {
+                if(cinemaForm.address) {
+                  setStateCinema('isCrawlEmbedURL', true);
+                  setStateCinema('addressCrawl', cinemaForm.address);
+                  reqCrawlEmbedURL(cinemaForm.address);
+                } else {
+                  toast.error("Vui lòng nhập địa chỉ rạp chiếu trước khi thực hiện tìm kiếm Embed URL")
+                }
+              }
+            }}
+            loading={isEditCinema}
+          >
+            Tìm kiếm Auto Embed URL
+          </Button>
           <Button
             onClick={() => {
               if (!isEditCinema) handleSubmitEditCinema();

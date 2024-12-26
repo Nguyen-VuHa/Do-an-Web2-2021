@@ -21,3 +21,8 @@ export interface IURLToBase64Response {
   error: any;
   data?: string;
 }
+
+export interface ICrawlResponse<T> {
+  error: any;
+  data?: T;
+}

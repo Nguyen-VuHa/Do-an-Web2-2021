@@ -2,6 +2,7 @@ import { IObject } from '~/types/common.type';
 import axiosInstanceCrawler from './axiosCrawler.config';
 import {
   ICrawlMovieResponse,
+  ICrawlResponse,
   IURLToBase64Response,
 } from '~/types/crawler.type';
 
@@ -29,5 +30,13 @@ export const apiURLtoBase64 = async (
   params: IObject<string>,
 ): Promise<IURLToBase64Response> => {
   const path = '/image-to-base64';
+  return axiosInstanceCrawler.get(path, { params });
+};
+
+
+export const apiCrawlEmbedURL = async (
+  params: IObject<string>,
+): Promise<ICrawlResponse<string>> => {
+  const path = '/crawl-embed-map';
   return axiosInstanceCrawler.get(path, { params });
 };

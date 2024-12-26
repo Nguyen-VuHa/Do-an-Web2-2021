@@ -14,6 +14,7 @@ import { ICinema, ICinemaForm } from '~/types/cinema.type';
 import { IObject, IPagination } from '~/types/common.type';
 import useGlobalStore from './global.store';
 import { ACTIVE, INACTIVE } from '~/constants/status';
+import { apiCrawlEmbedURL } from '~/apis/crawler.api';
 
 interface ICinemaQueryOptions extends IPagination {
   _search: string;
@@ -34,6 +35,10 @@ interface CinemaState {
   cinemaDetail: ICinema | null;
   cinemaUpdateStatus: ICinema | null;
 
+  // state crawler
+  isCrawlEmbedURL: boolean;
+  addressCrawl: string;
+
   setCinemaForm: (formData: IObject<any>) => void;
   resetCinemaForm: () => void;
   // function handle logic
@@ -45,6 +50,7 @@ interface CinemaState {
   reqUpdateCinema: (slug: string) => Promise<boolean>;
   reqDeleteCinema: () => Promise<void>;
   reqUnDoDeleteCinema: () => Promise<void>;
+  reqCrawlEmbedURL: (address: string) => Promise<void>;
 }
 
 const initCinemaForm: ICinemaForm = {
@@ -89,6 +95,38 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
       cinemaForm: initCinemaForm,
       cinemaFormError: {},
     });
+  },
+
+  isCrawlEmbedURL: false,
+  addressCrawl: '',
+  reqCrawlEmbedURL: async (address) => {
+    try {
+      const res = await apiCrawlEmbedURL({
+        _address: address
+      })
+
+      if(res.error === "") {
+        if(res.data) {
+          set({
+            cinemaForm: {
+              ...get().cinemaForm,
+              embed_map_url: res.data,
+            }
+          })
+        } else {
+          toast.error("Không tìm thấy địa chỉ.")
+        }
+      } else {
+        toast.error(res.error)
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({
+        isCrawlEmbedURL: false,
+        addressCrawl: '',
+      })
+    }
   },
 
   reqFetchCinemaList: async () => {
