@@ -5,6 +5,7 @@ import {
   ICrawlResponse,
   IURLToBase64Response,
 } from '~/types/crawler.type';
+import { ICinemaForm } from '~/types/cinema.type';
 
 const MOVIE_CRAWL_PATH = '/crawl-data';
 
@@ -33,10 +34,16 @@ export const apiURLtoBase64 = async (
   return axiosInstanceCrawler.get(path, { params });
 };
 
-
 export const apiCrawlEmbedURL = async (
   params: IObject<string>,
 ): Promise<ICrawlResponse<string>> => {
   const path = '/crawl-embed-map';
+  return axiosInstanceCrawler.get(path, { params });
+};
+
+export const apiCrawlCinemaDetail = async (
+  params: IObject<string>,
+): Promise<ICrawlResponse<ICinemaForm[]>> => {
+  const path = '/crawl-cinema-data';
   return axiosInstanceCrawler.get(path, { params });
 };

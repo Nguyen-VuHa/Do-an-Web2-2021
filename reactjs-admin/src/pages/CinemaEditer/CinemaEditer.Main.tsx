@@ -95,10 +95,7 @@ const CinemaEditer = () => {
 
   return (
     <>
-      <FindEmbedURLModal 
-        isOpen={isCrawlEmbedURL}
-        address={addressCrawl}
-      />
+      <FindEmbedURLModal isOpen={isCrawlEmbedURL} address={addressCrawl} />
       <div className="mb-6 w-full flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Button
@@ -114,15 +111,17 @@ const CinemaEditer = () => {
         </div>
         <div className="flex items-center space-x-2">
           <Button
-            className='whitespace-nowrap bg-warning border-warning dark:bg-opacity-50 dark:hover:bg-opacity-20'
+            className="whitespace-nowrap bg-warning border-warning dark:bg-opacity-50 dark:hover:bg-opacity-20"
             onClick={() => {
-              if(!isCrawlEmbedURL) {
-                if(cinemaForm.address) {
+              if (!isCrawlEmbedURL) {
+                if (cinemaForm.address) {
                   setStateCinema('isCrawlEmbedURL', true);
                   setStateCinema('addressCrawl', cinemaForm.address);
                   reqCrawlEmbedURL(cinemaForm.address);
                 } else {
-                  toast.error("Vui lòng nhập địa chỉ rạp chiếu trước khi thực hiện tìm kiếm Embed URL")
+                  toast.error(
+                    'Vui lòng nhập địa chỉ rạp chiếu trước khi thực hiện tìm kiếm Embed URL',
+                  );
                 }
               }
             }}

@@ -5,7 +5,7 @@ export const provinces: ISelectOption[] = [
   { label: 'Hải Phòng', value: 'Hải Phòng' },
   { label: 'TP.HCM', value: 'TP.HCM' },
   { label: 'An Giang', value: 'An Giang' },
-  { label: 'Bà Rịa - Vũng Tàu', value: 'Bà Rịa - Vũng Tàu' },
+  { label: 'Bà Rịa – Vũng Tàu', value: 'Bà Rịa – Vũng Tàu' },
   { label: 'Bắc Giang', value: 'Bắc Giang' },
   { label: 'Bắc Kạn', value: 'Bắc Kạn' },
   { label: 'Bạc Liêu', value: 'Bạc Liêu' },

@@ -20,6 +20,9 @@ const CinemaEditer = lazy(
 const CinemaDetail = lazy(
   () => import('src/pages/CinemaDetail/CinemaDetail.Main'),
 );
+const CinemaExtension = lazy(
+  () => import('src/pages/CinemaExtension/CinemaExtension.Main'),
+);
 
 const Calendar = lazy(() => import('../pages/Calendar'));
 const Chart = lazy(() => import('../pages/Chart'));
@@ -77,12 +80,17 @@ const coreRoutes = [
     title: 'Cinema Edit',
     component: CinemaEditer,
   },
-
   {
     path: '/cinema/detail/:slug',
     title: 'Cinema Detail',
     component: CinemaDetail,
   },
+  {
+    path: '/cinema/extension',
+    title: 'Cinema Extension',
+    component: CinemaExtension,
+  },
+
   {
     path: '/calendar',
     title: 'Calender',

@@ -45,7 +45,9 @@ const CinemaManagement = () => {
           <div className="flex space-x-2 w-auto">
             <Button
               className="bg-warning border-warning dark:bg-opacity-50 dark:hover:bg-opacity-20"
-              onClick={() => {}}
+              onClick={() => {
+                navigate('extension');
+              }}
             >
               <span className="whitespace-nowrap">Extension</span>
               <TbDatabaseImport size={20} />

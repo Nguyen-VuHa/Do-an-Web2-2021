@@ -14,7 +14,7 @@ import { ICinema, ICinemaForm } from '~/types/cinema.type';
 import { IObject, IPagination } from '~/types/common.type';
 import useGlobalStore from './global.store';
 import { ACTIVE, INACTIVE } from '~/constants/status';
-import { apiCrawlEmbedURL } from '~/apis/crawler.api';
+import { apiCrawlCinemaDetail, apiCrawlEmbedURL } from '~/apis/crawler.api';
 
 interface ICinemaQueryOptions extends IPagination {
   _search: string;
@@ -38,8 +38,14 @@ interface CinemaState {
   // state crawler
   isCrawlEmbedURL: boolean;
   addressCrawl: string;
-
+  urlCrawl: string;
+  isModalConfirmCrawl: boolean;
+  isCrawlCinemaDetail: boolean;
+  cinemaCrawlData: ICinemaForm[];
+  isProcessCreateMultiCinema: boolean;
+  cinemaDataProcess: IObject<any>[];
   setCinemaForm: (formData: IObject<any>) => void;
+  setCinemaDataProcess: (data: IObject<any>) => void;
   resetCinemaForm: () => void;
   // function handle logic
 
@@ -51,6 +57,7 @@ interface CinemaState {
   reqDeleteCinema: () => Promise<void>;
   reqUnDoDeleteCinema: () => Promise<void>;
   reqCrawlEmbedURL: (address: string) => Promise<void>;
+  reqCrawlCinemaDetail: () => Promise<void>;
 }
 
 const initCinemaForm: ICinemaForm = {
@@ -96,28 +103,46 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
       cinemaFormError: {},
     });
   },
+  setCinemaDataProcess: (data) => {
+    set({
+      cinemaDataProcess: get().cinemaDataProcess.some(
+        (item) => item.title === data['title'],
+      )
+        ? get().cinemaDataProcess.map((item) =>
+            item.title === data['title'] ? data : item,
+          )
+        : [...get().cinemaDataProcess, data],
+    });
+  },
 
   isCrawlEmbedURL: false,
   addressCrawl: '',
+  urlCrawl: '',
+  isModalConfirmCrawl: false,
+  isCrawlCinemaDetail: false,
+  isProcessCreateMultiCinema: false,
+  cinemaCrawlData: [],
+  cinemaDataProcess: [],
+
   reqCrawlEmbedURL: async (address) => {
     try {
       const res = await apiCrawlEmbedURL({
-        _address: address
-      })
+        _address: address,
+      });
 
-      if(res.error === "") {
-        if(res.data) {
+      if (res.error === '') {
+        if (res.data) {
           set({
             cinemaForm: {
               ...get().cinemaForm,
               embed_map_url: res.data,
-            }
-          })
+            },
+          });
         } else {
-          toast.error("Không tìm thấy địa chỉ.")
+          toast.error('Không tìm thấy địa chỉ.');
         }
       } else {
-        toast.error(res.error)
+        toast.error(res.error);
       }
     } catch (error) {
       toast.error(error?.toString() as string);
@@ -125,7 +150,38 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
       set({
         isCrawlEmbedURL: false,
         addressCrawl: '',
-      })
+      });
+    }
+  },
+  reqCrawlCinemaDetail: async () => {
+    set({ isCrawlCinemaDetail: true });
+    try {
+      const res = await apiCrawlCinemaDetail({
+        _url: get().urlCrawl,
+      });
+
+      if (res.error === '') {
+        if (res.data && res.data.length > 0) {
+          const merged = [...get().cinemaCrawlData, ...res.data].filter(
+            (value, index, self) =>
+              index ===
+              self.findIndex((t) => t.cinema_name === value.cinema_name),
+          );
+
+          set({
+            cinemaCrawlData: merged,
+            urlCrawl: '',
+          });
+        } else {
+          toast.error('Dữ liệu thu thập rỗng');
+        }
+      } else {
+        toast.error(res.error || 'Tiến trình thu thập xảy ra lỗi.');
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({ isCrawlCinemaDetail: false });
     }
   },
 
