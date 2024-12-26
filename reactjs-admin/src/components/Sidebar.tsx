@@ -6,6 +6,7 @@ import { SiThemoviedatabase } from 'react-icons/si';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../images/logo/logo.svg';
 import SidebarLinkGroup from './SidebarLinkGroup';
+import { PiScreencast } from 'react-icons/pi';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -140,6 +141,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                   <GiTheater size={18} />
                   Quản lý hệ thống rạp
+                </NavLink>
+              </li>
+              {/* <!-- Menu File System --> */}
+              <li>
+                <NavLink
+                  to="/screen"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('screen') && 'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <PiScreencast size={18} />
+                  Quản lý phòng chiếu
                 </NavLink>
               </li>
               {/* <!-- Menu File System --> */}

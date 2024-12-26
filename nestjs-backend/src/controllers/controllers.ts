@@ -5,6 +5,7 @@ import { AdminCinemaController } from './admin-cinema.controller';
 import { AdminDirectorController } from './admin-director.controller';
 import { AdminFileSystemController } from './admin-file-system.controller';
 import { AdminMovieController } from './admin-movie.controller';
+import { AdminScreenController } from './admin-screen.controller';
 import { AdminUserController } from './admin-user.controller';
 import { AuthController } from './auth.controller';
 
@@ -17,6 +18,7 @@ const ADMIN_CONTROLLERS = [
   AdminMovieController,
   AdminFileSystemController,
   AdminCinemaController,
+  AdminScreenController,
 ];
 
 const CONTROLLERS = [AuthController, ...ADMIN_CONTROLLERS];

@@ -3,6 +3,7 @@ import { AdminCinemaUseCaseModule } from 'src/use-cases/(admin)/cinema/cinemaUse
 import { AdminFileSystemUseCaseModule } from 'src/use-cases/(admin)/file-system/fileSystemUseCase.module';
 import { AdminMovieMetaUseCaseModule } from 'src/use-cases/(admin)/movie-meta/adminMovieMetaUseCase.module';
 import { AdminMovieUseCaseModule } from 'src/use-cases/(admin)/movie/adminMovieUseCase.module';
+import { AdminScreenUseCaseModule } from 'src/use-cases/(admin)/screen/screenUseCase.module';
 import { AdminUserUseCaseModule } from 'src/use-cases/(admin)/user/adminUserUseCase.module';
 import { AuthUseCaseModule } from 'src/use-cases/auth/authUseCase.module';
 
@@ -13,6 +14,7 @@ const ADMIN_APPMODULES = [
   AdminMovieUseCaseModule,
   AdminFileSystemUseCaseModule,
   AdminCinemaUseCaseModule,
+  AdminScreenUseCaseModule,
 ];
 
 const APPMODULES = [AuthUseCaseModule, ...ADMIN_APPMODULES];
