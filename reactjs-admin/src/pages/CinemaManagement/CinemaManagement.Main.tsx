@@ -8,6 +8,7 @@ import useCinemaStore from '~/stores/cinema.store';
 import CinemaList from './CinemaList';
 import { useNavigate } from 'react-router-dom';
 import ComfirmUpdateStatusModal from './ComfirmUpdateStatus.Modal';
+import { PAGE_INDEX_DEFAULT } from '~/constants/default';
 
 const CinemaManagement = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const CinemaManagement = () => {
               onChangeSearchText={(value) => {
                 setStateCinema('queryOptions', {
                   ...queryOptions,
+                  _page: PAGE_INDEX_DEFAULT,
                   _search: value,
                 });
               }}

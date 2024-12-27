@@ -3,6 +3,7 @@ import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'c
 import { ScreenType } from '../entities/screen.entity';
 import { ACTIVE, INACTIVE } from 'src/constants/status';
 import { IEnumStatus } from '../types/common';
+import { CinemaResponseDTO } from './admin-cinema.dto';
 
 export class GetScreenQueryDto {
   @IsOptional()
@@ -54,6 +55,10 @@ export class ScreenResponseDTO {
 
   @Expose()
   created_at: string;
+
+  @Expose()
+  @Type(() => CinemaResponseDTO)
+  cinema: CinemaResponseDTO;
 
   @Expose()
   @Transform(({ obj }) => (obj.deleted_at ? INACTIVE : ACTIVE))

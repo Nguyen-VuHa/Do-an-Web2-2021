@@ -36,6 +36,9 @@ export class AdminScreenUseCases {
 
       const screenQuery: IObject<any> = {
         where: condition,
+        relations: {
+          cinema: true,
+        },
         take: objQuery._page_size,
         skip: (objQuery._page - 1) * objQuery._page_size,
         order: {

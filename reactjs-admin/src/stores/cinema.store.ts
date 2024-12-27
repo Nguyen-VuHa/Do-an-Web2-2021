@@ -18,6 +18,7 @@ import { apiCrawlCinemaDetail, apiCrawlEmbedURL } from '~/apis/crawler.api';
 
 interface ICinemaQueryOptions extends IPagination {
   _search: string;
+  total?: number;
 }
 
 interface CinemaState {
