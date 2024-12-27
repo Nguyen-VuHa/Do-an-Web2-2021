@@ -26,6 +26,12 @@ const CinemaExtension = lazy(
 const ScreenManagement = lazy(
   () => import('src/pages/ScreenManagement/ScreenManagement.Main'),
 );
+const ScreenEditer = lazy(
+  () => import('src/pages/ScreenEditer/ScreenEditer.Main'),
+);
+const ScreenDetail = lazy(
+  () => import('src/pages/ScreenDetail/ScreenDetail.Main'),
+);
 
 const Calendar = lazy(() => import('../pages/Calendar'));
 const Chart = lazy(() => import('../pages/Chart'));
@@ -97,6 +103,21 @@ const coreRoutes = [
     path: '/screen',
     title: 'Screen Management',
     component: ScreenManagement,
+  },
+  {
+    path: '/screen/create',
+    title: 'Screen Create',
+    component: ScreenEditer,
+  },
+  {
+    path: '/screen/update/:screen_id',
+    title: 'Screen Update',
+    component: ScreenEditer,
+  },
+  {
+    path: '/screen/detail/:screen_id',
+    title: 'Screen Detail',
+    component: ScreenDetail,
   },
 
   {

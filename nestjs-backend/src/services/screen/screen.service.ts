@@ -24,6 +24,13 @@ export class ScreenService {
     });
   }
 
+  async getCinemaByConditionWithDeleted(conditions: IObject<any>): Promise<Screen> {
+    return await this.screenRepository.findOne({
+      ...conditions,
+      withDeleted: true,
+    });
+  }
+
   async createScreen(screenData: Screen): Promise<Screen> {
     return await this.screenRepository.save(screenData);
   }

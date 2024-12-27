@@ -76,6 +76,41 @@ export class AdminScreenUseCases {
     }
   }
 
+  async getDetailScreen(screen_id: number): Promise<IResponse<ScreenResponseDTO>> {
+    try {
+      const screenDetail = await this.screenService.getCinemaByConditionWithDeleted({
+        where: {
+          screen_id: screen_id,
+        },
+        relations: {
+          cinema: true,
+        },
+      });
+
+      if (!screenDetail) {
+        throw new Error('Không tồn tại phòng chiếu');
+      }
+
+      const screenDTO = plainToClass(ScreenResponseDTO, screenDetail, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<ScreenResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy chi tiết phòng chiếu thành công.',
+        data: screenDTO,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy chi tiết phòng chiếu không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
   async getScreenType(): Promise<IResponse<string[]>> {
     try {
       const typeList = Object.values(ScreenType);

@@ -69,6 +69,27 @@ export class AdminCinemaUseCases {
     }
   }
 
+  async getCinemaSelection(): Promise<IResponse<IObject<any>[]>> {
+    try {
+      const cinemaSelect = await this.cinemaService.getCinemaSelection();
+
+      const response: IResponse<IObject<any>[]> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy danh sách chọn rạp chiếu thành công.',
+        data: cinemaSelect,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy danh sách chọn rạp chiếu không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
   async getCinemaDetailBySlug(slug: string): Promise<IResponse<CinemaResponseDTO>> {
     try {
       const cinemaData = await this.cinemaService.getCinemaBySlugWithDeteled(slug);

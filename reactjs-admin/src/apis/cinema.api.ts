@@ -11,6 +11,13 @@ export const fetchCinemaList = async (
   return axiosInstance.get(path, { params });
 };
 
+export const fetchCinemaSelection = async (): Promise<
+  IResponse<IObject<any>[]>
+> => {
+  const path = MAIN_PATH + '/selection';
+  return axiosInstance.get(path);
+};
+
 export const fetchDetailCinemaBySlug = async (
   params: IObject<any>,
 ): Promise<IResponse<ICinema>> => {

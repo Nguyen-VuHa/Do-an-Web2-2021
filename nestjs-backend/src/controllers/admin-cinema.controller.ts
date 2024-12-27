@@ -19,7 +19,7 @@ import {
 } from 'src/core/dtos/admin-cinema.dto';
 import { AdminCinemaUseCases } from 'src/use-cases/(admin)/cinema/cinema.usecase';
 import { MAX_PAGE_SIZE, PAGE_IDX_DEFAULT, PAGE_SIZE_DEFAULT } from 'src/constants/default';
-import { IPagination, IResponse } from 'src/core/types/common';
+import { IObject, IPagination, IResponse } from 'src/core/types/common';
 
 @Controller('admin/cinema')
 export class AdminCinemaController {
@@ -61,6 +61,11 @@ export class AdminCinemaController {
     };
 
     return this.adminCinemaUseCase.getCinemaList(queryClean);
+  }
+
+  @Get('selection')
+  async getCinemaSelection(): Promise<IResponse<IObject<any>[]>> {
+    return this.adminCinemaUseCase.getCinemaSelection();
   }
 
   @Get('detail')

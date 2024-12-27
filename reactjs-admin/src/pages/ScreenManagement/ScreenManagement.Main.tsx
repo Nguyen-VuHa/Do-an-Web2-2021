@@ -6,16 +6,25 @@ import InputSearch from '~/components/InputSearch/InputSearch.Main';
 import useScreenStore from '~/stores/screen.store';
 import ScreenList from './ScreenList';
 import { PAGE_INDEX_DEFAULT } from '~/constants/default';
+import { useNavigate } from 'react-router-dom';
+import ComfirmUpdateStatusModal from './ComfirmUpdateStatus.Modal';
 
 const ScreenManagement = () => {
-  const { reqFetchScreenList, queryOptions, isFetchScreenList, setStateScreen } = useScreenStore();
+  const navigate = useNavigate();
+  const {
+    reqFetchScreenList,
+    queryOptions,
+    isFetchScreenList,
+    setStateScreen,
+  } = useScreenStore();
 
   useEffect(() => {
     reqFetchScreenList();
-  }, [queryOptions._page, queryOptions._search, queryOptions._page_size])
-  
+  }, [queryOptions._page, queryOptions._search, queryOptions._page_size]);
+
   return (
     <>
+      <ComfirmUpdateStatusModal />
       <Breadcrumb pageName="Quản lý phòng chiếu" />
 
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-5 space-y-5">
@@ -37,7 +46,9 @@ const ScreenManagement = () => {
           <div className="flex space-x-2 w-auto">
             <Button
               className="bg-success border-success dark:bg-opacity-50 dark:hover:bg-opacity-20"
-              onClick={() => {}}
+              onClick={() => {
+                navigate('create');
+              }}
             >
               <span className="whitespace-nowrap">Thêm mới</span>
               <IoMdAdd size={20} />

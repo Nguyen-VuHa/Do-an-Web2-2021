@@ -35,9 +35,7 @@ const ScreenHeader: HeaderTable[] = [
     label: 'Thuộc rạp chiếu',
     key: 'cinema_name',
     extendsion: (data) => {
-      return <>
-        { data?.cinema?.cinema_name || '-' }
-      </>;
+      return <>{data?.cinema?.cinema_name || '-'}</>;
     },
   },
   {
@@ -51,7 +49,8 @@ const ScreenHeader: HeaderTable[] = [
 ];
 
 const ScreenList = () => {
-  const { isFetchScreenList, screens, queryOptions, setStateScreen } = useScreenStore();
+  const { isFetchScreenList, screens, queryOptions, setStateScreen } =
+    useScreenStore();
   return (
     <>
       <Table

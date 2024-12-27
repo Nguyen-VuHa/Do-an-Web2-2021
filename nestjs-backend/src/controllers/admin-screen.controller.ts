@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Put,
   Query,
@@ -19,6 +20,7 @@ import {
 } from 'src/core/dtos/admin-screen.dto';
 import { IPagination, IResponse } from 'src/core/types/common';
 import { AdminScreenUseCases } from 'src/use-cases/(admin)/screen/screen.usecase';
+import { stringToInt } from 'src/utils/convert';
 
 @Controller('admin/screen')
 export class AdminScreenController {
@@ -60,6 +62,19 @@ export class AdminScreenController {
     };
 
     return this.adminScreenUseCase.getScreenList(queryClean);
+  }
+
+  @Get('detail/:screen_id')
+  async getDetail(@Param('screen_id') screen_id: string): Promise<IResponse<ScreenResponseDTO>> {
+    if (!stringToInt(screen_id)) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Dữ liệu không hợp lệ',
+        error: 'Không tồn tại screen_id',
+      });
+    }
+
+    return this.adminScreenUseCase.getDetailScreen(stringToInt(screen_id));
   }
 
   @Get('type')
