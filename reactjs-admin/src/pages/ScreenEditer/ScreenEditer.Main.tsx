@@ -9,6 +9,9 @@ import { IObject } from '~/types/common.type';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import { stringToInt } from '~/utils/convert';
+import SeatForm from './SeatForm';
+import ChangeSeatNameModal from './ChangeSeatName.Modal';
+import useSeatStore from '~/stores/seat.store';
 
 const ScreenEditer = () => {
   const { screen_id } = useParams();
@@ -27,6 +30,7 @@ const ScreenEditer = () => {
     reqUpdateScreen,
     reqFetchScreenDetail,
   } = useScreenStore();
+  const { isChangeSeatNameModal, seatMap } = useSeatStore()
 
   useEffect(() => {
     if (screenType.length <= 0) {
@@ -80,16 +84,18 @@ const ScreenEditer = () => {
     const isValidData = await handleValidateScreenForm();
 
     if (isValidData) {
-      if (screen_id) {
-        const isUpdate = await reqUpdateScreen(stringToInt(screen_id));
+      console.log(seatMap);
+      
+      // if (screen_id) {
+      //   const isUpdate = await reqUpdateScreen(stringToInt(screen_id));
 
-        if (isUpdate) navigate(-1);
-        return;
-      }
+      //   if (isUpdate) navigate(-1);
+      //   return;
+      // }
 
-      const isCreate = await reqCreateScreen();
+      // const isCreate = await reqCreateScreen();
 
-      if (isCreate) navigate(-1);
+      // if (isCreate) navigate(-1);
     } else {
       toast.error(
         'Một số trường chưa nhập dữ liệu hoặc nhập sai, vui lòng kiểm tra lại',
@@ -99,6 +105,9 @@ const ScreenEditer = () => {
 
   return (
     <>
+      <ChangeSeatNameModal 
+        isOpen={isChangeSeatNameModal}
+      />
       <div className="mb-6 w-full flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Button
@@ -126,6 +135,8 @@ const ScreenEditer = () => {
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark py-4 px-6.5">
         <ScreenForm />
+        <hr />
+        <SeatForm />
       </div>
     </>
   );

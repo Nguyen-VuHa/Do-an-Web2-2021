@@ -37,7 +37,7 @@ export class Seat {
   })
   seat_type: SeatType;
 
-  @Column()
+  @Column({ default: 0 })
   price_modifier: number;
 
   @CreateDateColumn()

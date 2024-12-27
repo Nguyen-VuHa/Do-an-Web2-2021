@@ -1,9 +1,19 @@
 import { Expose, Transform, Type } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
-import { ScreenType } from '../entities/screen.entity';
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+  ValidateNested,
+} from 'class-validator';
 import { ACTIVE, INACTIVE } from 'src/constants/status';
+import { ScreenType } from '../entities/screen.entity';
 import { IEnumStatus } from '../types/common';
 import { CinemaResponseDTO } from './admin-cinema.dto';
+import { CreateSeatDTO } from './admin-seat.dto';
 
 export class GetScreenQueryDto {
   @IsOptional()
@@ -35,6 +45,12 @@ export class CreateScreenDTO {
   @IsNotEmpty() // Yêu cầu trường này không được để trống
   @IsNumber()
   cinema: number;
+
+  @IsNotEmpty()
+  @IsArray()
+  @ValidateNested()
+  @Type(() => CreateSeatDTO)
+  seats: CreateSeatDTO[];
 }
 
 export class UpdateScreenDTO extends CreateScreenDTO {

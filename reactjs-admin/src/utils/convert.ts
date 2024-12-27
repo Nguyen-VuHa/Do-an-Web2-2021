@@ -76,3 +76,7 @@ export function convertToSlug(str: string): string {
     .replace(/-+/g, '-') // Loại bỏ các dấu gạch ngang dư thừa
     .replace(/^-+/, ''); // Loại bỏ dấu gạch ngang ở đầu chuỗi
 }
+
+export function convertToUpperCase(str: string): string {
+  return str.toUpperCase();
+}

@@ -9,16 +9,19 @@ import {
   UpdateStatusScreenDTO,
 } from 'src/core/dtos/admin-screen.dto';
 import { Screen, ScreenType } from 'src/core/entities/screen.entity';
+import { Seat } from 'src/core/entities/seat.entity';
 import { IObject, IPagination, IResponse } from 'src/core/types/common';
 import { CinemaService } from 'src/services/cinema/cinema.service';
 import { ScreenService } from 'src/services/screen/screen.service';
+import { SeatService } from 'src/services/seat/seat.service';
 import { ILike } from 'typeorm';
 
 @Injectable()
 export class AdminScreenUseCases {
   constructor(
     private readonly screenService: ScreenService,
-    private readonly cinemaService: CinemaService
+    private readonly cinemaService: CinemaService,
+    private readonly seatService: SeatService
   ) {}
 
   async getScreenList(
@@ -139,11 +142,54 @@ export class AdminScreenUseCases {
         throw new Error('Rạp chiếu không tồn tại.');
       }
 
+      const seatIDList = data.seats.map((seat) => seat.seat_id);
+
+      const seatList = await this.seatService.getSeatListByIdsWithDeleted(seatIDList);
+
+      const seatAction: Seat[] = [];
+      if (seatList.length > 0) {
+        // handle update or create
+        const seatIDCheck = seatList.map((seat) => seat.seat_id);
+
+        data.seats.map((seat) => {
+          if (seatIDCheck.includes(seat.seat_id)) {
+            // update
+            const seatUpdate = seatList.find((seat) => seat.seat_id === seat.seat_id);
+
+            seatUpdate.seat_name = seat.seat_name;
+            seatUpdate.x = seat.x;
+            seatUpdate.y = seat.y;
+
+            seatAction.push(seatUpdate);
+          } else {
+            const seatNew = new Seat();
+
+            seatNew.seat_name = seat.seat_name;
+            seatNew.x = seat.x;
+            seatNew.y = seat.y;
+
+            seatAction.push(seatNew);
+          }
+        });
+      } else {
+        data.seats.map((seat) => {
+          const seatNew = new Seat();
+
+          seatNew.seat_name = seat.seat_name;
+          seatNew.x = seat.x;
+          seatNew.y = seat.y;
+
+          seatAction.push(seatNew);
+        });
+      }
+      console.log(seatList);
+
       const screen = new Screen();
 
       screen.screen_name = data.screen_name;
       screen.screen_type = data.screen_type;
       screen.cinema = cinema;
+      screen.seats = seatAction;
 
       const screenNew = await this.screenService.createScreen(screen);
 
