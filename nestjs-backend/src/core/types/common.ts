@@ -21,3 +21,8 @@ export interface IResponse<T> {
 export interface IObject<T> {
   [key: string]: T;
 }
+
+export enum IEnumStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}

@@ -27,6 +27,7 @@ import {
   PosterResponseDTO,
 } from './admin-movie-detail';
 import { OmitType } from '@nestjs/mapped-types';
+import { ACTIVE, INACTIVE } from 'src/constants/status';
 
 export class GetMoviesQueryDto {
   @IsOptional()
@@ -179,7 +180,7 @@ export class MovieResponseDTO {
   movie_type: string;
 
   @Expose()
-  @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
+  @Transform(({ obj }) => (obj.deleted_at ? INACTIVE : ACTIVE))
   status: string;
 }
 

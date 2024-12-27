@@ -33,7 +33,7 @@ export class Screen {
     enum: ScreenType,
     default: ScreenType.TWO_D, // Giá trị mặc định là 2D
   })
-  screenType: ScreenType;
+  screen_type: ScreenType;
 
   @CreateDateColumn()
   created_at: Date;

@@ -1,5 +1,6 @@
 import { Expose, Transform, Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, MaxLength } from 'class-validator';
+import { ACTIVE, INACTIVE } from 'src/constants/status';
 
 export class GetCinemasQueryDto {
   @IsOptional()
@@ -66,6 +67,6 @@ export class CinemaResponseDTO {
   created_at: string;
 
   @Expose()
-  @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
+  @Transform(({ obj }) => (obj.deleted_at ? INACTIVE : ACTIVE))
   status: string;
 }

@@ -1,5 +1,6 @@
 import { Expose, Transform } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsOptional, IsUrl, MaxLength } from 'class-validator';
+import { ACTIVE, INACTIVE } from 'src/constants/status';
 
 export class CreateCategoryDTO {
   @IsNotEmpty() // Yêu cầu trường này không được để trống
@@ -18,7 +19,7 @@ export class CategoryResponseDTO {
   created_at: string;
 
   @Expose()
-  @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
+  @Transform(({ obj }) => (obj.deleted_at ? INACTIVE : ACTIVE))
   status: string;
 }
 
@@ -39,7 +40,7 @@ export class DirectorResponseDTO {
   created_at: string;
 
   @Expose()
-  @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
+  @Transform(({ obj }) => (obj.deleted_at ? INACTIVE : ACTIVE))
   status: string;
 }
 
@@ -60,7 +61,7 @@ export class ActorResponseDTO {
   created_at: string;
 
   @Expose()
-  @Transform(({ obj }) => (obj.deleted_at ? 'inactive' : 'active'))
+  @Transform(({ obj }) => (obj.deleted_at ? INACTIVE : ACTIVE))
   status: string;
 }
 
