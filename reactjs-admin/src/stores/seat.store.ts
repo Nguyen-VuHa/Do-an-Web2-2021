@@ -9,7 +9,9 @@ interface SeatState {
   seatMap: ISeat[];
 
   isChangeSeatNameModal: boolean;
-  seatUpdate: ISeat | null,
+  seatUpdate: ISeat | null;
+
+  resetFormSeat: () => void;
 }
 
 const useSeatStore = create<SeatState>((set, get) => ({
@@ -24,6 +26,14 @@ const useSeatStore = create<SeatState>((set, get) => ({
   seatMap: [],
   seatUpdate: null,
   isChangeSeatNameModal: false,
+
+  resetFormSeat: () => {
+    set({
+      seatMap: [],
+      rowSeat: 0,
+      colSeat: 0,
+    });
+  },
 }));
 
 export default useSeatStore;

@@ -6,6 +6,7 @@ import FormGroup from '~/components/FormGroup';
 import Tag from '~/components/Tag';
 import useScreenStore from '~/stores/screen.store';
 import { stringToInt } from '~/utils/convert';
+import SeatMap from './SeatMap';
 
 const ScreenDetail = () => {
   const { screen_id } = useParams();
@@ -93,6 +94,11 @@ const ScreenDetail = () => {
               }
             />
           </div>
+        </div>
+
+        <div className="px-6.5 space-y-3">
+          <label className="text-lg">Sơ đồ ghế ngồi</label>
+          <SeatMap />
         </div>
       </div>
     </>

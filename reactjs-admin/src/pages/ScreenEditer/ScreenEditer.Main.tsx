@@ -12,6 +12,7 @@ import { stringToInt } from '~/utils/convert';
 import SeatForm from './SeatForm';
 import ChangeSeatNameModal from './ChangeSeatName.Modal';
 import useSeatStore from '~/stores/seat.store';
+import { ISeatForm } from '~/types/seat.type';
 
 const ScreenEditer = () => {
   const { screen_id } = useParams();
@@ -30,7 +31,7 @@ const ScreenEditer = () => {
     reqUpdateScreen,
     reqFetchScreenDetail,
   } = useScreenStore();
-  const { isChangeSeatNameModal, seatMap } = useSeatStore()
+  const { isChangeSeatNameModal, seatMap } = useSeatStore();
 
   useEffect(() => {
     if (screenType.length <= 0) {
@@ -84,18 +85,34 @@ const ScreenEditer = () => {
     const isValidData = await handleValidateScreenForm();
 
     if (isValidData) {
-      console.log(seatMap);
+      const seatEdit: ISeatForm[] = [];
+
+      seatMap.map((seat) => {
+        seatEdit.push({
+          seat_id: seat.id,
+          seat_name: seat.label,
+          x: seat.x,
+          y: seat.y,
+          status: seat.status,
+        });
+      });
+
+      if (seatEdit.length <= 0) {
+        toast.error('Vui lòng tạo bản đồ ghế.');
+
+        return;
+      }
       
-      // if (screen_id) {
-      //   const isUpdate = await reqUpdateScreen(stringToInt(screen_id));
+      if (screen_id) {
+        const isUpdate = await reqUpdateScreen(stringToInt(screen_id), seatEdit);
 
-      //   if (isUpdate) navigate(-1);
-      //   return;
-      // }
+        if (isUpdate) navigate(-1);
+        return;
+      }
 
-      // const isCreate = await reqCreateScreen();
+      const isCreate = await reqCreateScreen(seatEdit);
 
-      // if (isCreate) navigate(-1);
+      if (isCreate) navigate(-1);
     } else {
       toast.error(
         'Một số trường chưa nhập dữ liệu hoặc nhập sai, vui lòng kiểm tra lại',
@@ -105,9 +122,7 @@ const ScreenEditer = () => {
 
   return (
     <>
-      <ChangeSeatNameModal 
-        isOpen={isChangeSeatNameModal}
-      />
+      <ChangeSeatNameModal isOpen={isChangeSeatNameModal} />
       <div className="mb-6 w-full flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Button

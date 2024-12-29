@@ -14,6 +14,8 @@ import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { IObject, IPagination, ISelectOption } from '~/types/common.type';
 import { IScreen, IScreenForm } from '~/types/screen.type';
 import useGlobalStore from './global.store';
+import { ISeatForm } from '~/types/seat.type';
+import useSeatStore from './seat.store';
 
 interface IScreenQueryOptions extends IPagination {
   _search: string;
@@ -41,8 +43,8 @@ interface ScreenState {
   reqFetchScreenType: () => Promise<void>;
   reqFetchCinemaSelect: () => Promise<void>;
   reqFetchScreenDetail: (screen_id: number) => Promise<boolean>;
-  reqCreateScreen: () => Promise<boolean>;
-  reqUpdateScreen: (screen_id: number) => Promise<boolean>;
+  reqCreateScreen: (seatList: ISeatForm[]) => Promise<boolean>;
+  reqUpdateScreen: (screen_id: number, seatList: ISeatForm[]) => Promise<boolean>;
   reqUpdateStatusScreen: (payload: IObject<any>) => Promise<void>;
 }
 
@@ -80,6 +82,7 @@ const useScreenStore = create<ScreenState>((set, get) => ({
       screenForm: initScreenForm,
       screenDetail: null,
     });
+    useSeatStore.getState().resetFormSeat();
   },
 
   reqFetchScreenList: async () => {
@@ -161,6 +164,18 @@ const useScreenStore = create<ScreenState>((set, get) => ({
       if (res.statusCode === STATUS_SUCCESS && res.data) {
         statusDetail = true;
         const screenDetail = res.data;
+        useSeatStore.getState().setStateSeat(
+          'seatMap',
+          screenDetail.seats.map((seat) => {
+            return {
+              id: seat.seat_id,
+              x: seat.x,
+              y: seat.y,
+              label: seat.seat_name,
+              status: seat.status,
+            };
+          }),
+        );
         set({
           screenForm: {
             screen_name: screenDetail.screen_name,
@@ -179,11 +194,14 @@ const useScreenStore = create<ScreenState>((set, get) => ({
       return statusDetail;
     }
   },
-  reqCreateScreen: async () => {
+  reqCreateScreen: async (seatList) => {
     let statusCreate: boolean = false;
     set({ isEditScreen: true });
     try {
-      const res = await apiCreateScreen(get().screenForm);
+      const res = await apiCreateScreen({
+        ...get().screenForm,
+        seats: seatList,
+      });
       if (res.statusCode === STATUS_SUCCESS) {
         statusCreate = true;
         get().resetScreenForm();
@@ -198,13 +216,14 @@ const useScreenStore = create<ScreenState>((set, get) => ({
       return statusCreate;
     }
   },
-  reqUpdateScreen: async (screen_id) => {
+  reqUpdateScreen: async (screen_id, seatList) => {
     let statusUpdate: boolean = false;
     set({ isEditScreen: true });
     try {
       const res = await apiUpdateScreen({
         ...get().screenForm,
         screen_id,
+        seats: seatList,
       });
       if (res.statusCode === STATUS_SUCCESS) {
         statusUpdate = true;

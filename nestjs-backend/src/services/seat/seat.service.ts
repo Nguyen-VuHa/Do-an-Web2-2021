@@ -18,4 +18,8 @@ export class SeatService {
       withDeleted: true,
     });
   }
+
+  async updateSeatScreenList(seatList: Seat[]): Promise<Seat[]> {
+    return await this.seatRepository.save(seatList);
+  }
 }

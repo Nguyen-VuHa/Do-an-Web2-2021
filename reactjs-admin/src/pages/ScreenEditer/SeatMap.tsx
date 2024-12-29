@@ -10,8 +10,8 @@ const SEAT_HEIGHT = 40;
 
 const SeatMap = () => {
   const { seatMap, setStateSeat } = useSeatStore();
-  const [seatHover, setSeatHover] = useState<number>(0)
-  
+  const [seatHover, setSeatHover] = useState<number>(0);
+
   const layout = seatMap.map((seat) => ({
     i: seat.id.toString(),
     x: seat.x,
@@ -22,7 +22,7 @@ const SeatMap = () => {
 
   return (
     <div
-        className='select-none'
+      className="select-none"
       style={{
         position: 'relative',
         width: MAX_COL_SEAT * (SEAT_WIDTH + GAP_ITEM),
@@ -63,12 +63,12 @@ const SeatMap = () => {
             return seat;
           });
 
+          // Cập nhật lại layout ghế
           setStateSeat('seatMap', newSeats);
-          // setSeats(newSeats); // Cập nhật lại layout ghế
         }}
       >
-        {seatMap.map((seat) => (
-          <div
+        {seatMap.map((seat) => {
+          return <div
             key={seat.id}
             style={{
               position: 'relative',
@@ -78,15 +78,18 @@ const SeatMap = () => {
               cursor: 'pointer',
             }}
             onMouseEnter={() => {
-                setSeatHover(seat.id)
+              if(seat.status === 1)
+                setSeatHover(seat.id);
             }}
             onMouseLeave={() => {
-                setSeatHover(0)
+              setSeatHover(0);
             }}
           >
-            <SeatMapItem isHover={seatHover === seat.id} data={seat} />
+            {
+              seat.status === 1 && <SeatMapItem isHover={seatHover === seat.id} data={seat} />
+            }
           </div>
-        ))}
+        })}
       </GridLayout>
     </div>
   );

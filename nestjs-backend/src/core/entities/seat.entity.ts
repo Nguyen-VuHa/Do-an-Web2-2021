@@ -49,7 +49,7 @@ export class Seat {
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
-  @ManyToOne(() => Screen, (screen) => screen.seats)
+  @ManyToOne(() => Screen, (screen) => screen.seats, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'screen_id' })
   screen: Screen;
 }

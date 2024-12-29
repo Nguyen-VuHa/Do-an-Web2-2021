@@ -87,6 +87,7 @@ export class AdminScreenUseCases {
         },
         relations: {
           cinema: true,
+          seats: true,
         },
       });
 
@@ -145,44 +146,20 @@ export class AdminScreenUseCases {
       const seatIDList = data.seats.map((seat) => seat.seat_id);
 
       const seatList = await this.seatService.getSeatListByIdsWithDeleted(seatIDList);
+      if (seatList.length > 0) {
+        throw new Error('Dữ liệu không hợp lệ.');
+      }
 
       const seatAction: Seat[] = [];
-      if (seatList.length > 0) {
-        // handle update or create
-        const seatIDCheck = seatList.map((seat) => seat.seat_id);
+      data.seats.map((seat) => {
+        const seatNew = new Seat();
 
-        data.seats.map((seat) => {
-          if (seatIDCheck.includes(seat.seat_id)) {
-            // update
-            const seatUpdate = seatList.find((seat) => seat.seat_id === seat.seat_id);
+        seatNew.seat_name = seat.seat_name;
+        seatNew.x = seat.x;
+        seatNew.y = seat.y;
 
-            seatUpdate.seat_name = seat.seat_name;
-            seatUpdate.x = seat.x;
-            seatUpdate.y = seat.y;
-
-            seatAction.push(seatUpdate);
-          } else {
-            const seatNew = new Seat();
-
-            seatNew.seat_name = seat.seat_name;
-            seatNew.x = seat.x;
-            seatNew.y = seat.y;
-
-            seatAction.push(seatNew);
-          }
-        });
-      } else {
-        data.seats.map((seat) => {
-          const seatNew = new Seat();
-
-          seatNew.seat_name = seat.seat_name;
-          seatNew.x = seat.x;
-          seatNew.y = seat.y;
-
-          seatAction.push(seatNew);
-        });
-      }
-      console.log(seatList);
+        seatAction.push(seatNew);
+      });
 
       const screen = new Screen();
 
@@ -228,9 +205,46 @@ export class AdminScreenUseCases {
         throw new Error('Phòng chiếu không tồn tại.');
       }
 
+      const seatIDList = data.seats.map((seat) => seat.seat_id);
+
+      const seatList = await this.seatService.getSeatListByIdsWithDeleted(seatIDList);
+
+      const seatAction: Seat[] = [];
+      const seatIDCheck = seatList.map((seat) => seat.seat_id);
+
+      data.seats.map((seat) => {
+        let seatInstance: Seat;
+
+        if (seatIDCheck.includes(seat.seat_id)) {
+          // update
+          seatInstance = seatList.find((seat_db) => seat_db.seat_id === seat.seat_id);
+
+          seatInstance.seat_name = seat.seat_name;
+          seatInstance.x = seat.x;
+          seatInstance.y = seat.y;
+          seatInstance.screen = screen;
+
+          if (seat.status === 0) {
+            seatInstance.deleted_at = new Date();
+          }
+        } else {
+          seatInstance = new Seat();
+
+          seatInstance.seat_name = seat.seat_name;
+          seatInstance.x = seat.x;
+          seatInstance.y = seat.y;
+          seatInstance.screen = screen;
+        }
+
+        // Gán `screen` cho quan hệ
+        seatInstance.screen = screen;
+        seatAction.push(seatInstance);
+      });
+
       screen.screen_name = data.screen_name;
       screen.screen_type = data.screen_type;
       screen.cinema = cinema;
+      screen.seats = seatAction;
 
       const screenUpdate = await this.screenService.updateScreen(screen);
 

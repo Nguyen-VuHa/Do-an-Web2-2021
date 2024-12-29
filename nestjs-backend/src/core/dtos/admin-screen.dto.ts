@@ -13,7 +13,7 @@ import { ACTIVE, INACTIVE } from 'src/constants/status';
 import { ScreenType } from '../entities/screen.entity';
 import { IEnumStatus } from '../types/common';
 import { CinemaResponseDTO } from './admin-cinema.dto';
-import { CreateSeatDTO } from './admin-seat.dto';
+import { CreateSeatDTO, SeatResponseDTO } from './admin-seat.dto';
 
 export class GetScreenQueryDto {
   @IsOptional()
@@ -75,6 +75,10 @@ export class ScreenResponseDTO {
   @Expose()
   @Type(() => CinemaResponseDTO)
   cinema: CinemaResponseDTO;
+
+  @Expose()
+  @Type(() => SeatResponseDTO)
+  seats: SeatResponseDTO[];
 
   @Expose()
   @Transform(({ obj }) => (obj.deleted_at ? INACTIVE : ACTIVE))

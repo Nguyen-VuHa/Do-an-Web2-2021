@@ -1,4 +1,5 @@
 import { ICinema } from './cinema.type';
+import { ISeatForm } from './seat.type';
 
 export interface IScreen {
   screen_id: number;
@@ -7,6 +8,7 @@ export interface IScreen {
   created_at: string;
   cinema: ICinema;
   status: string;
+  seats: ISeatForm[];
 }
 
 export interface IScreenForm {
