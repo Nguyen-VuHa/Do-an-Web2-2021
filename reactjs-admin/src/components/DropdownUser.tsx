@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import UserOne from '../images/user/user-01.png';
 import useSystemStore from '~/stores/system.store';
 import { removeDataToLocalStore } from '~/utils/localStorage';
 
@@ -56,11 +54,11 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {(userInfo && userInfo.fullname) || ''}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">Anonymous</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+          <img src="https://media.tenor.com/DqLZEBLTnBkAAAAj/love-cute-rabbit-emoji.gif" alt="User" />
         </span>
 
         <svg

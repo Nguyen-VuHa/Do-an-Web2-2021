@@ -178,6 +178,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-function createToast() {
-  throw new Error('Function not implemented.');
-}

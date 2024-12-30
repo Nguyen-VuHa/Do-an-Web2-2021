@@ -126,6 +126,7 @@ const MovieEditer = () => {
         isOpen={isModalMedia}
         onClose={() => {
           setIsModalMedia(false);
+          setDataKeyValue('posterUpdate', null);
         }}
         onSingleSelect={(data) => {
           if (posterUpdate) {
