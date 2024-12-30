@@ -5,19 +5,22 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Screen } from './screen.entity';
 import { Movie } from './movie.entity';
+import { Screen } from './screen.entity';
 
 @Entity('showtimes')
 export class Showtime {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn({ type: 'varchar' }) // Định nghĩa cột là khóa chính, kiểu chuỗi
   showtime_id: string;
 
   @Column({ type: 'timestamp' })
   start_time: Date;
+
+  @Column({ type: 'timestamp' })
+  end_time: Date;
 
   @Column()
   unit_price: number;

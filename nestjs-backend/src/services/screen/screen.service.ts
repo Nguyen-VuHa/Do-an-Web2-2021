@@ -24,6 +24,17 @@ export class ScreenService {
     });
   }
 
+  async getCinemaByIDJoinCinema(id: number): Promise<Screen> {
+    return await this.screenRepository.findOne({
+      where: {
+        screen_id: id,
+      },
+      relations: {
+        cinema: true,
+      },
+    });
+  }
+
   async getCinemaByConditionWithDeleted(conditions: IObject<any>): Promise<Screen> {
     return await this.screenRepository.findOne({
       ...conditions,

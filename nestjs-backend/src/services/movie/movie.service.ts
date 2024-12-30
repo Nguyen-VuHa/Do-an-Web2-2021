@@ -29,6 +29,14 @@ export class MovieService {
     });
   }
 
+  async getMovieByID(movie_id: string): Promise<Movie> {
+    return await this.movieRepository.findOne({
+      where: {
+        movie_id: movie_id,
+      },
+    });
+  }
+
   async createMovie(movieData: Movie): Promise<Movie> {
     return await this.movieRepository.save(movieData);
   }
