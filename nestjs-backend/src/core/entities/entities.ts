@@ -12,6 +12,7 @@ import { Cinema } from './cinema.entity';
 import { Screen } from './screen.entity';
 import { Seat } from './seat.entity';
 import { CinemaBanner } from './cinema-banner.entity';
+import { Showtime } from './showtime.entity';
 
 const ENTITIES_SYSTEM = [SystemUser];
 const ENTITIES = [
@@ -28,6 +29,7 @@ const ENTITIES = [
   CinemaBanner,
   Screen,
   Seat,
+  Showtime,
   ...ENTITIES_SYSTEM,
 ];
 

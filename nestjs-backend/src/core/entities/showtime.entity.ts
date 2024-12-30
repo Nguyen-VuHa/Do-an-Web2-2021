@@ -1,23 +1,26 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Booking } from './booking.entity';
+import { Screen } from './screen.entity';
+import { Movie } from './movie.entity';
 
 @Entity('showtimes')
 export class Showtime {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  @PrimaryGeneratedColumn()
+  showtime_id: string;
 
   @Column({ type: 'timestamp' })
   start_time: Date;
 
-  @Column({ type: 'timestamp' })
-  end_time: Date;
+  @Column()
+  unit_price: number;
 
   @CreateDateColumn()
   created_at: Date;
@@ -25,6 +28,14 @@ export class Showtime {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Booking, (booking) => booking.showtime)
-  bookings: Booking[];
+  @DeleteDateColumn({ nullable: true, default: null })
+  deleted_at: Date | null; // Null nếu chưa bị xóa
+
+  @ManyToOne(() => Screen, (cinema) => cinema.showtimes)
+  @JoinColumn({ name: 'screen_id' }) // Liên kết với primary key của Cinema
+  screen: Screen;
+
+  @ManyToOne(() => Movie, (movie) => movie.showtimes)
+  @JoinColumn({ name: 'movie_id' }) // Liên kết với primary key của Cinema
+  movie: Movie;
 }

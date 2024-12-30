@@ -15,6 +15,7 @@ import { MoviePoster } from './movie-poster.entity';
 import { Actor } from './actor.entity';
 import { Category } from './category.entity';
 import { Director } from './director.entity';
+import { Showtime } from './showtime.entity';
 
 @Entity('movies')
 export class Movie {
@@ -82,4 +83,7 @@ export class Movie {
     },
   }) // Tạo bảng trung gian tự động
   categories: Category[];
+
+  @OneToMany(() => Showtime, (showtime) => showtime.movie, { cascade: true })
+  showtimes: Showtime[];
 }

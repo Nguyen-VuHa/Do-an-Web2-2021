@@ -6,16 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Showtime } from './showtime.entity';
 import { Seat } from './seat.entity';
 
 @Entity('bookings')
 export class Booking {
   @PrimaryGeneratedColumn('increment')
   id: number;
-
-  @ManyToOne(() => Showtime, (showtime) => showtime.bookings)
-  showtime: Showtime;
 
   @ManyToOne(() => Seat, { eager: true })
   seat: Seat;
