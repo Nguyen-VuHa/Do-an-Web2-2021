@@ -25,10 +25,11 @@ const SeatMapItem: React.FC<SeatMapItem> = ({ data, isHover }) => {
               } else {
                 setStateSeat(
                   'seatMap',
-                  seatMap.map((seat) => seat.id === data.id ? {...seat, status: 0 } : seat),
+                  seatMap.map((seat) =>
+                    seat.id === data.id ? { ...seat, status: 0 } : seat,
+                  ),
                 );
               }
-              
             }}
           >
             <IoClose size={16} />

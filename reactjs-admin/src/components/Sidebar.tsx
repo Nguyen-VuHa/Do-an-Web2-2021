@@ -6,6 +6,7 @@ import { PiScreencast } from 'react-icons/pi';
 import { SiThemoviedatabase } from 'react-icons/si';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../images/logo/logo.svg';
+import { FaUbuntu } from 'react-icons/fa6';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -130,7 +131,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Quản lý phim
                 </NavLink>
               </li>
-              {/* <!-- Menu Item Movie --> */}
+              {/* <!-- Menu Item Showtime --> */}
+              <li>
+                <NavLink
+                  to="/showtime"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('showtime') &&
+                    'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <FaUbuntu size={18} />
+                  Quản lý suất chiếu
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item Cinema --> */}
               <li>
                 <NavLink
                   to="/cinema"
@@ -142,7 +156,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Quản lý hệ thống rạp
                 </NavLink>
               </li>
-              {/* <!-- Menu File System --> */}
+              {/* <!-- Menu File Screen --> */}
               <li>
                 <NavLink
                   to="/screen"

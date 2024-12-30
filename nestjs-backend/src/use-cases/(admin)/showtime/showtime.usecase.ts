@@ -14,7 +14,7 @@ import { MovieService } from 'src/services/movie/movie.service';
 import { ScreenService } from 'src/services/screen/screen.service';
 import { ShowtimeService } from 'src/services/showtime/showtime.service';
 import { getInitialsChar } from 'src/utils/string';
-import { LessThan, MoreThan, Not } from 'typeorm';
+import { ILike, LessThan, MoreThan, Not } from 'typeorm';
 
 @Injectable()
 export class AdminShowtimeUseCases {
@@ -28,13 +28,23 @@ export class AdminShowtimeUseCases {
     objQuery: GetShowtimeQueryDto
   ): Promise<IResponse<IPagination<ShowtimeResponseDTO>>> {
     try {
-      //   let condition: IObject<any> = {};
+      let condition: IObject<any> = {};
+
+      if (objQuery._search) {
+        condition = {
+          ...condition,
+          showtime_id: ILike(`%${objQuery._search}%`),
+        };
+      }
 
       const showtimeQuery: IObject<any> = {
-        // where: condition,
-        // relations: {
-        //   cinema: true,
-        // },
+        where: condition,
+        relations: {
+          screen: {
+            cinema: true,
+          },
+          movie: true,
+        },
         take: objQuery._page_size,
         skip: (objQuery._page - 1) * objQuery._page_size,
         order: {

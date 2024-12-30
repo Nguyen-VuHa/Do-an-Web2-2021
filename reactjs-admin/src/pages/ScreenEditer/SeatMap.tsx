@@ -68,27 +68,28 @@ const SeatMap = () => {
         }}
       >
         {seatMap.map((seat) => {
-          return <div
-            key={seat.id}
-            style={{
-              position: 'relative',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }}
-            onMouseEnter={() => {
-              if(seat.status === 1)
-                setSeatHover(seat.id);
-            }}
-            onMouseLeave={() => {
-              setSeatHover(0);
-            }}
-          >
-            {
-              seat.status === 1 && <SeatMapItem isHover={seatHover === seat.id} data={seat} />
-            }
-          </div>
+          return (
+            <div
+              key={seat.id}
+              style={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={() => {
+                if (seat.status === 1) setSeatHover(seat.id);
+              }}
+              onMouseLeave={() => {
+                setSeatHover(0);
+              }}
+            >
+              {seat.status === 1 && (
+                <SeatMapItem isHover={seatHover === seat.id} data={seat} />
+              )}
+            </div>
+          );
         })}
       </GridLayout>
     </div>

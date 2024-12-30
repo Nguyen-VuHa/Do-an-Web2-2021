@@ -9,6 +9,7 @@ import routes from './routes';
 import PrivateRoute from './routes/PrivateRoute';
 import RedirectToHome from './routes/RedirectRoute';
 import PageNotFound from './pages/NotFound';
+import PageTitle from './components/PageTitle/PageTitle.Main';
 
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 
@@ -47,9 +48,11 @@ function App() {
                   key={index}
                   path={path}
                   element={
-                    <Suspense fallback={<Loader />}>
-                      <Component />
-                    </Suspense>
+                    <PageTitle title={route.title}>
+                      <Suspense fallback={<Loader />}>
+                        <Component />
+                      </Suspense>
+                    </PageTitle>
                   }
                 />
               );

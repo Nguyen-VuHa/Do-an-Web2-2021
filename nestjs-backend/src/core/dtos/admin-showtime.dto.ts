@@ -7,11 +7,13 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  MaxLength,
 } from 'class-validator';
 import { ACTIVE, INACTIVE } from 'src/constants/status';
 import { IEnumStatus } from '../types/common';
 import { ScreenResponseDTO } from './admin-screen.dto';
 import { MovieResponseDTO } from './admin-movie';
+import { CinemaResponseDTO } from './admin-cinema.dto';
 
 export class GetShowtimeQueryDto {
   @IsOptional()
@@ -23,6 +25,12 @@ export class GetShowtimeQueryDto {
   @Type(() => Number)
   @IsNumber()
   _page_size?: number;
+
+  @IsOptional()
+  @Type(() => String) // Chuyển đổi từ string sang number
+  @IsString()
+  @MaxLength(50, { message: 'Chỉ được nhập tối đa 50 ký tự cho trường tìm kiếm' })
+  _search?: string;
 }
 
 export class CreateShowtimeDTO {
@@ -70,7 +78,18 @@ export class ShowtimeResponseDTO {
   status: string;
 
   @Expose()
+  @Type(() => CinemaResponseDTO)
+  @Transform(({ obj }) => {
+    return obj.screen.cinema;
+  })
+  cinema: CinemaResponseDTO;
+
+  @Expose()
   @Type(() => ScreenResponseDTO)
+  @Transform(({ obj }) => {
+    delete obj.screen.cinema;
+    return obj.screen;
+  })
   screen: ScreenResponseDTO;
 
   @Expose()

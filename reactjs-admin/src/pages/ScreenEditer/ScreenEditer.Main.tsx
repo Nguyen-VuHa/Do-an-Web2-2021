@@ -102,9 +102,12 @@ const ScreenEditer = () => {
 
         return;
       }
-      
+
       if (screen_id) {
-        const isUpdate = await reqUpdateScreen(stringToInt(screen_id), seatEdit);
+        const isUpdate = await reqUpdateScreen(
+          stringToInt(screen_id),
+          seatEdit,
+        );
 
         if (isUpdate) navigate(-1);
         return;

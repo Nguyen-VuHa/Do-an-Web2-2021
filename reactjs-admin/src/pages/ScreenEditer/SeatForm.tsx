@@ -42,7 +42,7 @@ const SeatForm = () => {
 
       return;
     }
-    
+
     const seatList = Array.from({ length: rowSeat * colSeat }, (_, index) => {
       const offsetX = Math.floor((MAX_COL_SEAT - colSeat) / 2); // Bù trừ để ghế căn giữa
       const y = Math.floor(index / colSeat); // Chỉ số dòng
@@ -69,9 +69,10 @@ const SeatForm = () => {
       let isSeatValid = false;
 
       for (let y = 0; y < MAX_ROW_SEAT - 1; y++) {
-        let isMatch = seatMap.find(seat => seat.x === y && seat.y === x)
-        
-        if(isMatch && isMatch.status === 0) { // trường hợp nếu tìm thấy mà item đó đang bị delete thì set lại status hiện và đổi tên ghế
+        let isMatch = seatMap.find((seat) => seat.x === y && seat.y === x);
+
+        if (isMatch && isMatch.status === 0) {
+          // trường hợp nếu tìm thấy mà item đó đang bị delete thì set lại status hiện và đổi tên ghế
 
           seatValid = {
             id: isMatch.id,
@@ -79,13 +80,13 @@ const SeatForm = () => {
             y: isMatch.y,
             label: `${x}${y}`,
             status: 1,
-          }
-          isSeatValid = true
-          isSeatUpdate = true
+          };
+          isSeatValid = true;
+          isSeatUpdate = true;
           break;
         }
 
-        if(!isMatch) {
+        if (!isMatch) {
           const seatID = seatMap.length + 1;
           seatValid = {
             id: seatID === 0 ? -999 : -seatID,
@@ -93,29 +94,36 @@ const SeatForm = () => {
             y: x,
             label: `${x}${y}`,
             status: 1,
-          }
+          };
 
-          isSeatValid = true
+          isSeatValid = true;
           break;
         }
       }
 
-      if (isSeatValid)
-        break;
+      if (isSeatValid) break;
     }
 
-    if(!seatValid) {
-      toast.error("Số lượng ghế đã đạt giới hạn trong 1 rạp chiếu")
+    if (!seatValid) {
+      toast.error('Số lượng ghế đã đạt giới hạn trong 1 rạp chiếu');
       return;
     }
 
-    if(isSeatUpdate) 
-      setStateSeat('seatMap', seatMap.map(seat => seat.id === seatValid.id ? {...seat, ...seatValid} : seat))
-    else
-      setStateSeat('seatMap', seatMap.concat(seatValid))
+    if (isSeatUpdate)
+      setStateSeat(
+        'seatMap',
+        seatMap.map((seat) =>
+          seat.id === seatValid.id ? { ...seat, ...seatValid } : seat,
+        ),
+      );
+    else setStateSeat('seatMap', seatMap.concat(seatValid));
 
-    toast.success(`Đã thêm thành công ghế ${seatValid.label} ở vị trí cột ${seatValid.y + 1} - hàng ${seatValid.x + 1 }`)
-  }
+    toast.success(
+      `Đã thêm thành công ghế ${seatValid.label} ở vị trí cột ${
+        seatValid.y + 1
+      } - hàng ${seatValid.x + 1}`,
+    );
+  };
 
   return (
     <>
@@ -168,8 +176,8 @@ const SeatForm = () => {
         </>
       )}
 
-      {
-        screen_id && <div className="flex justify-center mt-5">
+      {screen_id && (
+        <div className="flex justify-center mt-5">
           <Button
             className="!w-fit"
             onClick={() => {
@@ -179,7 +187,7 @@ const SeatForm = () => {
             Thêm ghế mới
           </Button>
         </div>
-      }
+      )}
 
       {seatMap.length > 0 && (
         <div className="py-6.5 space-y-5 overflow-hidden">

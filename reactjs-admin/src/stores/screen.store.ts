@@ -44,7 +44,10 @@ interface ScreenState {
   reqFetchCinemaSelect: () => Promise<void>;
   reqFetchScreenDetail: (screen_id: number) => Promise<boolean>;
   reqCreateScreen: (seatList: ISeatForm[]) => Promise<boolean>;
-  reqUpdateScreen: (screen_id: number, seatList: ISeatForm[]) => Promise<boolean>;
+  reqUpdateScreen: (
+    screen_id: number,
+    seatList: ISeatForm[],
+  ) => Promise<boolean>;
   reqUpdateStatusScreen: (payload: IObject<any>) => Promise<void>;
 }
 

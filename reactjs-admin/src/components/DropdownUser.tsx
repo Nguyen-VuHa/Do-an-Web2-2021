@@ -58,7 +58,10 @@ const DropdownUser = () => {
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <img src="https://media.tenor.com/DqLZEBLTnBkAAAAj/love-cute-rabbit-emoji.gif" alt="User" />
+          <img
+            src="https://media.tenor.com/DqLZEBLTnBkAAAAj/love-cute-rabbit-emoji.gif"
+            alt="User"
+          />
         </span>
 
         <svg

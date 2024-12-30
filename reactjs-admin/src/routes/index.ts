@@ -32,6 +32,9 @@ const ScreenEditer = lazy(
 const ScreenDetail = lazy(
   () => import('src/pages/ScreenDetail/ScreenDetail.Main'),
 );
+const ShowtimeManagement = lazy(
+  () => import('src/pages/ShowtimeManagement/ShowtimeManagement.Main'),
+);
 
 const Profile = lazy(() => import('../pages/Profile'));
 
@@ -43,17 +46,17 @@ const coreRoutes = [
   },
   {
     path: '/movies/create',
-    title: 'Movie Create',
+    title: 'Create Movie',
     component: MovieEditer,
   },
   {
     path: '/movies/update/:movie_id',
-    title: 'Movie Update',
+    title: 'Update Movie',
     component: MovieEditer,
   },
   {
     path: '/movies/detail/:movie_id',
-    title: 'Movie Detail',
+    title: 'Detail Movie',
     component: MovieDetail,
   },
   {
@@ -73,17 +76,17 @@ const coreRoutes = [
   },
   {
     path: '/cinema/create',
-    title: 'Cinema Create',
+    title: 'Create Cinema',
     component: CinemaEditer,
   },
   {
     path: '/cinema/update/:slug',
-    title: 'Cinema Edit',
+    title: 'Update Cinema',
     component: CinemaEditer,
   },
   {
     path: '/cinema/detail/:slug',
-    title: 'Cinema Detail',
+    title: 'Detail Cinema',
     component: CinemaDetail,
   },
   {
@@ -98,18 +101,23 @@ const coreRoutes = [
   },
   {
     path: '/screen/create',
-    title: 'Screen Create',
+    title: 'Create Screen',
     component: ScreenEditer,
   },
   {
     path: '/screen/update/:screen_id',
-    title: 'Screen Update',
+    title: 'Update Screen',
     component: ScreenEditer,
   },
   {
     path: '/screen/detail/:screen_id',
-    title: 'Screen Detail',
+    title: 'Detail Screen',
     component: ScreenDetail,
+  },
+  {
+    path: '/showtime',
+    title: 'Showtime Management',
+    component: ShowtimeManagement,
   },
   {
     path: '/profile',
