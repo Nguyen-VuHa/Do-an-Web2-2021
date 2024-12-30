@@ -59,6 +59,17 @@ export class UpdateScreenDTO extends CreateScreenDTO {
   screen_id: number;
 }
 
+export class ScreenSelectionResponseDTO {
+  @Expose()
+  screen_id: number;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return ` ${obj.screen_name} - ${obj.screen_type}`;
+  })
+  screen_name: string;
+}
+
 export class ScreenResponseDTO {
   @Expose()
   screen_id: number;

@@ -5,6 +5,7 @@ import {
   CreateScreenDTO,
   GetScreenQueryDto,
   ScreenResponseDTO,
+  ScreenSelectionResponseDTO,
   UpdateScreenDTO,
   UpdateStatusScreenDTO,
 } from 'src/core/dtos/admin-screen.dto';
@@ -110,6 +111,37 @@ export class AdminScreenUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy chi tiết phòng chiếu không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async getScreenSelectionByCinema(
+    cinema_id: number
+  ): Promise<IResponse<ScreenSelectionResponseDTO[]>> {
+    try {
+      const screenSelection = await this.screenService.getCinemaByCinemaID(cinema_id);
+
+      if (!screenSelection) {
+        throw new Error('Không tồn tại phòng chiếu trong rạp này hoặc rạp không tồn tại');
+      }
+
+      const screenSelectionDTO = plainToClass(ScreenSelectionResponseDTO, screenSelection, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<ScreenSelectionResponseDTO[]> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy danh sách phòng chiếu thành công.',
+        data: screenSelectionDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy danh sách phòng chiếu không thành công.',
         error: error.message,
       });
     }

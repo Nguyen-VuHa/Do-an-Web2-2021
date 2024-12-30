@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from 'src/core/entities/movie.entity';
 import { IObject } from 'src/core/types/common';
-import { Repository } from 'typeorm';
+import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 
 @Injectable()
 export class MovieService {
@@ -17,6 +17,17 @@ export class MovieService {
 
   async getDetailMovieByCondition(conditions: IObject<any>): Promise<Movie> {
     return await this.movieRepository.findOne(conditions);
+  }
+
+  async getMovieListSelection(): Promise<Movie[]> {
+    const currentDate = new Date();
+
+    return await this.movieRepository.find({
+      where: {
+        start_date: LessThanOrEqual(currentDate), // Ngày bắt đầu nhỏ hơn hoặc bằng ngày hiện tại
+        end_date: MoreThanOrEqual(currentDate),
+      },
+    });
   }
 
   async getMovieDetailForUpdate(movie_id: string): Promise<Movie> {

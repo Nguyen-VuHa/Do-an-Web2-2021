@@ -15,6 +15,7 @@ import {
   CreateScreenDTO,
   GetScreenQueryDto,
   ScreenResponseDTO,
+  ScreenSelectionResponseDTO,
   UpdateScreenDTO,
   UpdateStatusScreenDTO,
 } from 'src/core/dtos/admin-screen.dto';
@@ -75,6 +76,13 @@ export class AdminScreenController {
     }
 
     return this.adminScreenUseCase.getDetailScreen(stringToInt(screen_id));
+  }
+
+  @Get('selection/:cinema_id')
+  async getScreenSelectionByCinema(
+    @Param('cinema_id') cinema_id: number
+  ): Promise<IResponse<ScreenSelectionResponseDTO[]>> {
+    return this.adminScreenUseCase.getScreenSelectionByCinema(cinema_id);
   }
 
   @Get('type')

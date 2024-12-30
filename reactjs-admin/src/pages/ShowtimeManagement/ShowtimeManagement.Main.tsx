@@ -6,8 +6,11 @@ import ShowtimeList from './ShowtimeList';
 import useShowtimeStore from '~/stores/showtime.store';
 import { useEffect } from 'react';
 import { PAGE_INDEX_DEFAULT } from '~/constants/default';
+import { useNavigate } from 'react-router-dom';
 
 const ShowtimeManagement = () => {
+  const navigate = useNavigate();
+
   const {
     isFetchShowtimeList,
     queryOptions,
@@ -42,7 +45,9 @@ const ShowtimeManagement = () => {
           <div className="flex space-x-2 w-auto">
             <Button
               className="bg-success border-success dark:bg-opacity-50 dark:hover:bg-opacity-20"
-              onClick={() => {}}
+              onClick={() => {
+                navigate('create');
+              }}
             >
               <span className="whitespace-nowrap">Thêm mới</span>
               <IoMdAdd size={20} />

@@ -184,6 +184,17 @@ export class MovieResponseDTO {
   status: string;
 }
 
+export class MovieSelectionResponseDTO {
+  @Expose()
+  movie_id: string;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.title;
+  })
+  movie_name: string;
+}
+
 export class UpdateStatusMovieDTO {
   @IsNotEmpty()
   _movie_id: string;

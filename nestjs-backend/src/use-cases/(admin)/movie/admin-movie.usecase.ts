@@ -6,6 +6,7 @@ import {
   DetailMovieResponseDTO,
   GetMoviesQueryDto,
   MovieResponseDTO,
+  MovieSelectionResponseDTO,
   SmartCreateMovieDTO,
   UpdateMovieDTO,
   UpdateStatusMovieDTO,
@@ -127,6 +128,30 @@ export class AdminMovieUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy chi tiết phim không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async getMovieSelection(): Promise<IResponse<MovieSelectionResponseDTO[]>> {
+    try {
+      const movieSelection = await this.movieService.getMovieListSelection();
+
+      const movieSelectionDTO = plainToClass(MovieSelectionResponseDTO, movieSelection, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<MovieSelectionResponseDTO[]> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy danh sách phim thành công.',
+        data: movieSelectionDTO,
+      };
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy danh sách phim không thành công.',
         error: error.message,
       });
     }

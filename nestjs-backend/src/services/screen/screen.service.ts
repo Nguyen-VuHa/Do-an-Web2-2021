@@ -24,13 +24,23 @@ export class ScreenService {
     });
   }
 
-  async getCinemaByIDJoinCinema(id: number): Promise<Screen> {
+  async getCinemaByIDJoinCinema(screen_id: number): Promise<Screen> {
     return await this.screenRepository.findOne({
       where: {
-        screen_id: id,
+        screen_id,
       },
       relations: {
         cinema: true,
+      },
+    });
+  }
+
+  async getCinemaByCinemaID(cinema_id: number): Promise<Screen[]> {
+    return await this.screenRepository.find({
+      where: {
+        cinema: {
+          cinema_id: cinema_id,
+        },
       },
     });
   }

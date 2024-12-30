@@ -16,6 +16,7 @@ import {
   DetailMovieResponseDTO,
   GetMoviesQueryDto,
   MovieResponseDTO,
+  MovieSelectionResponseDTO,
   SmartCreateMovieDTO,
   UpdateMovieDTO,
   UpdateStatusMovieDTO,
@@ -70,6 +71,11 @@ export class AdminMovieController {
     @Query('_movie_id') movie_id: string
   ): Promise<IResponse<DetailMovieResponseDTO>> {
     return this.adminMovieUseCase.getDetailMovie(movie_id);
+  }
+
+  @Get('selection')
+  async getMovieSelection(): Promise<IResponse<MovieSelectionResponseDTO[]>> {
+    return this.adminMovieUseCase.getMovieSelection();
   }
 
   @Post('create')
