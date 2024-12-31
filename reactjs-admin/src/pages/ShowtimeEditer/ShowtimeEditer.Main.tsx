@@ -15,8 +15,14 @@ const ShowtimeEditer = () => {
   const navigate = useNavigate();
   const { cinemaSelect, reqFetchCinemaSelect } = useScreenStore();
   const { movieSelection, reqFetchMovieSelection } = useMovieStore();
-  const { showtimeForm, cinemaSelected, setStateShowtime, resetShowtimeForm, reqCreateShowtime } =
-    useShowtimeStore();
+  const {
+    showtimeForm,
+    cinemaSelected,
+    isEditShowtime,
+    setStateShowtime,
+    resetShowtimeForm,
+    reqCreateShowtime,
+  } = useShowtimeStore();
 
   useEffect(() => {
     if (cinemaSelect.length <= 0) {
@@ -29,7 +35,7 @@ const ShowtimeEditer = () => {
 
     return () => {
       resetShowtimeForm();
-    }
+    };
   }, []);
 
   const handleValidateShowtimeForm = async () => {
@@ -75,7 +81,7 @@ const ShowtimeEditer = () => {
         <div className="flex items-center space-x-2">
           <Button
             onClick={() => {
-              navigate(-1);
+              if (!isEditShowtime) navigate(-1);
             }}
           >
             <FaArrowLeft size={22} />
@@ -87,8 +93,9 @@ const ShowtimeEditer = () => {
         <div className="flex items-center space-x-2">
           <Button
             onClick={() => {
-              handleSubmitEditShowtime();
+              if (!isEditShowtime) handleSubmitEditShowtime();
             }}
+            loading={isEditShowtime}
           >
             Lưu thay đổi
           </Button>

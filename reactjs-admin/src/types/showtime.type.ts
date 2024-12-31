@@ -1,3 +1,7 @@
+import { ICinema } from './cinema.type';
+import { IMovie } from './movie.type';
+import { IScreen } from './screen.type';
+
 export interface IShowtime {
   showtime_id: string;
   start_time: string;
@@ -5,6 +9,9 @@ export interface IShowtime {
   unit_price: number;
   created_at: string;
   status: string;
+  cinema: ICinema;
+  screen: IScreen;
+  movie: IMovie;
 }
 
 export interface IShowtimeForm {

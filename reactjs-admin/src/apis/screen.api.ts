@@ -46,7 +46,7 @@ export const apiUpdateScreen = async (
 
 export const apiUpdateStatusScreen = async (
   params: IObject<any>,
-): Promise<IResponse<IScreen>> => {
+): Promise<IResponse<string>> => {
   const path = MAIN_PATH + '/status';
   return axiosInstance.put(path, {}, { params });
 };

@@ -7,6 +7,7 @@ import useShowtimeStore from '~/stores/showtime.store';
 import { useEffect } from 'react';
 import { PAGE_INDEX_DEFAULT } from '~/constants/default';
 import { useNavigate } from 'react-router-dom';
+import ComfirmUpdateStatusModal from './ComfirmUpdateStatus.Modal';
 
 const ShowtimeManagement = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const ShowtimeManagement = () => {
 
   return (
     <>
+      <ComfirmUpdateStatusModal />
       <Breadcrumb pageName="Quản lý suất chiếu" />
 
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-5 space-y-5">

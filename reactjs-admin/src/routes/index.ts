@@ -38,6 +38,9 @@ const ShowtimeManagement = lazy(
 const ShowtimeEditer = lazy(
   () => import('src/pages/ShowtimeEditer/ShowtimeEditer.Main'),
 );
+const ShowtimeDetail = lazy(
+  () => import('src/pages/ShowtimeDetail/ShowtimeDetail.Main'),
+);
 
 const Profile = lazy(() => import('../pages/Profile'));
 
@@ -126,6 +129,11 @@ const coreRoutes = [
     path: '/showtime/create',
     title: 'Create Showtime',
     component: ShowtimeEditer,
+  },
+  {
+    path: '/showtime/detail/:showtime_id',
+    title: 'Detail Showtimne',
+    component: ShowtimeDetail,
   },
 
   {

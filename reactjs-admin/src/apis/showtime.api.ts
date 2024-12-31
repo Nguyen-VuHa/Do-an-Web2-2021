@@ -11,9 +11,23 @@ export const fetchShowtimeList = async (
   return axiosInstance.get(path, { params });
 };
 
+export const fetchShowtimeDetail = async (
+  showtime_id: string,
+): Promise<IResponse<IShowtime>> => {
+  const path = MAIN_PATH + `/detail/${showtime_id}`;
+  return axiosInstance.get(path);
+};
+
 export const apiCreateShowtime = async (
   payload: IObject<any>,
 ): Promise<IResponse<IResponsePagintaion<IShowtime[]>>> => {
   const path = MAIN_PATH + '/create';
   return axiosInstance.post(path, payload);
+};
+
+export const apiUpdateStatusShowtime = async (
+  params: IObject<any>,
+): Promise<IResponse<string>> => {
+  const path = MAIN_PATH + '/status';
+  return axiosInstance.put(path, {}, { params });
 };

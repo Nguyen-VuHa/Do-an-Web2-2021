@@ -91,7 +91,9 @@ export class AdminShowtimeUseCases {
           showtime_id: showtime_id,
         },
         relations: {
-          screen: true,
+          screen: {
+            cinema: true,
+          },
           movie: true,
         },
         withdDeleted: true,
