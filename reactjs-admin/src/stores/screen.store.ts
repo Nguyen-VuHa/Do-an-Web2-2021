@@ -7,6 +7,7 @@ import {
   apiUpdateStatusScreen,
   fetchScreenDetail,
   fetchScreenList,
+  fetchScreenSelectionByCinema,
   fetchScreenType,
 } from '~/apis/screen.api';
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
@@ -36,6 +37,7 @@ interface ScreenState {
   screenForm: IScreenForm;
   screenFormError: IObject<string>;
   screenDetail: IScreen | null;
+  screenSelection: ISelectOption[];
 
   resetScreenForm: () => void;
 
@@ -49,6 +51,7 @@ interface ScreenState {
     seatList: ISeatForm[],
   ) => Promise<boolean>;
   reqUpdateStatusScreen: (payload: IObject<any>) => Promise<void>;
+  reqFetchScreenSelection: (cinema_id: number) => Promise<void>;
 }
 
 const initScreenForm: IScreenForm = {
@@ -79,6 +82,7 @@ const useScreenStore = create<ScreenState>((set, get) => ({
   screenForm: initScreenForm,
   screenFormError: {},
   screenDetail: null,
+  screenSelection: [],
 
   resetScreenForm: () => {
     set({
@@ -258,6 +262,24 @@ const useScreenStore = create<ScreenState>((set, get) => ({
       toast.error(error?.toString() as string);
     } finally {
       set({ isUpdateStatusScreen: false });
+    }
+  },
+  reqFetchScreenSelection: async (cinema_id) => {
+    try {
+      const res = await fetchScreenSelectionByCinema(cinema_id);
+
+      if (res.statusCode === STATUS_SUCCESS && res.data) {
+        set({
+          screenSelection: res.data.map((dt) => {
+            return {
+              value: dt.screen_id,
+              label: dt.screen_name,
+            };
+          }),
+        });
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
     }
   },
 }));

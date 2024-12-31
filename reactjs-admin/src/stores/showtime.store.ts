@@ -1,10 +1,10 @@
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
-import { fetchShowtimeList } from '~/apis/showtime.api';
+import { apiCreateShowtime, fetchShowtimeList } from '~/apis/showtime.api';
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
-import { IPagination } from '~/types/common.type';
-import { IShowtime } from '~/types/showtime.type';
+import { IObject, IPagination } from '~/types/common.type';
+import { IShowtime, IShowtimeForm } from '~/types/showtime.type';
 
 interface IShowtimeQueryOptions extends IPagination {
   _search: string;
@@ -16,10 +16,23 @@ interface ShowtimeState {
 
   queryOptions: IShowtimeQueryOptions;
   isFetchShowtimeList: boolean;
+  isEditShowtime: boolean;
   showtimes: IShowtime[];
+  showtimeForm: IShowtimeForm;
+  showtimeFormError: IObject<string>;
+  cinemaSelected: number;
+  resetShowtimeForm: () => void;
 
-  reqFetchScreenList: () => Promise<void>;
+  reqFetchDShowtimeList: () => Promise<void>;
+  reqCreateShowtime: () => Promise<boolean>;
 }
+
+const initShowtimeForm: IShowtimeForm = {
+  start_date: '',
+  unit_price: 0,
+  screen: 0,
+  movie: '',
+};
 
 const useShowtimeStore = create<ShowtimeState>((set, get) => ({
   setStateShowtime: (key, value) => {
@@ -34,9 +47,19 @@ const useShowtimeStore = create<ShowtimeState>((set, get) => ({
     _search: '',
   },
   isFetchShowtimeList: false,
+  isEditShowtime: false,
   showtimes: [],
+  showtimeForm: initShowtimeForm,
+  showtimeFormError: {},
+  cinemaSelected: 0,
+  resetShowtimeForm: () => {
+    set({
+      showtimeForm: initShowtimeForm,
+      showtimeFormError: {},
+    })
+  },
 
-  reqFetchScreenList: async () => {
+  reqFetchDShowtimeList: async () => {
     set({ isFetchShowtimeList: true });
     try {
       const res = await fetchShowtimeList(get().queryOptions);
@@ -57,6 +80,24 @@ const useShowtimeStore = create<ShowtimeState>((set, get) => ({
       toast.error(error?.toString() as string);
     } finally {
       set({ isFetchShowtimeList: false });
+    }
+  },
+  reqCreateShowtime: async () => {
+    let isCreated: boolean = false;
+    set({ isEditShowtime: true });
+    try {
+      const res = await apiCreateShowtime(get().showtimeForm);
+      if (res.statusCode === STATUS_SUCCESS) {
+        toast.success(res.message);
+        isCreated = true;
+      } else {
+        toast.error(res.error.toString());
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({ isEditShowtime: false });
+      return isCreated;
     }
   },
 }));

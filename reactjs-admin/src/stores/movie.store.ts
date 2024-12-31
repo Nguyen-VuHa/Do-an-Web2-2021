@@ -7,10 +7,11 @@ import {
   apiFetchMovieDetail,
   apiFetchMovieList,
   apiUpdateMovie,
+  fetchMovieSelections,
 } from '~/apis/movie.api';
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
-import { IObject } from '~/types/common.type';
+import { IObject, ISelectOption } from '~/types/common.type';
 import { IDetailMovie, IMovie, IMovieForm } from '~/types/movie.type';
 import useGlobalStore from './global.store';
 
@@ -58,6 +59,9 @@ interface MovieState {
   isFetchDetailMovie: boolean;
   movieDetail: IDetailMovie | null;
   reqFetchMovieDetail: (movieID: string) => Promise<boolean>;
+
+  movieSelection: ISelectOption[];
+  reqFetchMovieSelection: () => Promise<void>;
 }
 
 const useMovieStore = create<MovieState>((set, get) => ({
@@ -384,6 +388,25 @@ const useMovieStore = create<MovieState>((set, get) => ({
     set((state) => ({
       actorSelected: state.actorSelected.filter((actor) => actor !== val),
     }));
+  },
+  movieSelection: [],
+  reqFetchMovieSelection: async () => {
+    try {
+      const res = await fetchMovieSelections();
+
+      if (res.statusCode === STATUS_SUCCESS && res.data) {
+        set({
+          movieSelection: res.data.map((dt) => {
+            return {
+              value: dt.movie_id,
+              label: dt.movie_name,
+            };
+          }),
+        });
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    }
   },
 }));
 

@@ -14,12 +14,12 @@ const ShowtimeManagement = () => {
   const {
     isFetchShowtimeList,
     queryOptions,
-    reqFetchScreenList,
+    reqFetchDShowtimeList,
     setStateShowtime,
   } = useShowtimeStore();
 
   useEffect(() => {
-    reqFetchScreenList();
+    reqFetchDShowtimeList();
   }, [queryOptions._page, queryOptions._search, queryOptions._page_size]);
 
   return (

@@ -6,3 +6,10 @@ export interface IShowtime {
   created_at: string;
   status: string;
 }
+
+export interface IShowtimeForm {
+  start_date: string;
+  unit_price: number;
+  screen: number;
+  movie: string;
+}

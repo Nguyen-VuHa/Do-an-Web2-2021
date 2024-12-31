@@ -16,3 +16,8 @@ export interface IScreenForm {
   screen_type: string;
   cinema: number | null;
 }
+
+export interface IScreenSelection {
+  screen_id: number;
+  screen_name: string;
+}

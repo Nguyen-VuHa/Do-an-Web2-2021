@@ -7,7 +7,7 @@ type PageTitleProps = {
 
 const PageTitle: React.FC<PageTitleProps> = ({ title, children }) => {
   useEffect(() => {
-    document.title = `BHD Start - ${title}`;
+    document.title = `BHD Star - ${title}`;
   }, [title]);
 
   return <>{children}</>;

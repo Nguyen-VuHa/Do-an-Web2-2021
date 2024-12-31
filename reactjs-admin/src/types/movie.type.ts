@@ -27,3 +27,8 @@ export interface IDetailMovie extends IMovie {
   categories: Category[];
   posters: Poster[];
 }
+
+export interface IMovieSelection {
+  movie_id: string;
+  movie_name: string;
+}

@@ -10,3 +10,10 @@ export const fetchShowtimeList = async (
   const path = MAIN_PATH + '/list';
   return axiosInstance.get(path, { params });
 };
+
+export const apiCreateShowtime = async (
+  payload: IObject<any>,
+): Promise<IResponse<IResponsePagintaion<IShowtime[]>>> => {
+  const path = MAIN_PATH + '/create';
+  return axiosInstance.post(path, payload);
+};

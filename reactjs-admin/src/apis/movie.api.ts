@@ -1,6 +1,6 @@
 import { IObject, IResponse, IResponsePagintaion } from '~/types/common.type';
 import axiosInstance from './axios.config';
-import { IDetailMovie, IMovie } from '~/types/movie.type';
+import { IDetailMovie, IMovie, IMovieSelection } from '~/types/movie.type';
 
 const MAIN_PATH = '/admin/movie';
 
@@ -51,4 +51,11 @@ export const apiCheckingMovieName = async (
 ): Promise<IResponse<boolean>> => {
   const path = '/admin/movie/extension/check-movie-name';
   return axiosInstance.get(path, { params });
+};
+
+export const fetchMovieSelections = async (): Promise<
+  IResponse<IMovieSelection[]>
+> => {
+  const path = MAIN_PATH + '/selection';
+  return axiosInstance.get(path);
 };

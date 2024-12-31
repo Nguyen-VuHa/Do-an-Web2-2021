@@ -1,5 +1,5 @@
 import { IObject, IResponse, IResponsePagintaion } from '~/types/common.type';
-import { IScreen } from '~/types/screen.type';
+import { IScreen, IScreenSelection } from '~/types/screen.type';
 import axiosInstance from './axios.config';
 
 const MAIN_PATH = '/admin/screen';
@@ -9,6 +9,13 @@ export const fetchScreenList = async (
 ): Promise<IResponse<IResponsePagintaion<IScreen[]>>> => {
   const path = MAIN_PATH + '/list';
   return axiosInstance.get(path, { params });
+};
+
+export const fetchScreenSelectionByCinema = async (
+  screen_id: number,
+): Promise<IResponse<IScreenSelection[]>> => {
+  const path = MAIN_PATH + `/selection/${screen_id}`;
+  return axiosInstance.get(path);
 };
 
 export const fetchScreenDetail = async (
