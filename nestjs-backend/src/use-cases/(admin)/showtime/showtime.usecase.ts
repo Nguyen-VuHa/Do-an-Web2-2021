@@ -96,7 +96,7 @@ export class AdminShowtimeUseCases {
           },
           movie: true,
         },
-        withdDeleted: true,
+        withDeleted: true,
       });
 
       if (!showtimeDetail) {

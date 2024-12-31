@@ -131,6 +131,11 @@ const coreRoutes = [
     component: ShowtimeEditer,
   },
   {
+    path: '/showtime/update/:showtime_id',
+    title: 'Update Showtime',
+    component: ShowtimeEditer,
+  },
+  {
     path: '/showtime/detail/:showtime_id',
     title: 'Detail Showtimne',
     component: ShowtimeDetail,

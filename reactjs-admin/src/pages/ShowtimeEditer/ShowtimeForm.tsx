@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from '~/components/DatePicker';
 import FormGroup from '~/components/FormGroup';
 import Input from '~/components/Input';
@@ -17,14 +17,19 @@ const ShowtimeForm = () => {
   const { cinemaSelected, showtimeForm, showtimeFormError, setStateShowtime } =
     useShowtimeStore();
 
+  const [firstRender, setFirstRender] = useState<boolean>(false);
+
   useEffect(() => {
     const debounce = setTimeout(() => {
       if (cinemaSelected) {
         reqFetchScreenSelection(cinemaSelected);
-        setStateShowtime('showtimeForm', {
-          ...showtimeForm,
-          screen: 0,
-        });
+        if(firstRender) {
+          setStateShowtime('showtimeForm', {
+            ...showtimeForm,
+            screen: 0,
+          });
+        }
+        setFirstRender(true);
       }
     }, 500);
 
@@ -32,7 +37,7 @@ const ShowtimeForm = () => {
       clearTimeout(debounce);
     };
   }, [cinemaSelected]);
-
+  
   return (
     <>
       <div className="border-b border-stroke dark:border-strokedark">

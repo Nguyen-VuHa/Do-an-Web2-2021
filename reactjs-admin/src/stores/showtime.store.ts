@@ -2,6 +2,7 @@ import toast from 'react-hot-toast';
 import { create } from 'zustand';
 import {
   apiCreateShowtime,
+  apiUpdateShowtime,
   apiUpdateStatusShowtime,
   fetchShowtimeDetail,
   fetchShowtimeList,
@@ -11,6 +12,7 @@ import { STATUS_SUCCESS } from '~/constants/statusCode';
 import { IObject, IPagination } from '~/types/common.type';
 import { IShowtime, IShowtimeForm } from '~/types/showtime.type';
 import useGlobalStore from './global.store';
+import dayjs from 'dayjs';
 
 interface IShowtimeQueryOptions extends IPagination {
   _search: string;
@@ -34,6 +36,9 @@ interface ShowtimeState {
   reqFetchDShowtimeList: () => Promise<void>;
   reqFetchShowtimeDetail: (showtime_id: string) => Promise<boolean>;
   reqCreateShowtime: () => Promise<boolean>;
+  reqUpdateShowtime: (
+    showtime_id: string,
+  ) => Promise<boolean>;
   reqUpdateStatusShowtime: (payload: IObject<any>) => Promise<void>;
 }
 
@@ -69,6 +74,7 @@ const useShowtimeStore = create<ShowtimeState>((set, get) => ({
       showtimeForm: initShowtimeForm,
       showtimeFormError: {},
       showtimeDetail: null,
+      cinemaSelected: 0,
     });
   },
 
@@ -102,8 +108,17 @@ const useShowtimeStore = create<ShowtimeState>((set, get) => ({
       const res = await fetchShowtimeDetail(showtime_id);
       if (res.statusCode === STATUS_SUCCESS) {
         isDetail = true;
+        const showtimeData = res.data;
+
         set({
-          showtimeDetail: res.data,
+          showtimeDetail: showtimeData,
+          cinemaSelected: showtimeData?.cinema.cinema_id,
+          showtimeForm: {
+            start_date: dayjs(showtimeData?.start_time).format("YYYY-MM-DD HH:mm"),
+            unit_price: showtimeData?.unit_price || 0,
+            screen: showtimeData?.screen.screen_id || 0,
+            movie: showtimeData?.movie.movie_id || '',
+          },
         });
       } else {
         toast.error(res.error.toString());
@@ -131,6 +146,27 @@ const useShowtimeStore = create<ShowtimeState>((set, get) => ({
     } finally {
       set({ isEditShowtime: false });
       return isCreated;
+    }
+  },
+  reqUpdateShowtime: async (showtime_id) => {
+    let isUpdate: boolean = false;
+    set({ isEditShowtime: true });
+    try {
+      const res = await apiUpdateShowtime({
+        ...get().showtimeForm,
+        showtime_id,
+      });
+      if (res.statusCode === STATUS_SUCCESS) {
+        toast.success(res.message);
+        isUpdate = true;
+      } else {
+        toast.error(res.error.toString());
+      }
+    } catch (error) {
+      toast.error(error?.toString() as string);
+    } finally {
+      set({ isEditShowtime: false });
+      return isUpdate;
     }
   },
   reqUpdateStatusShowtime: async (payload) => {
