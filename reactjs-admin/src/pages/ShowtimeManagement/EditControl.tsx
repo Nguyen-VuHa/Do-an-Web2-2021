@@ -26,9 +26,12 @@ const EditControl: React.FC<EditControlProps> = ({ data }) => {
       >
         <IoEye size={20} />
       </ButtonIcon>
-      <ButtonIcon color="warning" onClick={() => {
-         navigate(`update/${data.showtime_id}`);
-      }}>
+      <ButtonIcon
+        color="warning"
+        onClick={() => {
+          navigate(`update/${data.showtime_id}`);
+        }}
+      >
         <BsPencilSquare size={20} />
       </ButtonIcon>
       <ButtonIcon

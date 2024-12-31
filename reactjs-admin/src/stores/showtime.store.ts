@@ -36,9 +36,7 @@ interface ShowtimeState {
   reqFetchDShowtimeList: () => Promise<void>;
   reqFetchShowtimeDetail: (showtime_id: string) => Promise<boolean>;
   reqCreateShowtime: () => Promise<boolean>;
-  reqUpdateShowtime: (
-    showtime_id: string,
-  ) => Promise<boolean>;
+  reqUpdateShowtime: (showtime_id: string) => Promise<boolean>;
   reqUpdateStatusShowtime: (payload: IObject<any>) => Promise<void>;
 }
 
@@ -114,7 +112,9 @@ const useShowtimeStore = create<ShowtimeState>((set, get) => ({
           showtimeDetail: showtimeData,
           cinemaSelected: showtimeData?.cinema.cinema_id,
           showtimeForm: {
-            start_date: dayjs(showtimeData?.start_time).format("YYYY-MM-DD HH:mm"),
+            start_date: dayjs(showtimeData?.start_time).format(
+              'YYYY-MM-DD HH:mm',
+            ),
             unit_price: showtimeData?.unit_price || 0,
             screen: showtimeData?.screen.screen_id || 0,
             movie: showtimeData?.movie.movie_id || '',

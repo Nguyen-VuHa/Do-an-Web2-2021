@@ -19,15 +19,18 @@ const InputSearch: React.FC<InputSearchProps> = ({
   const [isSearchText, setIsSearchText] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && valueInput) {
       const debounce = setTimeout(() => {
         onChangeSearchText && onChangeSearchText(valueInput);
         setIsSearchText(false);
       }, 500);
 
       return () => clearTimeout(debounce); // Cleanup debounce
+    } else {
+      setIsSearchText(false);
+      onChangeSearchText && onChangeSearchText('');
     }
-  }, [valueInput, loading]);
+  }, [valueInput]);
 
   return (
     <div

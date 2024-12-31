@@ -23,7 +23,7 @@ const ShowtimeForm = () => {
     const debounce = setTimeout(() => {
       if (cinemaSelected) {
         reqFetchScreenSelection(cinemaSelected);
-        if(firstRender) {
+        if (firstRender) {
           setStateShowtime('showtimeForm', {
             ...showtimeForm,
             screen: 0,
@@ -37,7 +37,7 @@ const ShowtimeForm = () => {
       clearTimeout(debounce);
     };
   }, [cinemaSelected]);
-  
+
   return (
     <>
       <div className="border-b border-stroke dark:border-strokedark">

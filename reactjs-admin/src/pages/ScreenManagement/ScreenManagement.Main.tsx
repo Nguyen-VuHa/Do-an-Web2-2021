@@ -20,7 +20,7 @@ const ScreenManagement = () => {
 
   useEffect(() => {
     reqFetchScreenList();
-  }, [queryOptions._page, queryOptions._search, queryOptions._page_size]);
+  }, [queryOptions._page, queryOptions._search]);
 
   return (
     <>

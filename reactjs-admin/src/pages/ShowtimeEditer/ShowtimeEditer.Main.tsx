@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 const ShowtimeEditer = () => {
   const navigate = useNavigate();
   const { showtime_id } = useParams();
-  
+
   const { cinemaSelect, reqFetchCinemaSelect } = useScreenStore();
   const { movieSelection, reqFetchMovieSelection } = useMovieStore();
   const {
@@ -37,7 +37,7 @@ const ShowtimeEditer = () => {
       reqFetchMovieSelection();
     }
 
-    if(showtime_id) {
+    if (showtime_id) {
       const fetchShowtimeDetail = async () => {
         if (showtime_id) {
           const isFetchDetail = await reqFetchShowtimeDetail(showtime_id);
@@ -81,7 +81,7 @@ const ShowtimeEditer = () => {
     const isValidData = await handleValidateShowtimeForm();
 
     if (isValidData) {
-      if(showtime_id) {
+      if (showtime_id) {
         const isUpdate = await reqUpdateShowtime(showtime_id);
 
         if (isUpdate) {
@@ -89,7 +89,6 @@ const ShowtimeEditer = () => {
         }
         return;
       }
-
 
       const isCreated = await reqCreateShowtime();
 
@@ -115,7 +114,7 @@ const ShowtimeEditer = () => {
             <FaArrowLeft size={22} />
           </Button>
           <h2 className="text-title-md2 whitespace-nowrap font-semibold text-black dark:text-white">
-            { showtime_id ? 'Cập nhật' : 'Tạo mới' } suất chiếu
+            {showtime_id ? 'Cập nhật' : 'Tạo mới'} suất chiếu
           </h2>
         </div>
         <div className="flex items-center space-x-2">
