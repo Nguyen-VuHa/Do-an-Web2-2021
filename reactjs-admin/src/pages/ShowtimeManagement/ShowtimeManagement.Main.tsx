@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { PAGE_INDEX_DEFAULT } from '~/constants/default';
 import { useNavigate } from 'react-router-dom';
 import ComfirmUpdateStatusModal from './ComfirmUpdateStatus.Modal';
+import { TbDatabaseImport } from 'react-icons/tb';
 
 const ShowtimeManagement = () => {
   const navigate = useNavigate();
@@ -45,6 +46,15 @@ const ShowtimeManagement = () => {
             />
           </div>
           <div className="flex space-x-2 w-auto">
+            <Button
+              className="bg-warning border-warning dark:bg-opacity-50 dark:hover:bg-opacity-20"
+              onClick={() => {
+                navigate('extension');
+              }}
+            >
+              <span className="whitespace-nowrap">Extension</span>
+              <TbDatabaseImport size={20} />
+            </Button>
             <Button
               className="bg-success border-success dark:bg-opacity-50 dark:hover:bg-opacity-20"
               onClick={() => {
