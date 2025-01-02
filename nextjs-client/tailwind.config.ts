@@ -9,8 +9,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: '#27df2d',
+        layout: '#121825',
+        second: '#262c37',
+        typography: '#a6b2c9',
+      },
+      width: {
+        'header-menu': '8.75rem',
+      },
+      height: {
+        'header': '5rem',
+        'header-menu': '4.375rem',
+      },
+      padding: {
+        'header': '0.875rem',  // Padding tùy chỉnh 5/6
+      },
+      borderRadius: {
+        'circle-md': '0.625rem',
+        'circle-lg': '1.125rem',
       },
     },
   },
