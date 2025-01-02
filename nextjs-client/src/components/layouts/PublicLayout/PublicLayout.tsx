@@ -8,11 +8,11 @@ interface PublicLayoutProps {
 
 const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   return (
-    <>
+    <main className="container mx-auto">
       <Header />
-      <div className="w-full h-full mt-header">{children}</div>
+      <div className="w-full h-full">{children}</div>
       <Footer />
-    </>
+    </main>
   );
 };
 
