@@ -5,14 +5,18 @@ import {
   CreateShowtimeDTO,
   GetShowtimeQueryDto,
   ShowtimeResponseDTO,
+  SmartCreateShowtimeDTO,
   UpdateShowtimeDTO,
   UpdateStatusShowtimeDTO,
 } from 'src/core/dtos/admin-showtime.dto';
 import { Showtime } from 'src/core/entities/showtime.entity';
 import { IObject, IPagination, IResponse } from 'src/core/types/common';
+import { CinemaService } from 'src/services/cinema/cinema.service';
 import { MovieService } from 'src/services/movie/movie.service';
 import { ScreenService } from 'src/services/screen/screen.service';
 import { ShowtimeService } from 'src/services/showtime/showtime.service';
+import { convertToSlug, mapTimeToToday } from 'src/utils/convert';
+import { getRandomArray } from 'src/utils/random';
 import { getInitialsChar } from 'src/utils/string';
 import { ILike, LessThan, MoreThan, Not } from 'typeorm';
 
@@ -21,7 +25,8 @@ export class AdminShowtimeUseCases {
   constructor(
     private readonly showtimeService: ShowtimeService,
     private readonly movieService: MovieService,
-    private readonly screenService: ScreenService
+    private readonly screenService: ScreenService,
+    private readonly cinemaService: CinemaService
   ) {}
 
   async getShowtimeList(
@@ -296,6 +301,110 @@ export class AdminShowtimeUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Cập nhật trạng thái suất chiếu không thành công.',
+        error: error.message,
+      });
+    }
+  }
+
+  async smartCreateShowtime(data: SmartCreateShowtimeDTO): Promise<IResponse<string>> {
+    try {
+      // get data movie với movie name
+      const movie = await this.movieService.getDetailMovieByCondition({
+        where: {
+          title: data.movie,
+        },
+      });
+
+      if (!movie) {
+        throw new Error('Không tồn tại phim này.');
+      }
+
+      const UNIT_PRICE_DEFAULT = 100000;
+      for (const showtime of data.showtimes) {
+        const cinemaSlug = convertToSlug(showtime.cinema);
+
+        const cinema = await this.cinemaService.getCinemaDetailByCondition({
+          where: {
+            slug: cinemaSlug,
+          },
+          relations: {
+            screens: true,
+          },
+        });
+
+        if (!cinema) {
+          continue;
+        }
+
+        const screenIDs = cinema.screens.map((screen) => screen.screen_id);
+
+        for (const time of showtime.times) {
+          const showtimeDate = mapTimeToToday(time);
+
+          if (!showtimeDate) {
+            continue;
+          }
+
+          const screenIDRandom = getRandomArray(screenIDs);
+
+          if (!screenIDRandom) {
+            continue;
+          }
+
+          const startTime = new Date(showtimeDate);
+          const endTime = new Date(startTime);
+          endTime.setMinutes(endTime.getMinutes() + movie.duration);
+
+          const showtimeExists = await this.showtimeService.getShowtimeByCondition({
+            where: {
+              start_time: LessThan(endTime),
+              end_time: MoreThan(startTime),
+              screen: {
+                screen_id: screenIDRandom,
+              },
+            },
+            relations: {
+              screen: true,
+            },
+          });
+
+          if (showtimeExists) {
+            continue;
+          }
+
+          const screenData = cinema.screens.find((screen) => screen.screen_id === screenIDRandom);
+          const startUnixTime = Math.floor(startTime.getTime() / 1000);
+          const prefixScreen = getInitialsChar(screenData.screen_name);
+          const prefixCinema = getInitialsChar(showtime.cinema);
+          const prefixMovie = getInitialsChar(movie.title);
+
+          const showtimeID = `${prefixScreen}-${prefixCinema}-${prefixMovie}-${startUnixTime}`;
+
+          const newShowtime = new Showtime();
+
+          newShowtime.showtime_id = showtimeID;
+          newShowtime.start_time = startTime;
+          newShowtime.end_time = endTime;
+          newShowtime.unit_price = UNIT_PRICE_DEFAULT;
+          newShowtime.movie = movie;
+          newShowtime.screen = screenData;
+
+          await this.showtimeService.createShowtime(newShowtime);
+        }
+      }
+
+      const response: IResponse<string> = {
+        statusCode: 200,
+        error: null,
+        message: 'Tạo suất chiếu thành công',
+        data: 'Xử lý thành công.',
+      };
+      // Lấy dữ liệu rạp chiếu cùng với phòng chiếu dựa trên slug từ cinema
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Tạo suất chiếu không thành công.',
         error: error.message,
       });
     }

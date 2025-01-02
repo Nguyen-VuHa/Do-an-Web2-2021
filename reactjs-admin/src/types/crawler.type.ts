@@ -26,3 +26,13 @@ export interface ICrawlResponse<T> {
   error: any;
   data?: T;
 }
+
+export interface ICrawlShowtimeData {
+  movie: string;
+  showtimes: ICrawlShowtime[];
+}
+
+export interface ICrawlShowtime {
+  cinema: string;
+  times: string[];
+}

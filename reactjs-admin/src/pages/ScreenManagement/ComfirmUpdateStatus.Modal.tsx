@@ -31,7 +31,7 @@ const ComfirmUpdateStatusModal = () => {
       <div className="flex items-center flex-col space-y-2">
         Bạn có chắc chắn thay đổi trạng thái
         <br />
-        <span className="flex items-center space-x-1">
+        <span className="flex flex-wrap justify-center items-center space-x-1">
           <p>
             <b className="text-warning">{screenDetail?.screen_name}</b> từ{' '}
           </p>

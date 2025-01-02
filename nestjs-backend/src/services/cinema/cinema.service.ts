@@ -21,6 +21,10 @@ export class CinemaService {
     });
   }
 
+  async getCinemaDetailByCondition(conditions: IObject<any>): Promise<Cinema> {
+    return await this.cinemaRepository.findOne(conditions);
+  }
+
   async getCinemaByID(id: number): Promise<Cinema> {
     return await this.cinemaRepository.findOne({
       where: {

@@ -30,7 +30,7 @@ const ComfirmUpdateStatusModal = () => {
       }}
       isLoading={isUpdateCinemaStatus}
     >
-      <div className="flex items-center flex-col space-y-2">
+      <div className="flex flex-wrap justify-center items-center flex-col space-y-2">
         Bạn có chắc chắn thay đổi trạng thái
         <br />
         <span className="flex items-center space-x-1">

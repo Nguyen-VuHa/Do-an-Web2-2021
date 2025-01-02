@@ -1,5 +1,7 @@
 import { Expose, Transform, Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
+  IsArray,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -8,6 +10,7 @@ import {
   IsString,
   IsUUID,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
 import { ACTIVE, INACTIVE } from 'src/constants/status';
 import { IEnumStatus } from '../types/common';
@@ -104,4 +107,28 @@ export class UpdateStatusShowtimeDTO {
   @IsNotEmpty()
   @IsEnum(IEnumStatus, { message: 'Screen status must be one of active, inactive' })
   _status: string;
+}
+
+export class SmartCreateShowtimeDTO {
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @MaxLength(240, { message: 'Tên phim không được dài quá 240 ký tự' })
+  movie: string;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsArray({ message: 'Danh sách suất chiếu phải là một mảng hợp lệ' })
+  @ArrayNotEmpty({ message: 'Danh sách suất chiếu không được để trống' })
+  @ValidateNested({ each: true }) // Kiểm tra từng phần tử trong mảng
+  @Type(() => ShowtimeItemData)
+  showtimes: ShowtimeItemData[];
+}
+
+class ShowtimeItemData {
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @MaxLength(240, { message: 'Tên rạp chiếu không được dài quá 240 ký tự' })
+  cinema: string;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsArray({ message: 'Thời gian chiếu phải là một mảng string' })
+  @IsString({ each: true, message: 'Mỗi tên Thời gian chiếu trong danh sách phải là một chuỗi' })
+  times: string[];
 }

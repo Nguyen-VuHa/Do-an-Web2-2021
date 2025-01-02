@@ -17,4 +17,24 @@ function stringToInt(str: string): number {
   return result;
 }
 
-export { stringToDate, stringToInt };
+function convertToSlug(str: string): string {
+  return str
+    .toLowerCase() // Chuyển tất cả thành chữ thường
+    .replace(/[^a-z0-9\s-]/g, '') // Loại bỏ ký tự đặc biệt, chỉ giữ chữ cái, số và khoảng trắng
+    .replace(/\s+/g, '-') // Thay thế khoảng trắng thành dấu gạch ngang
+    .replace(/-+/g, '-') // Loại bỏ các dấu gạch ngang dư thừa
+    .replace(/^-+/, ''); // Loại bỏ dấu gạch ngang ở đầu chuỗi
+}
+
+function mapTimeToToday(time: string): Date | null {
+  const [hours, minutes] = time.split(':').map(Number); // Tách giờ và phút từ chuỗi
+  if (isNaN(hours) || isNaN(minutes)) {
+    return null;
+  }
+
+  const now = new Date(); // Lấy ngày hiện tại
+  now.setHours(hours, minutes, 0, 0); // Đặt giờ, phút, giây và mili-giây
+  return now;
+}
+
+export { stringToDate, stringToInt, convertToSlug, mapTimeToToday };

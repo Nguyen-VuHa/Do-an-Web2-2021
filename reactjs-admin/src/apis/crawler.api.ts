@@ -3,6 +3,7 @@ import axiosInstanceCrawler from './axiosCrawler.config';
 import {
   ICrawlMovieResponse,
   ICrawlResponse,
+  ICrawlShowtimeData,
   IURLToBase64Response,
 } from '~/types/crawler.type';
 import { ICinemaForm } from '~/types/cinema.type';
@@ -45,5 +46,12 @@ export const apiCrawlCinemaDetail = async (
   params: IObject<string>,
 ): Promise<ICrawlResponse<ICinemaForm[]>> => {
   const path = '/crawl-cinema-data';
+  return axiosInstanceCrawler.get(path, { params });
+};
+
+export const apiCrawlShowtimeData = async (
+  params: IObject<string>,
+): Promise<ICrawlResponse<ICrawlShowtimeData[]>> => {
+  const path = '/crawl-showtime-data';
   return axiosInstanceCrawler.get(path, { params });
 };

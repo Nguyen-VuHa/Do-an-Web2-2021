@@ -15,6 +15,7 @@ import {
   CreateShowtimeDTO,
   GetShowtimeQueryDto,
   ShowtimeResponseDTO,
+  SmartCreateShowtimeDTO,
   UpdateShowtimeDTO,
   UpdateStatusShowtimeDTO,
 } from 'src/core/dtos/admin-showtime.dto';
@@ -134,5 +135,27 @@ export class AdminShowtimeController {
     @Param('showtime_id') showtime_id: string
   ): Promise<IResponse<ShowtimeResponseDTO>> {
     return this.adminShowtimeUseCase.getDetailShowtime(showtime_id);
+  }
+
+  @Post('smart-create')
+  @UsePipes(
+    new ValidationPipe({
+      transform: true, // Chuyển đổi dữ liệu (nếu cần)
+      exceptionFactory: (errors) => {
+        // Tùy chỉnh lỗi trả về
+        const validationErrors = errors.map((error) => ({
+          field: error.property,
+          constraints: error.constraints,
+        }));
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Dữ liệu không hợp lệ',
+          error: validationErrors,
+        });
+      },
+    })
+  )
+  async smartCreateShowtime(@Body() data: SmartCreateShowtimeDTO): Promise<IResponse<string>> {
+    return this.adminShowtimeUseCase.smartCreateShowtime(data);
   }
 }

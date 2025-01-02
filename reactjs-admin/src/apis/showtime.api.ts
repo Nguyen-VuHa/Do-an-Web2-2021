@@ -38,3 +38,10 @@ export const apiUpdateStatusShowtime = async (
   const path = MAIN_PATH + '/status';
   return axiosInstance.put(path, {}, { params });
 };
+
+export const apiSmartCreateShowtime = async (
+  payload: IObject<any>,
+): Promise<IResponse<string>> => {
+  const path = MAIN_PATH + '/smart-create';
+  return axiosInstance.post(path, payload);
+};
