@@ -9,24 +9,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#27df2d',
-        layout: '#121825',
-        second: '#262c37',
-        typography: '#a6b2c9',
+        primary: "#27df2d",
+        layout: "#121825",
+        second: "#262c37",
+        typography: "#a6b2c9",
+        yellow: "#d4dd29",
+        facebook: "#3b5999",
+        youtube: "#cd201f",
+        instagram: "#e4405f",
+        "social-x": "#55acee",
       },
       width: {
-        'header-menu': '8.75rem',
+        "header-menu": "8.75rem",
       },
       height: {
-        'header': '5rem',
-        'header-menu': '4.375rem',
+        header: "5rem",
+        "header-menu": "4.375rem",
+      },
+      spacing: {
+        header: "5rem", // Đây là giá trị margin-top của bạn
       },
       padding: {
-        'header': '0.875rem',  // Padding tùy chỉnh 5/6
+        header: "0.875rem", // Padding tùy chỉnh 5/6
       },
       borderRadius: {
-        'circle-md': '0.625rem',
-        'circle-lg': '1.125rem',
+        "circle-md": "0.625rem",
+        "circle-lg": "1.125rem",
       },
     },
   },

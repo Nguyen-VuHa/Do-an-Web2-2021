@@ -8,10 +8,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <body>
-        <PublicLayout>
-          {children}
-        </PublicLayout>
+      <body className="bg-layout">
+        <PublicLayout>{children}</PublicLayout>
       </body>
     </html>
   );

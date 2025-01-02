@@ -1,1 +1,1 @@
-export const COLOR_PRIMARY = ""
+export const COLOR_PRIMARY = "";
