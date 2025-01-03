@@ -7,12 +7,12 @@ const Header = () => {
   return (
     <div
       className="
-        sticky top-0 left-0 z-999
+        sticky top-0 left-0 z-[999]
         w-full h-header bg-layout
         py-header px-10 border-b-[1px] border-second
         "
     >
-      <div className="w-full h-full flex justify-between items-center m-auto">
+      <div className="container mx-auto w-full h-full flex justify-between items-center m-auto">
         {/* Logo */}
         <Logo />
         {/* Menu */}

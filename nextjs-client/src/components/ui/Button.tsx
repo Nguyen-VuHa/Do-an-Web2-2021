@@ -21,9 +21,14 @@ const Button: React.FC<ButtonProps> = ({
         "bg-primary bg-opacity-30 text-primary hover:bg-opacity-50";
       break;
 
-    case "success":
+    case "info":
       buttonTypeClass =
-        "bg-primary bg-opacity-30 text-primary hover:bg-opacity-50";
+        "bg-social-x bg-opacity-30 text-social-x hover:bg-opacity-50";
+      break;
+
+    case "error":
+      buttonTypeClass =
+        "bg-instagram bg-opacity-30 text-instagram hover:bg-opacity-50";
       break;
     default:
       break;

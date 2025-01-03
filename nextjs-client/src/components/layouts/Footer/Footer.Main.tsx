@@ -10,7 +10,7 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <div className="p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="container mx-auto p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div>
         <Title label="QUY ĐỊNH & ĐIỀU KHOẢN" />
         <ul className="space-y-4 text-typography ">

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["www.tiendauroi.com"], // Thêm hostname của trang web vào đây
+    domains: ["bhdstar.vn", "www.tiendauroi.com"], // Thêm hostname của trang web vào đây
   },
   webpack(config) {
     config.module.rules.push({
