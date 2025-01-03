@@ -25,6 +25,7 @@ const config: Config = {
       height: {
         header: "5rem",
         "header-menu": "4.375rem",
+        "movie-card": "25rem",
       },
       spacing: {
         header: "5rem", // Đây là giá trị margin-top của bạn

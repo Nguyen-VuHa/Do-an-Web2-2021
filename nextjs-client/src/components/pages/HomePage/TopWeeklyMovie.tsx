@@ -19,7 +19,7 @@ const TopWeeklyMovie = () => {
     <section className="relative flex flex-col w-full min-h-screen overflow-hidden">
       <ImageDetail imageURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-20.jpg" />
       <div
-        className="container mx-auto px-[50px] py-[60px] bg-layout bg-opacity-60 h-full
+        className="container mx-auto lg:pr-[30%] py-[60px] bg-layout bg-opacity-60 h-full
             w-full space-y-4 md:bg-transparent"
       >
         <h2
@@ -90,7 +90,7 @@ const TopWeeklyMovie = () => {
           </div>
         </div>
         <div className="flex flex-col text-social-x">
-          <DescriptionMovieInfo 
+          <DescriptionMovieInfo
             content={`Dựa trên bộ phim "The Elfkins – Baking A Difference". Thế giới của
             Elfie bị đảo lộn khi cô phát hiện ra sự tồn tại của một băng đảng
             Elfkin tiên tiến về mặt kỹ thuật, trái ngược hoàn toàn với gia tộc
