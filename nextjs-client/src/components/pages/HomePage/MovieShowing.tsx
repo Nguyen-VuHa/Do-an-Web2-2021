@@ -8,8 +8,12 @@ import MovieCard from "~/components/common/MovieCard";
 const MovieShowing = () => {
   return (
     <div className="space-y-10">
-      <h2 className="text-center text-4xl font-semibold text-transparent
-            bg-clip-text bg-gradient-to-r from-social-x to-instagram w-fit">Phim Đang Chiếu</h2>
+      <h2
+        className="text-center text-4xl font-semibold text-transparent
+            bg-clip-text bg-gradient-to-r from-social-x to-instagram w-fit"
+      >
+        Phim Đang Chiếu
+      </h2>
       <Swiper
         className="select-none"
         modules={[Navigation, Pagination]}
@@ -36,34 +40,22 @@ const MovieShowing = () => {
         }}
       >
         <SwiperSlide>
-            <MovieCard 
-                imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            />
+          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
         </SwiperSlide>
         <SwiperSlide>
-            <MovieCard 
-                imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            />
+          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
         </SwiperSlide>
         <SwiperSlide>
-            <MovieCard 
-                imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            />
+          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
         </SwiperSlide>
         <SwiperSlide>
-            <MovieCard 
-                imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            />
+          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
         </SwiperSlide>
         <SwiperSlide>
-            <MovieCard 
-                imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            />
+          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
         </SwiperSlide>
         <SwiperSlide>
-            <MovieCard 
-                imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            />
+          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
         </SwiperSlide>
       </Swiper>
     </div>

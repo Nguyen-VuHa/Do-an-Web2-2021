@@ -9,7 +9,7 @@ interface ImageCustomProps {
   width: number;
   height: number;
   isLoading?: boolean;
-  imgClassName?: string,
+  imgClassName?: string;
 }
 
 const ImageCustom: React.FC<ImageCustomProps> = ({
@@ -23,7 +23,7 @@ const ImageCustom: React.FC<ImageCustomProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isFetchImage, setIsFetchImage] = useState<boolean>(true);
   const wrapperIMGRef = useRef<HTMLDivElement>(null);
-  
+
   const handleImageLoad = () => {
     setIsFetchImage(false);
   };
@@ -39,7 +39,7 @@ const ImageCustom: React.FC<ImageCustomProps> = ({
       {
         root: null, // Viewport mặc định
         threshold: 0.1, // 10% phần tử xuất hiện trong viewport
-      }
+      },
     );
 
     if (wrapperIMGRef.current) {
@@ -52,7 +52,7 @@ const ImageCustom: React.FC<ImageCustomProps> = ({
       }
     };
   }, []);
-  
+
   return (
     <div ref={wrapperIMGRef} className="w-full h-full">
       {/* Skeleton Loader */}
@@ -63,17 +63,19 @@ const ImageCustom: React.FC<ImageCustomProps> = ({
       )}
 
       {/* Image Component from Next.js */}
-      {
-        isVisible && <Image
+      {isVisible && (
+        <Image
           className={imgClassName || ""}
           src={src}
           alt={alt}
           width={width}
           height={height}
           onLoadingComplete={handleImageLoad}
-          style={{ visibility: isLoading || isFetchImage ? "hidden" : "visible" }}
+          style={{
+            visibility: isLoading || isFetchImage ? "hidden" : "visible",
+          }}
         />
-      }
+      )}
     </div>
   );
 };
