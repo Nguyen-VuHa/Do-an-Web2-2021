@@ -3,21 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "PORT=4000 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@svgr/webpack": "^8.1.0",
+    "axios": "^1.7.9",
+    "cookie": "^1.0.2",
+    "dayjs": "^1.11.13",
+    "js-cookie": "^3.0.5",
     "next": "14.2.22",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.4.0",
+    "sass": "^1.83.0",
     "swiper": "^11.2.0",
+    "yup": "^1.6.1",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

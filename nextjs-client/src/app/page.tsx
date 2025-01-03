@@ -7,7 +7,7 @@ export const metadata = {
   title: "Trang chủ - BHD Star",
 };
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <TopWeeklyMovie />

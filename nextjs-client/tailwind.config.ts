@@ -18,6 +18,7 @@ const config: Config = {
         youtube: "#cd201f",
         instagram: "#e4405f",
         "social-x": "#55acee",
+        "gray-place": "#989faa",
       },
       width: {
         "header-menu": "8.75rem",
