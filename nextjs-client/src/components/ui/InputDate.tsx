@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import "~/assets/styles/input-date.scss";
 import React, { useEffect, useRef, useState } from "react";
@@ -70,6 +71,7 @@ const InputDate: React.FC<InputDateProps> = ({
 
   useEffect(() => {
     const calendar = getMonthCalendar(year, month);
+    
     setCalendars(calendar);
   }, [year, month]);
 
@@ -143,7 +145,9 @@ const InputDate: React.FC<InputDateProps> = ({
         }
         onClick={() => setIsDropDown(!isDropDown)}
       >
-        <span className={`text-social-x ${!daySelect && "!text-gray-place"} text-md`}>
+        <span
+          className={`text-social-x ${!daySelect && "!text-gray-place"} text-md`}
+        >
           {daySelect ? dateString : placeholder || "DD/MM/YYYY"}
         </span>
         <PiCalendarHeartFill className="text-[22px] cursor-pointer transition-all group-hover:text-social-x" />
@@ -183,14 +187,14 @@ const InputDate: React.FC<InputDateProps> = ({
               placeholder="Tháng"
               data={Months}
               value={month}
-              onChange={(value: number) => setMonth(value)}
+              onChange={(value) => setMonth(Number(value))}
             />
             <InputSelect
               className="cursor-pointer bg-second text-gray-place hover:border-primary transition-all rounded text-sm hover:text-instagram"
               placeholder="Năm"
               data={years}
               value={year}
-              onChange={(value: number) => setYear(value)}
+              onChange={(value) => setYear(Number(value))}
             />
           </div>
           <div>
@@ -241,7 +245,8 @@ const InputDate: React.FC<InputDateProps> = ({
                     <button
                       type="button"
                       className={`select-none flex justify-center items-center rounded p-2 bg-social-x bg-opacity-20 text-social-x text-xs w-full hover:bg-opacity-70 transition-all ${
-                        todayStatus && "!bg-primary !bg-opacity-40 !text-primary hover:!bg-opacity-50"
+                        todayStatus &&
+                        "!bg-primary !bg-opacity-40 !text-primary hover:!bg-opacity-50"
                       } ${dayActive && "!bg-instagram !bg-opacity-20 !text-instagram"}`}
                       onClick={() => {
                         setDaySelect(childCalendar);

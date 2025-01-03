@@ -31,11 +31,11 @@ export class SignUpAccountDTO {
   @Matches(/^(\+84|0)(9|3|7|8|5)[0-9]{8}$/, {
     message: 'Số điện thoại không hợp lệ.',
   }) // Kiểm tra số điện thoại Việt Nam
-  phoneNumber: string;
+  phone_number: string;
 
   @IsNotEmpty() // Yêu cầu trường không được để trống
   @IsISO8601()
-  birthDate: string;
+  birth_date: string;
 }
 
 export class CreateUserResponseDto {

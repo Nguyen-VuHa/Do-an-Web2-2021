@@ -1,15 +1,11 @@
-import React from 'react'
+import React from "react";
 
 interface ErrorInputProps {
-    message: string,
+  message: string;
 }
 
-const ErrorInput: React.FC<ErrorInputProps> = ({
-    message
-}) => {
-  return (
-    <span className='text-sm italic text-youtube'>{ message }</span>
-  )
-}
+const ErrorInput: React.FC<ErrorInputProps> = ({ message }) => {
+  return <span className="text-sm italic text-youtube">{message}</span>;
+};
 
-export default ErrorInput
+export default ErrorInput;

@@ -115,7 +115,7 @@ const handleRefreshToken = async (): Promise<string> => {
       throw new Error("No refresh token found");
     }
 
-    let accessToken = "";
+    const accessToken = "";
     // Gửi request để refresh token
     //   const response = await apiRefreshToken(currentRefreshToken);
 
@@ -125,7 +125,7 @@ const handleRefreshToken = async (): Promise<string> => {
     //   }
 
     return accessToken;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error: unknown) {
+    throw new Error(error?.toString());
   }
 };

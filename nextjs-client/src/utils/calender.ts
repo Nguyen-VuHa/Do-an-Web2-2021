@@ -1,12 +1,12 @@
 export function getMonthCalendar(
   year: number,
   month: number,
-): (number | null)[][] {
+): (number)[][] {
   const lastDayOfMonth = new Date(year, month, 0);
   const totalDays = lastDayOfMonth.getDate();
 
-  const monthCalendar: (number | null)[][] = [];
-  let week: (number | null)[] = new Array(7).fill(null); // Tạo một tuần rỗng
+  const monthCalendar: (number)[][] = [];
+  let week: (number)[] = new Array(7).fill(null); // Tạo một tuần rỗng
 
   for (let day = 1; day <= totalDays; day++) {
     const currentDate = new Date(year, month - 1, day);

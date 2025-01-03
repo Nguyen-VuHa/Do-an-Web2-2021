@@ -23,8 +23,8 @@ export class AuthUseCases {
       userData.email = data.email;
       userData.fullname = data.fullName;
       userData.password = passwordHash;
-      userData.phone_number = data.phoneNumber;
-      userData.birth_day = stringToDate(data.birthDate);
+      userData.phone_number = data.phone_number;
+      userData.birth_day = stringToDate(data.birth_date);
 
       const userCreate = await this.userSevice.createUser(userData);
 

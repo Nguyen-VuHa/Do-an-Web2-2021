@@ -8,7 +8,7 @@ const getDataToLocalStore = (key: string): string | null => {
 
 const removeDataToLocalStore = (keysString: string) => {
   // keyString: 'key1,key2,key3'
-  let arrKeys = keysString.split(",");
+  const arrKeys = keysString.split(",");
 
   arrKeys.map((key) => {
     window.localStorage.removeItem(key);
