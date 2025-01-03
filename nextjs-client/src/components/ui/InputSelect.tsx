@@ -23,8 +23,7 @@ function InputSelect({
       className={`${className || ""} p-1 outline-none bg-layout-second`}
       value={value}
       onChange={(e) => {
-        if(onChange)
-          onChange(e.target.value, e); // value string, event object
+        if (onChange) onChange(e.target.value, e); // value string, event object
       }}
     >
       <option className="hidden text-input-place" value="">

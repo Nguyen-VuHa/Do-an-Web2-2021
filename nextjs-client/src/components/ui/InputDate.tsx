@@ -71,7 +71,7 @@ const InputDate: React.FC<InputDateProps> = ({
 
   useEffect(() => {
     const calendar = getMonthCalendar(year, month);
-    
+
     setCalendars(calendar);
   }, [year, month]);
 

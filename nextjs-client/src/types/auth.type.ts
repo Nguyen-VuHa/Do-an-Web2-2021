@@ -6,3 +6,11 @@ export interface ISignUpForm {
   phone_number: string;
   birth_date: string;
 }
+
+export interface ISignUpPayload {
+  email: string;
+  password: string;
+  fullname: string;
+  phone_number: string;
+  birth_date: string;
+}

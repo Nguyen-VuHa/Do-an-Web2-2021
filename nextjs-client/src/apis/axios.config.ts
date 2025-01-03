@@ -129,3 +129,5 @@ const handleRefreshToken = async (): Promise<string> => {
     throw new Error(error?.toString());
   }
 };
+
+export default axiosInstance;

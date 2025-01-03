@@ -14,29 +14,25 @@ import { generateTokens } from 'src/utils/jwt';
 export class AuthUseCases {
   constructor(private readonly userSevice: UserService) {}
 
-  async signUpAccount(data: SignUpAccountDTO): Promise<IResponse<any>> {
+  async signUpAccount(data: SignUpAccountDTO): Promise<IResponse<string>> {
     try {
       const passwordHash = await hashPassword(data.password);
 
       const userData = new User();
 
       userData.email = data.email;
-      userData.fullname = data.fullName;
+      userData.fullname = data.fullname;
       userData.password = passwordHash;
       userData.phone_number = data.phone_number;
       userData.birth_day = stringToDate(data.birth_date);
 
-      const userCreate = await this.userSevice.createUser(userData);
-
-      const userResponse = plainToClass(CreateUserResponseDto, userCreate, {
-        excludeExtraneousValues: true,
-      });
+      await this.userSevice.createUser(userData);
 
       const response: IResponse<any> = {
         statusCode: 200,
         error: null,
-        message: 'Tạo mới người dùng thành công',
-        data: userResponse,
+        message: 'Đăng ký thành viên thành công.',
+        data: '',
       };
       return response;
     } catch (error) {
@@ -44,14 +40,14 @@ export class AuthUseCases {
       if (error.code === ERROR_CODE_DUPLICATE_UNIQUE) {
         // mã lỗi trùng lặp trong database
         // PostgreSQL code for unique violation
-        errorResponse = 'Email đăng ký đã tồn tại';
+        errorResponse = 'Email đăng ký đã tồn tại.';
       } else {
         errorResponse = error;
       }
 
       throw new BadRequestException({
         statusCode: 400,
-        message: 'Tạo người dùng không thành công.',
+        message: 'Đăng ký thành viên thất bại.',
         error: errorResponse,
       });
     }

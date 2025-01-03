@@ -8,3 +8,8 @@ export interface IResponse<T> {
 export interface IObject<T> {
   [key: string]: T;
 }
+
+export interface IProcessToAPI {
+  status: "success" | "error";
+  message: string;
+}

@@ -25,7 +25,7 @@ export class SignUpAccountDTO {
 
   @IsNotEmpty() // Yêu cầu trường không được để trống
   @MaxLength(100, { message: 'Tên đầy đủ không được dài quá 100 ký tự' }) // Giới hạn độ dài tối đa là 100 ký tự
-  fullName: string;
+  fullname: string;
 
   @IsNotEmpty() // Yêu cầu trường không được để trống
   @Matches(/^(\+84|0)(9|3|7|8|5)[0-9]{8}$/, {

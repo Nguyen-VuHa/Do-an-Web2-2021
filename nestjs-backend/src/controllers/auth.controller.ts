@@ -33,7 +33,7 @@ export class AuthController {
       },
     })
   )
-  async signUpAccount(@Body() data: SignUpAccountDTO): Promise<IResponse<any>> {
+  async signUpAccount(@Body() data: SignUpAccountDTO): Promise<IResponse<string>> {
     return this.authUseCase.signUpAccount(data);
   }
 
