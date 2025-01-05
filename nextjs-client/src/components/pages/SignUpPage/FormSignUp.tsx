@@ -55,7 +55,7 @@ const InputList: InputListType[] = [
 const FormSignUp = () => {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  
+
   const { signUpForm, errorSignUpForm, setSignUpForm, setStateAuth } =
     useAuthStore();
   const { isPostSignUpAccount, postSignUpAccount } = useAuthAPIStore();
@@ -105,7 +105,7 @@ const FormSignUp = () => {
   const handleSubmitSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(isPostSignUpAccount) return;
+    if (isPostSignUpAccount) return;
 
     const isValid = await validSignUpForm();
 
@@ -114,15 +114,12 @@ const FormSignUp = () => {
         ...signUpForm,
       };
 
-      const resPost = await postSignUpAccount(payloadSignUp)
+      const resPost = await postSignUpAccount(payloadSignUp);
 
-      if(resPost.status === PROCESS_SUCCESS)
-      {
-        enqueueSnackbar(resPost.message, { variant: 'success' });
-        router.replace('dang-nhap')
-      }
-      else 
-        enqueueSnackbar(resPost.message, { variant: 'error' });
+      if (resPost.status === PROCESS_SUCCESS) {
+        enqueueSnackbar(resPost.message, { variant: "success" });
+        router.replace("dang-nhap");
+      } else enqueueSnackbar(resPost.message, { variant: "error" });
     }
   };
 
@@ -163,7 +160,11 @@ const FormSignUp = () => {
             Bạn đã có tài khoản?
           </div>
         </Link>
-        <Button className="w-full" buttonType="info" isLoading={isPostSignUpAccount}>
+        <Button
+          className="w-full"
+          buttonType="info"
+          isLoading={isPostSignUpAccount}
+        >
           Đăng ký
         </Button>
       </div>

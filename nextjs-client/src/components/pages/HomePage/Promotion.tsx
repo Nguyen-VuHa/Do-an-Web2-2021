@@ -22,7 +22,7 @@ const Promotion = () => {
       >
         <SwiperSlide>
           <ImageCustom
-            imgClassName="w-full h-[400px] lg:h-[70vh]"
+            imgClassName="w-full h-[400px] lg:h-[70vh] max-sm:h-auto"
             src="https://bhdstar.vn/wp-content/uploads/2024/12/SuperSale-1.jpg"
             alt="NO PROMOTION"
             width={1024}
@@ -31,7 +31,7 @@ const Promotion = () => {
         </SwiperSlide>
         <SwiperSlide>
           <ImageCustom
-            imgClassName="w-full  h-[400px] lg:h-[70vh]"
+            imgClassName="w-full  h-[400px] lg:h-[70vh] max-sm:h-auto"
             src="https://bhdstar.vn/wp-content/uploads/2024/12/Banner-Web-T1-01-01.png"
             alt="NO PROMOTION"
             width={1024}
@@ -40,7 +40,7 @@ const Promotion = () => {
         </SwiperSlide>
         <SwiperSlide>
           <ImageCustom
-            imgClassName="w-full  h-[400px] lg:h-[70vh]"
+            imgClassName="w-full  h-[400px] lg:h-[70vh] max-sm:h-auto"
             src="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight1069ldapp-21.jpg"
             alt="NO PROMOTION"
             width={1024}

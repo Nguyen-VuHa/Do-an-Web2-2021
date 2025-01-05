@@ -7,10 +7,10 @@ import MovieCard from "~/components/common/MovieCard";
 
 const MovieShowing = () => {
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 max-sm:px-8">
       <h2
         className="text-center text-4xl font-semibold text-transparent
-            bg-clip-text bg-gradient-to-r from-social-x to-instagram w-fit"
+            bg-clip-text bg-gradient-to-r from-social-x to-instagram w-fit max-sm:text-3xl"
       >
         Phim Đang Chiếu
       </h2>
@@ -18,7 +18,6 @@ const MovieShowing = () => {
         className="select-none"
         modules={[Navigation, Pagination]}
         spaceBetween={50}
-        slidesPerView={5}
         navigation
         breakpoints={{
           640: {

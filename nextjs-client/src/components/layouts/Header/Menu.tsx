@@ -38,7 +38,7 @@ const Menu = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="w-fit h-full select-none flex justify-between items-center space-x-1">
+    <nav className="w-fit h-full select-none flex justify-between items-center space-x-1 max-md:hidden">
       {MenuData.map((menu) => {
         return (
           <MenuItem

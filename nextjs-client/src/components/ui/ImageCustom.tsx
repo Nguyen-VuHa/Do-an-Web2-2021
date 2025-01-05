@@ -71,7 +71,7 @@ const ImageCustom: React.FC<ImageCustomProps> = ({
           alt={alt}
           width={width}
           height={height}
-          onLoadingComplete={handleImageLoad}
+          onLoad={handleImageLoad}
           style={{
             visibility: isLoading || isFetchImage ? "hidden" : "visible",
           }}

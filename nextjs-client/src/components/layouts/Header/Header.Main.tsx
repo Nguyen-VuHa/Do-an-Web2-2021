@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "./Logo";
 import Menu from "./Menu";
 import Control from "./Control";
+import MobileMenu from "./MobileMenu";
 
 const Header = () => {
   return (
@@ -19,6 +20,9 @@ const Header = () => {
         <Menu />
         {/* Control */}
         <Control />
+
+        {/* Menu Mobile */}
+        <MobileMenu />
       </div>
     </div>
   );

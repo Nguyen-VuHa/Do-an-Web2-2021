@@ -20,17 +20,17 @@ const TopWeeklyMovie = () => {
       <ImageDetail imageURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-20.jpg" />
       <div
         className="container mx-auto lg:pr-[30%] py-[60px] bg-layout bg-opacity-60 h-full
-            w-full space-y-4 md:bg-transparent"
+            w-full space-y-4 md:bg-transparent max-sm:px-8"
       >
         <h2
           className="text-4xl font-bold inline-block text-transparent
             bg-clip-text bg-gradient-to-r from-social-x to-youtube border-2 border-transparent
-            "
+            max-sm:text-3xl "
         >
           Top Phim Trong Tuần
         </h2>
         <div className="flex flex-col w-full md:space-x-4 md:flex-row md:items-start">
-          <div className="relative flex justify-center px-20 py-5 bg-transparent overflow-hidden rounded-circle-md shadow-lg shadow-xl md:p-0 md:w-[300px]">
+          <div className="relative flex justify-center px-20 py-5 bg-transparent overflow-hidden rounded-circle-md shadow-lg shadow-xl md:p-0 max-sm:px-8">
             <ImageCustom
               src="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-20.jpg"
               alt="NO POSTER"
