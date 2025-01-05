@@ -1,4 +1,4 @@
-function getRandomArray<T>(array: T[]): T {
+function getRandomArray<T>(array: T[]): T | null {
   if (array.length === 0) {
     return null;
   }

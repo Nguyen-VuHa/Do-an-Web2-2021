@@ -1,4 +1,5 @@
 import { DataSeederServiceModule } from 'src/core/data/data-seeder.module';
+import { RedisServiceModule } from 'src/services/redis/redis.module';
 import { AdminAuthUseCaseModule } from 'src/use-cases/(admin)/auth/adminAuthUseCase.module';
 import { AdminCinemaUseCaseModule } from 'src/use-cases/(admin)/cinema/cinemaUseCase.module';
 import { AdminFileSystemUseCaseModule } from 'src/use-cases/(admin)/file-system/fileSystemUseCase.module';
@@ -8,6 +9,7 @@ import { AdminScreenUseCaseModule } from 'src/use-cases/(admin)/screen/screenUse
 import { AdminShowtimeUseCaseModule } from 'src/use-cases/(admin)/showtime/showtimeUseCase.module';
 import { AdminUserUseCaseModule } from 'src/use-cases/(admin)/user/adminUserUseCase.module';
 import { AuthUseCaseModule } from 'src/use-cases/auth/authUseCase.module';
+import { MovieUseCaseModule } from 'src/use-cases/movie/movieUseCase.module';
 
 const SEEDER_MODULES = [DataSeederServiceModule];
 
@@ -22,6 +24,15 @@ const ADMIN_APPMODULES = [
   AdminShowtimeUseCaseModule,
 ];
 
-const APPMODULES = [AuthUseCaseModule, ...ADMIN_APPMODULES, ...SEEDER_MODULES];
+const THIRD_PARTY_MODULES = [RedisServiceModule];
+
+const CLIENT_MODULES = [AuthUseCaseModule, MovieUseCaseModule];
+
+const APPMODULES = [
+  ...ADMIN_APPMODULES,
+  ...CLIENT_MODULES,
+  ...THIRD_PARTY_MODULES,
+  ...SEEDER_MODULES,
+];
 
 export default APPMODULES;

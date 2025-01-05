@@ -10,7 +10,7 @@ const Header = () => {
       className="
         sticky top-0 left-0 z-[999]
         w-full h-header bg-layout
-        py-header px-10 border-b-[1px] border-second
+        py-header px-10 border-b-[1px] border-second max-sm:px-8
         "
     >
       <div className="container mx-auto w-full h-full flex justify-between items-center m-auto">

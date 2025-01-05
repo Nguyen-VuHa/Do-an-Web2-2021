@@ -9,6 +9,7 @@ import { AdminScreenController } from './admin-screen.controller';
 import { AdminShowtimeController } from './admin-showtime.controller';
 import { AdminUserController } from './admin-user.controller';
 import { AuthController } from './auth.controller';
+import { MovieController } from './movie.controller';
 
 const ADMIN_CONTROLLERS = [
   AdminAuthController,
@@ -23,6 +24,8 @@ const ADMIN_CONTROLLERS = [
   AdminShowtimeController,
 ];
 
-const CONTROLLERS = [AuthController, ...ADMIN_CONTROLLERS];
+const CLIENT_CONTROLLERS = [MovieController];
+
+const CONTROLLERS = [AuthController, ...ADMIN_CONTROLLERS, ...CLIENT_CONTROLLERS];
 
 export default CONTROLLERS;

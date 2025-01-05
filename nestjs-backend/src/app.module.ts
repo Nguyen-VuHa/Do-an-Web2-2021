@@ -24,7 +24,7 @@ import { VerifyUserSystemMiddleware } from './middlewares/admin-jwt.middleware';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    // Áp dụng `MyCustomMiddleware` cho `GET` request trên 'api/users'
+    // Áp dụng `VerifyUserSystemMiddleware` cho `GET` request trên 'api/users'
     consumer
       .apply(VerifyUserSystemMiddleware)
       .forRoutes({ path: 'admin/user/info', method: RequestMethod.GET });

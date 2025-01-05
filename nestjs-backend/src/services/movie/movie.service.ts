@@ -19,6 +19,47 @@ export class MovieService {
     return await this.movieRepository.findOne(conditions);
   }
 
+  async getMovieTopWeek(): Promise<Movie> {
+    const currentDate = new Date();
+
+    const count = await this.movieRepository.count({
+      where: {
+        start_date: LessThanOrEqual(currentDate), // Ngày bắt đầu nhỏ hơn hoặc bằng ngày hiện tại
+        end_date: MoreThanOrEqual(currentDate),
+      },
+    });
+    const randomIndex = Math.floor(Math.random() * count);
+
+    const movies = await this.movieRepository.find({
+      where: {
+        start_date: LessThanOrEqual(currentDate), // Ngày bắt đầu nhỏ hơn hoặc bằng ngày hiện tại
+        end_date: MoreThanOrEqual(currentDate),
+      },
+      relations: {
+        posters: true,
+        actors: true,
+        director: true,
+        categories: true,
+      },
+      skip: randomIndex,
+      take: 1,
+    });
+
+    return movies[0];
+  }
+
+  async getMovieClientByCondition(conditions: IObject<any>): Promise<Movie[]> {
+    return await this.movieRepository.find({
+      where: conditions,
+      relations: {
+        posters: true,
+        actors: true,
+        director: true,
+        categories: true,
+      },
+    });
+  }
+
   async getMovieListSelection(): Promise<Movie[]> {
     const currentDate = new Date();
 
