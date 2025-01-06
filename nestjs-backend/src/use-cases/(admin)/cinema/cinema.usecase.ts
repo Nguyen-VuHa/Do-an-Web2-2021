@@ -1,11 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import {
+  CinemaDetailResponseDTO,
   CinemaResponseDTO,
   CreateCinemaDTO,
   GetCinemasQueryDto,
   UpdateCinemaDTO,
 } from 'src/core/dtos/admin-cinema.dto';
+import { CinemaBanner } from 'src/core/entities/cinema-banner.entity';
 import { Cinema } from 'src/core/entities/cinema.entity';
 import { IObject, IPagination, IResponse } from 'src/core/types/common';
 import { CinemaService } from 'src/services/cinema/cinema.service';
@@ -90,7 +92,7 @@ export class AdminCinemaUseCases {
     }
   }
 
-  async getCinemaDetailBySlug(slug: string): Promise<IResponse<CinemaResponseDTO>> {
+  async getCinemaDetailBySlug(slug: string): Promise<IResponse<CinemaDetailResponseDTO>> {
     try {
       const cinemaData = await this.cinemaService.getCinemaBySlugWithDeteled(slug);
 
@@ -98,11 +100,13 @@ export class AdminCinemaUseCases {
         throw new Error('Rạp chiếu phim không tồn tại');
       }
 
-      const cinemaDTO = plainToClass(CinemaResponseDTO, cinemaData, {
+      console.log(cinemaData);
+
+      const cinemaDTO = plainToClass(CinemaDetailResponseDTO, cinemaData, {
         excludeExtraneousValues: true,
       });
 
-      const response: IResponse<CinemaResponseDTO> = {
+      const response: IResponse<CinemaDetailResponseDTO> = {
         statusCode: 200,
         error: null,
         message: 'Lấy thông tin rạp chiếu thành công',
@@ -129,6 +133,13 @@ export class AdminCinemaUseCases {
       cinemaNew.embed_map_url = data.embed_map_url;
 
       const cinemaCreate = await this.cinemaService.createCinema(cinemaNew);
+
+      const banner = new CinemaBanner();
+
+      banner.banner_url = data.banner;
+      banner.cinema = cinemaCreate;
+
+      await this.cinemaService.createCinemaBanner(banner);
 
       const cinemaDTO = plainToClass(CinemaResponseDTO, cinemaCreate, {
         excludeExtraneousValues: true,
@@ -158,6 +169,25 @@ export class AdminCinemaUseCases {
       if (!cinemaBySlug) {
         throw new Error('Không tồn tại rạp chiếu');
       }
+
+      const cinemaBanner = await this.cinemaService.getCinemaBannerByID(
+        data.banner.cinema_banner_id
+      );
+
+      if (!cinemaBanner) {
+        const newBanner = new CinemaBanner();
+
+        newBanner.banner_url = data.banner.banner_url;
+        newBanner.cinema = cinemaBySlug;
+
+        await this.cinemaService.createCinemaBanner(newBanner);
+      } else {
+        cinemaBanner.banner_url = data.banner.banner_url;
+        cinemaBanner.cinema = cinemaBySlug;
+
+        await this.cinemaService.updateCinemaBanner(cinemaBanner);
+      }
+
       cinemaBySlug.cinema_name = data.cinema_name;
       cinemaBySlug.slug = data.slug;
       cinemaBySlug.address = data.address;

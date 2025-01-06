@@ -12,6 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import {
+  CinemaDetailResponseDTO,
   CinemaResponseDTO,
   CreateCinemaDTO,
   GetCinemasQueryDto,
@@ -69,7 +70,9 @@ export class AdminCinemaController {
   }
 
   @Get('detail')
-  async getDetailCinemaBySlug(@Query('_slug') slug: string): Promise<IResponse<CinemaResponseDTO>> {
+  async getDetailCinemaBySlug(
+    @Query('_slug') slug: string
+  ): Promise<IResponse<CinemaDetailResponseDTO>> {
     if (!slug) {
       throw new BadRequestException({
         statusCode: 400,
@@ -103,6 +106,23 @@ export class AdminCinemaController {
   }
 
   @Put('update/:slug')
+  @UsePipes(
+    new ValidationPipe({
+      transform: true, // Chuyển đổi dữ liệu (nếu cần)
+      exceptionFactory: (errors) => {
+        // Tùy chỉnh lỗi trả về
+        const validationErrors = errors.map((error) => ({
+          field: error.property,
+          constraints: error.constraints,
+        }));
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Dữ liệu không hợp lệ',
+          error: validationErrors,
+        });
+      },
+    })
+  )
   async updateCinema(
     @Param('slug') slug: string,
     @Body() data: UpdateCinemaDTO

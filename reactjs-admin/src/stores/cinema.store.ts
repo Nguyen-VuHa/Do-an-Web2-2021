@@ -10,7 +10,7 @@ import {
 } from '~/apis/cinema.api';
 import { PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT } from '~/constants/default';
 import { STATUS_SUCCESS } from '~/constants/statusCode';
-import { ICinema, ICinemaForm } from '~/types/cinema.type';
+import { ICinema, ICinemaBanner, ICinemaForm } from '~/types/cinema.type';
 import { IObject, IPagination } from '~/types/common.type';
 import useGlobalStore from './global.store';
 import { ACTIVE, INACTIVE } from '~/constants/status';
@@ -45,6 +45,7 @@ interface CinemaState {
   cinemaCrawlData: ICinemaForm[];
   isProcessCreateMultiCinema: boolean;
   cinemaDataProcess: IObject<any>[];
+  bannerSelect: ICinemaBanner | null;
   setCinemaForm: (formData: IObject<any>) => void;
   setCinemaDataProcess: (data: IObject<any>) => void;
   resetCinemaForm: () => void;
@@ -85,6 +86,7 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
   isFetchCinemaList: false,
   isEditCinema: false,
   isUpdateCinemaStatus: false,
+  bannerSelect: null,
   cinemas: [],
   cinemaForm: initCinemaForm,
   cinemaFormError: {},
@@ -102,6 +104,7 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
     set({
       cinemaForm: initCinemaForm,
       cinemaFormError: {},
+      bannerSelect: null,
     });
   },
   setCinemaDataProcess: (data) => {
@@ -228,6 +231,10 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
             area: cinemaData?.area || '',
             embed_map_url: cinemaData?.embed_map_url || '',
           },
+          bannerSelect:
+            cinemaData?.banner && cinemaData.banner.cinema_banner_id > 0
+              ? cinemaData?.banner
+              : null,
         });
         statusFetchDetail = true;
       } else {
@@ -244,7 +251,10 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
     let statusCreate: boolean = false;
     set({ isEditCinema: true });
     try {
-      const res = await apiCreateCinema(get().cinemaForm);
+      const res = await apiCreateCinema({
+        ...get().cinemaForm,
+        banner: get().bannerSelect?.banner_url,
+      });
       if (res && res.statusCode === STATUS_SUCCESS && res.data) {
         statusCreate = true;
         get().resetCinemaForm();
@@ -262,7 +272,10 @@ const useCinemaStore = create<CinemaState>((set, get) => ({
     let statusUpdate: boolean = false;
     set({ isEditCinema: true });
     try {
-      const res = await apiUpdateCinema(slug, get().cinemaForm);
+      const res = await apiUpdateCinema(slug, {
+        ...get().cinemaForm,
+        banner: get().bannerSelect,
+      });
       if (res && res.statusCode === STATUS_SUCCESS && res.data) {
         statusUpdate = true;
         get().resetCinemaForm();

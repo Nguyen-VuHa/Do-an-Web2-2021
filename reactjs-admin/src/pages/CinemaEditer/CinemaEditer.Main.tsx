@@ -7,14 +7,19 @@ import cinemaSchema from '~/schemas/cinema.schema';
 import { IObject } from '~/types/common.type';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import FindEmbedURLModal from './FindEmbedURL.Modal';
+import BannerForm from './BannerForm';
+import MediaSelect from '~/components/MediaSelect/MediaSelect.Main';
 
 const CinemaEditer = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
 
+  const [isModalMedia, setIsModalMedia] = useState<boolean>(false);
+
   const {
+    bannerSelect,
     cinemaForm,
     isEditCinema,
     addressCrawl,
@@ -71,6 +76,11 @@ const CinemaEditer = () => {
     const isValidData = await handleValidateCinemaForm();
 
     if (isValidData) {
+      if (!bannerSelect) {
+        toast.error('Vui lòng chọn banner cho rạp phim.');
+        return;
+      }
+
       if (slug) {
         const isUpdate = await reqUpdateCinema(slug);
 
@@ -95,6 +105,27 @@ const CinemaEditer = () => {
 
   return (
     <>
+      <MediaSelect
+        isOpen={isModalMedia}
+        onClose={() => {
+          setIsModalMedia(false);
+        }}
+        onSingleSelect={(data) => {
+          if (!bannerSelect) {
+            setStateCinema('bannerSelect', {
+              cinema_banner_id: -1,
+              banner_url: data.path,
+            });
+          } else {
+            setStateCinema('bannerSelect', {
+              ...bannerSelect,
+              banner_url: data.path,
+            });
+          }
+
+          setIsModalMedia(false);
+        }}
+      />
       <FindEmbedURLModal isOpen={isCrawlEmbedURL} address={addressCrawl} />
       <div className="mb-6 w-full flex justify-between items-center">
         <div className="flex items-center space-x-2">
@@ -139,7 +170,14 @@ const CinemaEditer = () => {
           </Button>
         </div>
       </div>
-      <CinemaForm />
+      <div className="space-y-5">
+        <BannerForm
+          openMediaSelect={() => {
+            setIsModalMedia(true);
+          }}
+        />
+        <CinemaForm />
+      </div>
     </>
   );
 };

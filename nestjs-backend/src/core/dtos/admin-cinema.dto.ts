@@ -1,5 +1,14 @@
+import { OmitType } from '@nestjs/mapped-types';
 import { Expose, Transform, Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, MaxLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+  ValidateNested,
+} from 'class-validator';
 import { ACTIVE, INACTIVE } from 'src/constants/status';
 
 export class GetCinemasQueryDto {
@@ -18,6 +27,16 @@ export class GetCinemasQueryDto {
   @IsString()
   @MaxLength(50, { message: 'Chỉ được nhập tối đa 50 ký tự cho trường tìm kiếm' })
   _search?: string;
+}
+
+export class BannerCinemaDTO {
+  @IsOptional() // Yêu cầu trường này không được để trống
+  @IsNumber()
+  cinema_banner_id: number;
+
+  @IsNotEmpty()
+  @IsUrl()
+  banner_url: string;
 }
 
 export class CreateCinemaDTO {
@@ -40,9 +59,18 @@ export class CreateCinemaDTO {
   @IsNotEmpty() // Yêu cầu trường này không được để trống
   @IsUrl()
   embed_map_url: string;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsUrl()
+  banner: string;
 }
 
-export class UpdateCinemaDTO extends CreateCinemaDTO {}
+export class UpdateCinemaDTO extends OmitType(CreateCinemaDTO, ['banner'] as const) {
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => BannerCinemaDTO)
+  banner: BannerCinemaDTO; // Ghi đè kiểu dữ liệu
+}
 
 export class CinemaResponseDTO {
   @Expose()
@@ -69,4 +97,23 @@ export class CinemaResponseDTO {
   @Expose()
   @Transform(({ obj }) => (obj.deleted_at ? INACTIVE : ACTIVE))
   status: string;
+}
+
+export class CinemaDetailResponseDTO extends CinemaResponseDTO {
+  @Expose()
+  @Type(() => BannerCinemaDTO)
+  @Transform(({ obj }) => {
+    const banner_cinema: BannerCinemaDTO = {
+      cinema_banner_id: -1,
+      banner_url: '',
+    };
+
+    if (obj.banners.length > 0) {
+      banner_cinema.banner_url = obj.banners[0].banner_url;
+      banner_cinema.cinema_banner_id = obj.banners[0].cinema_banner_id;
+    }
+
+    return banner_cinema;
+  })
+  banner: BannerCinemaDTO;
 }

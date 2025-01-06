@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CinemaBanner } from 'src/core/entities/cinema-banner.entity';
 import { Cinema } from 'src/core/entities/cinema.entity';
 import { IObject } from 'src/core/types/common';
 import { Repository } from 'typeorm';
@@ -8,7 +9,10 @@ import { Repository } from 'typeorm';
 export class CinemaService {
   constructor(
     @InjectRepository(Cinema)
-    private readonly cinemaRepository: Repository<Cinema>
+    private readonly cinemaRepository: Repository<Cinema>,
+
+    @InjectRepository(CinemaBanner)
+    private readonly cinemaBannerRepository: Repository<CinemaBanner>
   ) {}
 
   async getPaginationCinemaByCondition(conditions: IObject<any>): Promise<[Cinema[], number]> {
@@ -54,6 +58,9 @@ export class CinemaService {
       where: {
         slug: slug,
       },
+      relations: {
+        banners: true,
+      },
       withDeleted: true,
     });
   }
@@ -91,5 +98,21 @@ export class CinemaService {
     return await this.cinemaRepository.update(cinema.cinema_id, {
       deleted_at: null, // Khôi phục lại bản ghi
     });
+  }
+
+  async getCinemaBannerByID(id: number): Promise<CinemaBanner> {
+    return await this.cinemaBannerRepository.findOne({
+      where: {
+        cinema_banner_id: id,
+      },
+    });
+  }
+
+  async createCinemaBanner(cinemaBannerData: CinemaBanner): Promise<CinemaBanner> {
+    return await this.cinemaBannerRepository.save(cinemaBannerData);
+  }
+
+  async updateCinemaBanner(cinemaBannerData: CinemaBanner): Promise<CinemaBanner> {
+    return await this.cinemaBannerRepository.save(cinemaBannerData);
   }
 }

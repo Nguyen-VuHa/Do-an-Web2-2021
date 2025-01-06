@@ -7,6 +7,7 @@ export interface ICinema {
   embed_map_url: string;
   created_at: string;
   status: string;
+  banner: ICinemaBanner;
 }
 
 export interface ICinemaForm {
@@ -15,4 +16,9 @@ export interface ICinemaForm {
   address: string;
   area: string;
   embed_map_url: string;
+}
+
+export interface ICinemaBanner {
+  cinema_banner_id: number;
+  banner_url: string;
 }
