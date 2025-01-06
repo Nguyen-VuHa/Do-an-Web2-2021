@@ -40,6 +40,9 @@ const config: Config = {
         "circle-md": "0.625rem",
         "circle-lg": "1.125rem",
       },
+      animation: {
+        gradient: "gradientAnimation 3s ease infinite",
+      },
     },
   },
   plugins: [],

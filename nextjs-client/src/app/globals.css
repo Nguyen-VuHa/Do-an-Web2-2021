@@ -33,3 +33,24 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(85, 172, 238, 0.9); /* Màu khi hover */
 }
+
+.gradient-text {
+  background: linear-gradient(75deg, #55acee, #e4405f, #27df2d);
+  background-size: 200% 200%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: gradientAnimation 5s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 90%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 80%;
+  }
+}

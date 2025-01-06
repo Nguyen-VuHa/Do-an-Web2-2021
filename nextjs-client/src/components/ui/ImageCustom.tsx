@@ -55,7 +55,7 @@ const ImageCustom: React.FC<ImageCustomProps> = ({
   }, []);
 
   return (
-    <div ref={wrapperIMGRef} className="w-full h-full">
+    <div ref={wrapperIMGRef} className="relative w-full h-full">
       {/* Skeleton Loader */}
       {(isLoading || isFetchImage || !isVisible) && (
         <div className="absolute inset-0 bg-second animate-pulse text-facebook rounded-lg flex justify-center items-center">
