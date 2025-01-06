@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "set PORT=4000 && next dev",
     "build": "next build",
-    "start": "set PORT=4000 && next start",
+    "start": "PORT=4000 next start",
     "lint": "next lint"
   },
   "dependencies": {
