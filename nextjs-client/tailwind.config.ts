@@ -19,6 +19,8 @@ const config: Config = {
         instagram: "#e4405f",
         "social-x": "#55acee",
         "gray-place": "#989faa",
+        warning: "#FFA70B",
+        success: "#219653",
       },
       width: {
         "header-menu": "8.75rem",

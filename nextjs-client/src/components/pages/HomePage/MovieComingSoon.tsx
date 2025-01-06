@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import ButtonSlideNext from "~/components/common/ButtonSlideNext";
+import ButtonSlidePrev from "~/components/common/ButtonSlidePrev";
 import MovieCard from "~/components/common/MovieCard";
 import { IMovieInfo } from "~/types/movie.type";
 
@@ -13,6 +15,22 @@ interface MovieComingSoonProps {
 const MovieComingSoon: React.FC<MovieComingSoonProps> = ({
   movieComingSoon,
 }) => {
+  const swiperRef = useRef<any | null>(null);
+  const prevRef = useRef<HTMLDivElement>(null);
+  const nextRef = useRef<HTMLDivElement>(null);
+
+  const handleNextClick = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext(); // Điều khiển chuyển đến slide tiếp theo
+    }
+  };
+
+  const handlePrevClick = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slidePrev(); // Điều khiển chuyển đến slide tiếp theo
+    }
+  };
+
   return (
     <div className="space-y-10 max-sm:px-8">
       <h2
@@ -22,10 +40,14 @@ const MovieComingSoon: React.FC<MovieComingSoonProps> = ({
         Coming Soon
       </h2>
       <Swiper
+        ref={swiperRef}
         className="select-none"
         modules={[Navigation, Pagination]}
         spaceBetween={50}
-        navigation
+        navigation={{
+          prevEl: prevRef.current,
+          nextEl: nextRef.current,
+        }}
         breakpoints={{
           640: {
             slidesPerView: 2, // Hiển thị 1 slide khi màn hình <= 640px
@@ -54,6 +76,17 @@ const MovieComingSoon: React.FC<MovieComingSoonProps> = ({
               </SwiperSlide>
             );
           })}
+
+        <ButtonSlidePrev
+          onClick={() => handlePrevClick()}
+          className="absolute top-[45%] left-[5px] z-[999]"
+          ref={prevRef}
+        />
+        <ButtonSlideNext
+          ref={nextRef}
+          onClick={() => handleNextClick()}
+          className="absolute top-[45%] right-[5px] z-[999]"
+        />
       </Swiper>
     </div>
   );

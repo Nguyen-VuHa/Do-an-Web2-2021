@@ -4,24 +4,30 @@ import MovieComingSoon from "~/components/pages/HomePage/MovieComingSoon";
 import MovieShowing from "~/components/pages/HomePage/MovieShowing";
 import Promotion from "~/components/pages/HomePage/Promotion";
 import TopWeeklyMovie from "~/components/pages/HomePage/TopWeeklyMovie";
+import MaintainceScreen from "~/components/common/MaintainceScreen";
 
 export const metadata = {
   title: "Trang chủ - BHD Star",
 };
 
 export default async function Home() {
-  const resMovieTopWeek = await apiFetchMovieTopWeek();
-  const resMovie = await apiFetchMovies();
+  try {
+    const resMovieTopWeek = await apiFetchMovieTopWeek();
+    const resMovie = await apiFetchMovies();
 
-  return (
-    <>
-      <ViewTrailer />
-      <TopWeeklyMovie movieInfo={resMovieTopWeek.data} />
-      <div className="container mx-auto space-y-20">
-        <MovieShowing movieShowing={resMovie.data?.showing} />
-        <MovieComingSoon movieComingSoon={resMovie.data?.comming_soon} />
-        <Promotion />
-      </div>
-    </>
-  );
+    return (
+      <>
+        <ViewTrailer />
+        <TopWeeklyMovie movieInfo={resMovieTopWeek.data} />
+        <div className="container mx-auto space-y-20">
+          <MovieShowing movieShowing={resMovie.data?.showing} />
+          <MovieComingSoon movieComingSoon={resMovie.data?.comming_soon} />
+          <Promotion />
+        </div>
+      </>
+    );
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return <MaintainceScreen />;
+  }
 }
