@@ -9,6 +9,7 @@ import { AdminScreenUseCaseModule } from 'src/use-cases/(admin)/screen/screenUse
 import { AdminShowtimeUseCaseModule } from 'src/use-cases/(admin)/showtime/showtimeUseCase.module';
 import { AdminUserUseCaseModule } from 'src/use-cases/(admin)/user/adminUserUseCase.module';
 import { AuthUseCaseModule } from 'src/use-cases/auth/authUseCase.module';
+import { CinemaUseCaseModule } from 'src/use-cases/cinema/cinemaUseCase.module';
 import { MovieUseCaseModule } from 'src/use-cases/movie/movieUseCase.module';
 
 const SEEDER_MODULES = [DataSeederServiceModule];
@@ -26,7 +27,7 @@ const ADMIN_APPMODULES = [
 
 const THIRD_PARTY_MODULES = [RedisServiceModule];
 
-const CLIENT_MODULES = [AuthUseCaseModule, MovieUseCaseModule];
+const CLIENT_MODULES = [AuthUseCaseModule, MovieUseCaseModule, CinemaUseCaseModule];
 
 const APPMODULES = [
   ...ADMIN_APPMODULES,

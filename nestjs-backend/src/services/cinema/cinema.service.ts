@@ -25,6 +25,14 @@ export class CinemaService {
     return await this.cinemaRepository.findOne(conditions);
   }
 
+  async getCinemaClient(): Promise<Cinema[]> {
+    return await this.cinemaRepository.find({
+      relations: {
+        banners: true,
+      },
+    });
+  }
+
   async getCinemaByID(id: number): Promise<Cinema> {
     return await this.cinemaRepository.findOne({
       where: {
