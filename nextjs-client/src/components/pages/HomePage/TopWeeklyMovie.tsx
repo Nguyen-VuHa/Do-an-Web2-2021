@@ -6,20 +6,19 @@ import ItemMovieInfo from "./ItemMovieInfo";
 import { useState } from "react";
 import DescriptionMovieInfo from "./DescriptionMovieInfo";
 import { IMovieInfo } from "~/types/movie.type";
+import { useGlobalStore } from "~/stores/global.store";
 
 interface TopWeeklyMovieProps {
-  movieInfo?: IMovieInfo
+  movieInfo?: IMovieInfo;
 }
 
-const TopWeeklyMovie: React.FC<TopWeeklyMovieProps> = ({
-  movieInfo,
-}) => {
+const TopWeeklyMovie: React.FC<TopWeeklyMovieProps> = ({ movieInfo }) => {
   const [isFetchData] = useState<boolean>(false);
-
+  const { setStateGlobal } = useGlobalStore();
 
   return (
     <section className="relative flex flex-col w-full min-h-screen overflow-hidden">
-      <ImageDetail imageURL={movieInfo?.poster || ''} />
+      <ImageDetail imageURL={movieInfo?.poster || ""} />
       <div
         className="container mx-auto lg:pr-[30%] py-[60px] bg-layout bg-opacity-60 h-full
             w-full space-y-4 md:bg-transparent max-sm:px-8"
@@ -34,7 +33,7 @@ const TopWeeklyMovie: React.FC<TopWeeklyMovieProps> = ({
         <div className="flex flex-col w-full md:space-x-4 md:flex-row md:items-start">
           <div className="relative flex justify-center px-20 py-5 bg-transparent overflow-hidden rounded-circle-md shadow-lg shadow-xl md:p-0 max-sm:px-8">
             <ImageCustom
-              src={movieInfo?.poster || ''}
+              src={movieInfo?.poster || ""}
               alt="NO POSTER"
               width={300}
               height={400}
@@ -52,12 +51,12 @@ const TopWeeklyMovie: React.FC<TopWeeklyMovieProps> = ({
                 <ItemMovieInfo
                   isLoading={isFetchData}
                   title="Đạo diễn:"
-                  content= {movieInfo?.director}
+                  content={movieInfo?.director}
                 />
                 <ItemMovieInfo
                   isLoading={isFetchData}
                   title="Diễn viên:"
-                  content= {movieInfo?.actors}
+                  content={movieInfo?.actors}
                 />
                 <ItemMovieInfo
                   isLoading={isFetchData}
@@ -85,7 +84,14 @@ const TopWeeklyMovie: React.FC<TopWeeklyMovieProps> = ({
               <Button className="!px-10" buttonType="info">
                 Đặt vé
               </Button>
-              <Button className="!px-10" buttonType="error">
+              <Button
+                className="!px-10"
+                buttonType="error"
+                onClick={() => {
+                  setStateGlobal("isModalViewTrailer", true);
+                  setStateGlobal("trailerID", movieInfo?.trailer_id);
+                }}
+              >
                 Xem Trailer
               </Button>
             </div>

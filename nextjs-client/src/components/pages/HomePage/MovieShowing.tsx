@@ -7,12 +7,10 @@ import MovieCard from "~/components/common/MovieCard";
 import { IMovieInfo } from "~/types/movie.type";
 
 interface MovieShowingProps {
-  movieShowing?: IMovieInfo[],
+  movieShowing?: IMovieInfo[];
 }
 
-const MovieShowing: React.FC<MovieShowingProps> = ({
-  movieShowing,
-}) => {
+const MovieShowing: React.FC<MovieShowingProps> = ({ movieShowing }) => {
   return (
     <div className="space-y-10 max-sm:px-8">
       <h2
@@ -45,14 +43,15 @@ const MovieShowing: React.FC<MovieShowingProps> = ({
           },
         }}
       >
-        {
-          movieShowing && movieShowing.length > 0
-          && movieShowing.map((movie) => {
-            return  <SwiperSlide key={movie.movie_id}>
-              <MovieCard movieData={movie} />
-            </SwiperSlide>
-          })
-        }
+        {movieShowing &&
+          movieShowing.length > 0 &&
+          movieShowing.map((movie) => {
+            return (
+              <SwiperSlide key={movie.movie_id}>
+                <MovieCard movieData={movie} />
+              </SwiperSlide>
+            );
+          })}
       </Swiper>
     </div>
   );

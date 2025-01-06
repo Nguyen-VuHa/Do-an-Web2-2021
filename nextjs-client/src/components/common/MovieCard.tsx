@@ -1,10 +1,13 @@
+"use client";
+
 import React from "react";
 import ImageCustom from "../ui/ImageCustom";
 import Button from "../ui/Button";
 import { IMovieInfo } from "~/types/movie.type";
+import { useGlobalStore } from "~/stores/global.store";
 
 interface MovieCardProps {
-  movieData: IMovieInfo,
+  movieData: IMovieInfo;
   cardType?: "showing" | "coming-soon";
 }
 
@@ -12,12 +15,14 @@ const MovieCard: React.FC<MovieCardProps> = ({
   movieData,
   cardType = "showing",
 }) => {
+  const { setStateGlobal } = useGlobalStore();
+
   return (
     <div className="group relative flex justify-center items-center cursor-pointer overflow-hidden rounded-circle-md">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-layout/50 to-layout rounded-lg pointer-events-none z-[1]"></div>
       <div className="w-full h-movie-card">
         <ImageCustom
-          src={movieData.poster || ''}
+          src={movieData.poster || ""}
           alt="NO IMAGE"
           imgClassName="w-full h-full object-cover object-top"
           width={200}
@@ -36,7 +41,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
             className="text-transparent 
             bg-clip-text bg-gradient-to-r from-instagram to-primary text-social-x text-center font-semibold overflow-hidden text-ellipsis line-clamp-3"
           >
-            {movieData.title || '-'}
+            {movieData.title || "-"}
           </h4>
           <div className="absolute flex space-x-1 w-full translate-y-[40px] opacity-0 invisible group-hover:relative group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible">
             {cardType === "showing" && (
@@ -58,6 +63,10 @@ const MovieCard: React.FC<MovieCardProps> = ({
                         transition-all duration-300
                     "
               buttonType="error"
+              onClick={() => {
+                setStateGlobal("isModalViewTrailer", true);
+                setStateGlobal("trailerID", movieData.trailer_id);
+              }}
             >
               Xem trailler
             </Button>

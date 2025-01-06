@@ -7,11 +7,11 @@ import MovieCard from "~/components/common/MovieCard";
 import { IMovieInfo } from "~/types/movie.type";
 
 interface MovieComingSoonProps {
-  movieComingSoon?: IMovieInfo[],
+  movieComingSoon?: IMovieInfo[];
 }
 
 const MovieComingSoon: React.FC<MovieComingSoonProps> = ({
-  movieComingSoon
+  movieComingSoon,
 }) => {
   return (
     <div className="space-y-10 max-sm:px-8">
@@ -45,17 +45,15 @@ const MovieComingSoon: React.FC<MovieComingSoonProps> = ({
           },
         }}
       >
-        {
-          movieComingSoon && movieComingSoon.length > 0
-          && movieComingSoon.map((movie) => {
-            return <SwiperSlide key={movie.movie_id}>
-              <MovieCard
-                movieData={movie}
-                cardType="coming-soon"
-              />
-            </SwiperSlide>
-          })
-        }
+        {movieComingSoon &&
+          movieComingSoon.length > 0 &&
+          movieComingSoon.map((movie) => {
+            return (
+              <SwiperSlide key={movie.movie_id}>
+                <MovieCard movieData={movie} cardType="coming-soon" />
+              </SwiperSlide>
+            );
+          })}
       </Swiper>
     </div>
   );

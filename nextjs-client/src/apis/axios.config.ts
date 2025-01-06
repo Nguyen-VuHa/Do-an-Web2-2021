@@ -9,7 +9,7 @@ import {
   getDataToLocalStore,
   removeDataToLocalStore,
 } from "~/utils/localStorage";
-import cookie from "cookie"; // Thư viện parse cookie
+import { parse } from "cookie"; // Thư viện parse cookie
 import Cookies from "js-cookie"; // Thư viện dùng trên client
 
 // Tạo một interface mở rộng từ AxiosRequestConfig để thêm thuộc tính _retry
@@ -32,7 +32,7 @@ axiosInstance.interceptors.request.use(
     if (typeof window === "undefined") {
       // Chạy trên server
       if (config.headers && config.headers.cookie) {
-        const cookies = cookie.parse(config.headers.cookie);
+        const cookies = parse(config.headers.cookie);
         const token = cookies.access_token;
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
