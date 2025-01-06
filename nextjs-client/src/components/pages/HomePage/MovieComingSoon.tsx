@@ -4,8 +4,15 @@ import React from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieCard from "~/components/common/MovieCard";
+import { IMovieInfo } from "~/types/movie.type";
 
-const MovieComingSoon = () => {
+interface MovieComingSoonProps {
+  movieComingSoon?: IMovieInfo[],
+}
+
+const MovieComingSoon: React.FC<MovieComingSoonProps> = ({
+  movieComingSoon
+}) => {
   return (
     <div className="space-y-10 max-sm:px-8">
       <h2
@@ -38,42 +45,17 @@ const MovieComingSoon = () => {
           },
         }}
       >
-        <SwiperSlide>
-          <MovieCard
-            imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            cardType="coming-soon"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard
-            imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            cardType="coming-soon"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard
-            imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            cardType="coming-soon"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard
-            imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            cardType="coming-soon"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard
-            imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            cardType="coming-soon"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard
-            imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg"
-            cardType="coming-soon"
-          />
-        </SwiperSlide>
+        {
+          movieComingSoon && movieComingSoon.length > 0
+          && movieComingSoon.map((movie) => {
+            return <SwiperSlide key={movie.movie_id}>
+              <MovieCard
+                movieData={movie}
+                cardType="coming-soon"
+              />
+            </SwiperSlide>
+          })
+        }
       </Swiper>
     </div>
   );

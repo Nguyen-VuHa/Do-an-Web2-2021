@@ -3,21 +3,23 @@ import Button from "~/components/ui/Button";
 import ImageCustom from "~/components/ui/ImageCustom";
 import ImageDetail from "~/components/ui/ImageDetail";
 import ItemMovieInfo from "./ItemMovieInfo";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DescriptionMovieInfo from "./DescriptionMovieInfo";
+import { IMovieInfo } from "~/types/movie.type";
 
-const TopWeeklyMovie = () => {
-  const [isFetchData, setIsFetchData] = useState<boolean>(true);
+interface TopWeeklyMovieProps {
+  movieInfo?: IMovieInfo
+}
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsFetchData(false);
-    }, 1000);
-  }, []);
+const TopWeeklyMovie: React.FC<TopWeeklyMovieProps> = ({
+  movieInfo,
+}) => {
+  const [isFetchData] = useState<boolean>(false);
+
 
   return (
     <section className="relative flex flex-col w-full min-h-screen overflow-hidden">
-      <ImageDetail imageURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-20.jpg" />
+      <ImageDetail imageURL={movieInfo?.poster || ''} />
       <div
         className="container mx-auto lg:pr-[30%] py-[60px] bg-layout bg-opacity-60 h-full
             w-full space-y-4 md:bg-transparent max-sm:px-8"
@@ -32,7 +34,7 @@ const TopWeeklyMovie = () => {
         <div className="flex flex-col w-full md:space-x-4 md:flex-row md:items-start">
           <div className="relative flex justify-center px-20 py-5 bg-transparent overflow-hidden rounded-circle-md shadow-lg shadow-xl md:p-0 max-sm:px-8">
             <ImageCustom
-              src="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-20.jpg"
+              src={movieInfo?.poster || ''}
               alt="NO POSTER"
               width={300}
               height={400}
@@ -44,33 +46,33 @@ const TopWeeklyMovie = () => {
               <h3
                 className={`text-primary font-semibold text-2xl ${isFetchData ? "bg-second rounded-circle-md animate-pulse !text-transparent" : ""}`}
               >
-                THE SUPER ELFKINS: BIỆT ĐỘI TÍ HON
+                {movieInfo?.title}
               </h3>
               <div className="flex flex-col items-start gap-8">
                 <ItemMovieInfo
                   isLoading={isFetchData}
                   title="Đạo diễn:"
-                  content="Ute von Münchow-Pohl"
+                  content= {movieInfo?.director}
                 />
                 <ItemMovieInfo
                   isLoading={isFetchData}
                   title="Diễn viên:"
-                  content="Hilde Dalik, Dave Davis"
+                  content= {movieInfo?.actors}
                 />
                 <ItemMovieInfo
                   isLoading={isFetchData}
                   title="Thể loại:"
-                  content="Family"
+                  content={movieInfo?.categories}
                 />
                 <ItemMovieInfo
                   isLoading={isFetchData}
                   title="Khởi chiếu:"
-                  content="24/12/2024"
+                  content={movieInfo?.start_date}
                 />
                 <ItemMovieInfo
                   isLoading={isFetchData}
                   title="Thời lượng:"
-                  content="76 phút"
+                  content={`${movieInfo?.duration} phút`}
                 />
                 <ItemMovieInfo
                   isLoading={isFetchData}
@@ -91,10 +93,7 @@ const TopWeeklyMovie = () => {
         </div>
         <div className="flex flex-col text-social-x">
           <DescriptionMovieInfo
-            content={`Dựa trên bộ phim "The Elfkins – Baking A Difference". Thế giới của
-            Elfie bị đảo lộn khi cô phát hiện ra sự tồn tại của một băng đảng
-            Elfkin tiên tiến về mặt kỹ thuật, trái ngược hoàn toàn với gia tộc
-            của Elfie không ai sánh bằng bởi sự vui vẻ.`}
+            content={movieInfo?.description}
             isLoading={isFetchData}
           />
         </div>

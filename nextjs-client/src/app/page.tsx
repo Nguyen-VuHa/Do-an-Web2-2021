@@ -1,3 +1,4 @@
+import { apiFetchMovies, apiFetchMovieTopWeek } from "~/apis/movie.api";
 import MovieComingSoon from "~/components/pages/HomePage/MovieComingSoon";
 import MovieShowing from "~/components/pages/HomePage/MovieShowing";
 import Promotion from "~/components/pages/HomePage/Promotion";
@@ -8,12 +9,21 @@ export const metadata = {
 };
 
 export default async function Home() {
+  const resMovieTopWeek = await apiFetchMovieTopWeek();
+  const resMovie = await apiFetchMovies();
+
   return (
     <>
-      <TopWeeklyMovie />
+      <TopWeeklyMovie 
+        movieInfo={resMovieTopWeek.data}
+      />
       <div className="container mx-auto space-y-20">
-        <MovieShowing />
-        <MovieComingSoon />
+        <MovieShowing 
+          movieShowing={resMovie.data?.showing}
+        />
+        <MovieComingSoon 
+          movieComingSoon={resMovie.data?.comming_soon}
+        />
         <Promotion />
       </div>
     </>

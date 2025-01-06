@@ -60,7 +60,7 @@ interface AuthAPIState {
 const MESSAGE_SIGN_UP_ERROR = "Đăng ký tài khoản thất bại";
 const MESSAGE_SIGN_UP_SUCCESS = "Đăng ký tài khoản thành công";
 
-export const useAuthAPIStore = create<AuthAPIState>((set, get) => ({
+export const useAuthAPIStore = create<AuthAPIState>((set) => ({
   isPostSignUpAccount: false,
 
   postSignUpAccount: async (data) => {

@@ -55,12 +55,11 @@ const MobileMenu = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
 
   return (
     <div className="relative md:hidden">
@@ -84,12 +83,22 @@ const MobileMenu = () => {
                 `}
       >
         <div className="flex items-center space-x-1">
-          <Link href="dang-nhap" onClick={() => { setIsActive(false) }}>
+          <Link
+            href="dang-nhap"
+            onClick={() => {
+              setIsActive(false);
+            }}
+          >
             <Button className="whitespace-nowrap" buttonType="success">
               Đăng nhập
             </Button>
           </Link>
-          <Link href="dang-ky" onClick={() => { setIsActive(false) }}>
+          <Link
+            href="dang-ky"
+            onClick={() => {
+              setIsActive(false);
+            }}
+          >
             <Button className="whitespace-nowrap hover:!bg-layout">
               Đăng ký
             </Button>
@@ -104,7 +113,13 @@ const MobileMenu = () => {
                 : pathname.includes(menu.path);
 
             return (
-              <Link key={menu.id} href={menu.path || "#"} onClick={() => { setIsActive(false) }}>
+              <Link
+                key={menu.id}
+                href={menu.path || "#"}
+                onClick={() => {
+                  setIsActive(false);
+                }}
+              >
                 <div
                   className={`relative flex items-center space-x-2 w-full px-3 py-2
                                     text-typography rounded-circle-md cursor-pointer

@@ -4,8 +4,15 @@ import React from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieCard from "~/components/common/MovieCard";
+import { IMovieInfo } from "~/types/movie.type";
 
-const MovieShowing = () => {
+interface MovieShowingProps {
+  movieShowing?: IMovieInfo[],
+}
+
+const MovieShowing: React.FC<MovieShowingProps> = ({
+  movieShowing,
+}) => {
   return (
     <div className="space-y-10 max-sm:px-8">
       <h2
@@ -38,24 +45,14 @@ const MovieShowing = () => {
           },
         }}
       >
-        <SwiperSlide>
-          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <MovieCard imgURL="https://bhdstar.vn/wp-content/uploads/2024/12/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" />
-        </SwiperSlide>
+        {
+          movieShowing && movieShowing.length > 0
+          && movieShowing.map((movie) => {
+            return  <SwiperSlide key={movie.movie_id}>
+              <MovieCard movieData={movie} />
+            </SwiperSlide>
+          })
+        }
       </Swiper>
     </div>
   );

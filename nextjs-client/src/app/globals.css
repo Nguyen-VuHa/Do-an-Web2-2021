@@ -13,23 +13,23 @@ body {
 
 /* Toàn bộ thanh cuộn */
 ::-webkit-scrollbar {
-  width: 10px;        /* Độ rộng của thanh cuộn dọc */
-  height: 8px;       /* Độ cao của thanh cuộn ngang */
+  width: 10px; /* Độ rộng của thanh cuộn dọc */
+  height: 8px; /* Độ cao của thanh cuộn ngang */
 }
 
 /* Track của thanh cuộn (phần nền) */
 ::-webkit-scrollbar-track {
-  background: #121825;    /* Màu nền của track */
-  border-radius: 10px;    /* Bo góc cho track */
+  background: #121825; /* Màu nền của track */
+  border-radius: 10px; /* Bo góc cho track */
 }
 
 /* Thumb của thanh cuộn (phần di chuyển được) */
 ::-webkit-scrollbar-thumb {
-  background: rgb(85, 172, 238, .7);            /* Màu của thumb */
-  border-radius: 10px;         /* Bo góc cho thumb */
+  background: rgb(85, 172, 238, 0.7); /* Màu của thumb */
+  border-radius: 10px; /* Bo góc cho thumb */
 }
 
 /* Thumb khi hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(85, 172, 238, .9);    /* Màu khi hover */
+  background: rgb(85, 172, 238, 0.9); /* Màu khi hover */
 }
