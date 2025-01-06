@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import ImageCustom from "~/components/ui/ImageCustom";
 import { ICinema } from "~/types/cinema.type";
@@ -11,7 +12,8 @@ const BANNER_CINEMA_DEFAULT =
 
 const CinemaItem: React.FC<CinemaItemProps> = ({ data }) => {
   return (
-    <div
+    <Link href={`he-thong-rap/${data.slug}`}>
+     <div
       className="
                 w-full h-full rounded-circle-md bg-second p-2 shadow-lg
                 cursor-pointer bg-second hover:bg-opacity-40
@@ -21,7 +23,7 @@ const CinemaItem: React.FC<CinemaItemProps> = ({ data }) => {
       <div className="w-full h-[200px] rounded-circle-md overflow-hidden">
         <ImageCustom
           imgClassName="w-full h-full"
-          src={BANNER_CINEMA_DEFAULT}
+          src={data.banner_url ||  BANNER_CINEMA_DEFAULT}
           alt="NO CINEMA IMG"
           width={200}
           height={100}
@@ -34,9 +36,10 @@ const CinemaItem: React.FC<CinemaItemProps> = ({ data }) => {
         {data.cinema_name}
       </h4>
       <div className="space-y-2">
-        <span className="text-sm text-social-x italic">{data.address}</span>
+        <span className="text-sm text-social-x italic line-clamp-2" title={data.address}>{data.address}</span>
       </div>
     </div>
+    </Link>
   );
 };
 

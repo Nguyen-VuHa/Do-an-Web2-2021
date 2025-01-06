@@ -50,4 +50,16 @@ export class CinemaUseCases {
       });
     }
   }
+
+  async getCinemaClientBySlug(slug: string): Promise<string> {
+    try {
+      return 'toi usecase roi nek' + slug;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy chi tiết rạp chiếu phim thất bại.',
+        error: error.message,
+      });
+    }
+  }
 }

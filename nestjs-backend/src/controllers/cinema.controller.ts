@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { CinemaClientResponseDTO } from 'src/core/dtos/cinema.dto';
 import { IResponse } from 'src/core/types/common';
 import { CinemaUseCases } from 'src/use-cases/cinema/cinema.usecase';
@@ -10,5 +10,10 @@ export class CinemaController {
   @Get('')
   async getCinemaClient(): Promise<IResponse<CinemaClientResponseDTO[]>> {
     return this.cinemaUseCase.getCinema();
+  }
+
+  @Get('/:slug')
+  async getCinemaClientBySlug(@Param('slug') slug: string): Promise<string> {
+    return this.cinemaUseCase.getCinemaClientBySlug(slug);
   }
 }
