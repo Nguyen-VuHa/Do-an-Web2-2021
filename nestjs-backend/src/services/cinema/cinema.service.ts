@@ -59,7 +59,7 @@ export class CinemaService {
         slug: slug,
       },
       relations: {
-        banners: true,
+        screens: true,
       },
     });
   }

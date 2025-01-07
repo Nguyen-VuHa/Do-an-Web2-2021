@@ -6,3 +6,6 @@ export const REDIS_MOVIE_CLIENT_TTL = 86400; // 1 ngày
 
 export const REDIS_CINEMA_CLIENT_KEY = 'cinema_client';
 export const REDIS_CINEMA_CLIENT_TTL = 2592000; // 30 ngày
+
+export const REDIS_CINEMA_CLIENT_DETAIL_KEY = 'cinema_client_detail';
+export const REDIS_CINEMA_CLIENT_DETAIL_TTL = 3600; // 1 giờ

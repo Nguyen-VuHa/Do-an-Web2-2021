@@ -22,3 +22,29 @@ export class CinemaClientResponseDTO {
   })
   banner_url: string;
 }
+
+export class CinemaDetailClientResponseDTO {
+  @Expose()
+  cinema_id: number;
+
+  @Expose()
+  slug: string;
+
+  @Expose()
+  address: string;
+
+  @Expose()
+  area: string;
+
+  @Expose()
+  embed_map_url: string;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.screens.length;
+  })
+  screens: number;
+
+  @Expose()
+  screen_type: string;
+}

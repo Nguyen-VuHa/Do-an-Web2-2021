@@ -24,6 +24,21 @@ export class ScreenService {
     });
   }
 
+  async getScreenTypeByCinemaID(cinema_id: number): Promise<string[]> {
+    const screens = await this.screenRepository.find({
+      where: {
+        cinema: {
+          cinema_id: cinema_id,
+        },
+      },
+      select: ['screen_type'], // Chỉ lấy cột screen_type
+    });
+
+    const distinctScreenTypes = Array.from(new Set(screens.map((screen) => screen.screen_type)));
+
+    return distinctScreenTypes;
+  }
+
   async getCinemaByIDJoinCinema(screen_id: number): Promise<Screen> {
     return await this.screenRepository.findOne({
       where: {
