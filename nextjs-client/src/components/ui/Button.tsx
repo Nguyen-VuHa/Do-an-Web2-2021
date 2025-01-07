@@ -27,6 +27,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         loadingTypeClass = "border-social-x";
         break;
 
+      case "warning":
+          buttonTypeClass =
+            "bg-warning bg-opacity-30 text-warning hover:bg-opacity-50";
+          loadingTypeClass = "border-warning";
+          break;
+
       case "error":
         buttonTypeClass =
           "bg-instagram bg-opacity-30 text-instagram hover:bg-opacity-50";

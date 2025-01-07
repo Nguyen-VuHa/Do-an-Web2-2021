@@ -53,6 +53,14 @@ export class CinemaUseCases {
 
   async getCinemaClientBySlug(slug: string): Promise<string> {
     try {
+      const cinemaData = await this.cinemaService.getCinemaClientBySlug(slug);
+
+      if (!cinemaData) {
+        throw new Error('Rạp chiếu không tồn tại');
+      }
+
+      console.log(cinemaData);
+
       return 'toi usecase roi nek' + slug;
     } catch (error) {
       throw new BadRequestException({

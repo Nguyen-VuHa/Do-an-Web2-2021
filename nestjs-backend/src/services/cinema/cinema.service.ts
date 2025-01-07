@@ -53,6 +53,17 @@ export class CinemaService {
     });
   }
 
+  async getCinemaClientBySlug(slug: string): Promise<Cinema> {
+    return await this.cinemaRepository.findOne({
+      where: {
+        slug: slug,
+      },
+      relations: {
+        banners: true,
+      },
+    });
+  }
+
   async getCinemaBySlugWithDeteled(slug: string): Promise<Cinema> {
     return await this.cinemaRepository.findOne({
       where: {

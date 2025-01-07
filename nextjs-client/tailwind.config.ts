@@ -40,8 +40,14 @@ const config: Config = {
         "circle-md": "0.625rem",
         "circle-lg": "1.125rem",
       },
+      keyframes: {
+        "back-pulse": {
+          "0%, 100%": { transform: "translateX(0)" },
+          "50%": { transform: "translateX(8px)" },
+        },
+      },
       animation: {
-        gradient: "gradientAnimation 3s ease infinite",
+        "back-pulse": "back-pulse 2s ease-in-out infinite",
       },
     },
   },
