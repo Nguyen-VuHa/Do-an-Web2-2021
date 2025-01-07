@@ -4,18 +4,15 @@ import CinemaInfoItem from "./CinemaInfoItem";
 import { ICinemaDetail } from "~/types/cinema.type";
 
 interface CinemaDetaiLeftContentProps {
-  data: ICinemaDetail,
+  data: ICinemaDetail;
 }
 
 const CinemaDetaiLeftContent: React.FC<CinemaDetaiLeftContentProps> = ({
-  data
+  data,
 }) => {
   return (
     <div className="col-span-3 space-y-4 bg-second p-4 rounded-circle-md">
-      <CinemaInfoItem
-        title="Địa điểm:"
-        content={data.address}
-      />
+      <CinemaInfoItem title="Địa điểm:" content={data.address} />
       <CinemaInfoItem
         title="Số điện thoại:"
         content="1900 2099 hoặc 024 3206 8678"

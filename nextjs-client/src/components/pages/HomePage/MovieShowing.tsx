@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { Navigation } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ButtonSlideNext from "~/components/common/ButtonSlideNext";
 import ButtonSlidePrev from "~/components/common/ButtonSlidePrev";
@@ -40,12 +40,18 @@ const MovieShowing: React.FC<MovieShowingProps> = ({ movieShowing }) => {
       <Swiper
         ref={swiperRef}
         className="select-none"
-        modules={[Navigation]}
+        modules={[Navigation, Autoplay]}
         spaceBetween={50}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
         }}
+        autoplay={{
+          delay: 5000, // Chuyển slide mỗi 5 giây
+          disableOnInteraction: false,
+        }}
+        loop={true}
+        effect="fade"
         breakpoints={{
           640: {
             slidesPerView: 2, // Hiển thị 1 slide khi màn hình <= 640px

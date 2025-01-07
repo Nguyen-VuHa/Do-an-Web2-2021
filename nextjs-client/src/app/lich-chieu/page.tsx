@@ -1,11 +1,11 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Lịch chiếu - BHD Star",
 };
 
 const ShowtimeMain = () => {
-  return <div>ShowtimeMain</div>;
+  redirect("/lich-chieu/lich-theo-phim");
 };
 
 export default ShowtimeMain;

@@ -1,10 +1,9 @@
-
 interface CinemaDetailRightContentProps {
   embed_url: string;
 }
 
 const CinemaDetailRightContent: React.FC<CinemaDetailRightContentProps> = ({
-  embed_url
+  embed_url,
 }) => {
   return (
     <div className="bg-second h-fit rounded-circle-md overflow-hidden p-1 col-span-2">

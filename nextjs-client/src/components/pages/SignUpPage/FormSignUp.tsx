@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
@@ -16,7 +16,7 @@ import { ISignUpForm, ISignUpPayload } from "~/types/auth.type";
 import { IObject } from "~/types/common.type";
 
 // Định nghĩa component sẽ được tải động (chỉ ở client)
-const InputDate = dynamic(() => import('~/components/ui/InputDate'), {
+const InputDate = dynamic(() => import("~/components/ui/InputDate"), {
   ssr: false, // Tắt SSR (render server-side)
 });
 

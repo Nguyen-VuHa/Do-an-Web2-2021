@@ -19,7 +19,7 @@ const CinemaDetailMain = async ({ params }: { params: Params }) => {
     const { data } = await apiFetchCinemaDetail(params.slug);
 
     if (!data) {
-      return
+      return;
     }
 
     return (
@@ -27,12 +27,8 @@ const CinemaDetailMain = async ({ params }: { params: Params }) => {
         <div className="container mx-auto py-10 space-y-5">
           <CinemaDetailHeader title={data.cinema_name} />
           <div className="grid grid-cols-1 xl:grid-cols-5 space-y-3 lg:space-y-0 lg:gap-4 px-5 lg:px-0">
-            <CinemaDetaiLeftContent 
-              data={data}
-            />
-            <CinemaDetailRightContent 
-              embed_url={data.embed_map_url}
-            />
+            <CinemaDetaiLeftContent data={data} />
+            <CinemaDetailRightContent embed_url={data.embed_map_url} />
           </div>
         </div>
       </>
