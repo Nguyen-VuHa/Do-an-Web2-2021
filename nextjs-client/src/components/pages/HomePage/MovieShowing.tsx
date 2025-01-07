@@ -96,4 +96,4 @@ const MovieShowing: React.FC<MovieShowingProps> = ({ movieShowing }) => {
   );
 };
 
-export default MovieShowing;
+export default React.memo(MovieShowing);

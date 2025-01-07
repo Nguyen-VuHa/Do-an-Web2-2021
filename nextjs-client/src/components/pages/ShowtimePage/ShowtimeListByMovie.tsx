@@ -1,7 +1,12 @@
 import React from "react";
-import ShowtimeByMovieItem from "./ShowtimeByMovieItem";
+import MovieCard from "~/components/common/MovieCard";
+import { IMovie } from "~/types/movie.type";
 
-const ShowtimeListByMovie = () => {
+interface ShowtimeListByMovieProps {
+  data: IMovie;
+}
+
+const ShowtimeListByMovie: React.FC<ShowtimeListByMovieProps> = ({ data }) => {
   return (
     <div className="space-y-5">
       <h2
@@ -11,7 +16,11 @@ const ShowtimeListByMovie = () => {
         Phim Đang Chiếu
       </h2>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        <ShowtimeByMovieItem />
+        {data.showing &&
+          data.showing.length > 0 &&
+          data.showing.map((movie) => {
+            return <MovieCard key={movie.movie_id} movieData={movie} />;
+          })}
       </div>
       <h2
         className="text-center text-4xl font-semibold text-transparent
@@ -20,7 +29,17 @@ const ShowtimeListByMovie = () => {
         Coming Soon
       </h2>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        <ShowtimeByMovieItem />
+        {data.comming_soon &&
+          data.comming_soon.length > 0 &&
+          data.comming_soon.map((movie) => {
+            return (
+              <MovieCard
+                key={movie.movie_id}
+                cardType="coming-soon"
+                movieData={movie}
+              />
+            );
+          })}
       </div>
     </div>
   );

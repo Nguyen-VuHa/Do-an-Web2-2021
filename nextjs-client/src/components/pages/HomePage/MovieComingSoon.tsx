@@ -98,4 +98,4 @@ const MovieComingSoon: React.FC<MovieComingSoonProps> = ({
   );
 };
 
-export default MovieComingSoon;
+export default React.memo(MovieComingSoon);
