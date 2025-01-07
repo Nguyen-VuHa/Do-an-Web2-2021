@@ -31,6 +31,9 @@ export class CinemaDetailClientResponseDTO {
   slug: string;
 
   @Expose()
+  cinema_name: string;
+
+  @Expose()
   address: string;
 
   @Expose()

@@ -28,10 +28,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         break;
 
       case "warning":
-          buttonTypeClass =
-            "bg-warning bg-opacity-30 text-warning hover:bg-opacity-50";
-          loadingTypeClass = "border-warning";
-          break;
+        buttonTypeClass =
+          "bg-warning bg-opacity-30 text-warning hover:bg-opacity-50";
+        loadingTypeClass = "border-warning";
+        break;
 
       case "error":
         buttonTypeClass =

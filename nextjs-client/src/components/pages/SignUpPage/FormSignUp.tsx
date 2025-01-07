@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import dynamic from 'next/dynamic';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
@@ -8,12 +9,16 @@ import * as Yup from "yup";
 import Button from "~/components/ui/Button";
 import ErrorFormGroup from "~/components/ui/ErrorFormGroup";
 import Input from "~/components/ui/Input";
-import InputDate from "~/components/ui/InputDate";
 import { PROCESS_SUCCESS } from "~/constants/status";
 import { signUpSchema } from "~/schema/auth.schema";
 import { useAuthAPIStore, useAuthStore } from "~/stores/auth.store";
 import { ISignUpForm, ISignUpPayload } from "~/types/auth.type";
 import { IObject } from "~/types/common.type";
+
+// Định nghĩa component sẽ được tải động (chỉ ở client)
+const InputDate = dynamic(() => import('~/components/ui/InputDate'), {
+  ssr: false, // Tắt SSR (render server-side)
+});
 
 type InputListType = {
   id: number;
