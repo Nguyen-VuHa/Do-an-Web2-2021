@@ -22,6 +22,7 @@ import { CategoryService } from 'src/services/category/category.service';
 import { DirectorService } from 'src/services/director/director.service';
 import { MovieService } from 'src/services/movie/movie.service';
 import { PosterService } from 'src/services/poster/poster.service';
+import { convertToSlug } from 'src/utils/convert';
 import { Between, In } from 'typeorm';
 
 @Injectable()
@@ -190,6 +191,8 @@ export class AdminMovieUseCases {
         }
       }
 
+      const movieSlug = convertToSlug(data.title);
+
       const movieCreate = new Movie();
 
       movieCreate.title = data.title;
@@ -202,6 +205,7 @@ export class AdminMovieUseCases {
       movieCreate.actors = actors;
       movieCreate.categories = categories;
       movieCreate.posters = posters;
+      movieCreate.slug = movieSlug;
 
       const movieResponse = await this.movieService.createMovie(movieCreate);
 
@@ -277,6 +281,8 @@ export class AdminMovieUseCases {
         }
       }
 
+      const movieSlug = convertToSlug(data.title);
+
       movieUpdate.title = data.title;
       movieUpdate.description = data.description;
       movieUpdate.duration = data.duration;
@@ -287,6 +293,7 @@ export class AdminMovieUseCases {
       movieUpdate.actors = actors;
       movieUpdate.categories = categories;
       movieUpdate.posters = posters;
+      movieUpdate.slug = movieSlug;
 
       const movieResonse = await this.movieService.updateMovie(movieUpdate);
 
@@ -410,6 +417,8 @@ export class AdminMovieUseCases {
         }
       }
 
+      const movieSlug = convertToSlug(data.title);
+
       const movieCreate = new Movie();
 
       movieCreate.title = data.title;
@@ -422,6 +431,7 @@ export class AdminMovieUseCases {
       movieCreate.actors = actorsMovie;
       movieCreate.categories = categoriesMovie;
       movieCreate.posters = posters;
+      movieCreate.slug = movieSlug;
 
       const movieResponse = await this.movieService.createMovie(movieCreate);
 
