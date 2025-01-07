@@ -18,4 +18,9 @@ export class CinemaController {
   ): Promise<IResponse<CinemaDetailClientResponseDTO>> {
     return this.cinemaUseCase.getCinemaClientBySlug(slug);
   }
+
+  @Get('/area/list')
+  async getAllAreaCinema(): Promise<IResponse<string[]>> {
+    return this.cinemaUseCase.getAllAreaCinema();
+  }
 }

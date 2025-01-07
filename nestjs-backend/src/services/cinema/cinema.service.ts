@@ -37,6 +37,16 @@ export class CinemaService {
     });
   }
 
+  async getAreaCinemaClient(): Promise<string[]> {
+    const cinemas = await this.cinemaRepository.find({
+      select: ['area'], // Chỉ lấy cột screen_type
+    });
+
+    const distinctAreaCinemas = Array.from(new Set(cinemas.map((cinema) => cinema.area)));
+
+    return distinctAreaCinemas;
+  }
+
   async getCinemaByID(id: number): Promise<Cinema> {
     return await this.cinemaRepository.findOne({
       where: {

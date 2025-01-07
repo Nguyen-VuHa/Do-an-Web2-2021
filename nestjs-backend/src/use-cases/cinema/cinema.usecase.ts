@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import {
+  REDIS_CINEMA_CLIENT_AREA_KEY,
+  REDIS_CINEMA_CLIENT_AREA_TTL,
   REDIS_CINEMA_CLIENT_DETAIL_KEY,
   REDIS_CINEMA_CLIENT_DETAIL_TTL,
   REDIS_CINEMA_CLIENT_KEY,
@@ -104,6 +106,45 @@ export class CinemaUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy chi tiết rạp chiếu phim thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async getAllAreaCinema(): Promise<IResponse<string[]>> {
+    try {
+      const response: IResponse<string[]> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy danh sách khu vực rạp thành công.',
+      };
+
+      const dataCache: string[] = await this.redisService.getDataRedis(
+        REDIS_CINEMA_CLIENT_AREA_KEY
+      );
+
+      if (dataCache) {
+        response.data = dataCache as string[];
+
+        return response;
+      }
+
+      const areaCinema = await this.cinemaService.getAreaCinemaClient();
+
+      response.data = areaCinema;
+
+      // set data lên redis cache
+      this.redisService.setDataRedis(
+        REDIS_CINEMA_CLIENT_AREA_KEY,
+        areaCinema,
+        REDIS_CINEMA_CLIENT_AREA_TTL
+      );
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy danh sách khu vực rạp thất bại.',
         error: error.message,
       });
     }

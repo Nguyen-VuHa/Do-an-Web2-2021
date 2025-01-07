@@ -13,3 +13,8 @@ export const apiFetchCinemaDetail = async (
   const path = `/cinema/${slug}`;
   return axiosInstance.get(path);
 };
+
+export const apiFetchCinemaArea = async (): Promise<IResponse<string[]>> => {
+  const path = `/cinema/area/list`;
+  return axiosInstance.get(path);
+};
