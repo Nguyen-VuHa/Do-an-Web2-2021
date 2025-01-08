@@ -60,6 +60,10 @@ export class MovieService {
     });
   }
 
+  async getMovieClientListByCondition(conditions: IObject<any>): Promise<Movie[]> {
+    return await this.movieRepository.find(conditions);
+  }
+
   async getMovieListSelection(): Promise<Movie[]> {
     const currentDate = new Date();
 

@@ -27,6 +27,10 @@ export class ShowtimeService {
     return await this.showtimeRepository.save(showtimeData);
   }
 
+  async getShowtimeListByCondition(conditions: IObject<any>): Promise<Showtime[]> {
+    return await this.showtimeRepository.find(conditions);
+  }
+
   async softDeleteShowtime(showtime_id: string): Promise<any> {
     const showtime = await this.showtimeRepository.findOne({
       where: { showtime_id },
