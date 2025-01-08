@@ -12,16 +12,16 @@ interface CinemaListProps {
 }
 
 const CinemaList: React.FC<CinemaListProps> = ({ cinemas }) => {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
   const searchParams = useSearchParams(); // Để lấy các query parameters hiện tại
   const cinemaQuery = searchParams.get("_rap"); // Lấy giá trị của _rap nếu có
 
   const handleAddQuery = (cinemaSlug: string) => {
     const newParams = new URLSearchParams(searchParams); // Clone các query hiện có
-    newParams.set('_rap', cinemaSlug); // Thêm hoặc cập nhật query _rap
+    newParams.set("_rap", cinemaSlug); // Thêm hoặc cập nhật query _rap
 
     // Cập nhật URL mà không làm reload hoặc re-render trang
-    window.history.pushState(null, '', `${pathname}?${newParams.toString()}`);
+    window.history.pushState(null, "", `${pathname}?${newParams.toString()}`);
   };
 
   const { cinemaArea, cinemaList, setStateCinema } = useCinemaStore();
@@ -93,7 +93,7 @@ const CinemaList: React.FC<CinemaListProps> = ({ cinemas }) => {
                   setStateShowtime("cinemaSelect", cinema.cinema_name);
                   reqFetchShowtimeByCinema(cinema.slug);
                   handleAddQuery(cinema.slug);
-                  window.scrollTo({top: 0})
+                  window.scrollTo({ top: 0 });
                 }
               }}
             />

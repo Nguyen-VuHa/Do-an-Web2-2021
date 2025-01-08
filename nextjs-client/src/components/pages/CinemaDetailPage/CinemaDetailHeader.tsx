@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import { TbArrowNarrowLeftDashed } from "react-icons/tb";
 import Button from "~/components/ui/Button";
 
@@ -10,10 +10,6 @@ interface CinemaDetailHeaderProps {
 
 const CinemaDetailHeader: React.FC<CinemaDetailHeaderProps> = ({ title }) => {
   const router = useRouter();
-
-  useEffect(() => {
-    document.title = `BHD Star - ${title}`;
-  }, [title]);
 
   return (
     <div className="relative px-5 lg:px-0">

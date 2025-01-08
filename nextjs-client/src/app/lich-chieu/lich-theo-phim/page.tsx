@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import React from "react";
 import { apiFetchMovies } from "~/apis/movie.api";
 import MaintainceScreen from "~/components/common/MaintainceScreen";
@@ -12,7 +13,7 @@ const MovieShowingMain = async () => {
     const { data } = await apiFetchMovies();
 
     if (!data) {
-      return;
+      notFound();
     }
 
     return <ShowtimeListByMovie data={data} />;

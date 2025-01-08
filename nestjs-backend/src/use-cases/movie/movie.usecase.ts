@@ -1,12 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import {
+  REDIS_MOVIE_CLIENT_DETAIL_KEY,
+  REDIS_MOVIE_CLIENT_DETAIL_TTL,
   REDIS_MOVIE_CLIENT_KEY,
   REDIS_MOVIE_CLIENT_TTL,
   REDIS_MOVIE_TOP_WEEK_KEY,
   REDIS_MOVIE_TOP_WEEK_TTL,
 } from 'src/constants/redis';
-import { MovieClientResponseDTO, MovieTopWeekResponseDTO } from 'src/core/dtos/movie.dto';
+import {
+  MovieClientDetailResponseDTO,
+  MovieClientResponseDTO,
+  MovieTopWeekResponseDTO,
+} from 'src/core/dtos/movie.dto';
 import { IObject, IResponse } from 'src/core/types/common';
 import { MovieService } from 'src/services/movie/movie.service';
 import { RedisService } from 'src/services/redis/redis.service';
@@ -111,6 +117,58 @@ export class MovieUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy thông tin phim thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async getMovieDetail(movie_id: string): Promise<IResponse<MovieClientDetailResponseDTO>> {
+    try {
+      const keyCache = `${REDIS_MOVIE_CLIENT_DETAIL_KEY}_${movie_id}`;
+      const dataCache: IObject<any> = await this.redisService.getDataRedis(keyCache);
+
+      const response: IResponse<MovieClientDetailResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy thông tin chi tiết phim thành công.',
+      };
+
+      if (dataCache) {
+        response.data = dataCache as MovieClientDetailResponseDTO;
+
+        return response;
+      }
+
+      const movie = await this.movieService.getDetailMovieByCondition({
+        where: {
+          movie_id: movie_id,
+        },
+        relations: {
+          posters: true,
+          actors: true,
+          director: true,
+          categories: true,
+        },
+      });
+
+      if (!movie) {
+        throw new Error('Phim không tồn tại');
+      }
+
+      const movieDTO = plainToClass(MovieClientDetailResponseDTO, movie, {
+        excludeExtraneousValues: true,
+      });
+
+      response.data = movieDTO;
+
+      // set data lên redis cache
+      this.redisService.setDataRedis(keyCache, movieDTO, REDIS_MOVIE_CLIENT_DETAIL_TTL);
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy thông tin chi tiết phim thất bại.',
         error: error.message,
       });
     }

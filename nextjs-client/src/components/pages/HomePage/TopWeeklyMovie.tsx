@@ -7,6 +7,8 @@ import { useState } from "react";
 import DescriptionMovieInfo from "./DescriptionMovieInfo";
 import { IMovieInfo } from "~/types/movie.type";
 import { useGlobalStore } from "~/stores/global.store";
+import { useRouter } from "next/navigation";
+import { MOVIE_NOW_SHOWING } from "~/constants/movie";
 
 interface TopWeeklyMovieProps {
   movieInfo?: IMovieInfo;
@@ -14,6 +16,7 @@ interface TopWeeklyMovieProps {
 
 const TopWeeklyMovie: React.FC<TopWeeklyMovieProps> = ({ movieInfo }) => {
   const [isFetchData] = useState<boolean>(false);
+  const router = useRouter();
   const { setStateGlobal } = useGlobalStore();
 
   return (
@@ -81,8 +84,16 @@ const TopWeeklyMovie: React.FC<TopWeeklyMovieProps> = ({ movieInfo }) => {
               </div>
             </div>
             <div className="flex space-x-1">
-              <Button className="!px-10" buttonType="info">
-                Đặt vé
+              <Button
+                className="!px-10"
+                buttonType="info"
+                onClick={() => {
+                  router.push(
+                    `/phim/${MOVIE_NOW_SHOWING}/${movieInfo?.slug}/${movieInfo?.movie_id}`,
+                  );
+                }}
+              >
+                Đặt vé ngay
               </Button>
               <Button
                 className="!px-10"

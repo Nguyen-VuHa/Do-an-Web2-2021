@@ -1,5 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
-import { MovieClientResponseDTO, MovieTopWeekResponseDTO } from 'src/core/dtos/movie.dto';
+import { Controller, Get, Param } from '@nestjs/common';
+import {
+  MovieClientDetailResponseDTO,
+  MovieClientResponseDTO,
+  MovieTopWeekResponseDTO,
+} from 'src/core/dtos/movie.dto';
 import { IResponse } from 'src/core/types/common';
 import { MovieUseCases } from 'src/use-cases/movie/movie.usecase';
 
@@ -15,5 +19,12 @@ export class MovieController {
   @Get('')
   async getMovieClient(): Promise<IResponse<MovieClientResponseDTO>> {
     return this.movieUseCase.getMovie();
+  }
+
+  @Get('/:movie_id')
+  async getMovieClientDetail(
+    @Param('movie_id') movie_id: string
+  ): Promise<IResponse<MovieClientDetailResponseDTO>> {
+    return this.movieUseCase.getMovieDetail(movie_id);
   }
 }

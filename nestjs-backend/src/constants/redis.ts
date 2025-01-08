@@ -15,3 +15,6 @@ export const REDIS_CINEMA_CLIENT_AREA_TTL = 3600; // 1 giờ
 
 export const REDIS_SHOWTIME_BY_CINEMA_KEY = 'showtime_by_cinema';
 export const REDIS_SHOWTIME_BY_CINEMA_TTL = 3600; // 1 giờ
+
+export const REDIS_MOVIE_CLIENT_DETAIL_KEY = 'movie_client_detail';
+export const REDIS_MOVIE_CLIENT_DETAIL_TTL = 3600; // 1 giờ

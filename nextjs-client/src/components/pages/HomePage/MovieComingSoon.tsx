@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ButtonSlideNext from "~/components/common/ButtonSlideNext";
 import ButtonSlidePrev from "~/components/common/ButtonSlidePrev";
 import MovieCard from "~/components/common/MovieCard";
+import { MOVIE_COMING_SOON } from "~/constants/movie";
 import { IMovieInfo } from "~/types/movie.type";
 
 interface MovieComingSoonProps {
@@ -78,7 +79,7 @@ const MovieComingSoon: React.FC<MovieComingSoonProps> = ({
           movieComingSoon.map((movie) => {
             return (
               <SwiperSlide key={movie.movie_id}>
-                <MovieCard movieData={movie} cardType="coming-soon" />
+                <MovieCard movieData={movie} cardType={MOVIE_COMING_SOON} />
               </SwiperSlide>
             );
           })}

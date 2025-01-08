@@ -1,5 +1,6 @@
 import React from "react";
 import MovieCard from "~/components/common/MovieCard";
+import { MOVIE_COMING_SOON } from "~/constants/movie";
 import { IMovie } from "~/types/movie.type";
 
 interface ShowtimeListByMovieProps {
@@ -35,7 +36,7 @@ const ShowtimeListByMovie: React.FC<ShowtimeListByMovieProps> = ({ data }) => {
             return (
               <MovieCard
                 key={movie.movie_id}
-                cardType="coming-soon"
+                cardType={MOVIE_COMING_SOON}
                 movieData={movie}
               />
             );

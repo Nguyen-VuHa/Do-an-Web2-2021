@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { apiFetchCinemaDetail } from "~/apis/cinema.api";
 import MaintainceScreen from "~/components/common/MaintainceScreen";
 import CinemaDetaiLeftContent from "~/components/pages/CinemaDetailPage/CinemaDetaiLeftContent";
@@ -9,17 +9,29 @@ interface Params {
   slug: string;
 }
 
-// either Static metadata
-export const metadata: Metadata = {
-  title: "BHD Star -",
-};
+export async function generateMetadata({ params }) {
+  const { slug } = params;
+
+  const { data } = await apiFetchCinemaDetail(slug);
+
+  if (!data) {
+    notFound();
+  }
+
+  // Dữ liệu động cho metadata
+  const title = `${data.cinema_name} - BHD Star`;
+
+  return {
+    title, // Set title
+  };
+}
 
 const CinemaDetailMain = async ({ params }: { params: Params }) => {
   try {
     const { data } = await apiFetchCinemaDetail(params.slug);
 
     if (!data) {
-      return;
+      notFound();
     }
 
     return (

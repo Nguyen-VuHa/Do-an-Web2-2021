@@ -1,3 +1,5 @@
+import { MOVIE_COMING_SOON, MOVIE_NOW_SHOWING } from "~/constants/movie";
+
 export interface IResponse<T> {
   statusCode: number;
   error: unknown;
@@ -13,3 +15,8 @@ export interface IProcessToAPI {
   status: "success" | "error";
   message: string;
 }
+
+export const MovieTypeEnum = {
+  MOVIE_COMING_SOON,
+  MOVIE_NOW_SHOWING,
+} as const;

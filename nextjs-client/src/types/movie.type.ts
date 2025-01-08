@@ -1,5 +1,6 @@
 export interface IMovieInfo {
   movie_id: string;
+  slug: string;
   title: string;
   duration: number;
   start_date: string;
@@ -15,4 +16,8 @@ export interface IMovieInfo {
 export interface IMovie {
   showing: IMovieInfo[];
   comming_soon: IMovieInfo[];
+}
+
+export interface IMovieDetail extends IMovieInfo {
+  posters: string[];
 }

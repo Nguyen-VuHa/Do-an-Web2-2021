@@ -6,6 +6,9 @@ export class MovieTopWeekResponseDTO {
   movie_id: string;
 
   @Expose()
+  slug: string;
+
+  @Expose()
   title: string;
 
   @Expose()
@@ -61,4 +64,12 @@ export class MovieTopWeekResponseDTO {
 export class MovieClientResponseDTO {
   showing: MovieTopWeekResponseDTO[];
   comming_soon: MovieTopWeekResponseDTO[];
+}
+
+export class MovieClientDetailResponseDTO extends MovieTopWeekResponseDTO {
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj?.posters.map((poster) => poster.poster_url);
+  })
+  posters: string[];
 }

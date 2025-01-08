@@ -7,6 +7,13 @@ import { useGlobalStore } from "~/stores/global.store";
 
 const ViewTrailer = () => {
   const { isModalViewTrailer, trailerID, setStateGlobal } = useGlobalStore();
+
+  const handleCloseModal = () => {
+    setStateGlobal("isModalViewTrailer", false);
+    setStateGlobal("trailerID", "");
+    // Không cần thay đổi URL, chỉ cần đóng modal
+  };
+
   return (
     <div
       className={`fixed top-0 left-0 flex justify-center items-center
@@ -17,8 +24,7 @@ const ViewTrailer = () => {
       <div
         className="absolute w-full h-full bg-layout bg-opacity-30"
         onClick={() => {
-          setStateGlobal("isModalViewTrailer", false);
-          setStateGlobal("trailerID", "");
+          handleCloseModal();
         }}
       />
 
@@ -28,8 +34,7 @@ const ViewTrailer = () => {
           className="absolute flex justify-center items-center !w-[40px] !h-[40px] !p-1 top-[-10px] right-[-10px] rounded-md"
           buttonType="error"
           onClick={() => {
-            setStateGlobal("isModalViewTrailer", false);
-            setStateGlobal("trailerID", "");
+            handleCloseModal();
           }}
         >
           <IoClose size={25} />
@@ -39,6 +44,7 @@ const ViewTrailer = () => {
           title="Trailer Movie"
           allow="autoplay"
           allowFullScreen={true}
+          loading="lazy"
           src={`https://www.youtube.com/embed/${trailerID}?autoplay=1`}
         />
       </div>
