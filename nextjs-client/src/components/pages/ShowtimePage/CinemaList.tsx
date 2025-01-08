@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import CinemaCard from "~/components/common/CinemaCard";
 import { useCinemaStore } from "~/stores/cinema.store";
@@ -12,17 +12,16 @@ interface CinemaListProps {
 }
 
 const CinemaList: React.FC<CinemaListProps> = ({ cinemas }) => {
-  const router = useRouter();
+  const pathname = usePathname(); 
   const searchParams = useSearchParams(); // Để lấy các query parameters hiện tại
   const cinemaQuery = searchParams.get("_rap"); // Lấy giá trị của _rap nếu có
 
   const handleAddQuery = (cinemaSlug: string) => {
-    // Lấy URL hiện tại
-    const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set("_rap", cinemaSlug); // Thêm hoặc cập nhật query ?_rap=galaxy
+    const newParams = new URLSearchParams(searchParams); // Clone các query hiện có
+    newParams.set('_rap', cinemaSlug); // Thêm hoặc cập nhật query _rap
 
-    // Sử dụng router để thay đổi URL
-    router.push(currentUrl.toString());
+    // Cập nhật URL mà không làm reload hoặc re-render trang
+    window.history.pushState(null, '', `${pathname}?${newParams.toString()}`);
   };
 
   const { cinemaArea, cinemaList, setStateCinema } = useCinemaStore();
@@ -46,7 +45,7 @@ const CinemaList: React.FC<CinemaListProps> = ({ cinemas }) => {
     return () => {
       setStateShowtime("cinemaSelect", "");
     };
-  }, [cinemaQuery]);
+  }, []);
 
   useEffect(() => {
     setStateCinema("cinemaList", cinemas);
@@ -91,9 +90,10 @@ const CinemaList: React.FC<CinemaListProps> = ({ cinemas }) => {
                   !isFetchShowtimeCinema &&
                   cinemaSelect != cinema.cinema_name
                 ) {
-                  handleAddQuery(cinema.slug);
                   setStateShowtime("cinemaSelect", cinema.cinema_name);
                   reqFetchShowtimeByCinema(cinema.slug);
+                  handleAddQuery(cinema.slug);
+                  window.scrollTo({top: 0})
                 }
               }}
             />
