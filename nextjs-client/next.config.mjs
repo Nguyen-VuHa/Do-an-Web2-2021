@@ -6,6 +6,7 @@ const nextConfig = {
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
+  pageExtensions: ["ts", "tsx"],
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

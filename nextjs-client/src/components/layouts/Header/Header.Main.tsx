@@ -1,9 +1,32 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Control from "./Control";
 import Logo from "./Logo";
 import Menu from "./Menu";
 import MobileMenu from "./MobileMenu";
+import { apiGetCookieAccessToken } from "~/apis/auth.api";
+import UserControl from "./UserControl";
 
 const Header = () => {
+  const [isLogin, setisLogin] = useState<number>(0); // 0 dang kiem tra, 1 chua dang nhap, 2 da dang nhap
+
+  useEffect(() => {
+    const checkingLogin = async () => {
+      const isLogin = await apiGetCookieAccessToken();
+
+      if (isLogin) {
+        setisLogin(2);
+        // fetch user info
+        return;
+      }
+
+      setisLogin(1);
+    };
+
+    checkingLogin();
+  }, []);
+
   return (
     <div
       className="
@@ -19,7 +42,11 @@ const Header = () => {
 
         <Menu />
         {/* Control */}
-        <Control />
+        {isLogin === 0 && (
+          <div className="animate-pulse bg-second rounded-circle-md w-64 h-full"></div>
+        )}
+        {isLogin === 1 && <Control />}
+        {isLogin === 2 && <UserControl />}
 
         {/* Menu Mobile */}
         <MobileMenu />
