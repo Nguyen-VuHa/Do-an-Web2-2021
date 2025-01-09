@@ -31,3 +31,19 @@ export const signUpSchema = Yup.object().shape({
     .matches(/^\d{4}-\d{2}-\d{2}$/, "Ngày sinh phải theo định dạng YYYY-MM-DD")
     .required("Ngày sinh là trường bắt buộc"),
 });
+
+export const signInSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Email không hợp lệ")
+    .required("Email là bắt buộc")
+    .max(90, "Email không được vượt quá 90 ký tự"),
+
+  password: Yup.string()
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
+    .max(20, "Mật khẩu không được dài quá 20 ký tự")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%#^()*?&])[A-Za-z\d@$!%#^()*?&]{8,20}$/,
+      "Mật khẩu phải chứa ít nhất một chữ cái, một chữ số và một ký tự đặc biệt",
+    )
+    .required("Mật khẩu là trường bắt buộc"),
+});

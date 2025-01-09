@@ -1,6 +1,4 @@
-import React from "react";
-import Button from "~/components/ui/Button";
-import Input from "~/components/ui/Input";
+import FormSignIn from "~/components/pages/SignInPage/FormSignIn";
 
 export const metadata = {
   title: "Đăng nhập tài khoản - BHD Star",
@@ -15,21 +13,7 @@ const SignInPage = () => {
       >
         Đăng Nhập Tài Khoản
       </h2>
-      <form action="#" className="w-full space-y-2">
-        <Input placeholder="Tài khoản hoặc địa chỉ Email" />
-        <Input placeholder="Mật khẩu" type="password" />
-        <div className="flex flex-col items-end space-y-2">
-          <a
-            href="#"
-            className="text-social-x italic text-sm underline hover:text-facebook transition-all"
-          >
-            Bạn quên mật khẩu?
-          </a>
-          <Button className="w-full" type="button" buttonType="info">
-            Đăng nhập
-          </Button>
-        </div>
-      </form>
+      <FormSignIn />
     </div>
   );
 };

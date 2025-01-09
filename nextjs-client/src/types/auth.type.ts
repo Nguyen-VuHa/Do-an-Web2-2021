@@ -14,3 +14,13 @@ export interface ISignUpPayload {
   phone_number: string;
   birth_date: string;
 }
+
+export interface ISignInForm {
+  email: string;
+  password: string;
+}
+
+export interface ISignInPayload {
+  email: string;
+  password: string;
+}
