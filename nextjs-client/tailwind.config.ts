@@ -45,27 +45,14 @@ const config: Config = {
           "0%, 100%": { transform: "translateX(0)" },
           "50%": { transform: "translateX(8px)" },
         },
-        "gradient-move": {
-          "0%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-          "100%": { backgroundPosition: "0% 50%" },
-        },
-        "gradient-color-rotate": {
-          "0%": {
-            background: "linear-gradient(0deg, #ff7eb3, #ff758c, #ffd452)",
-          },
-          "50%": {
-            background: "linear-gradient(180deg, #ff758c, #ffd452, #ff7eb3)",
-          },
-          "100%": {
-            background: "linear-gradient(360deg, #ff7eb3, #ff758c, #ffd452)",
-          },
+        bounceUpDown: {
+          "0%, 100%": { transform: "translateY(-10px)" },
+          "50%": { transform: "translateY(10px)" },
         },
       },
       animation: {
         "back-pulse": "back-pulse 2s ease-in-out infinite",
-        "gradient-color-rotate-move":
-          "gradient-move 2s linear infinite, gradient-color-rotate 2s linear infinite",
+        "bounce-up-down": "bounceUpDown 1.5s infinite",
       },
     },
   },

@@ -38,11 +38,22 @@ export class ShowtimeResponseDTO {
 }
 
 export class ShowtimeByMovieResponseDTO {
+  areas: string[];
+  showtimes: ShowtimeByMovieItemResponseDTO[];
+}
+
+export class ShowtimeByMovieItemResponseDTO {
   @Expose()
   cinema_id: number;
 
   @Expose()
   cinema_name: string;
+
+  @Expose()
+  address: string;
+
+  @Expose()
+  area: string;
 
   @Expose()
   @Type(() => ShowtimeResponseDTO)

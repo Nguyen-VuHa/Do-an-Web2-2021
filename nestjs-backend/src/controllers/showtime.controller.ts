@@ -20,7 +20,7 @@ export class ShowtimeController {
   @Get('/by-movie/:movie_id')
   async getShowtimeByMovie(
     @Param('movie_id') movie_id: string
-  ): Promise<IResponse<ShowtimeByMovieResponseDTO[]>> {
+  ): Promise<IResponse<ShowtimeByMovieResponseDTO>> {
     return this.showtimeUsecase.getShowtimeByMovie(movie_id);
   }
 }

@@ -8,6 +8,7 @@ import {
 } from 'src/constants/redis';
 import {
   ShowtimeByCinemaResponseDTO,
+  ShowtimeByMovieItemResponseDTO,
   ShowtimeByMovieResponseDTO,
 } from 'src/core/dtos/showtime.dto';
 import { IObject, IResponse } from 'src/core/types/common';
@@ -85,20 +86,20 @@ export class ShowtimeUseCases {
     }
   }
 
-  async getShowtimeByMovie(movie_id: string): Promise<IResponse<ShowtimeByMovieResponseDTO[]>> {
+  async getShowtimeByMovie(movie_id: string): Promise<IResponse<ShowtimeByMovieResponseDTO>> {
     try {
       const keyCache = `${REDIS_SHOWTIME_BY_MOVIE_KEY}_${movie_id}`;
 
-      const response: IResponse<ShowtimeByMovieResponseDTO[]> = {
+      const response: IResponse<ShowtimeByMovieResponseDTO> = {
         statusCode: 200,
         error: null,
         message: 'Lấy thông tin suất chiếu thành công.',
       };
 
-      const dataCache: IObject<any>[] = await this.redisService.getDataRedis(keyCache);
+      const dataCache: IObject<any> = await this.redisService.getDataRedis(keyCache);
 
       if (dataCache) {
-        response.data = dataCache as ShowtimeByMovieResponseDTO[];
+        response.data = dataCache as ShowtimeByMovieResponseDTO;
 
         return response;
       }
@@ -123,14 +124,21 @@ export class ShowtimeUseCases {
         },
       });
 
-      const showtimeByMovieDTO = plainToClass(ShowtimeByMovieResponseDTO, showtimeByMovie, {
+      const showtimeByMovieDTO = plainToClass(ShowtimeByMovieItemResponseDTO, showtimeByMovie, {
         excludeExtraneousValues: true,
       });
 
-      response.data = showtimeByMovieDTO;
+      const areas = Array.from(new Set(showtimeByMovieDTO.map((item) => item.area)));
+
+      const showtimeResponse: ShowtimeByMovieResponseDTO = {
+        areas: areas,
+        showtimes: showtimeByMovieDTO,
+      };
+
+      response.data = showtimeResponse;
 
       // set data lên redis cache
-      this.redisService.setDataRedis(keyCache, showtimeByMovieDTO, REDIS_SHOWTIME_BY_MOVIE_TTL);
+      this.redisService.setDataRedis(keyCache, showtimeResponse, REDIS_SHOWTIME_BY_MOVIE_TTL);
 
       return response;
     } catch (error) {

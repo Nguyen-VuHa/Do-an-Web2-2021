@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { apiFetchMovieDetail } from "~/apis/movie.api";
 import MovieInfo from "~/components/pages/MovieDetail/MovieInfo";
+import ShowtimeMovie from "~/components/pages/MovieDetail/ShowtimeMovie";
 import { MOVIE_COMING_SOON, MOVIE_NOW_SHOWING } from "~/constants/movie";
 import { STATUS_SUCCESS } from "~/constants/status";
 
@@ -34,6 +35,7 @@ const MovieDetailMain = async ({ params }) => {
     return (
       <>
         <MovieInfo movieInfo={movie.data} movieType={status} />
+        <ShowtimeMovie />
       </>
     );
   } catch (error) {

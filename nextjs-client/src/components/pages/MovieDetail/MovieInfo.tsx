@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { TbArrowNarrowLeftDashed } from "react-icons/tb";
 import Button from "~/components/ui/Button";
 import ImageCustom from "~/components/ui/ImageCustom";
@@ -11,6 +11,8 @@ import DescriptionMovieInfo from "./DescriptionMovieInfo";
 import ItemMovieInfo from "./ItemMovieInfo";
 import { MovieTypeEnum } from "~/types/common.type";
 import { MOVIE_NOW_SHOWING } from "~/constants/movie";
+import { PiArrowFatLinesDownDuotone } from "react-icons/pi";
+import { useShowtimeStore } from "~/stores/showtime.store";
 
 interface TopWeeklyMovieProps {
   movieInfo?: IMovieDetail;
@@ -19,12 +21,47 @@ interface TopWeeklyMovieProps {
 
 const MovieInfo: React.FC<TopWeeklyMovieProps> = ({ movieInfo, movieType }) => {
   const [isFetchData] = useState<boolean>(false);
+  const { status } = useParams();
   const router = useRouter();
   const { setStateGlobal } = useGlobalStore();
+  const { isShowtimeView, setStateShowtime } = useShowtimeStore();
+
+  const [showButton, setShowButton] = useState(true);
+
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY; // Vị trí cuộn hiện tại
+    if (scrollPosition >= 0 && scrollPosition <= 150) {
+      setShowButton(true); // Hiển thị nút
+    } else {
+      setShowButton(false); // Ẩn nút
+    }
+  };
+
+  useEffect(() => {
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll); // Lắng nghe sự kiện cuộn
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll); // Gỡ bỏ sự kiện cuộn
+    };
+  }, []);
 
   return (
     <>
       <section className="relative flex flex-col w-full min-h-screen overflow-hidden">
+        {status === MOVIE_NOW_SHOWING && showButton && (
+          <Button
+            className="absolute bottom-[12%] left-[45%] invisible flex flex-col items-center justify-center space-y-1 md:visible animate-bounce-up-down duration-300"
+            buttonType="error"
+            onClick={() => {
+              setStateShowtime("isShowtimeView", isShowtimeView + 1);
+            }}
+          >
+            <span className="text-lg">Chọn suất chiếu</span>
+            <PiArrowFatLinesDownDuotone size={30} />
+          </Button>
+        )}
         <ImageDetail imageURL={movieInfo?.poster || ""} />
         <div
           className="container mx-auto lg:pr-[30%] py-[60px] bg-layout bg-opacity-60 h-full
