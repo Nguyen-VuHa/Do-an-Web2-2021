@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -7,7 +8,11 @@ import ShowtimeMovieItem from "~/components/common/ShowtimeMovieItem";
 import { MOVIE_COMING_SOON } from "~/constants/movie";
 import { useShowtimeStore } from "~/stores/showtime.store";
 
-const ShowtimeMovie = () => {
+interface ShowtimeMovieProps {
+  movieName?: string;
+}
+
+const ShowtimeMovie: React.FC<ShowtimeMovieProps> = ({ movieName }) => {
   const showtimeRef = useRef<HTMLDivElement>(null);
   const { movie_id, status } = useParams();
   const {
@@ -46,7 +51,7 @@ const ShowtimeMovie = () => {
                 bg-clip-text bg-gradient-to-r from-social-x to-youtube border-2 border-transparent
                 max-sm:text-3xl "
       >
-        Lịch chiếu
+        Lịch chiếu cho phim {movieName}
       </h2>
       <div className="space-y-2">
         {isFetchShowtimeMovie && <ShowtimeItemLoading />}

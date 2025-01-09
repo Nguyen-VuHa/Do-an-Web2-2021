@@ -5,12 +5,9 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
-import {
-  getDataToLocalStore,
-  removeDataToLocalStore,
-} from "~/utils/localStorage";
 import { parse } from "cookie"; // Thư viện parse cookie
-import Cookies from "js-cookie"; // Thư viện dùng trên client
+import { removeDataToLocalStore } from "~/utils/localStorage";
+import { apiGetCookieAccessToken } from "./auth.api";
 
 // Tạo một interface mở rộng từ AxiosRequestConfig để thêm thuộc tính _retry
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
@@ -28,7 +25,7 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // Thêm interceptor cho request
 axiosInstance.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
     if (typeof window === "undefined") {
       // Chạy trên server
       if (config.headers && config.headers.cookie) {
@@ -40,7 +37,7 @@ axiosInstance.interceptors.request.use(
       }
     } else {
       // Chạy trên client
-      const token = Cookies.get("access_token");
+      const token = await apiGetCookieAccessToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -110,7 +107,7 @@ const handleForbidden = () => {
 
 const handleRefreshToken = async (): Promise<string> => {
   try {
-    const currentRefreshToken = getDataToLocalStore("refreshToken"); // Lấy refresh token từ localStorage
+    const currentRefreshToken = "123"; // Lấy refresh token từ next server
     if (!currentRefreshToken) {
       throw new Error("No refresh token found");
     }

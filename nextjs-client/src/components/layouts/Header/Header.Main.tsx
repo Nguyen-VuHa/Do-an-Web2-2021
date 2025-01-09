@@ -1,7 +1,6 @@
-import React from "react";
+import Control from "./Control";
 import Logo from "./Logo";
 import Menu from "./Menu";
-import Control from "./Control";
 import MobileMenu from "./MobileMenu";
 
 const Header = () => {
@@ -17,6 +16,7 @@ const Header = () => {
         {/* Logo */}
         <Logo />
         {/* Menu */}
+
         <Menu />
         {/* Control */}
         <Control />

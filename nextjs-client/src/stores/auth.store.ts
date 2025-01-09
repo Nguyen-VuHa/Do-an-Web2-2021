@@ -144,9 +144,6 @@ export const useAuthAPIStore = create<AuthAPIState>((set) => ({
 
         // reset form sign up
         useAuthStore.getState().resetSignInForm();
-
-        // set access_token vào coookie
-        console.log(res.data);
       } else {
         errorMsg.message = res.error?.toString() || MESSAGE_SIGN_IN_ERROR;
       }
