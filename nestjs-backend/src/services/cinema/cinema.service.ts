@@ -37,6 +37,10 @@ export class CinemaService {
     });
   }
 
+  async getCinemaListClientByCondition(conditions: IObject<any>): Promise<Cinema[]> {
+    return await this.cinemaRepository.find(conditions);
+  }
+
   async getAreaCinemaClient(): Promise<string[]> {
     const cinemas = await this.cinemaRepository.find({
       select: ['area'], // Chỉ lấy cột screen_type

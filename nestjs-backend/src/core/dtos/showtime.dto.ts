@@ -1,4 +1,4 @@
-import { Expose, Transform, Type } from 'class-transformer';
+import { Expose, plainToClass, Transform, Type } from 'class-transformer';
 import { getRandomArray } from 'src/utils/random';
 
 export class ShowtimeByCinemaResponseDTO {
@@ -35,4 +35,28 @@ export class ShowtimeResponseDTO {
 
   @Expose()
   start_time: string;
+}
+
+export class ShowtimeByMovieResponseDTO {
+  @Expose()
+  cinema_id: number;
+
+  @Expose()
+  cinema_name: string;
+
+  @Expose()
+  @Type(() => ShowtimeResponseDTO)
+  @Transform(({ obj }) => {
+    const showtimes: ShowtimeResponseDTO[] = [];
+
+    obj.screens.map((screen) => {
+      const showtimeData = plainToClass(ShowtimeResponseDTO, screen.showtimes, {
+        excludeExtraneousValues: true,
+      });
+
+      if (Array.isArray(showtimeData)) showtimes.push(...showtimeData);
+    });
+    return showtimes;
+  })
+  showtimes: ShowtimeResponseDTO[];
 }
