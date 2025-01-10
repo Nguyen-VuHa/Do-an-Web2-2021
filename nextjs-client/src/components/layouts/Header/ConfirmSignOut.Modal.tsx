@@ -14,14 +14,14 @@ const ConfirmSignOutModal = () => {
 
   const handleSignOut = async () => {
     if (!isPostSignOutAccount) {
-        const response = await postSignOutAccount()
+      const response = await postSignOutAccount();
 
-        if (response.status === PROCESS_SUCCESS) {
-            enqueueSnackbar(response.message, { variant: "success" });
-            window.location.reload();
-        } else enqueueSnackbar(response.message, { variant: "error" });
-    };
-  }
+      if (response.status === PROCESS_SUCCESS) {
+        enqueueSnackbar(response.message, { variant: "success" });
+        window.location.reload();
+      } else enqueueSnackbar(response.message, { variant: "error" });
+    }
+  };
 
   return (
     <div
@@ -59,7 +59,7 @@ const ConfirmSignOutModal = () => {
             buttonType="error"
             isLoading={isPostSignOutAccount}
             onClick={() => {
-                handleSignOut();
+              handleSignOut();
             }}
           >
             Đăng xuất

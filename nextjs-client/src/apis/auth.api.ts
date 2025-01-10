@@ -33,3 +33,8 @@ export const apiSignOutAccount = async (): Promise<string> => {
   const path = "/auth/sign-out";
   return axiosNextInstance.post(path);
 };
+
+export const apiRefreshToken = async (): Promise<IResponse<any>> => {
+  const path = "/auth/token/refresh";
+  return axiosNextInstance.post(path);
+};

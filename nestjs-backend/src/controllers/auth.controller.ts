@@ -3,12 +3,18 @@ import {
   Body,
   Controller,
   Post,
+  Req,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { SignInAccountDTO, SignUpAccountDTO } from 'src/core/dtos/auth.dto';
+import {
+  RefreshTokenResponseDTO,
+  SignInAccountDTO,
+  SignUpAccountDTO,
+} from 'src/core/dtos/auth.dto';
 import { ISignInResponse } from 'src/core/types/auth.type';
 import { IResponse } from 'src/core/types/common';
+import { IJWTUserInfo } from 'src/core/types/user.type';
 import { AuthUseCases } from 'src/use-cases/auth/auth.usecase';
 
 @Controller('auth')
@@ -57,5 +63,13 @@ export class AuthController {
   )
   async signInAccount(@Body() data: SignInAccountDTO): Promise<IResponse<ISignInResponse>> {
     return this.authUseCase.signInAccount(data);
+  }
+
+  @Post('token/refresh')
+  async refreshToken(
+    @Req() req: Request & { user: IJWTUserInfo }
+  ): Promise<IResponse<RefreshTokenResponseDTO>> {
+    const { user } = req;
+    return this.authUseCase.refreshToken(user);
   }
 }

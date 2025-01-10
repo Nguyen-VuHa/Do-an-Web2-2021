@@ -72,3 +72,11 @@ export class SignInAccountDTO {
   @IsNotEmpty() // Yêu cầu trường password không được để trống
   password: string;
 }
+
+export class RefreshTokenResponseDTO {
+  @Expose()
+  access_token: string;
+
+  @Expose()
+  refresh_token: string;
+}

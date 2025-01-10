@@ -5,9 +5,12 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useAuthStore } from "~/stores/auth.store";
+import { useUserStore } from "~/stores/user.store";
+import { DEFAULT_AVATAR_USER } from "~/constants/user";
 
 const UserControl = () => {
   const { setStateAuth } = useAuthStore();
+  const { userInfo } = useUserStore();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
@@ -47,13 +50,13 @@ const UserControl = () => {
           <div className="w-10 h-10 overflow-hidden p-1">
             <ImageCustom
               imgClassName="w-full h-full"
-              src="https://bhdstar.vn/wp-content/themes/loodo-starter/inc/imgs/bhdIcon.png"
+              src={userInfo.image_url || DEFAULT_AVATAR_USER}
               alt="NO AVATAR"
               width={20}
               height={20}
             />
           </div>
-          <span className="text-sm pr-2">Nguyễn Vũ Hạ</span>
+          <span className="text-sm pr-2">{userInfo.fullname}</span>
         </div>
         <div
           ref={dropdownRef}

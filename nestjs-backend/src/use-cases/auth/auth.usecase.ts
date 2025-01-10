@@ -1,10 +1,16 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { ERROR_CODE_DUPLICATE_UNIQUE } from 'src/constants/errors';
-import { CreateUserResponseDto, SignInAccountDTO, SignUpAccountDTO } from 'src/core/dtos/auth.dto';
+import {
+  CreateUserResponseDto,
+  RefreshTokenResponseDTO,
+  SignInAccountDTO,
+  SignUpAccountDTO,
+} from 'src/core/dtos/auth.dto';
 import { User } from 'src/core/entities/user.entity';
 import { ISignInResponse } from 'src/core/types/auth.type';
 import { IResponse } from 'src/core/types/common';
+import { IJWTUserInfo } from 'src/core/types/user.type';
 import { UserService } from 'src/services/user/user.service';
 import { comparePasswords, hashPassword } from 'src/utils/bcrypt';
 import { stringToDate } from 'src/utils/convert';
@@ -107,5 +113,30 @@ export class AuthUseCases {
         error: error.message,
       });
     }
+  }
+
+  async refreshToken(user: IJWTUserInfo): Promise<IResponse<RefreshTokenResponseDTO>> {
+    const userInfo: IJWTUserInfo = {
+      user_id: user.user_id,
+      email: user.email,
+      fullname: user.fullname,
+    };
+
+    const accessSecret = process.env.JWT_ACCESS_SECRET;
+    const refreshSecret = process.env.JWT_REFRESH_SECRET;
+
+    const { accessToken, refreshToken } = generateTokens(userInfo, accessSecret, refreshSecret);
+
+    const response: IResponse<RefreshTokenResponseDTO> = {
+      statusCode: 200,
+      error: null,
+      message: 'Cập nhật token thành công.',
+      data: {
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      },
+    };
+
+    return response;
   }
 }

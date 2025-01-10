@@ -6,8 +6,12 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { parse } from "cookie"; // Thư viện parse cookie
-import { removeDataToLocalStore } from "~/utils/localStorage";
-import { apiGetCookieAccessToken } from "./auth.api";
+import { STATUS_SUCCESS } from "~/constants/status";
+import {
+  apiGetCookieAccessToken,
+  apiRefreshToken,
+  apiSignOutAccount,
+} from "./auth.api";
 
 // Tạo một interface mở rộng từ AxiosRequestConfig để thêm thuộc tính _retry
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
@@ -100,28 +104,20 @@ axiosInstance.interceptors.response.use(
   },
 );
 
-const handleForbidden = () => {
-  removeDataToLocalStore("accessToken,refreshToken");
+const handleForbidden = async () => {
+  await apiSignOutAccount();
   window.location.replace("/");
 };
 
 const handleRefreshToken = async (): Promise<string> => {
   try {
-    const currentRefreshToken = "123"; // Lấy refresh token từ next server
-    if (!currentRefreshToken) {
+    const response = await apiRefreshToken(); // Lấy refresh token từ next server
+
+    if (response.statusCode !== STATUS_SUCCESS) {
       throw new Error("No refresh token found");
     }
 
-    const accessToken = "";
-    // Gửi request để refresh token
-    //   const response = await apiRefreshToken(currentRefreshToken);
-
-    //   if (response.statusCode === 200) {
-    //     accessToken = response.data as string;
-    //     setDataToLocalStore('accessToken', accessToken);
-    //   }
-
-    return accessToken;
+    return response.data?.access_token;
   } catch (error: unknown) {
     throw new Error(error?.toString());
   }

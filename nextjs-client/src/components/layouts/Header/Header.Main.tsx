@@ -1,5 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
 import { useEffect, useState } from "react";
 import Control from "./Control";
 import Logo from "./Logo";
@@ -8,15 +8,18 @@ import MobileMenu from "./MobileMenu";
 import { apiGetCookieAccessToken } from "~/apis/auth.api";
 import UserControl from "./UserControl";
 import ConfirmSignOutModal from "./ConfirmSignOut.Modal";
+import { useUserAPIStore } from "~/stores/user.store";
 
 const Header = () => {
   const [isLogin, setisLogin] = useState<number>(0); // 0 dang kiem tra, 1 chua dang nhap, 2 da dang nhap
+  const { getUserInfo } = useUserAPIStore();
 
   useEffect(() => {
     const checkingLogin = async () => {
       const isLogin = await apiGetCookieAccessToken();
 
       if (isLogin) {
+        await getUserInfo();
         setisLogin(2);
         // fetch user info
         return;

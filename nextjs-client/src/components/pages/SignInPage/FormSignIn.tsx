@@ -66,7 +66,7 @@ const FormSignIn = () => {
 
       if (resPost.status === PROCESS_SUCCESS) {
         enqueueSnackbar(resPost.message, { variant: "success" });
-        window.location.replace('/');
+        window.location.replace("/");
       } else enqueueSnackbar(resPost.message, { variant: "error" });
     }
   };

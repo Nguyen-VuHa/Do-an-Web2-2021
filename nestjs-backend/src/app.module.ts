@@ -6,7 +6,10 @@ import { databaseConfig } from './config/database';
 import CONTROLLERS from './controllers/controllers';
 import ENTITIES from './core/entities/entities';
 import { VerifyUserAdminSystemMiddleware } from './middlewares/admin-jwt.middleware';
-import { VerifyUserClientSystemMiddleware } from './middlewares/client-jwt.middleware';
+import {
+  VerifyRefreshTokenUserClientMiddleware,
+  VerifyUserClientMiddleware,
+} from './middlewares/client-jwt.middleware';
 
 @Module({
   imports: [
@@ -25,13 +28,16 @@ import { VerifyUserClientSystemMiddleware } from './middlewares/client-jwt.middl
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    // Áp dụng `VerifyUserSystemMiddleware` cho `GET` request trên 'api/users'
     consumer
       .apply(VerifyUserAdminSystemMiddleware)
       .forRoutes({ path: 'admin/user/info', method: RequestMethod.GET });
 
     consumer
-      .apply(VerifyUserClientSystemMiddleware)
-      .forRoutes({ path: '/user/info', method: RequestMethod.GET });
+      .apply(VerifyUserClientMiddleware)
+      .forRoutes({ path: 'user/info', method: RequestMethod.GET });
+
+    consumer
+      .apply(VerifyRefreshTokenUserClientMiddleware)
+      .forRoutes({ path: 'auth/token/refresh', method: RequestMethod.POST });
   }
 }
