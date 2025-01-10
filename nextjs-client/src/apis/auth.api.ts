@@ -28,3 +28,8 @@ export const apiGetCookieAccessToken = async (): Promise<string> => {
   const path = "/cookies";
   return axiosNextInstance.get(path);
 };
+
+export const apiSignOutAccount = async (): Promise<string> => {
+  const path = "/auth/sign-out";
+  return axiosNextInstance.post(path);
+};

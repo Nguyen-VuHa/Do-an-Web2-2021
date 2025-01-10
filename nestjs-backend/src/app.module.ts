@@ -5,7 +5,8 @@ import APPMODULES from './config/appModule';
 import { databaseConfig } from './config/database';
 import CONTROLLERS from './controllers/controllers';
 import ENTITIES from './core/entities/entities';
-import { VerifyUserSystemMiddleware } from './middlewares/admin-jwt.middleware';
+import { VerifyUserAdminSystemMiddleware } from './middlewares/admin-jwt.middleware';
+import { VerifyUserClientSystemMiddleware } from './middlewares/client-jwt.middleware';
 
 @Module({
   imports: [
@@ -26,7 +27,11 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     // Áp dụng `VerifyUserSystemMiddleware` cho `GET` request trên 'api/users'
     consumer
-      .apply(VerifyUserSystemMiddleware)
+      .apply(VerifyUserAdminSystemMiddleware)
       .forRoutes({ path: 'admin/user/info', method: RequestMethod.GET });
+
+    consumer
+      .apply(VerifyUserClientSystemMiddleware)
+      .forRoutes({ path: '/user/info', method: RequestMethod.GET });
   }
 }

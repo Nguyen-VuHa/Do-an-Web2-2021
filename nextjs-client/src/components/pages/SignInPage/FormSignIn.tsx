@@ -1,20 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
+import * as Yup from "yup";
 import Button from "~/components/ui/Button";
+import ErrorFormGroup from "~/components/ui/ErrorFormGroup";
 import Input from "~/components/ui/Input";
+import { PROCESS_SUCCESS } from "~/constants/status";
 import { signInSchema } from "~/schema/auth.schema";
 import { useAuthAPIStore, useAuthStore } from "~/stores/auth.store";
-import { IObject } from "~/types/common.type";
-import * as Yup from "yup";
-import ErrorFormGroup from "~/components/ui/ErrorFormGroup";
 import { ISignInPayload } from "~/types/auth.type";
-import { PROCESS_SUCCESS } from "~/constants/status";
-import { enqueueSnackbar } from "notistack";
-import { useRouter } from "next/navigation";
+import { IObject } from "~/types/common.type";
 
 const FormSignIn = () => {
-  const router = useRouter();
   const { signInForm, errorSignInForm, setSignInForm, setStateAuth } =
     useAuthStore();
   const { isPostSignInAccount, postSignInAccount } = useAuthAPIStore();
@@ -68,7 +66,7 @@ const FormSignIn = () => {
 
       if (resPost.status === PROCESS_SUCCESS) {
         enqueueSnackbar(resPost.message, { variant: "success" });
-        router.replace("/");
+        window.location.replace('/');
       } else enqueueSnackbar(resPost.message, { variant: "error" });
     }
   };

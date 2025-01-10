@@ -12,6 +12,7 @@ import { AuthUseCaseModule } from 'src/use-cases/auth/authUseCase.module';
 import { CinemaUseCaseModule } from 'src/use-cases/cinema/cinemaUseCase.module';
 import { MovieUseCaseModule } from 'src/use-cases/movie/movieUseCase.module';
 import { ShowtimeUseCaseModule } from 'src/use-cases/showtime/showtimeUseCase.module';
+import { UserUseCaseModule } from 'src/use-cases/user/userUseCase.module';
 
 const SEEDER_MODULES = [DataSeederServiceModule];
 
@@ -33,6 +34,7 @@ const CLIENT_MODULES = [
   MovieUseCaseModule,
   CinemaUseCaseModule,
   ShowtimeUseCaseModule,
+  UserUseCaseModule,
 ];
 
 const APPMODULES = [

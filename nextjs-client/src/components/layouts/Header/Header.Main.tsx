@@ -7,6 +7,7 @@ import Menu from "./Menu";
 import MobileMenu from "./MobileMenu";
 import { apiGetCookieAccessToken } from "~/apis/auth.api";
 import UserControl from "./UserControl";
+import ConfirmSignOutModal from "./ConfirmSignOut.Modal";
 
 const Header = () => {
   const [isLogin, setisLogin] = useState<number>(0); // 0 dang kiem tra, 1 chua dang nhap, 2 da dang nhap
@@ -28,30 +29,33 @@ const Header = () => {
   }, []);
 
   return (
-    <div
-      className="
+    <>
+      <ConfirmSignOutModal />
+      <div
+        className="
         sticky top-0 left-0 z-[999]
         w-full h-header bg-layout
         py-header px-10 border-b-[1px] border-second max-sm:px-8
         "
-    >
-      <div className="container mx-auto w-full h-full flex justify-between items-center m-auto">
-        {/* Logo */}
-        <Logo />
-        {/* Menu */}
+      >
+        <div className="container mx-auto w-full h-full flex justify-between items-center m-auto">
+          {/* Logo */}
+          <Logo />
+          {/* Menu */}
 
-        <Menu />
-        {/* Control */}
-        {isLogin === 0 && (
-          <div className="animate-pulse bg-second rounded-circle-md w-64 h-full"></div>
-        )}
-        {isLogin === 1 && <Control />}
-        {isLogin === 2 && <UserControl />}
+          <Menu />
+          {/* Control */}
+          {isLogin === 0 && (
+            <div className="animate-pulse bg-second rounded-circle-md w-64 h-full"></div>
+          )}
+          {isLogin === 1 && <Control />}
+          {isLogin === 2 && <UserControl />}
 
-        {/* Menu Mobile */}
-        <MobileMenu />
+          {/* Menu Mobile */}
+          <MobileMenu />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

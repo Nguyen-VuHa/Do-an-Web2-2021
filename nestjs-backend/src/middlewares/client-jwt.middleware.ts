@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 import { IJWTUserInfo } from 'src/core/types/user.type';
 
 @Injectable()
-export class VerifyUserAdminSystemMiddleware implements NestMiddleware {
+export class VerifyUserClientSystemMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const token = req.headers['authorization']?.split(' ')[1];
 

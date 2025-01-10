@@ -21,3 +21,6 @@ export const REDIS_SHOWTIME_BY_MOVIE_TTL = 3600; // 1 giờ
 
 export const REDIS_MOVIE_CLIENT_DETAIL_KEY = 'movie_client_detail';
 export const REDIS_MOVIE_CLIENT_DETAIL_TTL = 3600; // 1 giờ
+
+export const REDIS_USER_CLIENT_INFO_KEY = 'user_client_info';
+export const REDIS_USER_CLIENT_INFO_TTL = 86400; // 1 ngày

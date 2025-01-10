@@ -40,7 +40,7 @@ const Notification = () => {
       <div
         ref={dropdownRef}
         className={`
-                  absolute top-[105%] right-0 w-auto bg-second p-4 rounded-circle-md space-y-3 shadow-2xl w-[350px]
+                  absolute top-[105%] right-0 bg-second p-4 rounded-circle-md space-y-3 shadow-2xl w-[350px]
                   transition-all duration-300
                   ${isActive ? "visible opacity-100 z-[100]" : "invisible opacity-0 z-[-99]"}
               `}

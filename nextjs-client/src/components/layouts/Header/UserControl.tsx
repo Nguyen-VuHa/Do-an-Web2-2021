@@ -4,8 +4,11 @@ import ImageCustom from "~/components/ui/ImageCustom";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
+import { useAuthStore } from "~/stores/auth.store";
 
 const UserControl = () => {
+  const { setStateAuth } = useAuthStore();
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +38,7 @@ const UserControl = () => {
       <div className="relative">
         <div
           className="max-w-[150px] h-10 bg-second cursor-pointer rounded-full flex justify-start text-typography items-center bg-second
-          hover:bg-opacity-50 hover:bg-social-x hover:text-social-x transtion-all duration-300"
+          hover:bg-opacity-50 hover:bg-social-x hover:text-social-x transtion-all duration-300 select-none"
           onClick={() => {
             setIsActive(!isActive);
           }}
@@ -55,7 +58,7 @@ const UserControl = () => {
         <div
           ref={dropdownRef}
           className={`
-                        absolute top-[105%] right-0 w-auto bg-second p-2 rounded-circle-md space-y-1 shadow-2xl w-[250px]
+                        absolute top-[105%] right-0 bg-second p-2 rounded-circle-md space-y-1 shadow-2xl w-[250px]
                         transition-all duration-300
                         ${isActive ? "visible opacity-100 z-[100]" : "invisible opacity-0 z-[-99]"}
                     `}
@@ -66,9 +69,15 @@ const UserControl = () => {
           </div>
           <div className="px-3 py-2 text-social-x bg-social-x bg-opacity-20 cursor-pointer hover:bg-opacity-50 rounded-md transition-all flex text-sm space-x-2">
             <IoSettingsOutline size={20} />
-            <span>Cài đặc</span>
+            <span>Cài đặt</span>
           </div>
-          <div className="px-3 py-2 text-instagram bg-instagram bg-opacity-20 cursor-pointer hover:bg-opacity-50 rounded-md transition-all flex text-sm space-x-2">
+          <div
+            className="px-3 py-2 text-instagram bg-instagram bg-opacity-20 cursor-pointer hover:bg-opacity-50 rounded-md transition-all flex text-sm space-x-2"
+            onClick={() => {
+              setStateAuth("isModalConfirmLogout", true);
+              setIsActive(false);
+            }}
+          >
             <RiLogoutCircleLine size={20} />
             <span>Đăng xuất tài khoản</span>
           </div>
