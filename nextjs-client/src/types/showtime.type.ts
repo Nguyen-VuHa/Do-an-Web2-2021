@@ -1,5 +1,6 @@
 export interface IShowtimeByCinema {
   movie_name: string;
+  slug: string;
   poster: string;
   showtimes: IShowtime[];
 }

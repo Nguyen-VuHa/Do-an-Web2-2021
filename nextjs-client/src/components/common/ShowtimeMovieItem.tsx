@@ -1,14 +1,20 @@
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
 import React from "react";
 import Button from "~/components/ui/Button";
 import ImageCustom from "~/components/ui/ImageCustom";
+import { useUserStore } from "~/stores/user.store";
 import { IShowtimeByMovie } from "~/types/showtime.type";
 
 interface ShowtimeMovieItemProps {
   cinema: IShowtimeByMovie;
+  movieSlug?: string;
 }
 
-const ShowtimeMovieItem: React.FC<ShowtimeMovieItemProps> = ({ cinema }) => {
+const ShowtimeMovieItem: React.FC<ShowtimeMovieItemProps> = ({ cinema, movieSlug }) => {
+  const router = useRouter();
+  const { isUserLoged } = useUserStore();
   return (
     <div className="flex flex-col p-2 bg-second rounded-circle-md space-y-2">
       <div className="flex space-x-4">
@@ -34,7 +40,18 @@ const ShowtimeMovieItem: React.FC<ShowtimeMovieItemProps> = ({ cinema }) => {
           cinema.showtimes.length > 0 &&
           cinema.showtimes.map((showtime) => {
             return (
-              <Button key={showtime.showtime_id} buttonType="error">
+              <Button 
+                key={showtime.showtime_id} buttonType="error"
+                onClick={() => {
+                  if(isUserLoged) {
+                    router.push(`/dat-ve/${movieSlug}/${showtime.showtime_id}`)
+                    return;
+                  } 
+
+                  enqueueSnackbar('Vui lòng đăng nhập để mua vé nhé!', { variant: "info" });
+                  router.push('/dang-nhap')
+                }}
+              >
                 {dayjs(showtime.start_time).format("HH:mm")}
               </Button>
             );

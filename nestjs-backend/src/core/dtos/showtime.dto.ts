@@ -9,6 +9,9 @@ export class ShowtimeByCinemaResponseDTO {
   movie_name: string;
 
   @Expose()
+  slug: string;
+
+  @Expose()
   @Transform(({ obj }) => {
     const posters = obj?.posters;
 

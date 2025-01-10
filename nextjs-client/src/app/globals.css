@@ -54,3 +54,7 @@ body {
     background-position: 0% 80%;
   }
 }
+
+.clip-triangle {
+  clip-path: inset(0px 0px 0px 2px); /* Adjust values to hide extra corners */
+}

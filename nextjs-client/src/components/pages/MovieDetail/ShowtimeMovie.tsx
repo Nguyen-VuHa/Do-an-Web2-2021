@@ -10,9 +10,10 @@ import { useShowtimeStore } from "~/stores/showtime.store";
 
 interface ShowtimeMovieProps {
   movieName?: string;
+  movieSlug?: string;
 }
 
-const ShowtimeMovie: React.FC<ShowtimeMovieProps> = ({ movieName }) => {
+const ShowtimeMovie: React.FC<ShowtimeMovieProps> = ({ movieName, movieSlug }) => {
   const showtimeRef = useRef<HTMLDivElement>(null);
   const { movie_id, status } = useParams();
   const {
@@ -106,6 +107,7 @@ const ShowtimeMovie: React.FC<ShowtimeMovieProps> = ({ movieName }) => {
                           <ShowtimeMovieItem
                             key={showtime.cinema_id}
                             cinema={showtime}
+                            movieSlug={movieSlug}
                           />
                         );
                       })}

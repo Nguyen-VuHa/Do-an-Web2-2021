@@ -7,6 +7,7 @@ interface UserState {
   setStateUser: (key: string, value: any) => void;
 
   userInfo: IUserInfo;
+  isUserLoged: boolean;
 }
 
 const initUserInfo: IUserInfo = {
@@ -27,6 +28,7 @@ export const useUserStore = create<UserState>((set) => ({
     });
   },
 
+  isUserLoged: false,
   userInfo: initUserInfo,
 }));
 
@@ -44,6 +46,7 @@ export const useUserAPIStore = create<UserAPIState>((set) => ({
 
       if (res && res.statusCode === STATUS_SUCCESS) {
         useUserStore.getState().setStateUser("userInfo", res.data);
+        useUserStore.getState().setStateUser("isUserLoged", true);
       }
     } catch (error) {
       console.log(error);
