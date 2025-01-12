@@ -13,7 +13,10 @@ interface ShowtimeMovieProps {
   movieSlug?: string;
 }
 
-const ShowtimeMovie: React.FC<ShowtimeMovieProps> = ({ movieName, movieSlug }) => {
+const ShowtimeMovie: React.FC<ShowtimeMovieProps> = ({
+  movieName,
+  movieSlug,
+}) => {
   const showtimeRef = useRef<HTMLDivElement>(null);
   const { movie_id, status } = useParams();
   const {

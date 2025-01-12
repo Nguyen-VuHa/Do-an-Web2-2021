@@ -34,16 +34,21 @@ const ShowtimeCinemaItem: React.FC<ShowtimeCinemaItemProps> = ({ movie }) => {
             movie.showtimes.length > 0 &&
             movie.showtimes.map((showtime) => {
               return (
-                <Button 
-                  key={showtime.showtime_id} buttonType="error"
+                <Button
+                  key={showtime.showtime_id}
+                  buttonType="error"
                   onClick={() => {
-                    if(isUserLoged) {
-                      router.push(`/dat-ve/${movie.slug}/${showtime.showtime_id}`)
+                    if (isUserLoged) {
+                      router.push(
+                        `/dat-ve/${movie.slug}/${showtime.showtime_id}`,
+                      );
                       return;
-                    } 
-  
-                    enqueueSnackbar('Vui lòng đăng nhập để mua vé nhé!', { variant: "info" });
-                    router.push('/dang-nhap')
+                    }
+
+                    enqueueSnackbar("Vui lòng đăng nhập để mua vé nhé!", {
+                      variant: "info",
+                    });
+                    router.push("/dang-nhap");
                   }}
                 >
                   {dayjs(showtime.start_time).format("HH:mm")}

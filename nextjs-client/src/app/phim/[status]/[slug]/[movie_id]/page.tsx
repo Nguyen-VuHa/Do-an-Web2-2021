@@ -35,7 +35,10 @@ const MovieDetailMain = async ({ params }) => {
     return (
       <>
         <MovieInfo movieInfo={movie.data} movieType={status} />
-        <ShowtimeMovie movieName={movie.data.title} movieSlug={movie.data.slug} />
+        <ShowtimeMovie
+          movieName={movie.data.title}
+          movieSlug={movie.data.slug}
+        />
       </>
     );
   } catch (error) {
