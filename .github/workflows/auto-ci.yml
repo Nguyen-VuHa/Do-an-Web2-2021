@@ -48,7 +48,7 @@ jobs:
           docker build --build-arg VITE_API_CRAWLER_URL=${{ secrets.VITE_API_CRAWLER_URL }} \
                        --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
                        -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }} .
-          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }}
 
       # Build và Push image cho Frontend (NextJS)
       - name: Build and push NextJS image
@@ -58,4 +58,4 @@ jobs:
                        --build-arg NEXT_PUBLIC_FRONT_END_URL=${{ secrets.NEXT_PUBLIC_FRONT_END_URL }} \
                        --build-arg NODE_ENV=${{ secrets.NODE_ENV }} \
                        -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }} .
-          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }}
