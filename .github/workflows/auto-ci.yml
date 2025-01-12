@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up Docker
+        run: |
+          echo "{\"insecure-registries\":[\"${{ secrets.REGISTRY_URL }}\"]}" | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+          docker info  # Kiểm tra thông tin Docker
       # Check out mã nguồn
       - name: Checkout code
         uses: actions/checkout@v3
