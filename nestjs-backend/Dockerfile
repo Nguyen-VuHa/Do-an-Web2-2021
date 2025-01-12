@@ -11,7 +11,6 @@ FROM node:16-alpine
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
-COPY .env ./
 RUN npm install --production
 EXPOSE 3000
 CMD ["npm", "run", "start:prod"]
