@@ -1,0 +1,85 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - auto-ci  # Chạy workflow khi có thay đổi ở nhánh auto-ci
+  pull_request:
+    branches:
+      - auto-ci  # Chạy workflow khi có PR tới nhánh auto-ci
+
+jobs:
+  # Job cho Backend (NestJS)
+  backend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 20.x]  # Cấu hình cho các phiên bản Node.js
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+        
+      - name: Install dependencies
+        working-directory: ./backend  # Chỉ định thư mục backend
+        run: npm install
+        
+      - name: Build NestJS
+        working-directory: ./backend  # Chỉ định thư mục backend
+        run: npm run build
+
+  # Job cho Frontend NextJS
+  frontend-next:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]  # Cấu hình cho các phiên bản Node.js
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+        
+      - name: Install dependencies
+        working-directory: ./frontend-next  # Chỉ định thư mục frontend-next
+        run: npm install
+        
+      - name: Build NextJS
+        working-directory: ./frontend-next  # Chỉ định thư mục frontend-next
+        run: npm run build
+        
+      - name: Deploy NextJS (nếu cần)
+        run: echo "Deploy NextJS"  # Tùy chỉnh việc deploy (sử dụng các action hoặc script tùy chỉnh)
+
+  # Job cho Frontend ReactJS
+  frontend-react:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]  # Cấu hình cho các phiên bản Node.js
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+        
+      - name: Install dependencies
+        working-directory: ./frontend-react  # Chỉ định thư mục frontend-react
+        run: npm install
+        
+      - name: Build ReactJS
+        working-directory: ./frontend-react  # Chỉ định thư mục frontend-react
+        run: npm run build
+        
+      - name: Deploy ReactJS (nếu cần)
+        run: echo "Deploy ReactJS"  # Tùy chỉnh việc deploy (sử dụng các action hoặc script tùy chỉnh)
