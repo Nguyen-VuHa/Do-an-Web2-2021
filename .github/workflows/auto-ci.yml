@@ -9,77 +9,48 @@ on:
       - auto-ci  # Chạy workflow khi có PR tới nhánh auto-ci
 
 jobs:
-  # Job cho Backend (NestJS)
-  backend:
+   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x, 20.x]  # Cấu hình cho các phiên bản Node.js
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-        
-      - name: Install dependencies
-        working-directory: ./backend  # Chỉ định thư mục backend
-        run: npm install
-        
-      - name: Build NestJS
-        working-directory: ./backend  # Chỉ định thư mục backend
-        run: npm run build
 
-  # Job cho Frontend NextJS
-  frontend-next:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x]  # Cấu hình cho các phiên bản Node.js
     steps:
+      # Check out mã nguồn
       - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-        
-      - name: Install dependencies
-        working-directory: ./frontend-next  # Chỉ định thư mục frontend-next
-        run: npm install
-        
-      - name: Build NextJS
-        working-directory: ./frontend-next  # Chỉ định thư mục frontend-next
-        run: npm run build
-        
-      - name: Deploy NextJS (nếu cần)
-        run: echo "Deploy NextJS"  # Tùy chỉnh việc deploy (sử dụng các action hoặc script tùy chỉnh)
+        uses: actions/checkout@v3
 
-  # Job cho Frontend ReactJS
-  frontend-react:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x]  # Cấu hình cho các phiên bản Node.js
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-        
-      - name: Install dependencies
-        working-directory: ./frontend-react  # Chỉ định thư mục frontend-react
-        run: npm install
-        
-      - name: Build ReactJS
-        working-directory: ./frontend-react  # Chỉ định thư mục frontend-react
-        run: npm run build
-        
-      - name: Deploy ReactJS (nếu cần)
-        run: echo "Deploy ReactJS"  # Tùy chỉnh việc deploy (sử dụng các action hoặc script tùy chỉnh)
+        # Tạo file .env cho React và NextJS từ GitHub Secrets
+      - name: Create .env file for React and Next.js
+        run: |
+          # Tạo file .env cho ReactJS
+          echo "VITE_API_CRAWLER_URL=${{ secrets.VITE_API_CRAWLER_URL }}" >> .env
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env
+          
+          # Tạo file .env cho Next.js
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          echo "NEXT_PUBLIC_FRONT_END_URL=${{ secrets.NEXT_PUBLIC_FRONT_END_URL }}" >> .env
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+
+      # Build và Push image cho Backend (NestJS)
+      - name: Build and push NestJS image
+        working-directory: ./nestjs-backend   # Đảm bảo vào đúng thư mục dự án backend
+        run: |
+          docker build -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }}
+
+      # Build và Push image cho Frontend (ReactJS)
+      - name: Build and push ReactJS image
+        working-directory: ./reactjs-admin   # Đảm bảo vào đúng thư mục dự án ReactJS
+        run: |
+          docker build --build-arg VITE_API_CRAWLER_URL=${{ secrets.VITE_API_CRAWLER_URL }} \
+                       --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
+                       -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }} .
+
+      # Build và Push image cho Frontend (NextJS)
+      - name: Build and push NextJS image
+        working-directory: ./nextjs-client   # Đảm bảo vào đúng thư mục dự án NextJS
+        run: |
+          docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+                       --build-arg NEXT_PUBLIC_FRONT_END_URL=${{ secrets.NEXT_PUBLIC_FRONT_END_URL }} \
+                       --build-arg NODE_ENV=${{ secrets.NODE_ENV }} \
+                       -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }} .
