@@ -15,7 +15,7 @@ WORKDIR /app
 
 # Copy package.json và package-lock.json trước để cài đặt dependencies
 COPY package*.json ./
-RUN npm install --frozen-lockfile
+RUN npm ci --frozen-lockfile
 
 # Copy toàn bộ mã nguồn và build ứng dụng
 COPY . .
