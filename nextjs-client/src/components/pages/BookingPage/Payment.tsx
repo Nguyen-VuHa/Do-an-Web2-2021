@@ -32,7 +32,11 @@ const Payment = () => {
                 <span className="text-success font-semibold">{ totalAmount.toLocaleString() } VNĐ</span>
             </div>
             <div className='flex space-x-1'>
-                <Button className='w-full flex flex-col justify-center items-center space-y-2 rounded-circle-md bg-typography bg-opacity-70'
+                <Button 
+                    className='w-full flex flex-col justify-center items-center space-y-2 rounded-circle-md bg-typography bg-opacity-70'
+                    onClick={() => {
+                        setStateBooking('processBooking', processBooking + 1)
+                    }}
                 >
                     <Image 
                         width={100}
@@ -44,6 +48,9 @@ const Payment = () => {
                 <Button
                     buttonType="warning"
                     className="w-full flex flex-col justify-center items-center rounded-circle-md"
+                    onClick={() => {
+                        setStateBooking('processBooking', processBooking + 1)
+                    }}
                 >
                    <Image 
                         width={100}
