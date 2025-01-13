@@ -2,6 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import {
   ShowtimeByCinemaResponseDTO,
   ShowtimeByMovieResponseDTO,
+  ShowtimeDetailClientResponseDTO,
 } from 'src/core/dtos/showtime.dto';
 import { IResponse } from 'src/core/types/common';
 import { ShowtimeUseCases } from 'src/use-cases/showtime/showtime.usecase';
@@ -22,5 +23,12 @@ export class ShowtimeController {
     @Param('movie_id') movie_id: string
   ): Promise<IResponse<ShowtimeByMovieResponseDTO>> {
     return this.showtimeUsecase.getShowtimeByMovie(movie_id);
+  }
+
+  @Get('/detail/:showtime_id')
+  async getShowtimeDetail(
+    @Param('showtime_id') showtime_id: string
+  ): Promise<IResponse<ShowtimeDetailClientResponseDTO>> {
+    return this.showtimeUsecase.getShowtimeDetailByID(showtime_id);
   }
 }

@@ -1,5 +1,6 @@
 import { Expose, plainToClass, Transform, Type } from 'class-transformer';
 import { getRandomArray } from 'src/utils/random';
+import { ScreenResponseDTO } from './admin-screen.dto';
 
 export class ShowtimeByCinemaResponseDTO {
   @Expose()
@@ -73,4 +74,53 @@ export class ShowtimeByMovieItemResponseDTO {
     return showtimes;
   })
   showtimes: ShowtimeResponseDTO[];
+}
+
+export class ShowtimeMovieDetailDTO {
+  @Expose()
+  movie_id: string;
+
+  @Expose()
+  title: string;
+
+  @Expose()
+  duration: number;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    const posters = obj?.posters;
+
+    if (Array.isArray(posters)) {
+      const posterRandom = getRandomArray(posters);
+
+      // Kiểm tra posterRandom có phải là một đối tượng hợp lệ không
+      if (posterRandom) {
+        return posterRandom.poster_url;
+      }
+    }
+    return ''; // Nếu không có poster_url hợp lệ, trả về chuỗi rỗng
+  })
+  poster: string;
+}
+
+export class ShowtimeDetailClientResponseDTO {
+  @Expose()
+  showtime_id: string;
+
+  @Expose()
+  start_time: string;
+
+  @Expose()
+  end_time: string;
+
+  @Expose()
+  unit_price: number;
+
+  @Expose()
+  @Type(() => ShowtimeMovieDetailDTO)
+  movie: ShowtimeMovieDetailDTO;
+
+  @Expose()
+  @Type(() => ScreenResponseDTO)
+  screen: ScreenResponseDTO;
 }

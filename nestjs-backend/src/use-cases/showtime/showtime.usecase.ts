@@ -10,18 +10,22 @@ import {
   ShowtimeByCinemaResponseDTO,
   ShowtimeByMovieItemResponseDTO,
   ShowtimeByMovieResponseDTO,
+  ShowtimeDetailClientResponseDTO,
 } from 'src/core/dtos/showtime.dto';
 import { IObject, IResponse } from 'src/core/types/common';
 import { CinemaService } from 'src/services/cinema/cinema.service';
 import { MovieService } from 'src/services/movie/movie.service';
 import { RedisService } from 'src/services/redis/redis.service';
+import { ShowtimeService } from 'src/services/showtime/showtime.service';
+import { IsNull } from 'typeorm';
 
 @Injectable()
 export class ShowtimeUseCases {
   constructor(
     private readonly redisService: RedisService,
     private readonly movieService: MovieService,
-    private readonly cinemaService: CinemaService
+    private readonly cinemaService: CinemaService,
+    private readonly showtimeService: ShowtimeService
   ) {}
 
   async getShowtimeByCinema(slug: string): Promise<IResponse<ShowtimeByCinemaResponseDTO[]>> {
@@ -145,6 +149,54 @@ export class ShowtimeUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy thông tin suất chiếu thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async getShowtimeDetailByID(
+    showtime_id: string
+  ): Promise<IResponse<ShowtimeDetailClientResponseDTO>> {
+    try {
+      const response: IResponse<ShowtimeDetailClientResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy chi tiết thông tin suất chiếu thành công',
+      };
+
+      const showtimeDetail = await this.showtimeService.getShowtimeByCondition({
+        where: {
+          showtime_id: showtime_id,
+          screen: {
+            seats: {
+              deleted_at: IsNull(),
+            },
+          },
+        },
+        relations: {
+          movie: {
+            posters: true,
+          },
+          screen: {
+            seats: true,
+          },
+        },
+      });
+
+      if (!showtimeDetail) {
+        throw new Error('Suất chiếu này không tồn tại.');
+      }
+
+      const showtimeDetailDTO = plainToClass(ShowtimeDetailClientResponseDTO, showtimeDetail, {
+        excludeExtraneousValues: true,
+      });
+
+      response.data = showtimeDetailDTO;
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy chi tiết thông tin suất chiếu thất bại.',
         error: error.message,
       });
     }
