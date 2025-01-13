@@ -17,6 +17,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --frozen-lockfile  # Cài đặt tất cả dependencies, bao gồm devDependencies
 
+# Cài đặt sharp nếu cần Image Optimization
+RUN npm install sharp --frozen-lockfile
+
 # Copy toàn bộ mã nguồn và build ứng dụng
 COPY . .
 RUN npm run build
