@@ -1,0 +1,39 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - react-ci
+  pull_request:
+    branches:
+      - react-ci
+
+jobs:
+   build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Docker
+        run: |
+          echo "{\"insecure-registries\":[\"${{ secrets.REGISTRY_URL }}\"]}" | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+          docker info  # Kiểm tra thông tin Docker
+      # Check out mã nguồn
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Tạo file .env cho React và NextJS từ GitHub Secrets
+      - name: Create .env file for React and Next.js
+        run: |
+          # Tạo file .env cho ReactJS
+          echo "VITE_API_CRAWLER_URL=${{ secrets.VITE_API_CRAWLER_URL }}" >> .env
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env
+
+      # Build và Push image cho Frontend (ReactJS)
+      - name: Build and push ReactJS image
+        working-directory: ./reactjs-admin # Đảm bảo vào đúng thư mục dự án ReactJS
+        run: |
+          docker build --build-arg VITE_API_CRAWLER_URL=${{ secrets.VITE_API_CRAWLER_URL }} \
+                       --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
+                       -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }}

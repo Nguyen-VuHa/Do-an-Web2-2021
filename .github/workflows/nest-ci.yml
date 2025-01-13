@@ -1,0 +1,30 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - nest-ci
+  pull_request:
+    branches:
+      - nest-ci
+
+jobs:
+   build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Docker
+        run: |
+          echo "{\"insecure-registries\":[\"${{ secrets.REGISTRY_URL }}\"]}" | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+          docker info  # Kiểm tra thông tin Docker
+      # Check out mã nguồn
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Build và Push image cho Backend (NestJS)
+      - name: Build and push NestJS image
+        working-directory: ./nestjs-backend   # Đảm bảo vào đúng thư mục dự án backend
+        run: |
+          docker build -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }}

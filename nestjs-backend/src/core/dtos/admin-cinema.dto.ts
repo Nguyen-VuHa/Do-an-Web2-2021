@@ -60,9 +60,9 @@ export class CreateCinemaDTO {
   @IsUrl()
   embed_map_url: string;
 
-  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsOptional() // Yêu cầu trường này không được để trống
   @IsUrl()
-  banner: string;
+  banner?: string;
 }
 
 export class UpdateCinemaDTO extends OmitType(CreateCinemaDTO, ['banner'] as const) {
