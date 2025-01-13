@@ -2,24 +2,34 @@ import { create } from "zustand";
 import {
   apiFetchShowtimeByCinema,
   apiFetchShowtimeByMovie,
+  apiFetchShowtimeDetail,
 } from "~/apis/showtime.api";
 import { STATUS_SUCCESS } from "~/constants/status";
-import { IShowtimeByCinema, IShowtimeByMovie } from "~/types/showtime.type";
+import {
+  ISeatResponse,
+  IShowtimeByCinema,
+  IShowtimeByMovie,
+  IShowtimeDetailResponse,
+} from "~/types/showtime.type";
 
 interface ShowtimeState {
   setStateShowtime: (key: string, value: unknown) => void;
 
   isFetchShowtimeCinema: boolean;
   isFetchShowtimeMovie: boolean;
+  isFetchShowtimeDetail: boolean;
   cinemaSelect: string;
   errorMessage: string;
   showtimeCinema: IShowtimeByCinema[];
   showtimeMovie: IShowtimeByMovie[];
   showtimeArea: string[];
   isShowtimeView: number;
+  showtimeDetail: IShowtimeDetailResponse | null;
+  seatMap: ISeatResponse[];
 
   reqFetchShowtimeByCinema: (slug: string) => Promise<void>;
   reqFetchShowtimeByMovie: (movie_id: string) => Promise<void>;
+  reqFetchShowtimeDetail: (showtime_id: string) => Promise<void>;
 }
 
 export const useShowtimeStore = create<ShowtimeState>((set) => ({
@@ -30,12 +40,15 @@ export const useShowtimeStore = create<ShowtimeState>((set) => ({
   },
   isFetchShowtimeCinema: false,
   isFetchShowtimeMovie: false,
+  isFetchShowtimeDetail: false,
   cinemaSelect: "",
   errorMessage: "",
   showtimeCinema: [],
   showtimeMovie: [],
   showtimeArea: [],
   isShowtimeView: 0,
+  showtimeDetail: null,
+  seatMap: [],
 
   reqFetchShowtimeByCinema: async (slug) => {
     set({ isFetchShowtimeCinema: true });
@@ -80,6 +93,29 @@ export const useShowtimeStore = create<ShowtimeState>((set) => ({
       });
     } finally {
       set({ isFetchShowtimeMovie: false });
+    }
+  },
+  reqFetchShowtimeDetail: async (showtime_id) => {
+    set({ isFetchShowtimeDetail: true });
+    try {
+      const res = await apiFetchShowtimeDetail(showtime_id);
+
+      if (res.statusCode === STATUS_SUCCESS) {
+        set({
+          showtimeDetail: res.data,
+          seatMap: res.data?.screen.seats || [],
+        });
+      } else {
+        set({
+          errorMessage: res.error?.toString(),
+        });
+      }
+    } catch (error) {
+      set({
+        errorMessage: error?.toString(),
+      });
+    } finally {
+      set({ isFetchShowtimeDetail: false });
     }
   },
 }));

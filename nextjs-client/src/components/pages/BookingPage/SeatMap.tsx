@@ -1,12 +1,10 @@
-"use client"
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import BGScreen from '~/assets/imgs/bg-screen.png';
-import SeatIcon from '~/components/common/SeatIcon';
-import { MAX_COL_SEAT, MAX_ROW_SEAT } from '~/constants/seat';
+import React, { useEffect, useRef, useState } from "react";
+import { MAX_COL_SEAT, MAX_ROW_SEAT } from "~/constants/seat";
+import { useShowtimeStore } from "~/stores/showtime.store";
+import SeatItem from "./SeatItem";
 
 const SeatMap = () => {
-  const seatMap = [];
+  const { seatMap } = useShowtimeStore();
   const rows = MAX_ROW_SEAT;
   const cols = MAX_COL_SEAT;
 
@@ -15,7 +13,8 @@ const SeatMap = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const startPosition = useRef({ x: 0, y: 0 });
 
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.7);
+
   // Xử lý sự kiện cuộn chuột để scale
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     event.preventDefault(); // Ngăn thanh cuộn của body hoạt động
@@ -55,11 +54,11 @@ const SeatMap = () => {
 
   useEffect(() => {
     // Lắng nghe sự kiện wheel trên toàn trang
-    window.addEventListener('wheel', preventPageScroll, { passive: false });
+    window.addEventListener("wheel", preventPageScroll, { passive: false });
 
     return () => {
       // Gỡ bỏ sự kiện khi component bị unmount
-      window.removeEventListener('wheel', preventPageScroll);
+      window.removeEventListener("wheel", preventPageScroll);
     };
   }, []);
 
@@ -73,7 +72,7 @@ const SeatMap = () => {
 
   // Tạo grid với mảng 2 chiều
   const grid = Array.from({ length: rows }, (_, rowIndex) => (
-    <div key={rowIndex} className="flex gap-2">
+    <div key={rowIndex} className="flex">
       {Array.from({ length: cols }, (_, colIndex) => {
         const isMatch = seatMap.find(
           (seat) => seat.x === colIndex && seat.y === rowIndex,
@@ -84,14 +83,7 @@ const SeatMap = () => {
             key={colIndex}
             className="relative w-full h-full flex flex-col items-start justify-center text-xs p-1 cursor-pointer"
           >
-            {isMatch && (
-              <>
-                <SeatIcon className="w-full h-full fill-success" />
-                <span className="w-full text-center font-bold text-lg text-warning">
-                  {isMatch.label}
-                </span>
-              </>
-            )}
+            {isMatch && <SeatItem seat={isMatch} />}
           </div>
         );
       })}
@@ -108,22 +100,36 @@ const SeatMap = () => {
       onMouseUp={onMouseUp}
       onMouseLeave={onMouseLeave}
       style={{
-        cursor: isDragging ? 'move' : 'default',
+        cursor: isDragging ? "move" : "default",
       }}
     >
       <div
         className="flex flex-col"
         style={{
           transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
-          transition: 'transform 0.2s',
+          transition: "transform 0.2s",
         }}
       >
-        <div style={{ width: `${20 * cols + (cols - 1) * 2}px` }}>
-          <Image className="mb-30 w-full" alt='NO IMAGE' src={BGScreen} width={300} height={20} />
-        </div>
         <div
-          className="flex flex-col gap-3"
-          style={{ width: `${20 * cols + (cols - 1) * 2}px` }}
+          style={{
+            width: `${40 * cols + (cols - 1) * 2}px`,
+            marginBottom: "100px",
+          }}
+        >
+          {/* Màn hình chiếu */}
+          <div className="relative z-10 w-full max-w-screen-xl mx-auto text-center px-4 py-8">
+            <div className="w-full h-auto bg-social-x rounded-md shadow-lg text-2xl">
+              Màn hình
+            </div>
+            <div className="absolute left-[-5%] right-0">
+              <div className="w-[104%] h-16 bg-gradient-to-b from-social-x to-transparent rounded-t-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="flex flex-col"
+          style={{ width: `${40 * cols + (cols - 1) * 2}px` }}
         >
           {grid}
         </div>
