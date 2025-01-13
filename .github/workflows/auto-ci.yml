@@ -29,10 +29,10 @@ jobs:
           echo "VITE_API_CRAWLER_URL=${{ secrets.VITE_API_CRAWLER_URL }}" >> .env
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env
           
-          # Tạo file .env cho Next.js
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
-          echo "NEXT_PUBLIC_FRONT_END_URL=${{ secrets.NEXT_PUBLIC_FRONT_END_URL }}" >> .env
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+          # # Tạo file .env cho Next.js
+          # echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          # echo "NEXT_PUBLIC_FRONT_END_URL=${{ secrets.NEXT_PUBLIC_FRONT_END_URL }}" >> .env
+          # echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
 
       # Build và Push image cho Backend (NestJS)
       - name: Build and push NestJS image
@@ -50,12 +50,12 @@ jobs:
                        -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }} .
           docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-react-admin:${{ github.sha }}
 
-      # Build và Push image cho Frontend (NextJS)
-      - name: Build and push NextJS image
-        working-directory: ./nextjs-client   # Đảm bảo vào đúng thư mục dự án NextJS
-        run: |
-          docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
-                       --build-arg NEXT_PUBLIC_FRONT_END_URL=${{ secrets.NEXT_PUBLIC_FRONT_END_URL }} \
-                       --build-arg NODE_ENV=${{ secrets.NODE_ENV }} \
-                       -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }} .
-          docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }}
+      # # Build và Push image cho Frontend (NextJS)
+      # - name: Build and push NextJS image
+      #   working-directory: ./nextjs-client   # Đảm bảo vào đúng thư mục dự án NextJS
+      #   run: |
+      #     docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+      #                  --build-arg NEXT_PUBLIC_FRONT_END_URL=${{ secrets.NEXT_PUBLIC_FRONT_END_URL }} \
+      #                  --build-arg NODE_ENV=${{ secrets.NODE_ENV }} \
+      #                  -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }} .
+      #     docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-next-client:${{ github.sha }}
