@@ -15,7 +15,7 @@ WORKDIR /app
 
 # Copy package.json và package-lock.json trước để cài đặt dependencies
 COPY package*.json ./
-RUN npm ci --frozen-lockfile
+RUN npm install
 
 # Copy toàn bộ mã nguồn và build ứng dụng
 COPY . .
@@ -32,7 +32,7 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/next.config.mjs ./next.config.mjs
 
 # Cài đặt các dependencies cần thiết cho môi trường production
-RUN npm ci --production
+RUN npm install
 
 EXPOSE 3500
 
