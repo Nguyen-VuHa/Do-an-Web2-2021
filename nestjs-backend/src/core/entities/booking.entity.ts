@@ -1,27 +1,46 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Seat } from './seat.entity';
+import { BookingHistory } from './booking-history.entity';
+import { User } from './user.entity';
+import { Movie } from './movie.entity';
 
 @Entity('bookings')
 export class Booking {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  booking_id: number;
 
-  @ManyToOne(() => Seat, { eager: true })
-  seat: Seat;
+  @Column()
+  total_amount: number;
 
-  @Column({ type: 'enum', enum: ['PENDING', 'CONFIRMED', 'CANCELLED'], default: 'PENDING' })
-  status: 'PENDING' | 'CONFIRMED' | 'CANCELLED';
+  @Column()
+  unit_price: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn({ nullable: true, default: null })
+  deleted_at: Date | null; // Null nếu chưa bị xóa
+
+  @OneToMany(() => BookingHistory, (history) => history.booking)
+  history: BookingHistory[];
+
+  @ManyToOne(() => User, (user) => user.booking, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => Movie, (movie) => movie.booking, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'movie_id' })
+  movie: Movie;
 }

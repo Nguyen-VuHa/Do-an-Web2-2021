@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { UserPhoto } from './user-photo.entity';
 import { Notification } from './notification.entity';
+import { Booking } from './booking.entity';
 
 enum UserGender {
   MALE = 'male',
@@ -65,4 +66,7 @@ export class User {
 
   @OneToMany(() => UserPhoto, (photo) => photo.user)
   photos: UserPhoto[];
+
+  @OneToMany(() => Booking, (booking) => booking.user)
+  booking: Booking[];
 }

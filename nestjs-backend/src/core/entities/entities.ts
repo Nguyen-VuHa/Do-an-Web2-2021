@@ -13,6 +13,8 @@ import { Screen } from './screen.entity';
 import { Seat } from './seat.entity';
 import { CinemaBanner } from './cinema-banner.entity';
 import { Showtime } from './showtime.entity';
+import { BookingHistory } from './booking-history.entity';
+import { Booking } from './booking.entity';
 
 const ENTITIES_SYSTEM = [SystemUser];
 const ENTITIES = [
@@ -30,6 +32,8 @@ const ENTITIES = [
   Screen,
   Seat,
   Showtime,
+  Booking,
+  BookingHistory,
   ...ENTITIES_SYSTEM,
 ];
 

@@ -16,6 +16,7 @@ import { Actor } from './actor.entity';
 import { Category } from './category.entity';
 import { Director } from './director.entity';
 import { Showtime } from './showtime.entity';
+import { Booking } from './booking.entity';
 
 @Entity('movies')
 export class Movie {
@@ -89,4 +90,7 @@ export class Movie {
 
   @OneToMany(() => Showtime, (showtime) => showtime.movie, { cascade: true })
   showtimes: Showtime[];
+
+  @OneToMany(() => Booking, (booking) => booking.movie)
+  booking: Booking[];
 }

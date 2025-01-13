@@ -5,11 +5,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Movie } from './movie.entity';
 import { Screen } from './screen.entity';
+import { BookingHistory } from './booking-history.entity';
 
 @Entity('showtimes')
 export class Showtime {
@@ -41,4 +43,7 @@ export class Showtime {
   @ManyToOne(() => Movie, (movie) => movie.showtimes)
   @JoinColumn({ name: 'movie_id' }) // Liên kết với primary key của Cinema
   movie: Movie;
+
+  @OneToMany(() => BookingHistory, (history) => history.showtime)
+  booking_history: BookingHistory[];
 }
