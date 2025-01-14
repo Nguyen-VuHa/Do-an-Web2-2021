@@ -18,25 +18,32 @@ const SeatItem: React.FC<SeatItemProps> = ({ seat }) => {
     className = "text-warning bg-warning bg-opacity-30 hover:bg-opacity-50";
   }
 
+  if(seat.status === 2) {
+    className = "text-typography bg-typography bg-opacity-30";
+  }
+
   return (
     <div
       className={`w-10 h-10 flex justify-center items-center
         rounded-circle-md ${className}
         `}
       onClick={() => {
-        if (isChoose) {
-          setStateBooking(
-            "seatBooking",
-            seatBooking.filter((sBook) => sBook.seat_id !== seat.seat_id),
-          );
-        } else {
-          const newSeat: ISeatBooking = {
-            seat_id: seat.seat_id,
-            seat_name: seat.seat_name,
-          };
-
-          setStateBooking("seatBooking", seatBooking.concat(newSeat));
+        if(seat.status === 1) {
+          if (isChoose) {
+            setStateBooking(
+              "seatBooking",
+              seatBooking.filter((sBook) => sBook.seat_id !== seat.seat_id),
+            );
+          } else {
+            const newSeat: ISeatBooking = {
+              seat_id: seat.seat_id,
+              seat_name: seat.seat_name,
+            };
+  
+            setStateBooking("seatBooking", seatBooking.concat(newSeat));
+          }
         }
+        
       }}
     >
       {seat.seat_name}
