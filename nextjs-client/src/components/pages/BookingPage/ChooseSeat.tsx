@@ -18,63 +18,76 @@ const ChooseSeat = () => {
         <div className="lg:col-span-3 w-full space-y-2">
           <SeatMap />
           <div className="bg-second p-2 rounded-circle-md flex flex-wrap gap-5 justify-center items-center">
-              <div 
-                className="flex justify-center items-center space-x-2"
+            <div className="flex justify-center items-center space-x-2">
+              <div
+                className="w-10 h-10 flex justify-center items-center
+                  rounded-circle-md text-social-x bg-social-x bg-opacity-30 hover:bg-opacity-50"
               >
-                <div className="w-10 h-10 flex justify-center items-center
-                  rounded-circle-md text-social-x bg-social-x bg-opacity-30 hover:bg-opacity-50">
-                    AA
-                </div>
-                <span className="text-social-x">Ghế thường</span>
+                AA
               </div>
-              <div 
-                className="flex justify-center items-center space-x-2"
+              <span className="text-social-x">Ghế thường</span>
+            </div>
+            <div className="flex justify-center items-center space-x-2">
+              <div
+                className="w-10 h-10 flex justify-center items-center
+                  rounded-circle-md text-warning bg-warning bg-opacity-30 hover:bg-opacity-50"
               >
-                <div className="w-10 h-10 flex justify-center items-center
-                  rounded-circle-md text-warning bg-warning bg-opacity-30 hover:bg-opacity-50">
-                    AA
-                </div>
-                <span className="text-warning">Ghế bạn chọn</span>
+                AA
               </div>
-              <div 
-                className="flex justify-center items-center space-x-2"
+              <span className="text-warning">Ghế bạn chọn</span>
+            </div>
+            <div className="flex justify-center items-center space-x-2">
+              <div
+                className="w-10 h-10 flex justify-center items-center
+                  rounded-circle-md text-typography bg-typography bg-opacity-30 hover:bg-opacity-50"
               >
-                <div className="w-10 h-10 flex justify-center items-center
-                  rounded-circle-md text-typography bg-typography bg-opacity-30 hover:bg-opacity-50">
-                    AA
-                </div>
-                <span className="text-typography">Ghế đã đặt</span>
+                AA
               </div>
+              <span className="text-typography">Ghế đã đặt</span>
+            </div>
           </div>
         </div>
         <div className="lg:col-span-2 space-y-2">
           <MovieInfo />
           <div className="w-full p-2 bg-second rounded-circle-md space-y-2">
-            <div className="text-warning text-lg">Ghế bạn đang chọn - {seatBooking.length} Ghế</div>
+            <div className="text-warning text-lg">
+              Ghế bạn đang chọn - {seatBooking.length} Ghế
+            </div>
             <div className="flex flex-wrap gap-1">
-              {
-                seatBooking.length > 0 && 
-                seatBooking.map(seat => {
-                  return <Button className="!rounded-circle-md" key={seat.seat_id} buttonType="info">{ seat.seat_name }</Button>
-                })
-              }
+              {seatBooking.length > 0 &&
+                seatBooking.map((seat) => {
+                  return (
+                    <Button
+                      className="!rounded-circle-md"
+                      key={seat.seat_id}
+                      buttonType="info"
+                    >
+                      {seat.seat_name}
+                    </Button>
+                  );
+                })}
             </div>
           </div>
           <div className="w-full flex items-center p-2 bg-second rounded-circle-md space-x-2 text-lg">
             <span className="text-warning">Tổng tiền thanh toán: </span>
-            <span className="text-success font-semibold">{ totalAmount.toLocaleString() } VNĐ</span>
+            <span className="text-success font-semibold">
+              {totalAmount.toLocaleString()} VNĐ
+            </span>
           </div>
         </div>
       </div>
 
       {/* Next step */}
-      <Button 
-        className="flex items-center space-x-2" buttonType="warning"
+      <Button
+        className="flex items-center space-x-2"
+        buttonType="warning"
         onClick={() => {
-          if(seatBooking.length > 0) {
-            setStateBooking('processBooking', processBooking + 1)
+          if (seatBooking.length > 0) {
+            setStateBooking("processBooking", processBooking + 1);
           } else {
-            enqueueSnackbar('Vui lòng chọn ghế trước khi thanh toán', { variant: "info" });
+            enqueueSnackbar("Vui lòng chọn ghế trước khi thanh toán", {
+              variant: "info",
+            });
           }
         }}
       >

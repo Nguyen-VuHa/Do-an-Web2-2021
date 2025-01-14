@@ -22,7 +22,7 @@ const ProgressBarList: IProgressBar[] = [
 ];
 
 const ProgressBar = () => {
-  const { processBooking } = useBookingStore()
+  const { processBooking } = useBookingStore();
   return (
     <ol className="flex flex-col border-second w-full px-10 md:px-0 md:flex-row">
       {ProgressBarList.map((progress, index) => {
@@ -32,7 +32,11 @@ const ProgressBar = () => {
             label={progress.label}
             progressNumber={`0${index + 1}`}
             iconHidden={index === ProgressBarList.length - 1}
-            status={(processBooking === progress.id && "process") || (processBooking > progress.id && 'success') || "normal"}
+            status={
+              (processBooking === progress.id && "process") ||
+              (processBooking > progress.id && "success") ||
+              "normal"
+            }
           />
         );
       })}

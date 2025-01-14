@@ -11,6 +11,7 @@ interface UserState {
 }
 
 const initUserInfo: IUserInfo = {
+  user_id: "",
   email: "",
   fullname: "",
   birth_day: "",

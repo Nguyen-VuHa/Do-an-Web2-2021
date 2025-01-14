@@ -52,6 +52,9 @@ export class UserResponseDTO {
 
 export class UserClientResponseDTO {
   @Expose()
+  user_id: string;
+
+  @Expose()
   @Transform(({ value }) => {
     // Mã hóa email hoặc che email (ví dụ che tất cả ký tự trước dấu '@')
     const [username, domain] = value.split('@');

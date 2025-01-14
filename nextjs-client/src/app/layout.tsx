@@ -13,7 +13,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isModalViewTrailer } = useGlobalStore();
+  const { isModalViewTrailer, isDisableScreen } = useGlobalStore();
   return (
     <html lang="vi">
       <body className="bg-layout">
@@ -25,6 +25,10 @@ export default function RootLayout({
           }}
         >
           {isModalViewTrailer && <ViewTrailer />}
+
+          {isDisableScreen && (
+            <div className="fixed w-full h-full top-0 left-0 z-[9999999]" />
+          )}
 
           <PublicLayout>{children}</PublicLayout>
         </SnackbarProvider>

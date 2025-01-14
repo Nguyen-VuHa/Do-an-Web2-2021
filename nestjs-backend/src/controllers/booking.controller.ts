@@ -3,11 +3,13 @@ import {
   Body,
   Controller,
   Post,
+  Req,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { BookingTicketDTO } from 'src/core/dtos/booking.dto';
 import { IResponse } from 'src/core/types/common';
+import { IJWTUserInfo } from 'src/core/types/user.type';
 import { BookingUseCases } from 'src/use-cases/booking/booking.usecase';
 
 @Controller('booking')
@@ -32,7 +34,12 @@ export class BookingController {
       },
     })
   )
-  async bookingTicket(@Body() data: BookingTicketDTO): Promise<IResponse<string>> {
+  async bookingTicket(
+    @Body() data: BookingTicketDTO,
+    @Req() req: Request & { user: IJWTUserInfo }
+  ): Promise<IResponse<string>> {
+    const { user } = req;
+    data.user_id = user.user_id;
     return this.bookingUseCase.bookingTicket(data);
   }
 }

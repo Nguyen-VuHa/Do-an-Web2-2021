@@ -1,4 +1,5 @@
 export interface IUserInfo {
+  user_id: string;
   email: string;
   fullname: string;
   birth_day: string;

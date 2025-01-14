@@ -25,6 +25,10 @@ export class BookingTicketDTO {
 
   @IsNotEmpty()
   @IsString()
+  token: string;
+
+  @IsNotEmpty()
+  @IsString()
   showtime_id: string;
 
   @IsNotEmpty()

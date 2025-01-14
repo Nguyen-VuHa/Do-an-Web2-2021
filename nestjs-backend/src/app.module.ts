@@ -37,6 +37,10 @@ export class AppModule {
       .forRoutes({ path: 'user/info', method: RequestMethod.GET });
 
     consumer
+      .apply(VerifyUserClientMiddleware)
+      .forRoutes({ path: 'booking/ticket', method: RequestMethod.POST });
+
+    consumer
       .apply(VerifyRefreshTokenUserClientMiddleware)
       .forRoutes({ path: 'auth/token/refresh', method: RequestMethod.POST });
   }

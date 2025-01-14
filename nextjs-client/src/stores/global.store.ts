@@ -5,6 +5,8 @@ interface GlobalState {
 
   isModalViewTrailer: boolean;
   trailerID: string;
+
+  isDisableScreen: boolean;
 }
 
 export const useGlobalStore = create<GlobalState>((set) => ({
@@ -16,4 +18,5 @@ export const useGlobalStore = create<GlobalState>((set) => ({
 
   isModalViewTrailer: false,
   trailerID: "",
+  isDisableScreen: false,
 }));

@@ -1,5 +1,6 @@
 import { DataSeederServiceModule } from 'src/core/data/data-seeder.module';
 import { RedisServiceModule } from 'src/services/redis/redis.module';
+import { StatusServiceModule } from 'src/services/status/status.module';
 import { AdminAuthUseCaseModule } from 'src/use-cases/(admin)/auth/adminAuthUseCase.module';
 import { AdminCinemaUseCaseModule } from 'src/use-cases/(admin)/cinema/cinemaUseCase.module';
 import { AdminFileSystemUseCaseModule } from 'src/use-cases/(admin)/file-system/fileSystemUseCase.module';
@@ -30,6 +31,8 @@ const ADMIN_APPMODULES = [
 
 const THIRD_PARTY_MODULES = [RedisServiceModule];
 
+const CUSTOM_MODULES = [StatusServiceModule];
+
 const CLIENT_MODULES = [
   AuthUseCaseModule,
   MovieUseCaseModule,
@@ -43,6 +46,7 @@ const APPMODULES = [
   ...ADMIN_APPMODULES,
   ...CLIENT_MODULES,
   ...THIRD_PARTY_MODULES,
+  ...CUSTOM_MODULES,
   ...SEEDER_MODULES,
 ];
 

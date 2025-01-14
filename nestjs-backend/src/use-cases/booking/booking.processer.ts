@@ -1,6 +1,6 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
-import { BOOKING_QUEUE } from 'src/constants/queue';
+import { BOOKING_FAILED, BOOKING_QUEUE, BOOKING_SUCCESS } from 'src/constants/queue';
 import { BookingTicketDTO } from 'src/core/dtos/booking.dto';
 import { BookingHistory } from 'src/core/entities/booking-history.entity';
 import { Booking } from 'src/core/entities/booking.entity';
@@ -9,6 +9,7 @@ import { MovieService } from 'src/services/movie/movie.service';
 import { ScreenService } from 'src/services/screen/screen.service';
 import { SeatService } from 'src/services/seat/seat.service';
 import { ShowtimeService } from 'src/services/showtime/showtime.service';
+import { StatusService } from 'src/services/status/status.service';
 import { UserService } from 'src/services/user/user.service';
 import { In } from 'typeorm';
 
@@ -20,20 +21,35 @@ export class BookingProcessor {
     private readonly showtimeService: ShowtimeService,
     private readonly screenService: ScreenService,
     private readonly movieService: MovieService,
-    private readonly seatService: SeatService
+    private readonly seatService: SeatService,
+    private readonly statusService: StatusService
   ) {}
 
   @Process(BOOKING_QUEUE) // Xử lý job đặt vé
   async handleBooking(job: Job) {
+    const jobData = job.data.booking_detail;
+
+    const keySSE = `${jobData.user_id}-${jobData.showtime_id}-${jobData.token}`;
     try {
       console.log(`Đang xử lý đơn hàng: ${job.id}`);
-      await this.saveBooking(job.data.booking_detail);
+      const resSave = await this.saveBooking(job.data.booking_detail);
       console.log(`Xử lý xong đơn hàng: ${job.id}`);
 
+      this.statusService.sendStatus(keySSE, {
+        status: resSave,
+        message:
+          resSave === BOOKING_FAILED
+            ? 'Tiến trình đặt vé thất bại!'
+            : 'Tiến trình đặt vé thành công!',
+      });
       await job.isCompleted();
     } catch (error) {
       console.log(error.message);
       // handle push message error to user.
+      this.statusService.sendStatus(keySSE, {
+        status: BOOKING_FAILED,
+        message: 'Tiến trình đặt vé thất bại!',
+      });
       await job.isFailed();
       return error;
     }
@@ -122,10 +138,10 @@ export class BookingProcessor {
 
         await this.bookingService.createBookingHistory(bookingHistory);
       }
-      return 'success';
+      return BOOKING_SUCCESS;
     } catch (error) {
       console.log(error.message);
-      return 'failed';
+      return BOOKING_FAILED;
     }
   }
 }

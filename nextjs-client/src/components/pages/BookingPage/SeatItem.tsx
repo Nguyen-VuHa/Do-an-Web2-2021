@@ -10,12 +10,12 @@ interface SeatItemProps {
 const SeatItem: React.FC<SeatItemProps> = ({ seat }) => {
   const { seatBooking, setStateBooking } = useBookingStore();
 
-  const isChoose = seatBooking.find(sBook => sBook.seat_id === seat.seat_id)
+  const isChoose = seatBooking.find((sBook) => sBook.seat_id === seat.seat_id);
 
-  let className = 'text-social-x bg-social-x bg-opacity-30 hover:bg-opacity-50'
+  let className = "text-social-x bg-social-x bg-opacity-30 hover:bg-opacity-50";
 
-  if(isChoose) {
-    className = 'text-warning bg-warning bg-opacity-30 hover:bg-opacity-50'
+  if (isChoose) {
+    className = "text-warning bg-warning bg-opacity-30 hover:bg-opacity-50";
   }
 
   return (
@@ -23,17 +23,19 @@ const SeatItem: React.FC<SeatItemProps> = ({ seat }) => {
       className={`w-10 h-10 flex justify-center items-center
         rounded-circle-md ${className}
         `}
-      
       onClick={() => {
-        if(isChoose) {
-          setStateBooking('seatBooking', seatBooking.filter(sBook => sBook.seat_id !== seat.seat_id))
+        if (isChoose) {
+          setStateBooking(
+            "seatBooking",
+            seatBooking.filter((sBook) => sBook.seat_id !== seat.seat_id),
+          );
         } else {
           const newSeat: ISeatBooking = {
             seat_id: seat.seat_id,
             seat_name: seat.seat_name,
-          }
+          };
 
-          setStateBooking('seatBooking', seatBooking.concat(newSeat))
+          setStateBooking("seatBooking", seatBooking.concat(newSeat));
         }
       }}
     >
