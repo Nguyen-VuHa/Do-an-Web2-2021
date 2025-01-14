@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ShowtimeUseCases } from './showtime.usecase';
-import { MovieServiceModule } from 'src/services/movie/movie.module';
+import { BookingServiceModule } from 'src/services/booking/booking.module';
 import { AdminCinemaServiceModule } from 'src/services/cinema/cinema.module';
-import { ShowtimeServiceModule } from 'src/services/showtime/showtime.module';
+import { MovieServiceModule } from 'src/services/movie/movie.module';
 import { RedisServiceModule } from 'src/services/redis/redis.module';
+import { ShowtimeServiceModule } from 'src/services/showtime/showtime.module';
+import { ShowtimeUseCases } from './showtime.usecase';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { RedisServiceModule } from 'src/services/redis/redis.module';
     AdminCinemaServiceModule,
     ShowtimeServiceModule,
     RedisServiceModule,
+    BookingServiceModule,
   ],
   providers: [ShowtimeUseCases],
   exports: [ShowtimeUseCases],

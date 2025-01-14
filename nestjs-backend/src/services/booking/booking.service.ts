@@ -18,6 +18,10 @@ export class BookingService {
     return await this.bookingRepository.findOne(conditions);
   }
 
+  async getBookingListByCondition(conditions: IObject<any>): Promise<Booking[]> {
+    return await this.bookingRepository.find(conditions);
+  }
+
   async createBooking(bookingData: Booking): Promise<Booking> {
     return await this.bookingRepository.save(bookingData);
   }

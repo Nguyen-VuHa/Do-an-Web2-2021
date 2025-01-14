@@ -5,6 +5,8 @@ import {
   REDIS_SHOWTIME_BY_CINEMA_TTL,
   REDIS_SHOWTIME_BY_MOVIE_KEY,
   REDIS_SHOWTIME_BY_MOVIE_TTL,
+  REDIS_SHOWTIME_DETAIL_KEY,
+  REDIS_SHOWTIME_DETAIL_TTL,
 } from 'src/constants/redis';
 import {
   ShowtimeByCinemaResponseDTO,
@@ -13,6 +15,7 @@ import {
   ShowtimeDetailClientResponseDTO,
 } from 'src/core/dtos/showtime.dto';
 import { IObject, IResponse } from 'src/core/types/common';
+import { BookingService } from 'src/services/booking/booking.service';
 import { CinemaService } from 'src/services/cinema/cinema.service';
 import { MovieService } from 'src/services/movie/movie.service';
 import { RedisService } from 'src/services/redis/redis.service';
@@ -25,7 +28,8 @@ export class ShowtimeUseCases {
     private readonly redisService: RedisService,
     private readonly movieService: MovieService,
     private readonly cinemaService: CinemaService,
-    private readonly showtimeService: ShowtimeService
+    private readonly showtimeService: ShowtimeService,
+    private readonly bookingService: BookingService
   ) {}
 
   async getShowtimeByCinema(slug: string): Promise<IResponse<ShowtimeByCinemaResponseDTO[]>> {
@@ -158,11 +162,35 @@ export class ShowtimeUseCases {
     showtime_id: string
   ): Promise<IResponse<ShowtimeDetailClientResponseDTO>> {
     try {
+      const keyCache = `${REDIS_SHOWTIME_DETAIL_KEY}_${showtime_id}`;
+
       const response: IResponse<ShowtimeDetailClientResponseDTO> = {
         statusCode: 200,
         error: null,
         message: 'Lấy chi tiết thông tin suất chiếu thành công',
       };
+
+      const dataCache: IObject<any> = await this.redisService.getDataRedis(keyCache);
+
+      if (dataCache) {
+        response.data = dataCache as ShowtimeDetailClientResponseDTO;
+
+        const seat_selected = await this.getSeatSelectedByShowtime(showtime_id);
+
+        response.data.screen.seats = response.data.screen.seats.map((seat) => {
+          const isSelected = seat_selected.includes(seat.seat_id);
+          if (isSelected) {
+            return {
+              ...seat,
+              status: 2,
+            };
+          } else {
+            return seat;
+          }
+        });
+
+        return response;
+      }
 
       const showtimeDetail = await this.showtimeService.getShowtimeByCondition({
         where: {
@@ -191,7 +219,25 @@ export class ShowtimeUseCases {
         excludeExtraneousValues: true,
       });
 
+      // set data lên redis cache
+      this.redisService.setDataRedis(keyCache, showtimeDetailDTO, REDIS_SHOWTIME_DETAIL_TTL);
+
+      const seat_selected = await this.getSeatSelectedByShowtime(showtime_id);
+
+      showtimeDetailDTO.screen.seats = showtimeDetailDTO.screen.seats.map((seat) => {
+        const isSelected = seat_selected.includes(seat.seat_id);
+        if (isSelected) {
+          return {
+            ...seat,
+            status: 2,
+          };
+        } else {
+          return seat;
+        }
+      });
+
       response.data = showtimeDetailDTO;
+
       return response;
     } catch (error) {
       throw new BadRequestException({
@@ -199,6 +245,45 @@ export class ShowtimeUseCases {
         message: 'Lấy chi tiết thông tin suất chiếu thất bại.',
         error: error.message,
       });
+    }
+  }
+
+  private async getSeatSelectedByShowtime(showtime_id: string): Promise<number[]> {
+    try {
+      const seats = await this.bookingService.getBookingListByCondition({
+        where: {
+          showtime: {
+            showtime_id: showtime_id,
+          },
+        },
+        relations: {
+          history: {
+            seat: true,
+          },
+        },
+        select: {
+          booking_id: true,
+          history: {
+            booking_history_id: true,
+            seat: {
+              seat_id: true,
+            },
+          },
+        },
+      });
+
+      let seat_selected: number[] = [];
+
+      seats.map((booking) => {
+        seat_selected = seat_selected.concat(
+          ...booking.history.map((history) => history.seat.seat_id)
+        );
+      });
+
+      return seat_selected;
+    } catch (error) {
+      console.log(error);
+      return [];
     }
   }
 }
