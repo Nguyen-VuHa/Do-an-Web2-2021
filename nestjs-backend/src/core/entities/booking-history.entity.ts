@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Booking } from './booking.entity';
-import { Showtime } from './showtime.entity';
 import { Seat } from './seat.entity';
 
 @Entity('booking_histories')
@@ -33,11 +32,7 @@ export class BookingHistory {
   @JoinColumn({ name: 'booking_id' })
   booking: Booking;
 
-  @ManyToOne(() => Showtime, (showtime) => showtime.booking_history, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'showtime_id' })
-  showtime: Showtime;
-
   @ManyToOne(() => Seat, (seat) => seat.booking_history, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'seat_id' })
-  seat: Showtime;
+  seat: Seat;
 }

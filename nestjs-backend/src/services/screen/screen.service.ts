@@ -15,6 +15,14 @@ export class ScreenService {
     return await this.screenRepository.findAndCount(conditions);
   }
 
+  async getScreenById(screen_id: number): Promise<Screen> {
+    return await this.screenRepository.findOne({
+      where: {
+        screen_id,
+      },
+    });
+  }
+
   async getCinemaByIDWithDeleted(id: number): Promise<Screen> {
     return await this.screenRepository.findOne({
       where: {

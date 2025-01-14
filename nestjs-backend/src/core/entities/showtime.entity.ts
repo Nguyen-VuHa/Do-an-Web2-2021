@@ -9,9 +9,9 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Booking } from './booking.entity';
 import { Movie } from './movie.entity';
 import { Screen } from './screen.entity';
-import { BookingHistory } from './booking-history.entity';
 
 @Entity('showtimes')
 export class Showtime {
@@ -44,6 +44,6 @@ export class Showtime {
   @JoinColumn({ name: 'movie_id' }) // Liên kết với primary key của Cinema
   movie: Movie;
 
-  @OneToMany(() => BookingHistory, (history) => history.showtime)
-  booking_history: BookingHistory[];
+  @OneToMany(() => Booking, (booking) => booking.showtime)
+  booking: Booking[];
 }

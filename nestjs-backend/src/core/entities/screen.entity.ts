@@ -12,6 +12,7 @@ import {
 import { Cinema } from './cinema.entity';
 import { Seat } from './seat.entity';
 import { Showtime } from './showtime.entity';
+import { Booking } from './booking.entity';
 
 export enum ScreenType {
   TWO_D = '2D',
@@ -54,4 +55,7 @@ export class Screen {
 
   @OneToMany(() => Showtime, (showtime) => showtime.screen, { cascade: true })
   showtimes: Showtime[];
+
+  @OneToMany(() => Booking, (booking) => booking.screen)
+  booking: Booking[];
 }

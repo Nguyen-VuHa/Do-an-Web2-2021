@@ -35,7 +35,18 @@ const Payment = () => {
                 <Button 
                     className='w-full flex flex-col justify-center items-center space-y-2 rounded-circle-md bg-typography bg-opacity-70'
                     onClick={() => {
-                        setStateBooking('processBooking', processBooking + 1)
+                        // setStateBooking('processBooking', processBooking + 1)
+                        const payload = {
+                            user_id: '0a7cdc00-510c-4874-a1a0-a82f0df0131f',
+                            showtime_id: showtimeDetail?.showtime_id,
+                            movie_id: showtimeDetail?.movie.movie_id,
+                            screen_id: showtimeDetail?.screen.screen_id,
+                            seats: seatBooking,
+                            unit_price: showtimeDetail?.unit_price,
+                            total_price: (showtimeDetail?.unit_price || 0) * seatBooking.length,
+                        }
+
+                        console.log(payload);
                     }}
                 >
                     <Image 

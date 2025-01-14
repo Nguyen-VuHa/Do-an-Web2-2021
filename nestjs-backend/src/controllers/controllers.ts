@@ -9,6 +9,7 @@ import { AdminScreenController } from './admin-screen.controller';
 import { AdminShowtimeController } from './admin-showtime.controller';
 import { AdminUserController } from './admin-user.controller';
 import { AuthController } from './auth.controller';
+import { BookingController } from './booking.controller';
 import { CinemaController } from './cinema.controller';
 import { MovieController } from './movie.controller';
 import { ShowtimeController } from './showtime.controller';
@@ -27,7 +28,13 @@ const ADMIN_CONTROLLERS = [
   AdminShowtimeController,
 ];
 
-const CLIENT_CONTROLLERS = [MovieController, CinemaController, ShowtimeController, UserController];
+const CLIENT_CONTROLLERS = [
+  MovieController,
+  CinemaController,
+  ShowtimeController,
+  UserController,
+  BookingController,
+];
 
 const CONTROLLERS = [AuthController, ...ADMIN_CONTROLLERS, ...CLIENT_CONTROLLERS];
 

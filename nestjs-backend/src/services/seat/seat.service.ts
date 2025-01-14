@@ -19,6 +19,14 @@ export class SeatService {
     });
   }
 
+  async getSeatListByIds(ids: number[]): Promise<Seat[]> {
+    return await this.seatRepository.find({
+      where: {
+        seat_id: In(ids),
+      },
+    });
+  }
+
   async updateSeatScreenList(seatList: Seat[]): Promise<Seat[]> {
     return await this.seatRepository.save(seatList);
   }
