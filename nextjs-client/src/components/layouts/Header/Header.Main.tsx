@@ -1,18 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useEffect, useState } from "react";
+import { apiGetCookieAccessToken } from "~/apis/auth.api";
+import useSocketStore from "~/stores/socket.store";
+import { useUserAPIStore } from "~/stores/user.store";
+import { connectSocket } from "~/utils/socket";
+import ConfirmSignOutModal from "./ConfirmSignOut.Modal";
 import Control from "./Control";
 import Logo from "./Logo";
 import Menu from "./Menu";
 import MobileMenu from "./MobileMenu";
-import { apiGetCookieAccessToken } from "~/apis/auth.api";
 import UserControl from "./UserControl";
-import ConfirmSignOutModal from "./ConfirmSignOut.Modal";
-import { useUserAPIStore } from "~/stores/user.store";
 
 const Header = () => {
   const [isLogin, setisLogin] = useState<number>(0); // 0 dang kiem tra, 1 chua dang nhap, 2 da dang nhap
   const { getUserInfo } = useUserAPIStore();
+  const { setSocket } = useSocketStore();
 
   useEffect(() => {
     const checkingLogin = async () => {
@@ -20,8 +23,13 @@ const Header = () => {
 
       if (isLogin) {
         await getUserInfo();
+        const socketConnect = await connectSocket();
+
+        if (socketConnect) {
+          setSocket(socketConnect);
+        }
+        
         setisLogin(2);
-        // fetch user info
         return;
       }
 
@@ -30,6 +38,7 @@ const Header = () => {
 
     checkingLogin();
   }, []);
+  
 
   return (
     <>

@@ -8,11 +8,9 @@ import NotifyWaiting from "./NotifyWaiting";
 import NotifySuccess from "./NotifySuccess";
 
 const BookingSuccess = () => {
-
   const { processBooking, statusBooking, errorMessage } = useBookingStore();
 
   const { setStateGlobal } = useGlobalStore();
-
 
   useEffect(() => {
     if (processBooking === 3) {

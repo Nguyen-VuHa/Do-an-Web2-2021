@@ -19,16 +19,18 @@ export async function POST(req: NextRequest) {
     const data = apiResponse.data;
 
     response.cookies.set(ACCESS_TOKEN, data.accessToken || "", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      httpOnly: false,
+      // secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "strict",
       path: "/",
       maxAge: 60 * 60 * 24, // 1 ngày
     });
 
     response.cookies.set(REFRESH_TOKEN, data.refreshToken || "", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      httpOnly: false,
+      // secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "strict",
       path: "/",
       maxAge: 60 * 60 * 24 * 30, // 30 ngày

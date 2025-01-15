@@ -40,7 +40,7 @@ export const useBookingStore = create<BookingState>((set) => ({
       bookingToken: "",
       statusBooking: "",
       errorMessage: "",
-    })
+    });
   },
 }));
 

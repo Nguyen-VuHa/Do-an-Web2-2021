@@ -17,14 +17,14 @@ const ChooseSeat = () => {
       {/* Map */}
       <div className="w-full px-5 grid grid-cols-1 gap-4 md:px-0 lg:grid-cols-5">
         <div className="relative lg:col-span-3 w-full space-y-2">
-          {
-            isFetchShowtimeDetail && <div className="absolute rounded-circle-md flex justify-center items-center top-0 left-0 w-full h-full z-[10] bg-second"> 
+          {isFetchShowtimeDetail && (
+            <div className="absolute rounded-circle-md flex justify-center items-center top-0 left-0 w-full h-full z-[10] bg-second">
               <div
-                  className={`h-20 w-20 animate-spin rounded-full border-4 border-solid border-t-transparent border-social-x`}
-                />
+                className={`h-20 w-20 animate-spin rounded-full border-4 border-solid border-t-transparent border-social-x`}
+              />
             </div>
-          }
-          
+          )}
+
           <SeatMap />
           <div className="bg-second p-2 rounded-circle-md flex flex-wrap gap-5 justify-center items-center">
             <div className="flex justify-center items-center space-x-2">
@@ -57,9 +57,9 @@ const ChooseSeat = () => {
           </div>
         </div>
         <div className="lg:col-span-2 space-y-2">
-          {
-            isFetchShowtimeDetail &&   <div className="flex p-2 rounded-circle-md space-x-1 animate-pulse bg-second">
-            <div className="h-48 w-32 rounded-md bg-gradient-to-r from-social-x to-instagram bg-[length:100%_300%]"></div>
+          {isFetchShowtimeDetail && (
+            <div className="flex p-2 rounded-circle-md space-x-1 animate-pulse bg-second">
+              <div className="h-48 w-32 rounded-md bg-gradient-to-r from-social-x to-instagram bg-[length:100%_300%]"></div>
               <div className="space-y-2 w-full">
                 <div className="h-9 w-[40%] rounded-md bg-gradient-to-r from-social-x to-instagram bg-[length:100%_300%]"></div>
                 <div
@@ -80,10 +80,8 @@ const ChooseSeat = () => {
                 ></div>
               </div>
             </div>
-          }
-          {
-            !isFetchShowtimeDetail && <MovieInfo />
-          }
+          )}
+          {!isFetchShowtimeDetail && <MovieInfo />}
           <div className="w-full p-2 bg-second rounded-circle-md space-y-2">
             <div className="text-warning text-lg">
               Ghế bạn đang chọn - {seatBooking.length} Ghế
