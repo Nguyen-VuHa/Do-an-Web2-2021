@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Seat } from 'src/core/entities/seat.entity';
+import { IObject } from 'src/core/types/common';
 import { In, Repository } from 'typeorm';
 
 @Injectable()
@@ -25,6 +26,10 @@ export class SeatService {
         seat_id: In(ids),
       },
     });
+  }
+
+  async getSeatListByConditions(conditions: IObject<any>): Promise<Seat[]> {
+    return await this.seatRepository.find(conditions);
   }
 
   async updateSeatScreenList(seatList: Seat[]): Promise<Seat[]> {

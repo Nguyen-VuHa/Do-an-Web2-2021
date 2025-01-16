@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsNumber,
@@ -15,6 +15,14 @@ export class BookingSeat {
 
   @IsNotEmpty()
   @IsString()
+  seat_name: string;
+}
+
+export class BookingSeatResponseDTO {
+  @Expose()
+  seat_id: number;
+
+  @Expose()
   seat_name: string;
 }
 

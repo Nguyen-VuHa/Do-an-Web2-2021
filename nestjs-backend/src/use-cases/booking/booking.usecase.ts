@@ -1,18 +1,23 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { BookingTicketDTO } from 'src/core/dtos/booking.dto';
+import { plainToClass } from 'class-transformer';
+import { BookingSeatResponseDTO, BookingTicketDTO } from 'src/core/dtos/booking.dto';
 import { IResponse } from 'src/core/types/common';
 import { BookingService } from 'src/services/booking/booking.service';
 import { QueueService } from 'src/services/queue/queue.service';
+import { SeatService } from 'src/services/seat/seat.service';
 import { In } from 'typeorm';
 
 @Injectable()
 export class BookingUseCases {
   constructor(
     private readonly queueService: QueueService,
-    private readonly bookingService: BookingService
+    private readonly bookingService: BookingService,
+    private readonly seatService: SeatService
   ) {}
 
-  async bookingTicket(data: BookingTicketDTO): Promise<IResponse<string>> {
+  async bookingTicket(
+    data: BookingTicketDTO
+  ): Promise<IResponse<string | BookingSeatResponseDTO[]>> {
     try {
       // check seat có bị ng khác đặt chưa trươcs khi đưa vô queue
       const seat_ids = data.seats.map((seat) => seat.seat_id);
@@ -35,10 +40,40 @@ export class BookingUseCases {
             },
           },
         },
+        relations: {
+          history: {
+            seat: true,
+          },
+        },
       });
 
       if (check_seat) {
-        throw new Error('Đã có ai đó đặt ghế nằm trong danh sách bạn chọn, vui lòng chọn lại ghế!');
+        const seatCheck = await this.seatService.getSeatListByConditions({
+          where: {
+            seat_id: In(seat_ids),
+            booking_history: {
+              booking: {
+                showtime: {
+                  showtime_id: data.showtime_id,
+                },
+              },
+            },
+          },
+        });
+
+        const seatExits = plainToClass(BookingSeatResponseDTO, seatCheck, {
+          excludeExtraneousValues: true,
+        });
+
+        const responseError: IResponse<BookingSeatResponseDTO[]> = {
+          statusCode: 400,
+          error: 'Đã có ai đó đặt ghế nằm trong danh sách bạn chọn, vui lòng chọn lại ghế!',
+          message: 'Đặt vé thất bại, đơn của bạn sẽ được xử lý trong vòng 24h tới.',
+          data: seatExits,
+        };
+
+        return responseError;
+        // throw new Error('Đã có ai đó đặt ghế nằm trong danh sách bạn chọn, vui lòng chọn lại ghế!');
       }
 
       await this.queueService.pushToQueue(data.user_id, data);
