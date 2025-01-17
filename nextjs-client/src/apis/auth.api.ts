@@ -38,3 +38,10 @@ export const apiRefreshToken = async (): Promise<IResponse<any>> => {
   const path = "/auth/token/refresh";
   return axiosNextInstance.post(path);
 };
+
+export const apiVerifyAccount = async (
+  payload: any,
+): Promise<IResponse<any>> => {
+  const path = "/auth/verify";
+  return axiosInstance.post(path, payload);
+};

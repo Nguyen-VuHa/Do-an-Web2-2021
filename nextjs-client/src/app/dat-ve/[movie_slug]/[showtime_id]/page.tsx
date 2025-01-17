@@ -30,18 +30,24 @@ const BookingMain = () => {
   const { showtime_id } = useParams();
   const { reqFetchShowtimeDetail, seatMap, setStateShowtime } =
     useShowtimeStore();
-  const { processBooking, setStateBooking, resetStateBooking, seatBooking, bookingToken } =
-    useBookingStore();
+  const {
+    processBooking,
+    setStateBooking,
+    resetStateBooking,
+    seatBooking,
+    bookingToken,
+  } = useBookingStore();
   const { userInfo } = useUserStore();
   const { socket } = useSocketStore();
 
-  const [seatSocketChanged, setSeatSocketChanged] = useState<any>(null)
-  const [seatListFirlLoad, setSeatListFirlLoad] = useState<any>(null)
-  const [seatDeleted, setSeatDeleted] = useState<any>(null)
-  const [bookingSuccessResponse, setBookingSuccessResponse] = useState<any>(null)
+  const [seatSocketChanged, setSeatSocketChanged] = useState<any>(null);
+  const [seatListFirlLoad, setSeatListFirlLoad] = useState<any>(null);
+  const [seatDeleted, setSeatDeleted] = useState<any>(null);
+  const [bookingSuccessResponse, setBookingSuccessResponse] =
+    useState<any>(null);
 
   useEffect(() => {
-    if(seatListFirlLoad && seatListFirlLoad.length > 0) {
+    if (seatListFirlLoad && seatListFirlLoad.length > 0) {
       seatListFirlLoad.map((dt) => {
         if (dt[userInfo.user_id]) {
           const seats = dt[userInfo.user_id] as ISeatBooking[];
@@ -80,43 +86,62 @@ const BookingMain = () => {
         }
       });
     }
-  }, [seatListFirlLoad])
-  
+  }, [seatListFirlLoad]);
+
   useEffect(() => {
-    if(seatSocketChanged) {
+    if (seatSocketChanged) {
       switch (seatSocketChanged.seat.status) {
         case SOCKET_SEAT_SELECTED:
-          if (userInfo.user_id === seatSocketChanged.user_id) { 
-            const addSeat = [...seatBooking, seatSocketChanged.seat as ISeatBooking];
-            const seatMap = new Map(addSeat.map(seat => [seat.seat_id, seat]));
+          if (userInfo.user_id === seatSocketChanged.user_id) {
+            const addSeat = [
+              ...seatBooking,
+              seatSocketChanged.seat as ISeatBooking,
+            ];
+            const seatMap = new Map(
+              addSeat.map((seat) => [seat.seat_id, seat]),
+            );
 
             setStateBooking("seatBooking", Array.from(seatMap.values()));
           } else {
-            setStateShowtime("seatMap", seatMap.map(seatM => seatM.seat_id === seatSocketChanged.seat.seat_id ? {...seatM, status: 2} : seatM));
+            setStateShowtime(
+              "seatMap",
+              seatMap.map((seatM) =>
+                seatM.seat_id === seatSocketChanged.seat.seat_id
+                  ? { ...seatM, status: 2 }
+                  : seatM,
+              ),
+            );
           }
           break;
         case SOCKET_SEAT_DESELECTED:
-          if (userInfo.user_id === seatSocketChanged.user_id) { 
+          if (userInfo.user_id === seatSocketChanged.user_id) {
             let seatTemp = seatBooking;
-              seatTemp = seatBooking.filter(
-                (seat) => seat.seat_id !== seatSocketChanged.seat.seat_id,
-              );
+            seatTemp = seatBooking.filter(
+              (seat) => seat.seat_id !== seatSocketChanged.seat.seat_id,
+            );
             setStateBooking("seatBooking", seatTemp);
-           } else {
-            setStateShowtime("seatMap", seatMap.map(seatM => seatM.seat_id === seatSocketChanged.seat.seat_id ? {...seatM, status: 1} : seatM));
-           }
+          } else {
+            setStateShowtime(
+              "seatMap",
+              seatMap.map((seatM) =>
+                seatM.seat_id === seatSocketChanged.seat.seat_id
+                  ? { ...seatM, status: 1 }
+                  : seatM,
+              ),
+            );
+          }
           break;
         default:
           break;
       }
     }
-  }, [seatSocketChanged])
+  }, [seatSocketChanged]);
 
   useEffect(() => {
-    if(bookingSuccessResponse) {
-      if(userInfo.user_id === bookingSuccessResponse.user_id) {
+    if (bookingSuccessResponse) {
+      if (userInfo.user_id === bookingSuccessResponse.user_id) {
         setStateBooking("seatBooking", []);
-        socket?.emit(SOCKET_BOOKING_REMOVE_SEAT, showtime_id)
+        socket?.emit(SOCKET_BOOKING_REMOVE_SEAT, showtime_id);
       }
 
       const seatMapUpdate = seatMap;
@@ -132,16 +157,18 @@ const BookingMain = () => {
 
       setStateShowtime("seatMap", seatMapUpdate);
     }
-  }, [bookingSuccessResponse])
-  
+  }, [bookingSuccessResponse]);
+
   useEffect(() => {
-    if(seatDeleted) {
+    if (seatDeleted) {
       if (seatDeleted[userInfo.user_id]) {
         const seats = seatDeleted[userInfo.user_id] as ISeatBooking[];
 
-        const idsToRemoveValues = seats.map(item => item.seat_id);
+        const idsToRemoveValues = seats.map((item) => item.seat_id);
 
-        const updatedSeats = seatBooking.filter(item => !idsToRemoveValues.includes(item.seat_id));
+        const updatedSeats = seatBooking.filter(
+          (item) => !idsToRemoveValues.includes(item.seat_id),
+        );
 
         setStateBooking("seatBooking", updatedSeats);
       } else {
@@ -171,8 +198,7 @@ const BookingMain = () => {
         setStateShowtime("seatMap", seatMapUpdate);
       }
     }
-  }, [seatDeleted])
-  
+  }, [seatDeleted]);
 
   useEffect(() => {
     if (socket) {
@@ -188,12 +214,12 @@ const BookingMain = () => {
       });
 
       socket.on(SOCKET_BOOKING_SEAT_DELETED, (data) => {
-        setSeatDeleted(data)
-      })
+        setSeatDeleted(data);
+      });
 
       socket.on(SOCKET_BOOKING_RESPONSE_SUCCESS, (data) => {
         setBookingSuccessResponse(data);
-      })
+      });
 
       socket.on(SOCKET_DISCONNECTION, () => {
         // Đảm bảo gửi tín hiệu rời phòng khi socket bị ngắt kết nối
@@ -207,17 +233,16 @@ const BookingMain = () => {
   }, [socket]);
 
   useEffect(() => {
-    if(processBooking >= 4 && socket) {
+    if (processBooking >= 4 && socket) {
       const payloadSocket = {
         user_id: userInfo.user_id,
         showtime_id: showtime_id,
         seats: seatBooking,
-      }
-      socket.emit(SOCKET_BOOKING_SUCCESS, payloadSocket)
+      };
+      socket.emit(SOCKET_BOOKING_SUCCESS, payloadSocket);
     }
-  }, [processBooking])
-  
-  
+  }, [processBooking]);
+
   useEffect(() => {
     document.title = "Đặt vé - BHD Star";
 
@@ -233,7 +258,6 @@ const BookingMain = () => {
     };
   }, []);
 
-  
   useEffect(() => {
     // Kết nối SSE với cả userId và token
     if (userInfo) {

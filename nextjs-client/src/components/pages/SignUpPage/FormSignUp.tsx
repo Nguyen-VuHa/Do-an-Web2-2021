@@ -2,9 +2,8 @@
 "use client";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import * as Yup from "yup";
 import Button from "~/components/ui/Button";
 import ErrorFormGroup from "~/components/ui/ErrorFormGroup";
@@ -14,6 +13,7 @@ import { signUpSchema } from "~/schema/auth.schema";
 import { useAuthAPIStore, useAuthStore } from "~/stores/auth.store";
 import { ISignUpForm, ISignUpPayload } from "~/types/auth.type";
 import { IObject } from "~/types/common.type";
+import ModalNotifyVerify from "./ModalNotifyVerify";
 
 // Định nghĩa component sẽ được tải động (chỉ ở client)
 const InputDate = dynamic(() => import("~/components/ui/InputDate"), {
@@ -58,8 +58,9 @@ const InputList: InputListType[] = [
 ];
 
 const FormSignUp = () => {
-  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
+
+  const [isModalRemember, setIsModalRemember] = useState<boolean>(false);
 
   const { signUpForm, errorSignUpForm, setSignUpForm, setStateAuth } =
     useAuthStore();
@@ -123,57 +124,61 @@ const FormSignUp = () => {
 
       if (resPost.status === PROCESS_SUCCESS) {
         enqueueSnackbar(resPost.message, { variant: "success" });
-        router.replace("dang-nhap");
+        setIsModalRemember(true);
+        // router.replace("dang-nhap");
       } else enqueueSnackbar(resPost.message, { variant: "error" });
     }
   };
 
   return (
-    <form onSubmit={handleSubmitSignUp} className="w-full space-y-2">
-      {InputList.map((ipl) => {
-        return (
-          <div key={ipl.id} className="space-y-2">
-            <Input
-              placeholder={ipl.placeholder}
-              type={ipl.type || "text"}
-              name={ipl.name}
-              onChange={(e) => {
-                delete errorSignUpForm[e.target.name];
-                setStateAuth("errorSignUpForm", errorSignUpForm);
-                handleChangeInput(e);
-              }}
-              value={signUpForm[ipl.name as keyof ISignUpForm]}
-            />
-            <ErrorFormGroup message={errorSignUpForm[ipl.name]} />
-          </div>
-        );
-      })}
-      <div className="space-y-2">
-        <InputDate
-          value={signUpForm.birth_date}
-          onChange={(date) => {
-            setSignUpForm({
-              birth_date: date,
-            });
-          }}
-        />
-        <ErrorFormGroup message={errorSignUpForm["birth_date"]} />
-      </div>
-      <div className="flex flex-col items-end space-y-2">
-        <Link href="dang-nhap">
-          <div className="text-social-x italic text-sm underline hover:text-facebook transition-all">
-            Bạn đã có tài khoản?
-          </div>
-        </Link>
-        <Button
-          className="w-full"
-          buttonType="info"
-          isLoading={isPostSignUpAccount}
-        >
-          Đăng ký
-        </Button>
-      </div>
-    </form>
+    <>
+      <ModalNotifyVerify isModal={isModalRemember} />
+      <form onSubmit={handleSubmitSignUp} className="w-full space-y-2">
+        {InputList.map((ipl) => {
+          return (
+            <div key={ipl.id} className="space-y-2">
+              <Input
+                placeholder={ipl.placeholder}
+                type={ipl.type || "text"}
+                name={ipl.name}
+                onChange={(e) => {
+                  delete errorSignUpForm[e.target.name];
+                  setStateAuth("errorSignUpForm", errorSignUpForm);
+                  handleChangeInput(e);
+                }}
+                value={signUpForm[ipl.name as keyof ISignUpForm]}
+              />
+              <ErrorFormGroup message={errorSignUpForm[ipl.name]} />
+            </div>
+          );
+        })}
+        <div className="space-y-2">
+          <InputDate
+            value={signUpForm.birth_date}
+            onChange={(date) => {
+              setSignUpForm({
+                birth_date: date,
+              });
+            }}
+          />
+          <ErrorFormGroup message={errorSignUpForm["birth_date"]} />
+        </div>
+        <div className="flex flex-col items-end space-y-2">
+          <Link href="dang-nhap">
+            <div className="text-social-x italic text-sm underline hover:text-facebook transition-all">
+              Bạn đã có tài khoản?
+            </div>
+          </Link>
+          <Button
+            className="w-full"
+            buttonType="info"
+            isLoading={isPostSignUpAccount}
+          >
+            Đăng ký
+          </Button>
+        </div>
+      </form>
+    </>
   );
 };
 

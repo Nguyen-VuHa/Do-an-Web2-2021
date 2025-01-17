@@ -41,11 +41,10 @@ const Payment = () => {
 
   useEffect(() => {
     // trường hợp socket phản hồi về mà còn còn 0 ghế thì cho chọn lại ghế
-    if(seatBooking.length <= 0) {
-      setStateBooking('processBooking', 1);
+    if (seatBooking.length <= 0) {
+      setStateBooking("processBooking", 1);
     }
-  }, [seatBooking])
-  
+  }, [seatBooking]);
 
   return (
     <div className="space-y-4 w-full flex flex-col items-center">

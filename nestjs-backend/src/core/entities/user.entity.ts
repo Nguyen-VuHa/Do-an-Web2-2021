@@ -17,7 +17,7 @@ enum UserGender {
   OTHER = 'other',
 }
 
-enum UserStatus {
+export enum UserStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
   BLOCK = 'block',

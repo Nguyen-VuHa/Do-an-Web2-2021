@@ -65,16 +65,23 @@ export const useBookingAPIStore = create<BookingAPIState>((set) => ({
         errorMsg.message = res.message || "Đặt vé thành công.";
       } else {
         let messageError = res.message?.toString() || "Đặt vé thất bại.";
-        
-        if(res.data) {
-          const seatExits = (res.data as ISeatBooking[])
+
+        if (res.data) {
+          const seatExits = res.data as ISeatBooking[];
           useBookingStore.setState({
-            seatBooking: useBookingStore.getState().seatBooking.filter(seatBook => !seatExits.some(seatExists => seatExists.seat_id === seatBook.seat_id)),
+            seatBooking: useBookingStore
+              .getState()
+              .seatBooking.filter(
+                (seatBook) =>
+                  !seatExits.some(
+                    (seatExists) => seatExists.seat_id === seatBook.seat_id,
+                  ),
+              ),
             processBooking: 1,
-          })
-          const seatName = seatExits.map(dt => dt.seat_name);
-          
-          messageError = `Các ghế ở vị trí ${seatName.join(',')} đã có người đặt rồi. Vui lòng chọn tại ghế! Xin lỗi vị sự bất tiện này. `;
+          });
+          const seatName = seatExits.map((dt) => dt.seat_name);
+
+          messageError = `Các ghế ở vị trí ${seatName.join(",")} đã có người đặt rồi. Vui lòng chọn tại ghế! Xin lỗi vị sự bất tiện này. `;
         }
 
         errorMsg.message = messageError;

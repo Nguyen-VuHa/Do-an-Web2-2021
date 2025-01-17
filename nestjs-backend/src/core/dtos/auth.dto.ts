@@ -4,6 +4,7 @@ import {
   IsISO8601,
   IsNotEmpty,
   IsString,
+  IsUUID,
   Matches,
   MaxLength,
   MinLength,
@@ -79,4 +80,14 @@ export class RefreshTokenResponseDTO {
 
   @Expose()
   refresh_token: string;
+}
+
+export class VerifyAccountDTO {
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsUUID()
+  user_id: string;
+
+  @IsNotEmpty() // Yêu cầu trường này không được để trống
+  @IsString()
+  token: string;
 }

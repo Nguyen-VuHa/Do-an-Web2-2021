@@ -11,6 +11,7 @@ import {
   RefreshTokenResponseDTO,
   SignInAccountDTO,
   SignUpAccountDTO,
+  VerifyAccountDTO,
 } from 'src/core/dtos/auth.dto';
 import { ISignInResponse } from 'src/core/types/auth.type';
 import { IResponse } from 'src/core/types/common';
@@ -71,5 +72,27 @@ export class AuthController {
   ): Promise<IResponse<RefreshTokenResponseDTO>> {
     const { user } = req;
     return this.authUseCase.refreshToken(user);
+  }
+
+  @Post('verify')
+  @UsePipes(
+    new ValidationPipe({
+      transform: true, // Chuyển đổi dữ liệu (nếu cần)
+      exceptionFactory: (errors) => {
+        // Tùy chỉnh lỗi trả về
+        const validationErrors = errors.map((error) => ({
+          field: error.property,
+          constraints: error.constraints,
+        }));
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Dữ liệu không hợp lệ',
+          error: validationErrors,
+        });
+      },
+    })
+  )
+  async verifyToken(@Body() data: VerifyAccountDTO): Promise<IResponse<ISignInResponse>> {
+    return this.authUseCase.verifyAccount(data);
   }
 }

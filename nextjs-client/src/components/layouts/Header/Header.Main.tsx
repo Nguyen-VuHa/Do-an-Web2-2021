@@ -28,7 +28,7 @@ const Header = () => {
         if (socketConnect) {
           setSocket(socketConnect);
         }
-        
+
         setisLogin(2);
         return;
       }
@@ -38,7 +38,6 @@ const Header = () => {
 
     checkingLogin();
   }, []);
-  
 
   return (
     <>
@@ -58,7 +57,7 @@ const Header = () => {
           <Menu />
           {/* Control */}
           {isLogin === 0 && (
-            <div className="animate-pulse bg-second rounded-circle-md w-64 h-full"></div>
+            <div className="animate-pulse bg-second rounded-circle-md w-64 h-full max-md:hidden"></div>
           )}
           {isLogin === 1 && <Control />}
           {isLogin === 2 && <UserControl />}

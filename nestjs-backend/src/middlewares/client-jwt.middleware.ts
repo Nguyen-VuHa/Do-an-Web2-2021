@@ -40,7 +40,17 @@ export class VerifyRefreshTokenUserClientMiddleware implements NestMiddleware {
       next(); // Tiếp tục xử lý
     } catch (err: any) {
       console.log(err);
-      throw new HttpException('Access Denied: Invalid credentials', HttpStatus.FORBIDDEN);
+
+      if (err.name === 'TokenExpiredError') {
+        // Token đã hết hạn
+        throw new HttpException('Access Denied: Token has expired', HttpStatus.UNAUTHORIZED);
+      } else if (err.name === 'JsonWebTokenError') {
+        // Token không hợp lệ
+        throw new HttpException('Access Denied: Invalid token', HttpStatus.FORBIDDEN);
+      } else {
+        // Lỗi khác
+        throw new HttpException('Access Denied: Unable to process token', HttpStatus.FORBIDDEN);
+      }
     }
   }
 }

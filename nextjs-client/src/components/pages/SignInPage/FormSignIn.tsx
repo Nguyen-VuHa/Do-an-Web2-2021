@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { useRouter } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import * as Yup from "yup";
@@ -13,6 +14,7 @@ import { ISignInPayload } from "~/types/auth.type";
 import { IObject } from "~/types/common.type";
 
 const FormSignIn = () => {
+  const router = useRouter();
   const { signInForm, errorSignInForm, setSignInForm, setStateAuth } =
     useAuthStore();
   const { isPostSignInAccount, postSignInAccount } = useAuthAPIStore();
@@ -67,7 +69,13 @@ const FormSignIn = () => {
       if (resPost.status === PROCESS_SUCCESS) {
         enqueueSnackbar(resPost.message, { variant: "success" });
         window.location.replace("/");
-      } else enqueueSnackbar(resPost.message, { variant: "error" });
+      } else {
+        if(resPost.message === '1') {
+          router.push('/notify/verify')
+          return 
+        }
+        enqueueSnackbar(resPost.message, { variant: "error" });
+      }
     }
   };
 

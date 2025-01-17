@@ -101,4 +101,17 @@ export class RedisService {
       return null; // Nếu có lỗi khi kết nối hoặc lấy dữ liệu, trả về null
     }
   }
+
+  async removeDataRedis(key: string): Promise<void> {
+    if (!this.isRedisConnected) {
+      return null; // Trả về null nếu Redis không kết nối
+    }
+
+    try {
+      // Lấy dữ liệu từ Redis
+      await this.client.del(key);
+    } catch (err) {
+      console.error('Error occurred while getting data from Redis:', err);
+    }
+  }
 }
