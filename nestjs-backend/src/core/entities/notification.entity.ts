@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -28,7 +29,7 @@ export class Notification {
   @Column({ type: 'varchar', length: 1000 })
   message: string;
 
-  @Column({ type: 'enum', enum: NotifyType })
+  @Column({ type: 'enum', enum: NotifyType, default: 'normal' })
   notify_type: NotifyType;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
@@ -37,7 +38,7 @@ export class Notification {
   @Column({ type: 'varchar', length: 255, nullable: true })
   image_url: string;
 
-  @Column({ type: 'enum', enum: NotifyStatus })
+  @Column({ type: 'enum', enum: NotifyStatus, default: 'unread' })
   notify_status: NotifyStatus;
 
   @CreateDateColumn()
@@ -50,5 +51,6 @@ export class Notification {
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
   @ManyToOne(() => User, (user) => user.notifications, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' }) // Tên cột khóa ngoại
   user: User;
 }

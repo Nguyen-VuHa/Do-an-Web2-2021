@@ -7,6 +7,7 @@ import ChooseSeat from "~/components/pages/BookingPage/ChooseSeat";
 import Payment from "~/components/pages/BookingPage/Payment";
 import ProgressBar from "~/components/pages/BookingPage/ProgressBar";
 import {
+  SOCKET_BOOKING_REMOVE_SEAT,
   SOCKET_BOOKING_RESPONSE_SUCCESS,
   SOCKET_BOOKING_SEAT_DELETED,
   SOCKET_BOOKING_SEAT_IN_ROOM,
@@ -115,6 +116,7 @@ const BookingMain = () => {
     if(bookingSuccessResponse) {
       if(userInfo.user_id === bookingSuccessResponse.user_id) {
         setStateBooking("seatBooking", []);
+        socket?.emit(SOCKET_BOOKING_REMOVE_SEAT, showtime_id)
       }
 
       const seatMapUpdate = seatMap;

@@ -17,8 +17,6 @@ const SeatMap = () => {
 
   // Xử lý sự kiện cuộn chuột để scale
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    event.preventDefault(); // Ngăn thanh cuộn của body hoạt động
-
     // Xử lý scale
     const newScale = scale - event.deltaY * 0.001; // Điều chỉnh tốc độ scale
     setScale(Math.min(1.5, Math.max(0.5, newScale))); // Giới hạn từ 0.5 đến 1.5

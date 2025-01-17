@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { REDIS_USER_CLIENT_INFO_KEY, REDIS_USER_CLIENT_INFO_TTL } from 'src/constants/redis';
 import { UserClientResponseDTO } from 'src/core/dtos/user.dto';
@@ -33,6 +33,10 @@ export class UserUseCases {
 
       const userDetail = await this.userService.getUserByID(user.user_id);
 
+      if (!userDetail) {
+        throw new HttpException('Access Denied: Invalid credentials', HttpStatus.FORBIDDEN);
+      }
+
       const userDetailDTO = plainToClass(UserClientResponseDTO, userDetail, {
         excludeExtraneousValues: true,
       });
@@ -43,6 +47,10 @@ export class UserUseCases {
 
       return response;
     } catch (error) {
+      if (error instanceof HttpException && error.getStatus() === HttpStatus.FORBIDDEN) {
+        throw new HttpException('Access Denied: Invalid credentials', HttpStatus.FORBIDDEN);
+      }
+
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy thông tin thất bại.',

@@ -12,3 +12,4 @@ export const SOCKET_BOOKING_SEAT_IN_ROOM = "booking_seat_in_room";
 export const SOCKET_BOOKING_SEAT_DELETED = "booking_seat_deleted";
 export const SOCKET_BOOKING_SUCCESS = "booking_seat_success";
 export const SOCKET_BOOKING_RESPONSE_SUCCESS = "booking_seat_response_success";
+export const SOCKET_BOOKING_REMOVE_SEAT = "booking_remove_seat";

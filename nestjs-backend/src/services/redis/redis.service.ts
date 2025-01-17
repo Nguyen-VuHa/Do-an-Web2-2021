@@ -43,7 +43,11 @@ export class RedisService {
       console.log('Redis connection closed');
     }
   }
-  async setDataRedis(key: string, data: IObject<any>, TTLSeconds?: number): Promise<boolean> {
+  async setDataRedis(
+    key: string,
+    data: IObject<any> | string,
+    TTLSeconds?: number
+  ): Promise<boolean> {
     if (!this.isRedisConnected) {
       return false; // Trả về null nếu Redis không kết nối
     }

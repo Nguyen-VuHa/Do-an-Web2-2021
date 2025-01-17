@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
-import { BOOKING_QUEUE } from 'src/constants/queue';
+import { BOOKING_QUEUE, EMAIL_VERIFY_QUEUE } from 'src/constants/queue';
 import { BookingTicketDTO } from 'src/core/dtos/booking.dto';
+import { IEmailVerifyRequest } from 'src/core/types/email.type';
 
 @Injectable()
 export class QueueService {
-  constructor(@InjectQueue('booking') private readonly bookingQueue: Queue) {}
+  constructor(
+    @InjectQueue('booking') private readonly bookingQueue: Queue,
+    @InjectQueue('email') private readonly emailQueue: Queue
+  ) {}
 
   async pushToQueue(user_id: string, booking_detail: BookingTicketDTO): Promise<void> {
     const jobOptions = {
@@ -20,6 +24,25 @@ export class QueueService {
       {
         user_id,
         booking_detail,
+      },
+      jobOptions
+    );
+
+    console.log(`Đã thêm job vào queue cho user: ${user_id}`);
+  }
+
+  async pushToQueueSendMail(user_id: string, email_data: IEmailVerifyRequest): Promise<void> {
+    const jobOptions = {
+      removeOnComplete: true, // Xóa job khi hoàn thành
+      removeOnFail: true, // Xóa job khi thất bại
+    };
+
+    // Thêm job vào queue
+    await this.emailQueue.add(
+      EMAIL_VERIFY_QUEUE,
+      {
+        user_id,
+        email_data,
       },
       jobOptions
     );

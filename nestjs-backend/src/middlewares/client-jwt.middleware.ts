@@ -40,7 +40,7 @@ export class VerifyRefreshTokenUserClientMiddleware implements NestMiddleware {
       next(); // Tiếp tục xử lý
     } catch (err: any) {
       console.log(err);
-      throw new HttpException('Access Denied: Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Access Denied: Invalid credentials', HttpStatus.FORBIDDEN);
     }
   }
 }

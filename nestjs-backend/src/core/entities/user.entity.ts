@@ -17,6 +17,12 @@ enum UserGender {
   OTHER = 'other',
 }
 
+enum UserStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  BLOCK = 'block',
+}
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid') // Sử dụng UUID
@@ -39,6 +45,9 @@ export class User {
 
   @Column({ type: 'enum', enum: UserGender, nullable: true })
   gender: UserGender;
+
+  @Column({ type: 'enum', enum: UserStatus, default: 'inactive', nullable: true })
+  user_status: UserStatus;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   address: string;

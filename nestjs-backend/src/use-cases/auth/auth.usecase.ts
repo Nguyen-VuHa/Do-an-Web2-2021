@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { plainToClass } from 'class-transformer';
 import { ERROR_CODE_DUPLICATE_UNIQUE } from 'src/constants/errors';
 import {
@@ -10,15 +11,24 @@ import {
 import { User } from 'src/core/entities/user.entity';
 import { ISignInResponse } from 'src/core/types/auth.type';
 import { IResponse } from 'src/core/types/common';
+import { IEmailVerifyRequest } from 'src/core/types/email.type';
 import { IJWTUserInfo } from 'src/core/types/user.type';
+import { QueueService } from 'src/services/queue/queue.service';
+import { RedisService } from 'src/services/redis/redis.service';
 import { UserService } from 'src/services/user/user.service';
 import { comparePasswords, hashPassword } from 'src/utils/bcrypt';
 import { stringToDate } from 'src/utils/convert';
+import { generateToken } from 'src/utils/generator';
 import { generateTokens } from 'src/utils/jwt';
 
 @Injectable()
 export class AuthUseCases {
-  constructor(private readonly userSevice: UserService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly userSevice: UserService,
+    private readonly queueService: QueueService,
+    private readonly redisService: RedisService
+  ) {}
 
   async signUpAccount(data: SignUpAccountDTO): Promise<IResponse<string>> {
     try {
@@ -32,7 +42,30 @@ export class AuthUseCases {
       userData.phone_number = data.phone_number;
       userData.birth_day = stringToDate(data.birth_date);
 
-      await this.userSevice.createUser(userData);
+      const newUser = await this.userSevice.createUser(userData);
+
+      const tokenVerify = generateToken();
+
+      const isSaveRedis = await this.redisService.setDataRedis(
+        `verify:${newUser.user_id}`,
+        tokenVerify,
+        3600
+      );
+
+      if (isSaveRedis) {
+        const urlVerfiy =
+          this.configService.get<string>('API_BACKEND_URL') +
+          `/auth/verify?user_id=${newUser.user_id}&token=${tokenVerify}`;
+
+        const emailData: IEmailVerifyRequest = {
+          email: data.email,
+          full_name: data.fullname,
+          link: urlVerfiy,
+        };
+
+        this.queueService.pushToQueueSendMail(newUser.user_id, emailData);
+        // push vài queue
+      }
 
       const response: IResponse<any> = {
         statusCode: 200,

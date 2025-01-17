@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
 import { GrFormPreviousLink } from "react-icons/gr";
 import VNPayIcon from "~/assets/imgs/vnpay-icon.png";
@@ -9,6 +10,7 @@ import MovieInfo from "./MovieInfo";
 import { IBookingTicketForm } from "~/types/booking.type";
 import { PROCESS_SUCCESS } from "~/constants/status";
 import { enqueueSnackbar } from "notistack";
+import { useEffect } from "react";
 
 const Payment = () => {
   const { setStateBooking, processBooking, seatBooking, bookingToken } =
@@ -36,6 +38,14 @@ const Payment = () => {
       enqueueSnackbar(resBooking.message, { variant: "error" });
     }
   };
+
+  useEffect(() => {
+    // trường hợp socket phản hồi về mà còn còn 0 ghế thì cho chọn lại ghế
+    if(seatBooking.length <= 0) {
+      setStateBooking('processBooking', 1);
+    }
+  }, [seatBooking])
+  
 
   return (
     <div className="space-y-4 w-full flex flex-col items-center">
