@@ -13,8 +13,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           redis: {
             host: configService.get<string>('REDIS_HOST'),
             port: configService.get<number>('REDIS_PORT'),
-            username: configService.get<string>('REDIS_USERNAME'),  // Thêm username nếu có
-            password: configService.get<string>('REDIS_PASSWORD'),  // Thêm password nếu có
+            username: configService.get<string>('REDIS_USERNAME_BULL_QUEUE'),
+            password: configService.get<string>('REDIS_PASSWORD_BULL_QUEUE'),
           },
         }),
         inject: [ConfigService],
@@ -25,8 +25,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           redis: {
             host: configService.get<string>('REDIS_HOST'),
             port: configService.get<number>('REDIS_PORT'),
-            username: configService.get<string>('REDIS_USERNAME'),  // Thêm username nếu có
-            password: configService.get<string>('REDIS_PASSWORD'),  // Thêm password nếu có
+            username: configService.get<string>('REDIS_USERNAME_BULL_QUEUE'),
+            password: configService.get<string>('REDIS_PASSWORD_BULL_QUEUE'),
           },
         }),
         inject: [ConfigService],
