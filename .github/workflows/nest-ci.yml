@@ -9,7 +9,7 @@ on:
       - nest-ci
 
 jobs:
-   build:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +24,7 @@ jobs:
 
       # Build và Push image cho Backend (NestJS)
       - name: Build and push NestJS image
-        working-directory: ./nestjs-backend   # Đảm bảo vào đúng thư mục dự án backend
+        working-directory: ./nestjs-backend # Đảm bảo vào đúng thư mục dự án backend
         run: |
           docker build -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }} .
           docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }}

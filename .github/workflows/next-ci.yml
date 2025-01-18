@@ -3,13 +3,13 @@ name: CI/CD Workflow
 on:
   push:
     branches:
-      - next-ci  # Chạy workflow khi có thay đổi ở nhánh auto-ci
+      - next-ci # Chạy workflow khi có thay đổi ở nhánh auto-ci
   pull_request:
     branches:
-      - next-ci  # Chạy workflow khi có PR tới nhánh auto-ci
+      - next-ci # Chạy workflow khi có PR tới nhánh auto-ci
 
 jobs:
-   build:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +33,7 @@ jobs:
 
       # Build và Push image cho Frontend (NextJS)
       - name: Build and push NextJS image
-        working-directory: ./nextjs-client   # Đảm bảo vào đúng thư mục dự án NextJS
+        working-directory: ./nextjs-client # Đảm bảo vào đúng thư mục dự án NextJS
         run: |
           docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
                        --build-arg NEXT_PUBLIC_FRONT_END_URL=${{ secrets.NEXT_PUBLIC_FRONT_END_URL }} \
