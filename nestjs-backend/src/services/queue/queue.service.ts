@@ -1,5 +1,5 @@
+import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
-import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { BOOKING_QUEUE, EMAIL_VERIFY_QUEUE } from 'src/constants/queue';
 import { BookingTicketDTO } from 'src/core/dtos/booking.dto';

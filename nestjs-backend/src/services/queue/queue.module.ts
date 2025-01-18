@@ -1,26 +1,15 @@
 import { Module } from '@nestjs/common';
 import { QueueService } from './queue.service';
-import { BullModule } from '@nestjs/bull';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
-    BullModule.registerQueueAsync(
+    BullModule.registerQueue(
       {
         name: 'booking',
-        imports: [ConfigModule],
-        inject: [ConfigService],
-        useFactory: async (configService: ConfigService) => ({
-          redis: configService.get<string>('REDIS_QUEUE_URL'),
-        }),
       },
       {
         name: 'email',
-        imports: [ConfigModule],
-        inject: [ConfigService],
-        useFactory: async (configService: ConfigService) => ({
-          redis: configService.get<string>('REDIS_QUEUE_URL'),
-        }),
       }
     ),
   ],

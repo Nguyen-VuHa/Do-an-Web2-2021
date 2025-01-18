@@ -10,11 +10,20 @@ import {
   VerifyRefreshTokenUserClientMiddleware,
   VerifyUserClientMiddleware,
 } from './middlewares/client-jwt.middleware';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
+    }),
+    BullModule.forRoot({
+      connection: {
+        host: process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT),
+        username: process.env.REDIS_USERNAME,
+        password: process.env.REDIS_PASSWORD,
+      },
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

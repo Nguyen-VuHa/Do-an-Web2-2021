@@ -1,5 +1,7 @@
-import { Process, Processor } from '@nestjs/bull';
-import { Job } from 'bull';
+import { Processor, WorkerHost } from '@nestjs/bullmq';
+import { OnModuleInit } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
+import { Job } from 'bullmq';
 import { BOOKING_FAILED, BOOKING_QUEUE, BOOKING_SUCCESS } from 'src/constants/queue';
 import { BookingTicketDTO } from 'src/core/dtos/booking.dto';
 import { BookingHistory } from 'src/core/entities/booking-history.entity';
@@ -14,18 +16,41 @@ import { UserService } from 'src/services/user/user.service';
 import { In } from 'typeorm';
 
 @Processor('booking') // Queue chung cho tất cả request
-export class BookingProcessor {
-  constructor(
-    private readonly userService: UserService,
-    private readonly bookingService: BookingService,
-    private readonly showtimeService: ShowtimeService,
-    private readonly screenService: ScreenService,
-    private readonly movieService: MovieService,
-    private readonly seatService: SeatService,
-    private readonly statusService: StatusService
-  ) {}
+export class BookingProcessor extends WorkerHost implements OnModuleInit {
+  private userService: UserService;
+  private bookingService: BookingService;
+  private showtimeService: ShowtimeService;
+  private screenService: ScreenService;
+  private movieService: MovieService;
+  private seatService: SeatService;
+  private statusService: StatusService;
 
-  @Process(BOOKING_QUEUE) // Xử lý job đặt vé
+  constructor(private readonly moduleRef: ModuleRef) {
+    super();
+  }
+
+  // Inject MailService khi module được khởi tạo
+  onModuleInit() {
+    this.userService = this.moduleRef.get(UserService, { strict: false });
+    this.bookingService = this.moduleRef.get(BookingService, { strict: false });
+    this.showtimeService = this.moduleRef.get(ShowtimeService, { strict: false });
+    this.screenService = this.moduleRef.get(ScreenService, { strict: false });
+    this.movieService = this.moduleRef.get(MovieService, { strict: false });
+    this.seatService = this.moduleRef.get(SeatService, { strict: false });
+    this.statusService = this.moduleRef.get(StatusService, { strict: false });
+  }
+
+  async process(job: Job) {
+    switch (job.name) {
+      case BOOKING_QUEUE:
+        console.log(`Processing booking job: ${job.id}`);
+        // Sử dụng MailService để gửi email
+        await this.handleBooking(job);
+      default:
+        throw new Error('No job name match');
+    }
+  }
+
   async handleBooking(job: Job) {
     const jobData = job.data.booking_detail;
 
