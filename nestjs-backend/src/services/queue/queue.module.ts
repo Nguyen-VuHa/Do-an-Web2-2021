@@ -5,10 +5,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule, // Đảm bảo rằng ConfigModule được import
     BullModule.registerQueueAsync(
       {
         name: 'booking',
+        import: [ConfigModule],
+        inject: [ConfigService],
         useFactory: async (configService: ConfigService) => ({
           redis: {
             host: configService.get<string>('REDIS_HOST'),
@@ -17,10 +18,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             password: configService.get<string>('REDIS_PASSWORD_BULL_QUEUE'),
           },
         }),
-        inject: [ConfigService],
       },
       {
         name: 'email',
+        import: [ConfigModule],
+        inject: [ConfigService],
         useFactory: async (configService: ConfigService) => ({
           redis: {
             host: configService.get<string>('REDIS_HOST'),
@@ -29,7 +31,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             password: configService.get<string>('REDIS_PASSWORD_BULL_QUEUE'),
           },
         }),
-        inject: [ConfigService],
       }
     ),
   ],
