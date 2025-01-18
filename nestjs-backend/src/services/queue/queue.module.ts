@@ -11,12 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: async (configService: ConfigService) => ({
-          redis: {
-            host: configService.get<string>('REDIS_HOST'),
-            port: configService.get<number>('REDIS_PORT'),
-            username: configService.get<string>('REDIS_USERNAME_BULL_QUEUE'),
-            password: configService.get<string>('REDIS_PASSWORD_BULL_QUEUE'),
-          },
+          redis: configService.get<string>('REDIS_QUEUE_URL'),
         }),
       },
       {
@@ -24,12 +19,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: async (configService: ConfigService) => ({
-          redis: {
-            host: configService.get<string>('REDIS_HOST'),
-            port: configService.get<number>('REDIS_PORT'),
-            username: configService.get<string>('REDIS_USERNAME_BULL_QUEUE'),
-            password: configService.get<string>('REDIS_PASSWORD_BULL_QUEUE'),
-          },
+          redis: configService.get<string>('REDIS_QUEUE_URL'),
         }),
       }
     ),
