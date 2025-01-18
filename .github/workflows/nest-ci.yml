@@ -28,3 +28,7 @@ jobs:
         run: |
           docker build -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }} .
           docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }}
+
+      - name: Send Signature Auto Run
+        run: |
+          curl -X GET "${{ secrets.WEBHOOK_CD_URL }}/service-backend?_image=${{ secrets.REGISTRY_CD }}/${{ secrets.IMAGE_NAME }}-nestjs-api:${{ github.sha }}&_token=${{ secrets.TOKEN_BUILD_MOVIE_BACKEND }}"
