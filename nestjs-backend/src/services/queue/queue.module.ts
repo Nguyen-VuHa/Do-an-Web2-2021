@@ -8,7 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     BullModule.registerQueueAsync(
       {
         name: 'booking',
-        import: [ConfigModule],
+        imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: async (configService: ConfigService) => ({
           redis: {
@@ -21,7 +21,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       },
       {
         name: 'email',
-        import: [ConfigModule],
+        imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: async (configService: ConfigService) => ({
           redis: {
