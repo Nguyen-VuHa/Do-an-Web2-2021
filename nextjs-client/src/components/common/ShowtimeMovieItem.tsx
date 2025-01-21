@@ -18,6 +18,7 @@ const ShowtimeMovieItem: React.FC<ShowtimeMovieItemProps> = ({
 }) => {
   const router = useRouter();
   const { isUserLoged } = useUserStore();
+
   return (
     <div className="flex flex-col p-2 bg-second rounded-circle-md space-y-2">
       <div className="flex space-x-4">
@@ -55,7 +56,8 @@ const ShowtimeMovieItem: React.FC<ShowtimeMovieItemProps> = ({
                   enqueueSnackbar("Vui lòng đăng nhập để mua vé nhé!", {
                     variant: "info",
                   });
-                  router.push("/dang-nhap");
+
+                  router.push(`/dang-nhap?redirect=${`/dat-ve/${movieSlug}/${showtime.showtime_id}`}`);
                 }}
               >
                 {dayjs(showtime.start_time).format("HH:mm")}

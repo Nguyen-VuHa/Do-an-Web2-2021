@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import * as Yup from "yup";
@@ -18,6 +18,10 @@ const FormSignIn = () => {
   const { signInForm, errorSignInForm, setSignInForm, setStateAuth } =
     useAuthStore();
   const { isPostSignInAccount, postSignInAccount } = useAuthAPIStore();
+  
+  const searchParams = useSearchParams();
+  const paramRedirect = searchParams.get('redirect'); // Lấy giá trị của `redirect`
+
 
   const handleChangeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +72,12 @@ const FormSignIn = () => {
 
       if (resPost.status === PROCESS_SUCCESS) {
         enqueueSnackbar(resPost.message, { variant: "success" });
-        window.location.replace("/");
+
+        if(paramRedirect) {
+          window.location.replace(paramRedirect);
+        } else {
+          window.location.replace("/");
+        }
       } else {
         if(resPost.message === '1') {
           router.push('/notify/verify')

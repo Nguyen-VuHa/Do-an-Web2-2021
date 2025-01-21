@@ -48,7 +48,7 @@ const ShowtimeCinemaItem: React.FC<ShowtimeCinemaItemProps> = ({ movie }) => {
                     enqueueSnackbar("Vui lòng đăng nhập để mua vé nhé!", {
                       variant: "info",
                     });
-                    router.push("/dang-nhap");
+                    router.push(`/dang-nhap?redirect=${`/dat-ve/${movie.slug}/${showtime.showtime_id}`}`);
                   }}
                 >
                   {dayjs(showtime.start_time).format("HH:mm")}
