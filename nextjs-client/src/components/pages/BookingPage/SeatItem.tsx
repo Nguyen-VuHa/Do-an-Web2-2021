@@ -33,7 +33,7 @@ const SeatItem: React.FC<SeatItemProps> = ({ seat }) => {
 
   return (
     <div
-      className={`w-10 h-10 flex justify-center items-center
+      className={`w-10 h-10 flex justify-center items-center cursor-pointer
         rounded-circle-md ${className}
         `}
       onClick={() => {

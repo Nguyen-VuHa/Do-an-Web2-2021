@@ -1,7 +1,11 @@
 import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { BOOKING_QUEUE, EMAIL_VERIFY_QUEUE } from 'src/constants/queue';
+import {
+  BOOKING_QUEUE,
+  EMAIL_BOOKING_SUCCESS_QUEUE,
+  EMAIL_VERIFY_QUEUE,
+} from 'src/constants/queue';
 import { BookingTicketDTO } from 'src/core/dtos/booking.dto';
 import { IEmailVerifyRequest } from 'src/core/types/email.type';
 
@@ -48,5 +52,23 @@ export class QueueService {
     );
 
     console.log(`Đã thêm job vào queue cho user: ${user_id}`);
+  }
+
+  async pushToQueueSendMailBookingSuccess(email_data: any): Promise<void> {
+    const jobOptions = {
+      removeOnComplete: true, // Xóa job khi hoàn thành
+      removeOnFail: true, // Xóa job khi thất bại
+    };
+
+    // Thêm job vào queue
+    await this.emailQueue.add(
+      EMAIL_BOOKING_SUCCESS_QUEUE,
+      {
+        email_data,
+      },
+      jobOptions
+    );
+
+    console.log(`Đã thêm job vào send email booking success`);
   }
 }

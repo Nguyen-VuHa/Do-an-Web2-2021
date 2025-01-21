@@ -3,7 +3,7 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { Job } from 'bullmq';
-import { EMAIL_VERIFY_QUEUE } from 'src/constants/queue';
+import { EMAIL_BOOKING_SUCCESS_QUEUE, EMAIL_VERIFY_QUEUE } from 'src/constants/queue';
 
 @Processor('email') // Queue chung cho tất cả request
 export class EmailProcessor extends WorkerHost implements OnModuleInit {
@@ -26,6 +26,11 @@ export class EmailProcessor extends WorkerHost implements OnModuleInit {
         const jobData = job.data.email_data;
         // Sử dụng MailService để gửi email
         await this.mailService.sendVerifyMail(jobData);
+      case EMAIL_BOOKING_SUCCESS_QUEUE:
+        console.log(`Processing email booking success job: ${job.id}`);
+        const jobBookingSuccess = job.data.email_data;
+        // Sử dụng MailService để gửi email
+        await this.mailService.sendMailBookingSuccess(jobBookingSuccess);
       default:
         throw new Error('No job name match');
     }

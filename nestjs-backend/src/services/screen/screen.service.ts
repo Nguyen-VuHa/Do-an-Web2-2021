@@ -32,6 +32,10 @@ export class ScreenService {
     });
   }
 
+  async getScreenByCondition(condition: IObject<any>): Promise<Screen> {
+    return await this.screenRepository.findOne(condition);
+  }
+
   async getScreenTypeByCinemaID(cinema_id: number): Promise<string[]> {
     const screens = await this.screenRepository.find({
       where: {

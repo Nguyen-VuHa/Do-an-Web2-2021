@@ -57,6 +57,23 @@ const ChooseSeat = () => {
           </div>
         </div>
         <div className="lg:col-span-2 space-y-2">
+        {/* Next step */}
+        <Button
+          className="flex justify-center items-center space-x-2 !w-full !rounded-circle-md"
+          buttonType="warning"
+          onClick={() => {
+            if (seatBooking.length > 0) {
+              setStateBooking("processBooking", processBooking + 1);
+            } else {
+              enqueueSnackbar("Vui lòng chọn ghế trước khi thanh toán", {
+                variant: "info",
+              });
+            }
+          }}
+        >
+          <span>Đi đến thanh toán</span>
+          <GrFormNextLink size={22} />
+        </Button>
           {isFetchShowtimeDetail && (
             <div className="flex p-2 rounded-circle-md space-x-1 animate-pulse bg-second">
               <div className="h-48 w-32 rounded-md bg-gradient-to-r from-social-x to-instagram bg-[length:100%_300%]"></div>
@@ -109,24 +126,6 @@ const ChooseSeat = () => {
           </div>
         </div>
       </div>
-
-      {/* Next step */}
-      <Button
-        className="flex items-center space-x-2"
-        buttonType="warning"
-        onClick={() => {
-          if (seatBooking.length > 0) {
-            setStateBooking("processBooking", processBooking + 1);
-          } else {
-            enqueueSnackbar("Vui lòng chọn ghế trước khi thanh toán", {
-              variant: "info",
-            });
-          }
-        }}
-      >
-        <span>Thanh toán</span>
-        <GrFormNextLink size={22} />
-      </Button>
     </div>
   );
 };

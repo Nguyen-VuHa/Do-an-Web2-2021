@@ -23,4 +23,17 @@ export class MailService {
       console.log(error.toString());
     }
   }
+
+  async sendMailBookingSuccess(data: any): Promise<void> {
+    try {
+      const tokenService = this.configService.get<string>('SERVICE_TOKEN');
+      const path = `/api/mail/booking-success?token=${tokenService}`;
+
+      const response = await lastValueFrom(this.httpService.post(path, data));
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.toString());
+    }
+  }
 }

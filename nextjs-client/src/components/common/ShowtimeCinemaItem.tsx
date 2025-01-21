@@ -16,10 +16,11 @@ const ShowtimeCinemaItem: React.FC<ShowtimeCinemaItemProps> = ({ movie }) => {
   const router = useRouter();
 
   return (
-    <div className="flex p-2 bg-second rounded-circle-md space-x-4">
-      <div className="w-auto h-fit rounded-circle-md overflow-hidden">
+    <div className="flex p-1.5 bg-second rounded-circle-md space-x-4">
+      <div className="w-[15%] h-full rounded-circle-md overflow-hidden">
         <ImageCustom
           src={movie.poster}
+          imgClassName="w-full h-full"
           alt="NO POSTER"
           width={100}
           height={150}
@@ -37,6 +38,7 @@ const ShowtimeCinemaItem: React.FC<ShowtimeCinemaItemProps> = ({ movie }) => {
                 <Button
                   key={showtime.showtime_id}
                   buttonType="error"
+                  className="!rounded-circle-md"
                   onClick={() => {
                     if (isUserLoged) {
                       router.push(

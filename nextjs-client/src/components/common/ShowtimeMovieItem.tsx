@@ -20,7 +20,7 @@ const ShowtimeMovieItem: React.FC<ShowtimeMovieItemProps> = ({
   const { isUserLoged } = useUserStore();
 
   return (
-    <div className="flex flex-col p-2 bg-second rounded-circle-md space-y-2">
+    <div className="flex flex-col p-1.5 bg-second rounded-circle-md space-y-2">
       <div className="flex space-x-4">
         <div className="w-auto h-fit rounded-circle-md overflow-hidden">
           <ImageCustom
@@ -47,6 +47,7 @@ const ShowtimeMovieItem: React.FC<ShowtimeMovieItemProps> = ({
               <Button
                 key={showtime.showtime_id}
                 buttonType="error"
+                className="!rounded-circle-md"
                 onClick={() => {
                   if (isUserLoged) {
                     router.push(`/dat-ve/${movieSlug}/${showtime.showtime_id}`);

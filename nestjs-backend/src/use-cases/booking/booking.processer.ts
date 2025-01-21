@@ -2,12 +2,14 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { Job } from 'bullmq';
+import * as dayjs from 'dayjs';
 import { BOOKING_FAILED, BOOKING_QUEUE, BOOKING_SUCCESS } from 'src/constants/queue';
 import { BookingTicketDTO } from 'src/core/dtos/booking.dto';
 import { BookingHistory } from 'src/core/entities/booking-history.entity';
 import { Booking } from 'src/core/entities/booking.entity';
 import { BookingService } from 'src/services/booking/booking.service';
 import { MovieService } from 'src/services/movie/movie.service';
+import { QueueService } from 'src/services/queue/queue.service';
 import { ScreenService } from 'src/services/screen/screen.service';
 import { SeatService } from 'src/services/seat/seat.service';
 import { ShowtimeService } from 'src/services/showtime/showtime.service';
@@ -24,6 +26,7 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
   private movieService: MovieService;
   private seatService: SeatService;
   private statusService: StatusService;
+  private queueService: QueueService;
 
   constructor(private readonly moduleRef: ModuleRef) {
     super();
@@ -38,6 +41,7 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
     this.movieService = this.moduleRef.get(MovieService, { strict: false });
     this.seatService = this.moduleRef.get(SeatService, { strict: false });
     this.statusService = this.moduleRef.get(StatusService, { strict: false });
+    this.queueService = this.moduleRef.get(QueueService, { strict: false });
   }
 
   async process(job: Job) {
@@ -98,7 +102,14 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
         throw new Error("Showtime doesn't exists.");
       }
 
-      const screen = await this.screenService.getScreenById(data_booking.screen_id);
+      const screen = await this.screenService.getScreenByCondition({
+        where: {
+          screen_id: data_booking.screen_id,
+        },
+        relations: {
+          cinema: true,
+        },
+      });
 
       if (!screen) {
         throw new Error("Screen doesn't exists.");
@@ -163,6 +174,24 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
 
         await this.bookingService.createBookingHistory(bookingHistory);
       }
+
+      const payload_sendmail = {
+        email: user.email,
+        ticket_code: bookingRes.booking_id,
+        booking: {
+          movie_name: movie.title,
+          showtime: dayjs(showtime.start_time).format('HH:mm DD-MM-YYYY'),
+          screen: screen.screen_name,
+          cinema: screen.cinema.cinema_name,
+          cinema_address: screen.cinema.address,
+          seats: seats.map((seat) => seat.seat_name),
+          unit_price: showtime.unit_price,
+          payment_method: 'VN Pay',
+        },
+      };
+
+      this.queueService.pushToQueueSendMailBookingSuccess(payload_sendmail);
+
       return BOOKING_SUCCESS;
     } catch (error) {
       console.log(error.message);

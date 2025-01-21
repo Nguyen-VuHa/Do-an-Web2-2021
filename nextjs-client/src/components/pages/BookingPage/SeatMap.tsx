@@ -68,6 +68,10 @@ const SeatMap = () => {
     }
   };
 
+  const xValues = seatMap.map(seat => seat.x);
+  const maxX = Math.max(...xValues);
+  const minX = Math.min(...xValues);
+
   // Tạo grid với mảng 2 chiều
   const grid = Array.from({ length: rows }, (_, rowIndex) => (
     <div key={rowIndex} className="flex">
@@ -79,9 +83,10 @@ const SeatMap = () => {
         return (
           <div
             key={colIndex}
-            className="relative w-full h-full flex flex-col items-start justify-center text-xs p-1 cursor-pointer"
+            className="relative w-full h-full flex flex-col items-start justify-center text-xs p-1"
           >
             {isMatch && <SeatItem seat={isMatch} />}
+            {!isMatch && (colIndex >= minX && colIndex <= maxX) && <div className="w-10 h-10"></div>}
           </div>
         );
       })}
