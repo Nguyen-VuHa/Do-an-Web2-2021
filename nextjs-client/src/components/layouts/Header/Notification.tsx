@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { PiBellRingingLight } from "react-icons/pi";
+import NotificationList from "~/components/common/NotificationList";
 
 const Notification = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -40,12 +41,13 @@ const Notification = () => {
       <div
         ref={dropdownRef}
         className={`
-                  absolute top-[105%] right-0 bg-second p-4 rounded-circle-md space-y-3 shadow-2xl w-[350px]
+                  absolute top-[105%] right-0 bg-second rounded-circle-md space-y-3 shadow-2xl w-[350px]
                   transition-all duration-300
                   ${isActive ? "visible opacity-100 z-[100]" : "invisible opacity-0 z-[-99]"}
               `}
       >
-        <span>Chưa Làm</span>
+        <div className="text-lg font-semibold text-warning p-4 pb-0">Thông báo</div>
+        <NotificationList />
       </div>
     </div>
   );

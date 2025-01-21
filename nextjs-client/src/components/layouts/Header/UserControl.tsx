@@ -40,14 +40,15 @@ const UserControl = () => {
       <Notification />
       <div className="relative">
         <div
-          className="max-w-[150px] h-10 bg-second cursor-pointer rounded-full flex justify-start text-typography items-center bg-second
+          className="max-w-[200px] h-10 bg-second cursor-pointer rounded-full flex justify-start text-typography items-center bg-second
           hover:bg-opacity-50 hover:bg-social-x hover:text-social-x transtion-all duration-300 select-none"
           onClick={() => {
             setIsActive(!isActive);
           }}
           ref={buttonRef}
         >
-          <div className="w-10 h-10 overflow-hidden p-1">
+          <span className="text-sm pl-4 pr-2 text-warning overflow-hidden whitespace-nowrap text-ellipsis" title={userInfo.fullname} >{userInfo.fullname}</span>
+          <div className="w-10 h-10 overflow-hidden p-1 flex-shrink-0">
             <ImageCustom
               imgClassName="w-full h-full"
               src={userInfo.image_url || DEFAULT_AVATAR_USER}
@@ -56,7 +57,6 @@ const UserControl = () => {
               height={20}
             />
           </div>
-          <span className="text-sm pr-2">{userInfo.fullname}</span>
         </div>
         <div
           ref={dropdownRef}
