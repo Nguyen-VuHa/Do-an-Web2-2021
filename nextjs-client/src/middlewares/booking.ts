@@ -14,10 +14,10 @@ export function bookingMiddleware(
     const token = request.cookies.get(ACCESS_TOKEN)?.value;
 
     const url = request.nextUrl.clone();
-  
+
     // Kiểm tra nếu đường dẫn bắt đầu với "/dat-ve" và không có token
-    if (url.pathname.startsWith('/dat-ve') && !token) {
-      url.pathname = '/dang-nhap'; // Chuyển hướng về trang đăng nhập
+    if (url.pathname.startsWith("/dat-ve") && !token) {
+      url.pathname = "/dang-nhap"; // Chuyển hướng về trang đăng nhập
       return NextResponse.redirect(url);
     }
 

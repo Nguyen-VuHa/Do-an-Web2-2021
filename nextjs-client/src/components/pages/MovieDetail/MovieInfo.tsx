@@ -134,8 +134,9 @@ const MovieInfo: React.FC<TopWeeklyMovieProps> = ({ movieInfo, movieType }) => {
               </div>
               <div className="flex space-x-1">
                 {movieType === MOVIE_NOW_SHOWING && (
-                  <Button 
-                    className="!px-10" buttonType="info"
+                  <Button
+                    className="!px-10"
+                    buttonType="info"
                     onClick={() => {
                       setStateShowtime("isShowtimeView", isShowtimeView + 1);
                     }}

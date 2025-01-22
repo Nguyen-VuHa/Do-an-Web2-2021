@@ -47,7 +47,12 @@ const UserControl = () => {
           }}
           ref={buttonRef}
         >
-          <span className="text-sm pl-4 pr-2 text-warning overflow-hidden whitespace-nowrap text-ellipsis" title={userInfo.fullname} >{userInfo.fullname}</span>
+          <span
+            className="text-sm pl-4 pr-2 text-warning overflow-hidden whitespace-nowrap text-ellipsis"
+            title={userInfo.fullname}
+          >
+            {userInfo.fullname}
+          </span>
           <div className="w-10 h-10 overflow-hidden p-1 flex-shrink-0">
             <ImageCustom
               imgClassName="w-full h-full"

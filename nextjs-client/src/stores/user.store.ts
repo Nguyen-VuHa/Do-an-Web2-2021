@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { apiFetchUserInfo } from "~/apis/user.api";
 import { STATUS_SUCCESS } from "~/constants/status";
 import { IUserInfo } from "~/types/user.type";
+import { useNotifyStore } from "./notify.store";
 
 interface UserState {
   setStateUser: (key: string, value: any) => void;
@@ -48,6 +49,9 @@ export const useUserAPIStore = create<UserAPIState>((set) => ({
       if (res && res.statusCode === STATUS_SUCCESS) {
         useUserStore.getState().setStateUser("userInfo", res.data);
         useUserStore.getState().setStateUser("isUserLoged", true);
+        useNotifyStore
+          .getState()
+          .setStateNotify("notify_unread", res.data?.notify_unread || 0);
       }
     } catch (error) {
       console.log(error);

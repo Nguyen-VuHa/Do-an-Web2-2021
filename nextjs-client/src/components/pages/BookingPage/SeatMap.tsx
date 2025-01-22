@@ -68,7 +68,7 @@ const SeatMap = () => {
     }
   };
 
-  const xValues = seatMap.map(seat => seat.x);
+  const xValues = seatMap.map((seat) => seat.x);
   const maxX = Math.max(...xValues);
   const minX = Math.min(...xValues);
 
@@ -86,7 +86,9 @@ const SeatMap = () => {
             className="relative w-full h-full flex flex-col items-start justify-center text-xs p-1"
           >
             {isMatch && <SeatItem seat={isMatch} />}
-            {!isMatch && (colIndex >= minX && colIndex <= maxX) && <div className="w-10 h-10"></div>}
+            {!isMatch && colIndex >= minX && colIndex <= maxX && (
+              <div className="w-10 h-10"></div>
+            )}
           </div>
         );
       })}

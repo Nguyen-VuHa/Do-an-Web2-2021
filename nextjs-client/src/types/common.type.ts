@@ -7,6 +7,13 @@ export interface IResponse<T> {
   data?: T;
 }
 
+export interface IResponsePagintaion<T> {
+  page: number;
+  limit: number;
+  total: number;
+  list: T;
+}
+
 export interface IObject<T> {
   [key: string]: T;
 }

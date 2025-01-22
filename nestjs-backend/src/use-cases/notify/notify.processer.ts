@@ -1,14 +1,21 @@
+import { HttpService } from '@nestjs/axios';
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ModuleRef } from '@nestjs/core';
 import { Job } from 'bullmq';
+import { plainToClass } from 'class-transformer';
+import { lastValueFrom } from 'rxjs';
 import { NOTIFY__QUEUE } from 'src/constants/queue';
+import { NotifyResponseDTO } from 'src/core/dtos/notify.dto';
 import { Notification, NotifyType } from 'src/core/entities/notification.entity';
 import { NotifyService } from 'src/services/notify/notify.service';
 
 @Processor('notify') // Queue chung cho tất cả request
 export class NotifyProcessor extends WorkerHost implements OnModuleInit {
   private notifyService: NotifyService;
+  private configService: ConfigService;
+  private httpService: HttpService;
 
   constructor(private readonly moduleRef: ModuleRef) {
     super();
@@ -17,6 +24,8 @@ export class NotifyProcessor extends WorkerHost implements OnModuleInit {
   // Inject MailService khi module được khởi tạo
   onModuleInit() {
     this.notifyService = this.moduleRef.get(NotifyService, { strict: false });
+    this.configService = this.moduleRef.get(ConfigService, { strict: false });
+    this.httpService = this.moduleRef.get(HttpService, { strict: false });
   }
 
   async process(job: Job) {
@@ -46,8 +55,23 @@ export class NotifyProcessor extends WorkerHost implements OnModuleInit {
         notify.notify_type = NotifyType.LINK;
       }
 
-      await this.notifyService.createNotify(notify);
+      const notifyRes = await this.notifyService.createNotify(notify);
 
+      const notifyDTO = plainToClass(NotifyResponseDTO, notifyRes, {
+        excludeExtraneousValues: true,
+      });
+
+      const tokenService = this.configService.get<string>('SERVICE_TOKEN');
+      const path = `/api/notify/push-notify?token=${tokenService}`;
+
+      const response = await lastValueFrom(
+        this.httpService.post(path, {
+          user_id: job_data_notify.user.user_id,
+          data: notifyDTO,
+        })
+      );
+
+      console.log(response.data);
       console.log(`Xử lý xong notify: ${job.id}`);
 
       await job.isCompleted();

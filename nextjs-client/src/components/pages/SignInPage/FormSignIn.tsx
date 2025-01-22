@@ -18,10 +18,9 @@ const FormSignIn = () => {
   const { signInForm, errorSignInForm, setSignInForm, setStateAuth } =
     useAuthStore();
   const { isPostSignInAccount, postSignInAccount } = useAuthAPIStore();
-  
-  const searchParams = useSearchParams();
-  const paramRedirect = searchParams.get('redirect'); // Lấy giá trị của `redirect`
 
+  const searchParams = useSearchParams();
+  const paramRedirect = searchParams.get("redirect"); // Lấy giá trị của `redirect`
 
   const handleChangeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,15 +72,15 @@ const FormSignIn = () => {
       if (resPost.status === PROCESS_SUCCESS) {
         enqueueSnackbar(resPost.message, { variant: "success" });
 
-        if(paramRedirect) {
+        if (paramRedirect) {
           window.location.replace(paramRedirect);
         } else {
           window.location.replace("/");
         }
       } else {
-        if(resPost.message === '1') {
-          router.push('/notify/verify')
-          return 
+        if (resPost.message === "1") {
+          router.push("/notify/verify");
+          return;
         }
         enqueueSnackbar(resPost.message, { variant: "error" });
       }

@@ -8,4 +8,5 @@ export interface IUserInfo {
   image_url: string;
   cover_image_url: string;
   balance: number;
+  notify_unread?: number;
 }

@@ -89,4 +89,7 @@ export class UserClientResponseDTO {
 
   @Expose()
   balance;
+
+  @Expose()
+  notify_unread: number;
 }

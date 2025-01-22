@@ -45,4 +45,7 @@ export class NotifyResponseDTO {
 
   @Expose()
   notify_status: string;
+
+  @Expose()
+  created_at: string;
 }

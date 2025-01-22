@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
+import { Controller, Get, Put, Query, Req } from '@nestjs/common';
 import { MAX_PAGE_SIZE, PAGE_IDX_DEFAULT, PAGE_SIZE_DEFAULT } from 'src/constants/default';
 import { GetNotifyQueryDto, NotifyResponseDTO } from 'src/core/dtos/notify.dto';
 import { IPagination, IResponse } from 'src/core/types/common';
@@ -29,5 +29,13 @@ export class NotifyController {
     };
 
     return this.notifyUsecase.getNorifyPagination(user, queryClean);
+  }
+
+  @Put('status')
+  async updateNotifyToRead(
+    @Req() req: Request & { user: IJWTUserInfo }
+  ): Promise<IResponse<boolean>> {
+    const { user } = req;
+    return this.notifyUsecase.updateStatusNotifyToRead(user);
   }
 }

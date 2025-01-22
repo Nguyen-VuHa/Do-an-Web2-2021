@@ -15,7 +15,7 @@ export enum NotifyType {
   LINK = 'link',
 }
 
-enum NotifyStatus {
+export enum NotifyStatus {
   UNREAD = 'unread',
   READ = 'read',
   INTERACTIVE = 'interactive',

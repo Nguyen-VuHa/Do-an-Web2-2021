@@ -45,7 +45,7 @@ export class AppModule {
       .apply(VerifyUserClientMiddleware)
       .forRoutes(
         { path: 'user/*', method: RequestMethod.ALL },
-        { path: 'notify/list', method: RequestMethod.GET },
+        { path: 'notify/*', method: RequestMethod.ALL },
         { path: 'booking/ticket', method: RequestMethod.POST }
       );
 

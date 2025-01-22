@@ -30,8 +30,6 @@ const BookingSuccess = () => {
     }
   }, [errorMessage, statusBooking]);
 
-  console.log(processBooking);
-
   return (
     <div className="px-5 md:px-0 flex flex-col space-y-5 justify-center items-center">
       {processBooking === 3 && <NotifyWaiting />}

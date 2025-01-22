@@ -54,4 +54,25 @@ export class NotifyUseCases {
       });
     }
   }
+
+  async updateStatusNotifyToRead(user: IJWTUserInfo): Promise<IResponse<boolean>> {
+    try {
+      await this.notifyService.updateStatusNotifyToRead(user.user_id);
+
+      const response: IResponse<boolean> = {
+        statusCode: 200,
+        error: null,
+        message: 'Cập nhật trạng thái thông báo thành công.',
+        data: true,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Cập nhật trạng thái thông báo thất bại',
+        error: error.message,
+      });
+    }
+  }
 }

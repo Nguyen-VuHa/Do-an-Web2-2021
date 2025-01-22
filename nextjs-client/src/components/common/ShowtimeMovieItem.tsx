@@ -58,7 +58,9 @@ const ShowtimeMovieItem: React.FC<ShowtimeMovieItemProps> = ({
                     variant: "info",
                   });
 
-                  router.push(`/dang-nhap?redirect=${`/dat-ve/${movieSlug}/${showtime.showtime_id}`}`);
+                  router.push(
+                    `/dang-nhap?redirect=${`/dat-ve/${movieSlug}/${showtime.showtime_id}`}`,
+                  );
                 }}
               >
                 {dayjs(showtime.start_time).format("HH:mm")}

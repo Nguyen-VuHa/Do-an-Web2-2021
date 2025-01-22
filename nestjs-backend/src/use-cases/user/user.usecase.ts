@@ -4,6 +4,7 @@ import { REDIS_USER_CLIENT_INFO_KEY, REDIS_USER_CLIENT_INFO_TTL } from 'src/cons
 import { UserClientResponseDTO } from 'src/core/dtos/user.dto';
 import { IObject, IResponse } from 'src/core/types/common';
 import { IJWTUserInfo } from 'src/core/types/user.type';
+import { NotifyService } from 'src/services/notify/notify.service';
 import { RedisService } from 'src/services/redis/redis.service';
 import { UserService } from 'src/services/user/user.service';
 
@@ -11,11 +12,14 @@ import { UserService } from 'src/services/user/user.service';
 export class UserUseCases {
   constructor(
     private readonly redisService: RedisService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly notifyService: NotifyService
   ) {}
 
   async getUserInfo(user: IJWTUserInfo): Promise<IResponse<UserClientResponseDTO>> {
     try {
+      const notifyUnRead = await this.notifyService.countNotifyUnRead(user.user_id);
+
       const keyCache = `${REDIS_USER_CLIENT_INFO_KEY}_${user.user_id}`;
 
       const dataCache: IObject<any> = await this.redisService.getDataRedis(keyCache);
@@ -27,6 +31,7 @@ export class UserUseCases {
 
       if (dataCache) {
         response.data = dataCache as UserClientResponseDTO;
+        response.data.notify_unread = notifyUnRead;
 
         return response;
       }
@@ -42,6 +47,7 @@ export class UserUseCases {
       });
 
       response.data = userDetailDTO;
+      response.data.notify_unread = notifyUnRead;
 
       this.redisService.setDataRedis(keyCache, userDetailDTO, REDIS_USER_CLIENT_INFO_TTL);
 
