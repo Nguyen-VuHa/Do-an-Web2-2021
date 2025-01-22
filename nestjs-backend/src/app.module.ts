@@ -43,11 +43,11 @@ export class AppModule {
 
     consumer
       .apply(VerifyUserClientMiddleware)
-      .forRoutes({ path: 'user/info', method: RequestMethod.GET });
-
-    consumer
-      .apply(VerifyUserClientMiddleware)
-      .forRoutes({ path: 'booking/ticket', method: RequestMethod.POST });
+      .forRoutes(
+        { path: 'user/*', method: RequestMethod.ALL },
+        { path: 'notify/list', method: RequestMethod.GET },
+        { path: 'booking/ticket', method: RequestMethod.POST }
+      );
 
     consumer
       .apply(VerifyRefreshTokenUserClientMiddleware)

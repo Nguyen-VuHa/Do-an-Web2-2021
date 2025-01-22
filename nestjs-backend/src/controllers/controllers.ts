@@ -12,6 +12,7 @@ import { AuthController } from './auth.controller';
 import { BookingController } from './booking.controller';
 import { CinemaController } from './cinema.controller';
 import { MovieController } from './movie.controller';
+import { NotifyController } from './notify.controller';
 import { ShowtimeController } from './showtime.controller';
 import { StatusController } from './status.controller';
 import { UserController } from './user.controller';
@@ -36,6 +37,7 @@ const CLIENT_CONTROLLERS = [
   UserController,
   BookingController,
   StatusController,
+  NotifyController,
 ];
 
 const CONTROLLERS = [AuthController, ...ADMIN_CONTROLLERS, ...CLIENT_CONTROLLERS];

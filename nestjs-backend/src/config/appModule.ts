@@ -16,6 +16,7 @@ import { MovieUseCaseModule } from 'src/use-cases/movie/movieUseCase.module';
 import { ShowtimeUseCaseModule } from 'src/use-cases/showtime/showtimeUseCase.module';
 import { UserUseCaseModule } from 'src/use-cases/user/userUseCase.module';
 import { GlobalHttpModule } from './axios';
+import { NotifyUseCaseModule } from 'src/use-cases/notify/notifyUseCase.module';
 
 const SEEDER_MODULES = [DataSeederServiceModule];
 
@@ -41,6 +42,7 @@ const CLIENT_MODULES = [
   ShowtimeUseCaseModule,
   UserUseCaseModule,
   BookingUseCaseModule,
+  NotifyUseCaseModule,
 ];
 
 const APPMODULES = [

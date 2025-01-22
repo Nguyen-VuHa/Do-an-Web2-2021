@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 
-enum NotifyType {
+export enum NotifyType {
   NORMAL = 'normal',
   LINK = 'link',
 }

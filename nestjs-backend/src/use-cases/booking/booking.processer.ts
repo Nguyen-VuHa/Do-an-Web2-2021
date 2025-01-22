@@ -115,7 +115,14 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
         throw new Error("Screen doesn't exists.");
       }
 
-      const movie = await this.movieService.getMovieByID(data_booking.movie_id);
+      const movie = await this.movieService.getDetailMovieByCondition({
+        where: {
+          movie_id: data_booking.movie_id,
+        },
+        relations: {
+          posters: true,
+        },
+      });
 
       if (!movie) {
         throw new Error("Movie doesn't exists.");
@@ -175,22 +182,34 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
         await this.bookingService.createBookingHistory(bookingHistory);
       }
 
-      const payload_sendmail = {
-        email: user.email,
-        ticket_code: bookingRes.booking_id,
-        booking: {
-          movie_name: movie.title,
-          showtime: dayjs(showtime.start_time).format('HH:mm DD-MM-YYYY'),
-          screen: screen.screen_name,
-          cinema: screen.cinema.cinema_name,
-          cinema_address: screen.cinema.address,
-          seats: seats.map((seat) => seat.seat_name),
-          unit_price: showtime.unit_price,
-          payment_method: 'VN Pay',
-        },
+      // const payload_sendmail = {
+      //   email: user.email,
+      //   ticket_code: bookingRes.booking_id,
+      //   booking: {
+      //     movie_name: movie.title,
+      //     showtime: dayjs(showtime.start_time).format('HH:mm DD-MM-YYYY'),
+      //     screen: screen.screen_name,
+      //     cinema: screen.cinema.cinema_name,
+      //     cinema_address: screen.cinema.address,
+      //     seats: seats.map((seat) => seat.seat_name),
+      //     unit_price: showtime.unit_price,
+      //     payment_method: 'VN Pay',
+      //   },
+      // };
+
+      // this.queueService.pushToQueueSendMailBookingSuccess(payload_sendmail);
+
+      const payload_notify: any = {
+        message: `🎉 Vé xem phim đã được đặt thành công!
+        Phim: ${movie.title}.
+        Thời gian: ${dayjs(showtime.start_time).format('HH:mm DD-MM-YYYY')}.
+        Hãy kiểm tra email hoặc tài khoản của bạn để xem chi tiết vé. Chúc bạn có buổi xem phim tuyệt vời!`,
+        redirect_url: `http://localhost:4000/history/booking`,
+        image_url: movie.posters[0]?.poster_url,
+        user: user,
       };
 
-      this.queueService.pushToQueueSendMailBookingSuccess(payload_sendmail);
+      this.queueService.pushToQueueSaveNotify(payload_notify);
 
       return BOOKING_SUCCESS;
     } catch (error) {

@@ -5,6 +5,7 @@ import {
   BOOKING_QUEUE,
   EMAIL_BOOKING_SUCCESS_QUEUE,
   EMAIL_VERIFY_QUEUE,
+  NOTIFY__QUEUE,
 } from 'src/constants/queue';
 import { BookingTicketDTO } from 'src/core/dtos/booking.dto';
 import { IEmailVerifyRequest } from 'src/core/types/email.type';
@@ -13,7 +14,8 @@ import { IEmailVerifyRequest } from 'src/core/types/email.type';
 export class QueueService {
   constructor(
     @InjectQueue('booking') private readonly bookingQueue: Queue,
-    @InjectQueue('email') private readonly emailQueue: Queue
+    @InjectQueue('email') private readonly emailQueue: Queue,
+    @InjectQueue('notify') private readonly notifyQueue: Queue
   ) {}
 
   async pushToQueue(user_id: string, booking_detail: BookingTicketDTO): Promise<void> {
@@ -70,5 +72,23 @@ export class QueueService {
     );
 
     console.log(`Đã thêm job vào send email booking success`);
+  }
+
+  async pushToQueueSaveNotify(notify_data: any): Promise<void> {
+    const jobOptions = {
+      removeOnComplete: true, // Xóa job khi hoàn thành
+      removeOnFail: true, // Xóa job khi thất bại
+    };
+
+    // Thêm job vào queue
+    await this.notifyQueue.add(
+      NOTIFY__QUEUE,
+      {
+        notify_data,
+      },
+      jobOptions
+    );
+
+    console.log(`Đã thêm job vào notify saving`);
   }
 }

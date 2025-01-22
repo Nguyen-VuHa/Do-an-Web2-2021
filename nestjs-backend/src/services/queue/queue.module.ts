@@ -10,6 +10,9 @@ import { BullModule } from '@nestjs/bullmq';
       },
       {
         name: 'email',
+      },
+      {
+        name: 'notify',
       }
     ),
   ],

@@ -4,3 +4,5 @@ export const BOOKING_SUCCESS = 'success';
 
 export const EMAIL_VERIFY_QUEUE = 'email_verify_sending';
 export const EMAIL_BOOKING_SUCCESS_QUEUE = 'email_booking_success';
+
+export const NOTIFY__QUEUE = 'notify_queue';
