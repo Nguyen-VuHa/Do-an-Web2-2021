@@ -7,8 +7,10 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { useAuthStore } from "~/stores/auth.store";
 import { useUserStore } from "~/stores/user.store";
 import { DEFAULT_AVATAR_USER } from "~/constants/user";
+import { useRouter } from "next/navigation";
 
 const UserControl = () => {
+  const router = useRouter();
   const { setStateAuth } = useAuthStore();
   const { userInfo } = useUserStore();
 
@@ -71,7 +73,13 @@ const UserControl = () => {
                         ${isActive ? "visible opacity-100 z-[100]" : "invisible opacity-0 z-[-99]"}
                     `}
         >
-          <div className="px-3 py-2 text-social-x bg-social-x bg-opacity-20 cursor-pointer hover:bg-opacity-50 rounded-md transition-all flex text-sm space-x-2">
+          <div 
+            className="px-3 py-2 text-social-x bg-social-x bg-opacity-20 cursor-pointer hover:bg-opacity-50 rounded-md transition-all flex text-sm space-x-2"
+            onClick={() => {
+              router.push('/tai-khoan/profile')
+              setIsActive(false);
+            }}
+          >
             <CgProfile size={20} />
             <span>Thông tin cá nhân</span>
           </div>

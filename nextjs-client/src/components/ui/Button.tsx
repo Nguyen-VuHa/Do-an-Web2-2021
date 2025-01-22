@@ -45,7 +45,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        className={`px-4 py-2 rounded-circle-lg font-small text-sm transition-all duration-300 ${buttonTypeClass} ${className}`}
+        className={`flex justify-center items-center px-4 py-2 rounded-circle-lg font-small text-sm transition-all duration-300 ${buttonTypeClass} ${className}`}
         {...props}
       >
         {isLoading ? (

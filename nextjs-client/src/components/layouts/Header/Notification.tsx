@@ -33,7 +33,6 @@ const Notification = () => {
       );
 
       if (!isExists) {
-        setStateNotify("notify", [notifyReceive].concat(notify));
         setStateNotify("notify_unread", notify_unread + 1);
       }
     }
