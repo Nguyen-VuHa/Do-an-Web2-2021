@@ -6,6 +6,7 @@ const nextConfig = {
       "www.tiendauroi.com",
       "res.cloudinary.com",
       "upload.wikimedia.org",
+      "blog.tcea.org",
     ], // Thêm hostname của trang web vào đây
   },
   experimental: {

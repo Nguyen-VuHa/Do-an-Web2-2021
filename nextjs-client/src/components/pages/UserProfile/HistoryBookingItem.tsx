@@ -25,7 +25,8 @@ const HistoryBookingItem: React.FC<HistoryBookingItemProps> = ({ data }) => {
         Trạng thái: <b className="text-success">Đặt vé thành công</b>
       </span>
       <span className="text-sm text-instagram">
-        Tổng tiền: <b className="text-success">{data.total_amount.toLocaleString()} VNĐ</b>
+        Tổng tiền:{" "}
+        <b className="text-success">{data.total_amount.toLocaleString()} VNĐ</b>
       </span>
       <div className="!mt-5 flex justify-between items-center text-xs text-success md:justify-start space-x-2">
         <span>{dayjs(data.created_at).format("HH:mm DD/MM/YYYY")}</span>
