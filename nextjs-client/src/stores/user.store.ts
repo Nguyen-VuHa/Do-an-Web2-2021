@@ -92,7 +92,11 @@ export const useUserAPIStore = create<UserAPIState>((set) => ({
           ...useUserStore.getState().userInfo,
           ...payload,
           gender:
-            (payload.gender && payload.gender === "male" ? "Nam" : "Nữ") || "",
+            payload?.gender === "male"
+              ? "Nam"
+              : payload?.gender === "female"
+                ? "Nữ"
+                : "",
         });
         useUserStore.getState().setStateUser("isEditInfo", false);
         useUserStore.getState().setStateUser("userEditForm", null);
