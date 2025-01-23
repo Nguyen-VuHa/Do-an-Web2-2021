@@ -12,32 +12,33 @@ import Input from "~/components/ui/Input";
 import InputDate from "~/components/ui/InputDate";
 import InputSelect from "~/components/ui/InputSelect";
 import { enqueueSnackbar } from "notistack";
+import dayjs from "dayjs";
 
 const GenderDataSelect = [
-    {
-        value: 'male',
-        name: 'Nam'
-    },
-    {
-        value: 'female',
-        name: 'Nữ'
-    }
-]
+  {
+    value: "male",
+    name: "Nam",
+  },
+  {
+    value: "female",
+    name: "Nữ",
+  },
+];
 
 const UserInfo = () => {
   const { userInfo, isEditInfo, userEditForm, setStateUser } = useUserStore();
   const { isUpdateUserInfo, updateUserInfo } = useUserAPIStore();
 
   const handleSubmitUpdate = async () => {
-    if(!isUpdateUserInfo) {
-        const errorMessage  = await updateUserInfo(userEditForm);
+    if (!isUpdateUserInfo) {
+      const errorMessage = await updateUserInfo(userEditForm);
 
-        if(errorMessage) {
-            enqueueSnackbar(errorMessage, { variant: "error" });
-        }
+      if (errorMessage) {
+        enqueueSnackbar(errorMessage, { variant: "error" });
+      }
     }
-  }
-  
+  };
+
   return (
     <div className="w-full px-5 mt-[-50px] flex items-center flex-col md:items-start md:flex-row md:space-x-4">
       <div className="w-32 h-32 md:w-64 md:h-64 relative group p-3 flex-shrink-0">
@@ -54,15 +55,17 @@ const UserInfo = () => {
         <div className="flex justify-center items-center space-x-4">
           <FieldInput
             isEdit={isEditInfo}
-            editComponent={<Input 
+            editComponent={
+              <Input
                 value={userEditForm?.fullname || ""}
                 onChange={(e) => {
-                    setStateUser('userEditForm', {
-                        ...userEditForm,
-                        fullname: e.target.value,
-                    })
+                  setStateUser("userEditForm", {
+                    ...userEditForm,
+                    fullname: e.target.value,
+                  });
                 }}
-            />}
+              />
+            }
           >
             <span className="text-2xl font-semibold text-social-x uppercase">
               {userInfo.fullname || "-"}
@@ -74,11 +77,10 @@ const UserInfo = () => {
                 className="w-10 h-10 !p-1 !rounded-md"
                 buttonType="error"
                 onClick={() => {
-                    if(!isUpdateUserInfo)
-                    {
-                        setStateUser("userEditForm", null);
-                        setStateUser("isEditInfo", false);
-                    }
+                  if (!isUpdateUserInfo) {
+                    setStateUser("userEditForm", null);
+                    setStateUser("isEditInfo", false);
+                  }
                 }}
               >
                 <IoCloseSharp size={18} />
@@ -89,7 +91,7 @@ const UserInfo = () => {
                 isLoading={isUpdateUserInfo}
                 loadingText=""
                 onClick={() => {
-                    handleSubmitUpdate();
+                  handleSubmitUpdate();
                 }}
               >
                 <VscSaveAs size={18} />
@@ -103,7 +105,7 @@ const UserInfo = () => {
                 const formEditData = {
                   fullname: userInfo.fullname,
                   birth_day: userInfo.birth_day,
-                  gender: userInfo.gender === 'Nam' ? 'male' : 'female' ,
+                  gender: userInfo.gender === "Nam" ? "male" : "female",
                 };
 
                 setStateUser("userEditForm", formEditData);
@@ -119,31 +121,39 @@ const UserInfo = () => {
           <span>SĐT Đăng ký: {userInfo.phone_number || "-"}</span>
           <FieldInput
             isEdit={isEditInfo}
-            editComponent={<InputDate 
-                value={userEditForm?.birth_day || ""} 
+            editComponent={
+              <InputDate
+                value={userEditForm?.birth_day || ""}
                 onChange={(value) => {
-                    setStateUser('userEditForm', {
-                        ...userEditForm,
-                        birth_day: value,
-                    })
+                  setStateUser("userEditForm", {
+                    ...userEditForm,
+                    birth_day: value,
+                  });
                 }}
-            />}
+              />
+            }
           >
-            <span>Ngày sinh: {userInfo.birth_day || "-"}</span>
+            <span>
+              Sinh nhật:{" "}
+              {(userInfo.birth_day &&
+                dayjs(userInfo.birth_day).format("DD-MM-YYYY")) ||
+                "-"}
+            </span>
           </FieldInput>
           <FieldInput
             isEdit={isEditInfo}
             editComponent={
               <InputSelect
-               className="cursor-pointer px-3 py-2 bg-second text-social-x transition-all rounded-circle-lg text-sm hover:text-social-x"
-               data={GenderDataSelect} value={userEditForm?.gender || ''} 
-               onChange={(value) => {
-                setStateUser('userEditForm', {
+                className="cursor-pointer px-3 py-2 bg-second text-social-x transition-all rounded-circle-lg text-sm hover:text-social-x"
+                data={GenderDataSelect}
+                value={userEditForm?.gender || ""}
+                onChange={(value) => {
+                  setStateUser("userEditForm", {
                     ...userEditForm,
                     gender: value,
-                })
-               }}
-               />
+                  });
+                }}
+              />
             }
           >
             <span>Giới tính: {userInfo.gender || "-"}</span>

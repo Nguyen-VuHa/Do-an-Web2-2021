@@ -1,10 +1,15 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { REDIS_USER_CLIENT_INFO_KEY, REDIS_USER_CLIENT_INFO_TTL } from 'src/constants/redis';
-import { UserClientResponseDTO, UserEditDTO } from 'src/core/dtos/user.dto';
+import {
+  UserBookingHistoryResponseDTO,
+  UserClientResponseDTO,
+  UserEditDTO,
+} from 'src/core/dtos/user.dto';
 import { User, UserGender } from 'src/core/entities/user.entity';
 import { IObject, IResponse } from 'src/core/types/common';
 import { IJWTUserInfo } from 'src/core/types/user.type';
+import { BookingService } from 'src/services/booking/booking.service';
 import { NotifyService } from 'src/services/notify/notify.service';
 import { RedisService } from 'src/services/redis/redis.service';
 import { UserService } from 'src/services/user/user.service';
@@ -15,7 +20,8 @@ export class UserUseCases {
   constructor(
     private readonly redisService: RedisService,
     private readonly userService: UserService,
-    private readonly notifyService: NotifyService
+    private readonly notifyService: NotifyService,
+    private readonly bookingService: BookingService
   ) {}
 
   async getUserInfo(user: IJWTUserInfo): Promise<IResponse<UserClientResponseDTO>> {
@@ -95,6 +101,46 @@ export class UserUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Cập nhật thông tin user thất bại',
+        error: error.message,
+      });
+    }
+  }
+
+  async getUserBookingHistory(
+    user: IJWTUserInfo
+  ): Promise<IResponse<UserBookingHistoryResponseDTO[]>> {
+    try {
+      const historyBooking = await this.bookingService.getBookingListByCondition({
+        where: {
+          user: {
+            user_id: user.user_id,
+          },
+        },
+        relations: {
+          history: {
+            seat: true,
+          },
+          movie: true,
+          showtime: true,
+        },
+      });
+
+      const historyBookingDTO = plainToClass(UserBookingHistoryResponseDTO, historyBooking, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<UserBookingHistoryResponseDTO[]> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy lịch sử đặt vé thành công.',
+        data: historyBookingDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy lịch sử đặt vé thất bại.',
         error: error.message,
       });
     }

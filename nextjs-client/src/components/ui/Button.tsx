@@ -9,7 +9,17 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, buttonType, children, isLoading, loadingText = 'Đang xử lý...', ...props }, ref) => {
+  (
+    {
+      className,
+      buttonType,
+      children,
+      isLoading,
+      loadingText = "Đang xử lý...",
+      ...props
+    },
+    ref,
+  ) => {
     let buttonTypeClass =
       "bg-second bg-opacity-70 text-typography hover:bg-opacity-100";
 
@@ -51,9 +61,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {isLoading ? (
           <div className="w-full flex justify-center space-x-2 items-center">
-            {
-              loadingText &&  <span>Đang xử lý...</span>
-            }
+            {loadingText && <span>Đang xử lý...</span>}
             <div
               className={`h-5 w-5 animate-spin rounded-full border-2 border-solid border-t-transparent ${loadingTypeClass}`}
             />

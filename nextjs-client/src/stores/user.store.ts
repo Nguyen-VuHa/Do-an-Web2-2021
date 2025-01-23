@@ -1,7 +1,11 @@
 import { create } from "zustand";
-import { apiFetchUserInfo, apiUpdateUserInfo } from "~/apis/user.api";
+import {
+  apiFetchUserInfo,
+  apiGetBookingHistory,
+  apiUpdateUserInfo,
+} from "~/apis/user.api";
 import { STATUS_SUCCESS } from "~/constants/status";
-import { IUserInfo } from "~/types/user.type";
+import { IUserBookingHistory, IUserInfo } from "~/types/user.type";
 import { useNotifyStore } from "./notify.store";
 
 interface UserState {
@@ -12,6 +16,8 @@ interface UserState {
 
   isEditInfo: boolean;
   userEditForm: any;
+
+  bookingHistory: IUserBookingHistory[];
 }
 
 const initUserInfo: IUserInfo = {
@@ -38,6 +44,8 @@ export const useUserStore = create<UserState>((set) => ({
 
   isEditInfo: false,
   userEditForm: null,
+
+  bookingHistory: [],
 }));
 
 interface UserAPIState {
@@ -46,6 +54,9 @@ interface UserAPIState {
 
   isUpdateUserInfo: boolean;
   updateUserInfo: (payload: any) => Promise<string>;
+
+  isFetchBookingHistory: boolean;
+  getUserBookingHistory: () => Promise<void>;
 }
 
 export const useUserAPIStore = create<UserAPIState>((set) => ({
@@ -71,7 +82,7 @@ export const useUserAPIStore = create<UserAPIState>((set) => ({
 
   isUpdateUserInfo: false,
   updateUserInfo: async (payload) => {
-    let errorMessage = ''
+    let errorMessage = "";
     try {
       set({ isUpdateUserInfo: true });
       const res = await apiUpdateUserInfo(payload);
@@ -80,19 +91,36 @@ export const useUserAPIStore = create<UserAPIState>((set) => ({
         useUserStore.getState().setStateUser("userInfo", {
           ...useUserStore.getState().userInfo,
           ...payload,
-          gender: (payload.gender && payload.gender === 'male' ? 'Nam' : 'Nữ') || '',
+          gender:
+            (payload.gender && payload.gender === "male" ? "Nam" : "Nữ") || "",
         });
         useUserStore.getState().setStateUser("isEditInfo", false);
         useUserStore.getState().setStateUser("userEditForm", null);
       } else {
-        errorMessage = 'Cập nhật thất bại'
+        errorMessage = "Cập nhật thất bại";
       }
     } catch (error) {
-      errorMessage = error?.toString() || 'Cập nhật thất bại';
+      errorMessage = error?.toString() || "Cập nhật thất bại";
     } finally {
       set({ isUpdateUserInfo: false });
 
       return errorMessage;
+    }
+  },
+
+  isFetchBookingHistory: false,
+  getUserBookingHistory: async () => {
+    try {
+      set({ isFetchBookingHistory: true });
+      const res = await apiGetBookingHistory();
+
+      if (res && res.statusCode === STATUS_SUCCESS) {
+        useUserStore.getState().setStateUser("bookingHistory", res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isFetchBookingHistory: false });
     }
   },
 }));

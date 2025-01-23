@@ -53,8 +53,12 @@ const InputDate: React.FC<InputDateProps> = ({
 
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
   const [calendars, setCalendars] = useState<number[][]>([]);
-  const [month, setMonth] = useState<number>(value ? dayjs(value).month() + 1 : dayjs().month() + 1);
-  const [year, setYear] = useState<number>(value ? dayjs(value).year() :  dayjs().year());
+  const [month, setMonth] = useState<number>(
+    value ? dayjs(value).month() + 1 : dayjs().month() + 1,
+  );
+  const [year, setYear] = useState<number>(
+    value ? dayjs(value).year() : dayjs().year(),
+  );
   const [daySelect, setDaySelect] = useState<number | null>(
     value ? dayjs(value).date() : null,
   );

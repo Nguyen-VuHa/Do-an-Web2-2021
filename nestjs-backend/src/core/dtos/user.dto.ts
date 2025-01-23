@@ -124,3 +124,32 @@ export class UserEditDTO {
   @IsEnum(UserGender, { message: 'Giới tính không hợp lệ.' })
   gender: string;
 }
+
+export class UserBookingHistoryResponseDTO {
+  @Expose()
+  booking_id: string;
+
+  @Expose()
+  total_amount: number;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.history.length || 0;
+  })
+  total_seat: number;
+
+  @Expose()
+  created_at: string;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.showtime.start_time;
+  })
+  showtime: string;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.movie.title;
+  })
+  movie_name: string;
+}

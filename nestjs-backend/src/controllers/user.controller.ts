@@ -8,7 +8,11 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserClientResponseDTO, UserEditDTO } from 'src/core/dtos/user.dto';
+import {
+  UserBookingHistoryResponseDTO,
+  UserClientResponseDTO,
+  UserEditDTO,
+} from 'src/core/dtos/user.dto';
 import { IResponse } from 'src/core/types/common';
 import { IJWTUserInfo } from 'src/core/types/user.type';
 import { UserUseCases } from 'src/use-cases/user/user.usecase';
@@ -23,6 +27,14 @@ export class UserController {
   ): Promise<IResponse<UserClientResponseDTO>> {
     const { user } = req;
     return this.userUsecase.getUserInfo(user);
+  }
+
+  @Get('booking-history')
+  async getUserBookingHistory(
+    @Req() req: Request & { user: IJWTUserInfo }
+  ): Promise<IResponse<UserBookingHistoryResponseDTO[]>> {
+    const { user } = req;
+    return this.userUsecase.getUserBookingHistory(user);
   }
 
   @Put('update')
