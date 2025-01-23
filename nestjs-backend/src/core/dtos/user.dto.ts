@@ -1,7 +1,18 @@
 import { Expose, Transform } from 'class-transformer';
-import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsISO8601,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+  Min,
+} from 'class-validator';
 import { SortType } from '../types/common';
 import { maskPhoneNumber } from 'src/utils/format';
+import { UserGender } from '../entities/user.entity';
+import * as dayjs from 'dayjs';
 
 export class UserQueryDTO {
   @IsOptional()
@@ -70,6 +81,9 @@ export class UserClientResponseDTO {
   fullname;
 
   @Expose()
+  @Transform(({ value }) => {
+    return dayjs(value).format('YYYY-MM-DD');
+  })
   birth_day;
 
   @Expose()
@@ -79,6 +93,9 @@ export class UserClientResponseDTO {
   phone_number;
 
   @Expose()
+  @Transform(({ value }) => {
+    return value === 'male' ? 'Nam' : 'Nữ';
+  })
   gender;
 
   @Expose()
@@ -92,4 +109,18 @@ export class UserClientResponseDTO {
 
   @Expose()
   notify_unread: number;
+}
+
+export class UserEditDTO {
+  @IsNotEmpty() // Yêu cầu trường không được để trống
+  @MaxLength(100, { message: 'Tên đầy đủ không được dài quá 100 ký tự' }) // Giới hạn độ dài tối đa là 100 ký tự
+  fullname: string;
+
+  @IsNotEmpty() // Yêu cầu trường không được để trống
+  @IsISO8601()
+  birth_day: string;
+
+  @IsNotEmpty() // Yêu cầu trường không được để trống
+  @IsEnum(UserGender, { message: 'Giới tính không hợp lệ.' })
+  gender: string;
 }

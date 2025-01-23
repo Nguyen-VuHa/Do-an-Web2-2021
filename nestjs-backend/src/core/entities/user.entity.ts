@@ -11,7 +11,7 @@ import { UserPhoto } from './user-photo.entity';
 import { Notification } from './notification.entity';
 import { Booking } from './booking.entity';
 
-enum UserGender {
+export enum UserGender {
   MALE = 'male',
   FEMALE = 'female',
   OTHER = 'other',

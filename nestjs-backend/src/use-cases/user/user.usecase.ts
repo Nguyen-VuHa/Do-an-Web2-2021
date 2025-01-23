@@ -1,12 +1,14 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { REDIS_USER_CLIENT_INFO_KEY, REDIS_USER_CLIENT_INFO_TTL } from 'src/constants/redis';
-import { UserClientResponseDTO } from 'src/core/dtos/user.dto';
+import { UserClientResponseDTO, UserEditDTO } from 'src/core/dtos/user.dto';
+import { User, UserGender } from 'src/core/entities/user.entity';
 import { IObject, IResponse } from 'src/core/types/common';
 import { IJWTUserInfo } from 'src/core/types/user.type';
 import { NotifyService } from 'src/services/notify/notify.service';
 import { RedisService } from 'src/services/redis/redis.service';
 import { UserService } from 'src/services/user/user.service';
+import { stringToDate } from 'src/utils/convert';
 
 @Injectable()
 export class UserUseCases {
@@ -60,6 +62,39 @@ export class UserUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy thông tin thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async updateUserInfo(user: IJWTUserInfo, userInfo: UserEditDTO): Promise<IResponse<boolean>> {
+    try {
+      const userData = new User();
+      userData.fullname = userInfo.fullname;
+      userData.birth_day = stringToDate(userInfo.birth_day);
+      userData.gender = userInfo.gender as UserGender;
+
+      const resUser = await this.userService.updateUser(user.user_id, userData);
+
+      const userDetailDTO = plainToClass(UserClientResponseDTO, resUser, {
+        excludeExtraneousValues: true,
+      });
+
+      const keyCache = `${REDIS_USER_CLIENT_INFO_KEY}_${user.user_id}`;
+      this.redisService.setDataRedis(keyCache, userDetailDTO, REDIS_USER_CLIENT_INFO_TTL);
+
+      const response: IResponse<boolean> = {
+        statusCode: 200,
+        error: null,
+        message: 'Cập nhật thông tin user thành công',
+        data: true,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Cập nhật thông tin user thất bại',
         error: error.message,
       });
     }

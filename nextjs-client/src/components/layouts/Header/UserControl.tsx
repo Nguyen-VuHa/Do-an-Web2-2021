@@ -73,10 +73,10 @@ const UserControl = () => {
                         ${isActive ? "visible opacity-100 z-[100]" : "invisible opacity-0 z-[-99]"}
                     `}
         >
-          <div 
+          <div
             className="px-3 py-2 text-social-x bg-social-x bg-opacity-20 cursor-pointer hover:bg-opacity-50 rounded-md transition-all flex text-sm space-x-2"
             onClick={() => {
-              router.push('/tai-khoan/profile')
+              router.push("/tai-khoan/profile");
               setIsActive(false);
             }}
           >
