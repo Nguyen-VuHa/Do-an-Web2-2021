@@ -13,7 +13,7 @@ export function authMiddleware(middleware: CustomMiddleware): CustomMiddleware {
 
     const url = request.nextUrl.clone();
 
-    const pathsToAuth = ["/dat-ve", "/tai-khoan", "/history"];
+    const pathsToAuth = ["/dat-ve", "/tai-khoan", "/chi-tiet-ve"];
     // Kiểm tra nếu đường dẫn bắt đầu với "/dat-ve" và không có token
     console.log(
       url.pathname,

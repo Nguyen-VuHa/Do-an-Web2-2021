@@ -19,3 +19,11 @@ export interface IUserBookingHistory {
   showtime: string;
   movie_name: string;
 }
+
+export interface IDetailBookingHistory extends IUserBookingHistory {
+  unit_price: number;
+  seats: string[];
+  screen_name: string;
+  cinema_name: string;
+  address: string;
+}

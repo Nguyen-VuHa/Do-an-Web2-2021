@@ -3,12 +3,14 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Put,
   Req,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import {
+  DetailBookingHistoryResponseDTO,
   UserBookingHistoryResponseDTO,
   UserClientResponseDTO,
   UserEditDTO,
@@ -61,5 +63,14 @@ export class UserController {
   ): Promise<IResponse<boolean>> {
     const { user } = req;
     return this.userUsecase.updateUserInfo(user, userInfo);
+  }
+
+  @Get('booking-history/:history_id')
+  async getDetailBookingHistory(
+    @Req() req: Request & { user: IJWTUserInfo },
+    @Param('history_id') history_id: string
+  ): Promise<IResponse<DetailBookingHistoryResponseDTO>> {
+    const { user } = req;
+    return this.userUsecase.getDetailBookingHistory(user, history_id);
   }
 }

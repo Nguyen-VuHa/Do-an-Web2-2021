@@ -1,9 +1,15 @@
 import dayjs from "dayjs";
+import Link from "next/link";
 import React from "react";
 import { IUserBookingHistory } from "~/types/user.type";
 
 type HistoryBookingItemProps = {
   data: IUserBookingHistory;
+};
+
+const isMobileDevice = () => {
+  if (typeof navigator === 'undefined') return false; // Chạy trên server thì trả về false
+  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 };
 
 const HistoryBookingItem: React.FC<HistoryBookingItemProps> = ({ data }) => {
@@ -13,9 +19,11 @@ const HistoryBookingItem: React.FC<HistoryBookingItemProps> = ({ data }) => {
         <span className="text-lg font-semibold text-warning truncate">
           {data.movie_name}
         </span>
-        <div className="flex-shrink-0 italic underline text-social-x hover:text-opacity-70 transition-all cursor-pointer">
-          chi tiết vé
-        </div>
+        <Link href={`/chi-tiet-ve/${data.booking_id}`} prefetch={false} target={isMobileDevice() ? '_blank' : ''}>
+          <div className="flex-shrink-0 italic underline text-social-x hover:text-opacity-70 transition-all cursor-pointer">
+            chi tiết vé
+          </div>
+        </Link>
       </div>
       <span className="text-sm text-instagram">
         Suất chiếu: {dayjs(data.showtime).format("HH:mm DD-MM-YYYY")}

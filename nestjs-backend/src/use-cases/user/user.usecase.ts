@@ -2,6 +2,7 @@ import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nes
 import { plainToClass } from 'class-transformer';
 import { REDIS_USER_CLIENT_INFO_KEY, REDIS_USER_CLIENT_INFO_TTL } from 'src/constants/redis';
 import {
+  DetailBookingHistoryResponseDTO,
   UserBookingHistoryResponseDTO,
   UserClientResponseDTO,
   UserEditDTO,
@@ -141,6 +142,55 @@ export class UserUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy lịch sử đặt vé thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async getDetailBookingHistory(
+    user: IJWTUserInfo,
+    history_id: string
+  ): Promise<IResponse<DetailBookingHistoryResponseDTO>> {
+    try {
+      const historyBooking = await this.bookingService.getBookingByCondition({
+        where: {
+          user: {
+            user_id: user.user_id,
+          },
+          booking_id: history_id,
+        },
+        relations: {
+          history: {
+            seat: true,
+          },
+          movie: true,
+          showtime: true,
+          screen: {
+            cinema: true,
+          },
+        },
+      });
+
+      if (!historyBooking) {
+        throw new Error('Vé không tồn tại.');
+      }
+
+      const historyBookingDTO = plainToClass(DetailBookingHistoryResponseDTO, historyBooking, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<DetailBookingHistoryResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy chi tiết đặt vé thành công.',
+        data: historyBookingDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy chi tiết đặt vé thất bại.',
         error: error.message,
       });
     }

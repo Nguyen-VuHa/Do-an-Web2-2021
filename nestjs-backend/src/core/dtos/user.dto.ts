@@ -153,3 +153,32 @@ export class UserBookingHistoryResponseDTO {
   })
   movie_name: string;
 }
+
+export class DetailBookingHistoryResponseDTO extends UserBookingHistoryResponseDTO {
+  @Expose()
+  unit_price: number;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.history.map((history) => history.seat.seat_name);
+  })
+  seats: string[];
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.screen.screen_name;
+  })
+  screen_name: string;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.screen.cinema.cinema_name;
+  })
+  cinema_name: string;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.screen.cinema.address;
+  })
+  address: string;
+}

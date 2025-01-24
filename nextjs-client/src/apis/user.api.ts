@@ -1,6 +1,10 @@
 import { IResponse } from "~/types/common.type";
 import axiosInstance from "./axios.config";
-import { IUserBookingHistory, IUserInfo } from "~/types/user.type";
+import {
+  IDetailBookingHistory,
+  IUserBookingHistory,
+  IUserInfo,
+} from "~/types/user.type";
 
 export const apiFetchUserInfo = async (): Promise<IResponse<IUserInfo>> => {
   const path = "/user/info";
@@ -19,4 +23,16 @@ export const apiGetBookingHistory = async (): Promise<
 > => {
   const path = "/user/booking-history";
   return axiosInstance.get(path);
+};
+
+export const apiGetDetailBookingHistory = async (
+  payload: string,
+  accessToken: string,
+): Promise<IResponse<IDetailBookingHistory>> => {
+  const path = `/user/booking-history/${payload}`;
+  return axiosInstance.get(path, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 };
