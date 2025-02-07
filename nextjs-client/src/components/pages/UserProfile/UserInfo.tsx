@@ -13,6 +13,7 @@ import InputDate from "~/components/ui/InputDate";
 import InputSelect from "~/components/ui/InputSelect";
 import { enqueueSnackbar } from "notistack";
 import dayjs from "dayjs";
+import { FaCamera } from "react-icons/fa";
 
 const GenderDataSelect = [
   {
@@ -41,7 +42,7 @@ const UserInfo = () => {
 
   return (
     <div className="w-full px-5 mt-[-50px] flex items-center flex-col md:items-start md:flex-row md:space-x-4">
-      <div className="w-32 h-32 md:w-64 md:h-64 relative group p-3 flex-shrink-0">
+      <div className="relative w-32 h-32 md:w-64 md:h-64 relative group p-3 flex-shrink-0">
         <div className="absolute inset-0 bg-social-x/30 rounded-3xl transition-opacity blur-lg"></div>
         <ImageCustom
           imgClassName="w-full h-full rounded-3xl"
@@ -50,6 +51,16 @@ const UserInfo = () => {
           width={100}
           height={100}
         />
+        <Button
+          className="
+            absolute bottom-0 right-0 !p-0
+            !rounded-md
+            w-10 h-10
+          "
+          buttonType="warning"
+        >
+          <FaCamera size={20}/>
+        </Button>
       </div>
       <div className="pt-5 md:pt-[80px] flex flex-col space-y-2">
         <div className="flex justify-center items-center space-x-4">
