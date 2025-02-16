@@ -1,4 +1,4 @@
-import QRCode from 'qrcode';
+import QRCode from "qrcode";
 
 export async function generateQRCode(codeStr: string): Promise<string> {
   try {
@@ -11,6 +11,6 @@ export async function generateQRCode(codeStr: string): Promise<string> {
     return url;
   } catch (err) {
     console.error("Error creating QR code:", err);
-    return '';
+    return "";
   }
 }

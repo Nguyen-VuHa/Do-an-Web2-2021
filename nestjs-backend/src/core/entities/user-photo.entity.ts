@@ -3,15 +3,16 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
-enum UserPhotoType {
+export enum UserPhotoType {
   AVATAR = 'avatar',
-  COVER_IMAGE = 'cover-image',
+  COVER_IMAGE = 'cover',
 }
 
 @Entity('user_photos')
@@ -35,5 +36,6 @@ export class UserPhoto {
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
   @ManyToOne(() => User, (user) => user.notifications, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' }) // Liên kết với primary key của Cinema
   user: User;
 }

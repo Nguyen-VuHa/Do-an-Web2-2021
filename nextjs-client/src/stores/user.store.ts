@@ -2,10 +2,18 @@ import { create } from "zustand";
 import {
   apiFetchUserInfo,
   apiGetBookingHistory,
+  apiGetUserAvatar,
+  apiUpdatePhotoUser,
   apiUpdateUserInfo,
+  apiUploadAvatarUser,
 } from "~/apis/user.api";
 import { STATUS_SUCCESS } from "~/constants/status";
-import { IUserBookingHistory, IUserInfo } from "~/types/user.type";
+import {
+  IUpdatePhotoUserRequest,
+  IUserAvatarList,
+  IUserBookingHistory,
+  IUserInfo,
+} from "~/types/user.type";
 import { useNotifyStore } from "./notify.store";
 
 interface UserState {
@@ -18,6 +26,12 @@ interface UserState {
   userEditForm: any;
 
   bookingHistory: IUserBookingHistory[];
+  avatarUpload: File | null;
+  avatarPreview: string;
+  isModalEditAvatar: boolean;
+
+  userAvatars: IUserAvatarList[];
+  avatarSelected: string;
 }
 
 const initUserInfo: IUserInfo = {
@@ -46,6 +60,12 @@ export const useUserStore = create<UserState>((set) => ({
   userEditForm: null,
 
   bookingHistory: [],
+  userAvatars: [],
+
+  avatarUpload: null,
+  avatarPreview: "",
+  isModalEditAvatar: false,
+  avatarSelected: "",
 }));
 
 interface UserAPIState {
@@ -57,6 +77,15 @@ interface UserAPIState {
 
   isFetchBookingHistory: boolean;
   getUserBookingHistory: () => Promise<void>;
+
+  isFetchUserAvatarList: boolean;
+  getUserAvartarList: () => Promise<void>;
+
+  isUploadAvatar: boolean;
+  uploadAvatarUser: (formData: FormData) => Promise<void>;
+
+  isUpdatePhotoUser: boolean;
+  updatePhotoUser: (data: IUpdatePhotoUserRequest) => Promise<void>;
 }
 
 export const useUserAPIStore = create<UserAPIState>((set) => ({
@@ -125,6 +154,67 @@ export const useUserAPIStore = create<UserAPIState>((set) => ({
       console.log(error);
     } finally {
       set({ isFetchBookingHistory: false });
+    }
+  },
+
+  isFetchUserAvatarList: false,
+  getUserAvartarList: async () => {
+    try {
+      set({ isFetchUserAvatarList: true });
+      const res = await apiGetUserAvatar();
+
+      if (res && res.statusCode === STATUS_SUCCESS) {
+        useUserStore.getState().setStateUser("userAvatars", res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isFetchUserAvatarList: false });
+    }
+  },
+
+  isUploadAvatar: false,
+  uploadAvatarUser: async (formData) => {
+    try {
+      set({ isUploadAvatar: true });
+      const res = await apiUploadAvatarUser(formData);
+
+      if (res && res.statusCode === STATUS_SUCCESS) {
+        if (res.data) {
+          useUserStore
+            .getState()
+            .setStateUser(
+              "userAvatars",
+              [res.data].concat(useUserStore.getState().userAvatars),
+            );
+        }
+
+        useUserStore.getState().setStateUser("avatarUpload", null);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isUploadAvatar: false });
+    }
+  },
+
+  isUpdatePhotoUser: false,
+  updatePhotoUser: async (data) => {
+    try {
+      set({ isUpdatePhotoUser: true });
+      const res = await apiUpdatePhotoUser(data);
+
+      if (res && res.statusCode === STATUS_SUCCESS) {
+        useUserStore.getState().setStateUser("isModalEditAvatar", false);
+        useUserStore.getState().setStateUser("userInfo", {
+          ...useUserStore.getState().userInfo,
+          image_url: data.image_url,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isUpdatePhotoUser: false });
     }
   },
 }));

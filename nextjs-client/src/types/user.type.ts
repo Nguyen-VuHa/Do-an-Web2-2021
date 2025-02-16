@@ -27,3 +27,15 @@ export interface IDetailBookingHistory extends IUserBookingHistory {
   cinema_name: string;
   address: string;
 }
+
+export interface IUserAvatarList {
+  user_photo_id: string;
+  image_url: string;
+  photo_type: string;
+  created_at: string;
+}
+
+export interface IUpdatePhotoUserRequest {
+  image_url: string;
+  photo_type: string;
+}

@@ -57,7 +57,7 @@ const UserControl = () => {
           </span>
           <div className="w-10 h-10 overflow-hidden p-1 flex-shrink-0">
             <ImageCustom
-              imgClassName="w-full h-full"
+              imgClassName="w-full h-full rounded-full"
               src={userInfo.image_url || DEFAULT_AVATAR_USER}
               alt="NO AVATAR"
               width={20}

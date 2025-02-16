@@ -182,3 +182,25 @@ export class DetailBookingHistoryResponseDTO extends UserBookingHistoryResponseD
   })
   address: string;
 }
+
+export class UserPhotoResponseDTO {
+  @Expose()
+  user_photo_id: number;
+
+  @Expose()
+  image_url: string;
+
+  @Expose()
+  photo_type: string;
+
+  @Expose()
+  created_at: string;
+}
+
+export class UserUpdatePhotoDTO {
+  @IsNotEmpty() // Yêu cầu trường không được để trống
+  image_url: string;
+
+  @IsNotEmpty() // Yêu cầu trường không được để trống
+  photo_type: string;
+}
