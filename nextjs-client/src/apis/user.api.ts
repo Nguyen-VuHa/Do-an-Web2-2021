@@ -1,10 +1,12 @@
 import { IResponse } from "~/types/common.type";
-import axiosInstance from "./axios.config";
 import {
   IDetailBookingHistory,
+  IUpdatePhotoUserRequest,
+  IUserAvatarList,
   IUserBookingHistory,
   IUserInfo,
 } from "~/types/user.type";
+import axiosInstance from "./axios.config";
 
 export const apiFetchUserInfo = async (): Promise<IResponse<IUserInfo>> => {
   const path = "/user/info";
@@ -35,4 +37,29 @@ export const apiGetDetailBookingHistory = async (
       Authorization: `Bearer ${accessToken}`,
     },
   });
+};
+
+export const apiGetUserAvatar = async (): Promise<
+  IResponse<IUserAvatarList[]>
+> => {
+  const path = "/user/photo/avatar";
+  return axiosInstance.get(path);
+};
+
+export const apiUploadAvatarUser = async (
+  data: FormData,
+): Promise<IResponse<IUserAvatarList>> => {
+  const path = "/user/upload/avatar";
+  return axiosInstance.post(path, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const apiUpdatePhotoUser = async (
+  data: IUpdatePhotoUserRequest,
+): Promise<IResponse<string>> => {
+  const path = "/user/photo/update";
+  return axiosInstance.put(path, data);
 };

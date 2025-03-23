@@ -10,9 +10,9 @@ export const metadata = {
 
 const ProfilePage = () => {
   return (
-    <div className="relative w-full h-full container mx-auto">
+    <div className="relative w-full h-full container mx-auto overflow-hidden">
       <EditPhotoModal />
-      
+
       <CoverImage />
       <UserInfo />
 

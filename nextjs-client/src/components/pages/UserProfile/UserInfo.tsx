@@ -28,7 +28,8 @@ const GenderDataSelect = [
 
 const UserInfo = () => {
   const { userInfo, isEditInfo, userEditForm, setStateUser } = useUserStore();
-  const { isUpdateUserInfo, updateUserInfo } = useUserAPIStore();
+  const { isUpdateUserInfo, updateUserInfo, getUserAvartarList } =
+    useUserAPIStore();
 
   const handleSubmitUpdate = async () => {
     if (!isUpdateUserInfo) {
@@ -48,8 +49,8 @@ const UserInfo = () => {
           imgClassName="w-full h-full rounded-3xl"
           src={(userInfo && userInfo.image_url) || DEFAULT_AVATAR_USER}
           alt="NO AVATAR"
-          width={100}
-          height={100}
+          width={300}
+          height={300}
         />
         <Button
           className="
@@ -58,8 +59,13 @@ const UserInfo = () => {
             w-10 h-10
           "
           buttonType="warning"
+          onClick={() => {
+            setStateUser("isModalEditAvatar", true);
+            setStateUser("avatarSelected", userInfo.image_url);
+            getUserAvartarList();
+          }}
         >
-          <FaCamera size={20}/>
+          <FaCamera size={20} />
         </Button>
       </div>
       <div className="pt-5 md:pt-[80px] flex flex-col space-y-2">

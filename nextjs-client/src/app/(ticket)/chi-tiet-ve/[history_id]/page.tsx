@@ -7,7 +7,7 @@ import { apiGetDetailBookingHistory } from "~/apis/user.api";
 import ImageCustom from "~/components/ui/ImageCustom";
 import { ACCESS_TOKEN } from "~/constants/cookies";
 import { STATUS_SUCCESS } from "~/constants/status";
-import { generateQRCode } from '~/utils/qrCode';
+import { generateQRCode } from "~/utils/qrCode";
 
 interface Params {
   history_id: string;
@@ -33,7 +33,7 @@ const HistoryTicketPage = async ({ params }: { params: Params }) => {
       notFound();
     }
 
-    const qrCodeBase64 = await generateQRCode(data?.booking_id || '');
+    const qrCodeBase64 = await generateQRCode(data?.booking_id || "");
 
     return (
       <div className="w-full flex justify-center items-center h-auto px-3 md:px-0 text-typography">

@@ -6,6 +6,8 @@ import {
   UserBookingHistoryResponseDTO,
   UserClientResponseDTO,
   UserEditDTO,
+  UserPhotoResponseDTO,
+  UserUpdatePhotoDTO,
 } from 'src/core/dtos/user.dto';
 import { User, UserGender } from 'src/core/entities/user.entity';
 import { IObject, IResponse } from 'src/core/types/common';
@@ -15,6 +17,9 @@ import { NotifyService } from 'src/services/notify/notify.service';
 import { RedisService } from 'src/services/redis/redis.service';
 import { UserService } from 'src/services/user/user.service';
 import { stringToDate } from 'src/utils/convert';
+import { Multer } from 'multer';
+import { CloudinaryService } from 'src/services/cloudinary/cloudinary.service';
+import { UserPhoto, UserPhotoType } from 'src/core/entities/user-photo.entity';
 
 @Injectable()
 export class UserUseCases {
@@ -22,7 +27,8 @@ export class UserUseCases {
     private readonly redisService: RedisService,
     private readonly userService: UserService,
     private readonly notifyService: NotifyService,
-    private readonly bookingService: BookingService
+    private readonly bookingService: BookingService,
+    private readonly cloudinaryService: CloudinaryService
   ) {}
 
   async getUserInfo(user: IJWTUserInfo): Promise<IResponse<UserClientResponseDTO>> {
@@ -191,6 +197,132 @@ export class UserUseCases {
       throw new BadRequestException({
         statusCode: 400,
         message: 'Lấy chi tiết đặt vé thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async uploadPhoto(
+    user: IJWTUserInfo,
+    file: Multer.File,
+    type: string
+  ): Promise<IResponse<UserPhotoResponseDTO>> {
+    try {
+      const userInfo = await this.userService.getUserByID(user.user_id);
+
+      if (!userInfo) {
+        throw new BadRequestException({
+          statusCode: 400,
+          message: 'upload photo thất bại.',
+          error: 'USER NOT FOUND',
+        });
+      }
+
+      const fileSaveCloud = await this.cloudinaryService.uploadFile(file);
+
+      const userPhoto = new UserPhoto();
+
+      userPhoto.image_url = fileSaveCloud.secure_url;
+      userPhoto.photo_type = type as UserPhotoType;
+      userPhoto.user = userInfo;
+
+      const userPhotoNew = await this.userService.createUserPhoto(userPhoto);
+
+      const userPhotoDTO = plainToClass(UserPhotoResponseDTO, userPhotoNew, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<UserPhotoResponseDTO> = {
+        statusCode: 200,
+        error: null,
+        message: 'Upload photo thành công.',
+        data: userPhotoDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Upload photo thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async getAllPhoto(user: IJWTUserInfo, type: string): Promise<IResponse<UserPhotoResponseDTO[]>> {
+    try {
+      let condition: IObject<any> = {};
+
+      if (type === 'avatar' || type === 'cover') {
+        condition = {
+          photo_type: type,
+        };
+      }
+
+      const photoList = await this.userService.getUserPhotos(user.user_id, condition);
+
+      const photoListDTO = plainToClass(UserPhotoResponseDTO, photoList, {
+        excludeExtraneousValues: true,
+      });
+
+      const response: IResponse<UserPhotoResponseDTO[]> = {
+        statusCode: 200,
+        error: null,
+        message: 'Lấy photo thành công.',
+        data: photoListDTO,
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Lấy photo thất bại.',
+        error: error.message,
+      });
+    }
+  }
+
+  async updatePhoto(user: IJWTUserInfo, data: UserUpdatePhotoDTO): Promise<IResponse<string>> {
+    try {
+      const userFind = await this.userService.getUserByID(user.user_id);
+
+      if (!userFind) {
+        throw new Error('user not found');
+      }
+
+      switch (data.photo_type) {
+        case 'avatar':
+          userFind.image_url = data.image_url;
+          await this.userService.updateUser(user.user_id, userFind);
+          break;
+        case 'cover':
+          userFind.cover_image_url = data.image_url;
+          await this.userService.updateUser(user.user_id, userFind);
+          break;
+
+        default:
+          break;
+      }
+
+      const userDetailDTO = plainToClass(UserClientResponseDTO, userFind, {
+        excludeExtraneousValues: true,
+      });
+
+      const keyCache = `${REDIS_USER_CLIENT_INFO_KEY}_${user.user_id}`;
+      this.redisService.setDataRedis(keyCache, userDetailDTO, REDIS_USER_CLIENT_INFO_TTL);
+
+      const response: IResponse<string> = {
+        statusCode: 200,
+        error: null,
+        message: 'Cập nhật photo thành công.',
+        data: 'UPDATE SUCCESS',
+      };
+
+      return response;
+    } catch (error) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: 'Cập nhật photo thất bại.',
         error: error.message,
       });
     }
