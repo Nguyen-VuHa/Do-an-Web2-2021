@@ -18,6 +18,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService], // Tiêm ConfigService
     }),
   ],
-  exports: [HttpModule], // Export HttpModule để các module khác sử dụng
+  providers: [
+    {
+      provide: 'AXIOS_CRAWLER',
+      useFactory: async (configService: ConfigService) => {
+        const axios = await import('axios');
+        return axios.default.create({
+          baseURL: configService.get<string>('API_CRAWLER_URL'),
+          headers: { 'Content-Type': 'application/json' },
+        });
+      },
+      inject: [ConfigService],
+    },
+  ],
+  exports: [HttpModule, 'AXIOS_CRAWLER'], // Export HttpModule để các module khác sử dụng
 })
 export class GlobalHttpModule {}

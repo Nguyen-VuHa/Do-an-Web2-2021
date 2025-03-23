@@ -11,9 +11,11 @@ import {
   VerifyUserClientMiddleware,
 } from './middlewares/client-jwt.middleware';
 import { BullModule } from '@nestjs/bullmq';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
     }),

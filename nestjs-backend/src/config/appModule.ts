@@ -17,6 +17,7 @@ import { ShowtimeUseCaseModule } from 'src/use-cases/showtime/showtimeUseCase.mo
 import { UserUseCaseModule } from 'src/use-cases/user/userUseCase.module';
 import { GlobalHttpModule } from './axios';
 import { NotifyUseCaseModule } from 'src/use-cases/notify/notifyUseCase.module';
+import { TaskServiceModule } from 'src/services/task/task.module';
 
 const SEEDER_MODULES = [DataSeederServiceModule];
 
@@ -33,7 +34,7 @@ const ADMIN_APPMODULES = [
 
 const THIRD_PARTY_MODULES = [RedisServiceModule];
 
-const CUSTOM_MODULES = [StatusServiceModule, GlobalHttpModule];
+const CUSTOM_MODULES = [StatusServiceModule, GlobalHttpModule, TaskServiceModule];
 
 const CLIENT_MODULES = [
   AuthUseCaseModule,
