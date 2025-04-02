@@ -26,3 +26,9 @@ export const convertURLToBlob = async (url: string) => {
   const blob = await response.blob(); // Chuyển đổi thành Blob
   return blob;
 };
+
+export const transferAmountToUSD = (amount: number): number => {
+  const exchangeRate = 25000; // 1 USD = 25,000 VND
+  const usd = amount / exchangeRate;
+  return parseFloat(usd.toFixed(2)); // Làm tròn đến 2 chữ số thập phân
+};

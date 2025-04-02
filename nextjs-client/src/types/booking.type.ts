@@ -8,5 +8,6 @@ export interface IBookingTicketForm {
   showtime_id: string;
   movie_id: string;
   screen_id: number;
+  payment_method: string;
   seats: ISeatBooking[];
 }

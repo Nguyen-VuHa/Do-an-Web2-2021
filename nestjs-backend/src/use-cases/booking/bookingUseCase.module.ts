@@ -9,6 +9,7 @@ import { UserServiceModule } from 'src/services/user/user.module';
 import { BookingProcessor } from './booking.processer';
 import { BookingUseCases } from './booking.usecase';
 import { StatusServiceModule } from 'src/services/status/status.module';
+import { PaymentTypeServiceModule } from 'src/services/payment-type/payment-type.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { StatusServiceModule } from 'src/services/status/status.module';
     SeatServiceModule,
     ShowtimeServiceModule,
     StatusServiceModule,
+    PaymentTypeServiceModule,
   ],
   providers: [BookingUseCases, BookingProcessor],
   exports: [BookingUseCases, BookingProcessor],

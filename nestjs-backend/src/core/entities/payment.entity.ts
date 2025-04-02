@@ -1,33 +1,31 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Booking } from './booking.entity';
 
-@Entity('payments')
-export class Payment {
+@Entity('payment_types')
+export class PaymentType {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  payment_type_id: number;
 
-  @ManyToOne(() => Booking, { eager: true })
-  booking: Booking;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  amount: number;
-
-  @Column({ type: 'enum', enum: ['CREDIT_CARD', 'PAYPAL', 'CASH'], default: 'CREDIT_CARD' })
-  payment_method: 'CREDIT_CARD' | 'PAYPAL' | 'CASH';
-
-  @Column({ type: 'enum', enum: ['PENDING', 'SUCCESS', 'FAILED'], default: 'PENDING' })
-  status: 'PENDING' | 'SUCCESS' | 'FAILED';
+  @Column()
+  payment_type_name: string;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn({ nullable: true, default: null })
+  deleted_at: Date | null; // Null nếu chưa bị xóa
+
+  @OneToOne(() => Booking, (booking) => booking.payment_type)
+  booking: Booking;
 }
