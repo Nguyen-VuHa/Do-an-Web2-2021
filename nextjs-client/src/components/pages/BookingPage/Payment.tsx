@@ -73,9 +73,9 @@ const Payment = () => {
             {totalAmount.toLocaleString()} VNĐ
           </span>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex flex-col justify-center items-center space-y-2">
           <Button
-            className="w-full h-[45px] flex flex-col justify-center items-center space-y-2 rounded-sm bg-typography bg-opacity-70"
+            className="w-full h-[50px] flex flex-col justify-center items-center space-y-2 rounded-sm bg-typography bg-opacity-70"
             onClick={() => {
               handlePayment();
             }}

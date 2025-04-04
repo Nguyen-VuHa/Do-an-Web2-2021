@@ -37,7 +37,7 @@ const PaypalButton: React.FC = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-fit">
       {isPostBookingTicket && (
         <div className="z-10 absolute top-0 left-0 w-ful h-full" />
       )}
@@ -70,12 +70,10 @@ const PaypalButton: React.FC = () => {
           }}
           onApprove={async (data, actions) => {
             if (!actions?.order) {
-              console.error("actions.order is undefined!");
               return Promise.resolve();
             }
 
-            const details = await actions.order.capture();
-            console.log("Transaction completed by", details);
+            await actions.order.capture();
             await handlePayment();
 
             return;

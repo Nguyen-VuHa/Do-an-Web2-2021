@@ -119,17 +119,17 @@ export class ShowtimeUseCases {
         return response;
       }
 
-      // const startOfDay = new Date();
-      // startOfDay.setHours(0, 0, 0, 0); // 00:00:00 hôm nay
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0); // 00:00:00 hôm nay
 
-      // const endOfDay = new Date();
-      // endOfDay.setHours(23, 59, 59, 999); // 23:59:59 hôm nay
+      const endOfDay = new Date();
+      endOfDay.setHours(23, 59, 59, 999); // 23:59:59 hôm nay
 
       const showtimeByMovie = await this.cinemaService.getCinemaListClientByCondition({
         where: {
           screens: {
             showtimes: {
-              // start_time: Between(startOfDay, endOfDay),
+              start_time: Between(startOfDay, endOfDay),
               movie: {
                 movie_id: movie_id,
               },

@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -26,6 +26,6 @@ export class PaymentType {
   @DeleteDateColumn({ nullable: true, default: null })
   deleted_at: Date | null; // Null nếu chưa bị xóa
 
-  @OneToOne(() => Booking, (booking) => booking.payment_type)
-  booking: Booking;
+  @ManyToOne(() => Booking, (booking) => booking.payment_type)
+  booking: Booking[];
 }

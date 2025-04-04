@@ -6,7 +6,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -56,7 +55,7 @@ export class Booking {
   @JoinColumn({ name: 'screen_id' })
   screen: Screen;
 
-  @OneToOne(() => PaymentType, (paymentType) => paymentType.booking)
+  @ManyToOne(() => PaymentType, (paymentType) => paymentType.booking)
   @JoinColumn({ name: 'payment_type_id' })
   payment_type: PaymentType;
 }
