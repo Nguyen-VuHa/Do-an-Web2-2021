@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.8.2",
     "@svgr/webpack": "^8.1.0",
     "axios": "^1.7.9",
     "cookie": "^1.0.2",

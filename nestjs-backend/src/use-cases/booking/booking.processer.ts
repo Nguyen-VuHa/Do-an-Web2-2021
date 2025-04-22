@@ -9,6 +9,7 @@ import { BookingHistory } from 'src/core/entities/booking-history.entity';
 import { Booking } from 'src/core/entities/booking.entity';
 import { BookingService } from 'src/services/booking/booking.service';
 import { MovieService } from 'src/services/movie/movie.service';
+import { PaymentTypeService } from 'src/services/payment-type/payment-type.service';
 import { QueueService } from 'src/services/queue/queue.service';
 import { ScreenService } from 'src/services/screen/screen.service';
 import { SeatService } from 'src/services/seat/seat.service';
@@ -27,6 +28,7 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
   private seatService: SeatService;
   private statusService: StatusService;
   private queueService: QueueService;
+  private paymentTypeService: PaymentTypeService;
 
   constructor(private readonly moduleRef: ModuleRef) {
     super();
@@ -42,6 +44,7 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
     this.seatService = this.moduleRef.get(SeatService, { strict: false });
     this.statusService = this.moduleRef.get(StatusService, { strict: false });
     this.queueService = this.moduleRef.get(QueueService, { strict: false });
+    this.paymentTypeService = this.moduleRef.get(PaymentTypeService, { strict: false });
   }
 
   async process(job: Job) {
@@ -159,6 +162,10 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
         throw new Error('Has some seat already booked.');
       }
 
+      const paymentType = await this.paymentTypeService.getPaymentByName(
+        data_booking.payment_method
+      );
+
       const total_amount = showtime.unit_price * seat_ids.length;
 
       const bookingNew = new Booking();
@@ -169,6 +176,7 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
       bookingNew.user = user;
       bookingNew.unit_price = showtime.unit_price;
       bookingNew.total_amount = total_amount;
+      bookingNew.payment_type = paymentType;
 
       const bookingRes = await this.bookingService.createBooking(bookingNew);
 
@@ -193,7 +201,7 @@ export class BookingProcessor extends WorkerHost implements OnModuleInit {
           cinema_address: screen.cinema.address,
           seats: seats.map((seat) => seat.seat_name),
           unit_price: showtime.unit_price,
-          payment_method: 'VN Pay',
+          payment_method: data_booking.payment_method,
         },
       };
 

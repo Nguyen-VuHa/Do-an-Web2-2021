@@ -15,6 +15,7 @@ import { CinemaBanner } from './cinema-banner.entity';
 import { Showtime } from './showtime.entity';
 import { BookingHistory } from './booking-history.entity';
 import { Booking } from './booking.entity';
+import { PaymentType } from './payment.entity';
 
 const ENTITIES_SYSTEM = [SystemUser];
 const ENTITIES = [
@@ -32,6 +33,7 @@ const ENTITIES = [
   Screen,
   Seat,
   Showtime,
+  PaymentType,
   Booking,
   BookingHistory,
   ...ENTITIES_SYSTEM,

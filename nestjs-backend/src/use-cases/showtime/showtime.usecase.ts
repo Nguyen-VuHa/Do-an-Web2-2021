@@ -20,7 +20,7 @@ import { CinemaService } from 'src/services/cinema/cinema.service';
 import { MovieService } from 'src/services/movie/movie.service';
 import { RedisService } from 'src/services/redis/redis.service';
 import { ShowtimeService } from 'src/services/showtime/showtime.service';
-import { IsNull } from 'typeorm';
+import { Between, IsNull } from 'typeorm';
 
 @Injectable()
 export class ShowtimeUseCases {
@@ -55,9 +55,16 @@ export class ShowtimeUseCases {
         return response;
       }
 
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0); // 00:00:00 hôm nay
+
+      const endOfDay = new Date();
+      endOfDay.setHours(23, 59, 59, 999); // 23:59:59 hôm nay
+
       const showtimeByCinema = await this.movieService.getMovieClientListByCondition({
         where: {
           showtimes: {
+            start_time: Between(startOfDay, endOfDay),
             screen: {
               cinema: {
                 slug: slug,
@@ -112,10 +119,17 @@ export class ShowtimeUseCases {
         return response;
       }
 
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0); // 00:00:00 hôm nay
+
+      const endOfDay = new Date();
+      endOfDay.setHours(23, 59, 59, 999); // 23:59:59 hôm nay
+
       const showtimeByMovie = await this.cinemaService.getCinemaListClientByCondition({
         where: {
           screens: {
             showtimes: {
+              start_time: Between(startOfDay, endOfDay),
               movie: {
                 movie_id: movie_id,
               },

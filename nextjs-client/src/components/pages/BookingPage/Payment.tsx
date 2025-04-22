@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { GrFormPreviousLink } from "react-icons/gr";
 import VNPayIcon from "~/assets/imgs/vnpay-icon.png";
-import PayPalIcon from "~/assets/imgs/paypal-icon.png";
 import Button from "~/components/ui/Button";
 import { useBookingAPIStore, useBookingStore } from "~/stores/booking.store";
 import { useShowtimeStore } from "~/stores/showtime.store";
@@ -11,6 +10,7 @@ import { IBookingTicketForm } from "~/types/booking.type";
 import { PROCESS_SUCCESS } from "~/constants/status";
 import { enqueueSnackbar } from "notistack";
 import { useEffect } from "react";
+import PaypalButton from "./PaypalButton";
 
 const Payment = () => {
   const { setStateBooking, processBooking, seatBooking, bookingToken } =
@@ -25,6 +25,7 @@ const Payment = () => {
       token: bookingToken,
       showtime_id: showtimeDetail?.showtime_id || "",
       movie_id: showtimeDetail?.movie.movie_id || "",
+      payment_method: "VN Pay",
       screen_id: showtimeDetail?.screen.screen_id || -1,
       seats: seatBooking,
     };
@@ -40,7 +41,6 @@ const Payment = () => {
   };
 
   useEffect(() => {
-    // trường hợp socket phản hồi về mà còn còn 0 ghế thì cho chọn lại ghế
     if (seatBooking.length <= 0) {
       setStateBooking("processBooking", 1);
     }
@@ -73,9 +73,9 @@ const Payment = () => {
             {totalAmount.toLocaleString()} VNĐ
           </span>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex flex-col justify-center items-center space-y-2">
           <Button
-            className="w-full flex flex-col justify-center items-center space-y-2 rounded-circle-md bg-typography bg-opacity-70"
+            className="w-full h-[50px] flex flex-col justify-center items-center space-y-2 rounded-sm bg-typography bg-opacity-70"
             onClick={() => {
               handlePayment();
             }}
@@ -83,16 +83,7 @@ const Payment = () => {
           >
             <Image width={100} height={80} alt="NO LOGO" src={VNPayIcon} />
           </Button>
-          <Button
-            buttonType="warning"
-            className="w-full flex flex-col justify-center items-center rounded-circle-md"
-            onClick={() => {
-              handlePayment();
-            }}
-            isLoading={isPostBookingTicket}
-          >
-            <Image width={100} height={80} alt="NO LOGO" src={PayPalIcon} />
-          </Button>
+          <PaypalButton />
         </div>
       </div>
       <Button

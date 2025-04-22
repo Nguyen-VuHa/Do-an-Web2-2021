@@ -40,6 +40,10 @@ export class BookingTicketDTO {
   showtime_id: string;
 
   @IsNotEmpty()
+  @IsString()
+  payment_method: string;
+
+  @IsNotEmpty()
   @IsUUID()
   movie_id: string;
 

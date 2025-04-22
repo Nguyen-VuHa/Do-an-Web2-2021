@@ -11,9 +11,11 @@ import {
   VerifyUserClientMiddleware,
 } from './middlewares/client-jwt.middleware';
 import { BullModule } from '@nestjs/bullmq';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true, // Đảm bảo ConfigModule có thể dùng toàn app
     }),
@@ -39,7 +41,14 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(VerifyUserAdminSystemMiddleware)
-      .forRoutes({ path: 'admin/user/info', method: RequestMethod.GET });
+      .forRoutes(
+        { path: 'admin/user/info', method: RequestMethod.GET },
+        { path: 'admin/movie/*', method: RequestMethod.ALL },
+        { path: 'admin/showtime/*', method: RequestMethod.ALL },
+        { path: 'admin/cinema/*', method: RequestMethod.ALL },
+        { path: 'admin/screen/*', method: RequestMethod.ALL },
+        { path: 'admin/file-system/*', method: RequestMethod.ALL }
+      );
 
     consumer
       .apply(VerifyUserClientMiddleware)

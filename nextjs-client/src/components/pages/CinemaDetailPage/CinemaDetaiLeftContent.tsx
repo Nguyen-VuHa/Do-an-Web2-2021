@@ -11,7 +11,7 @@ const CinemaDetaiLeftContent: React.FC<CinemaDetaiLeftContentProps> = ({
   data,
 }) => {
   return (
-    <div className="col-span-3 space-y-4 bg-second p-4 rounded-circle-md">
+    <div className="col-span-3 space-y-4 bg-second p-4 rounded-circle-md h-fit">
       <CinemaInfoItem title="Địa điểm:" content={data.address} />
       <CinemaInfoItem
         title="Số điện thoại:"

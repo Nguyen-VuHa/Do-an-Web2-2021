@@ -14,6 +14,7 @@ import { User } from './user.entity';
 import { Movie } from './movie.entity';
 import { Showtime } from './showtime.entity';
 import { Screen } from './screen.entity';
+import { PaymentType } from './payment.entity';
 
 @Entity('bookings')
 export class Booking {
@@ -53,4 +54,8 @@ export class Booking {
   @ManyToOne(() => Screen, (screen) => screen.booking, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'screen_id' })
   screen: Screen;
+
+  @ManyToOne(() => PaymentType, (paymentType) => paymentType.booking)
+  @JoinColumn({ name: 'payment_type_id' })
+  payment_type: PaymentType;
 }
