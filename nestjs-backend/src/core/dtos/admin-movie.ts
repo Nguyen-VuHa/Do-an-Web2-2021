@@ -1,3 +1,4 @@
+import { OmitType } from '@nestjs/mapped-types';
 import { Expose, Transform, Type } from 'class-transformer';
 import {
   ArrayMaxSize,
@@ -13,11 +14,12 @@ import {
   IsUrl,
   Max,
   MaxLength,
-  registerDecorator,
   ValidateNested,
   ValidationArguments,
   ValidationOptions,
+  registerDecorator,
 } from 'class-validator';
+import { ACTIVE, INACTIVE } from 'src/constants/status';
 import { MovieStatus } from '../types/movie.type';
 import {
   ActorResponseDTO,
@@ -26,8 +28,6 @@ import {
   PosterCreateDTO,
   PosterResponseDTO,
 } from './admin-movie-detail';
-import { OmitType } from '@nestjs/mapped-types';
-import { ACTIVE, INACTIVE } from 'src/constants/status';
 
 export class GetMoviesQueryDto {
   @IsOptional()

@@ -13,6 +13,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Multer } from 'multer';
 import {
   DetailBookingHistoryResponseDTO,
   UserBookingHistoryResponseDTO,
@@ -24,7 +25,6 @@ import {
 import { IResponse } from 'src/core/types/common';
 import { IJWTUserInfo } from 'src/core/types/user.type';
 import { UserUseCases } from 'src/use-cases/user/user.usecase';
-import { Multer } from 'multer';
 
 @Controller('user')
 export class UserController {
